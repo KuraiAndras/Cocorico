@@ -7,6 +7,8 @@ using System.Linq;
 using System.Net.Mime;
 using System.Text;
 using Cocorico.Server.Model;
+using Cocorico.Server.Services.Jwt;
+using Cocorico.Server.Services.Sandwich;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -67,6 +69,10 @@ namespace Cocorico.Server
                     WasmMediaTypeNames.Application.Wasm,
                 });
             });
+
+            //Database Services
+            services.AddTransient<IJwtTokenService, JwtTokenService>();
+            services.AddScoped<ISandwichService, SandwichService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

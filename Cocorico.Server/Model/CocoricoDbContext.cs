@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Cocorico.Server.Model.Entities;
+using Cocorico.Server.Model.Entities.Sandwich;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cocorico.Server.Model
@@ -8,6 +10,9 @@ namespace Cocorico.Server.Model
         public CocoricoDbContext(DbContextOptions<CocoricoDbContext> options) : base(options)
         {
         }
+
+        public DbSet<Sandwich> Sandwiches { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

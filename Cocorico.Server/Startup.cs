@@ -5,10 +5,13 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Net.Mime;
+using System.Text;
 using Cocorico.Server.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Cocorico.Server
@@ -32,6 +35,21 @@ namespace Cocorico.Server
 
             services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<CocoricoDbContext>();
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                });
 
             services.AddSwaggerGen(c =>
             {
@@ -67,6 +85,10 @@ namespace Cocorico.Server
 #pragma warning restore S1075 // URIs should not be hardcoded
                 });
             }
+
+            app.UseAuthentication();
+
+            app.UseMvc(routes => routes.MapRoute("default", "{controller}/{action}/{id?}"));
 
             // Use component registrations and static files from the app project.
             app.UseServerSideBlazor<App.Startup>();

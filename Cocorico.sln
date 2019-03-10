@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.438
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Server", "Cocorico.Server\Cocorico.Server.csproj", "{FD86D2D0-77EB-437D-AA1F-2C7C46A6A5E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.App", "Cocorico.App\Cocorico.App.csproj", "{0598F76D-8B7F-4199-9397-6E3D5FEA14CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD86D2D0-77EB-437D-AA1F-2C7C46A6A5E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD86D2D0-77EB-437D-AA1F-2C7C46A6A5E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD86D2D0-77EB-437D-AA1F-2C7C46A6A5E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD86D2D0-77EB-437D-AA1F-2C7C46A6A5E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0598F76D-8B7F-4199-9397-6E3D5FEA14CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0598F76D-8B7F-4199-9397-6E3D5FEA14CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0598F76D-8B7F-4199-9397-6E3D5FEA14CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0598F76D-8B7F-4199-9397-6E3D5FEA14CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4213E10A-DDFB-42F3-B6F4-97697B42F35A}
+	EndGlobalSection
+EndGlobal

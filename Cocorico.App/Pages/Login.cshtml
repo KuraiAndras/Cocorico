@@ -1,6 +1,8 @@
 ﻿@page "/login"
+@using Blazored.LocalStorage
 @using Cocorico.Shared.Models
 @inject HttpClient HttpClient
+@inject ILocalStorageService LocalStorage
 
 <div class="container">
     <h1>Log in to JWT Authentication!</h1>
@@ -34,6 +36,6 @@
 
         var response = await HttpClient.PostJsonAsync<object>("http://localhost:51542/api/Token", dto);
 
-        Console.WriteLine(response);
+        await LocalStorage.SetItem("newtoken", response);
     }
 }

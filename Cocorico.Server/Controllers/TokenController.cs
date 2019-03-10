@@ -1,5 +1,8 @@
-﻿using Cocorico.Server.Services.Jwt;
+﻿using System.Threading.Tasks;
+using Cocorico.Server.Model.Entities;
+using Cocorico.Server.Services.Jwt;
 using Cocorico.Shared.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cocorico.Server.Controllers
@@ -9,18 +12,52 @@ namespace Cocorico.Server.Controllers
     public class TokenController : ControllerBase
     {
         private readonly IJwtTokenService _jwtTokenService;
+        private readonly UserManager<CocoricoUser> _userManager;
 
-        public TokenController(IJwtTokenService jwtTokenService)
+        public TokenController(
+            IJwtTokenService jwtTokenService,
+            UserManager<CocoricoUser> userManager)
         {
             _jwtTokenService = jwtTokenService;
+            _userManager = userManager;
         }
 
         [HttpPost]
-        public IActionResult GenerateToken([FromBody] TokenDto tokenDto)
+        [Route(nameof(Login))]
+        public async Task<IActionResult> Login([FromBody] TokenDto tokenDto)
         {
-            var token = _jwtTokenService.BuildToken(tokenDto.Email);
+            if (!ModelState.IsValid) return BadRequest();
 
-            return Ok(new {token});
+            var user = await _userManager.FindByEmailAsync(tokenDto.Email);
+            var correctUser = await _userManager.CheckPasswordAsync(user, tokenDto.Password);
+
+            return correctUser
+                ? (IActionResult) Ok(new {token = GenerateToken(tokenDto.Email)})
+                : BadRequest();
+        }
+
+
+        [HttpPost]
+        [Route(nameof(Register))]
+        public async Task<IActionResult> Register([FromBody] TokenDto tokenDto)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+
+            var result = await _userManager.CreateAsync(new CocoricoUser
+            {
+                UserName = tokenDto.Email,
+                Email = tokenDto.Email,
+                Name = tokenDto.Email,
+            }, tokenDto.Password);
+
+            return result.Succeeded ? Ok() : StatusCode(500);
+        }
+
+        private string GenerateToken(string email)
+        {
+            var token = _jwtTokenService.BuildToken(email);
+
+            return token;
         }
     }
 }

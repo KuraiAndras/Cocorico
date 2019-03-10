@@ -1,11 +1,11 @@
-﻿@page "/login"
-@using Blazored.LocalStorage
-@using Cocorico.Shared.Models
+﻿@using Cocorico.Shared.Models
+@using Microsoft.AspNetCore.Blazor.Services
+@inject IUriHelper UriHelper
+@page "/register"
 @inject HttpClient HttpClient
-@inject ILocalStorageService LocalStorage
 
 <div class="container">
-    <h1>Log in to JWT Authentication!</h1>
+    <h1>Register to JWT Authentication!</h1>
     <div class="form-group">
         @* ReSharper disable once Html.IdNotResolved *@
         <label for="email">Email</label>
@@ -22,20 +22,19 @@
 @functions
 {
 
-    public string Email { get; set; } = "";
-    public string Password { get; set; } = "";
-    public string Token { get; set; } = "";
+public string Email { get; set; } = "";
+public string Password { get; set; } = "";
 
-    private async Task SubmitForm()
+private async Task SubmitForm()
+{
+    var dto = new TokenDto
     {
-        var dto = new TokenDto
-        {
-            Email = Email,
-            Password = Password,
-        };
+        Email = Email,
+        Password = Password,
+    };
 
-        var response = await HttpClient.PostJsonAsync<object>("http://localhost:51542/api/Token/Login", dto);
+    await HttpClient.PostJsonAsync("http://localhost:51542/api/Token/Register", dto);
 
-        await LocalStorage.SetItem("newtoken", response);
-    }
+    UriHelper.NavigateTo("/login");
+}
 }

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Server", "Cocorico
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.App", "Cocorico.App\Cocorico.App.csproj", "{0598F76D-8B7F-4199-9397-6E3D5FEA14CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Shared", "Cocorico.Shared\Cocorico.Shared.csproj", "{B0016FA4-3918-48EC-922B-B68D39C785F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0598F76D-8B7F-4199-9397-6E3D5FEA14CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0598F76D-8B7F-4199-9397-6E3D5FEA14CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0598F76D-8B7F-4199-9397-6E3D5FEA14CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0016FA4-3918-48EC-922B-B68D39C785F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0016FA4-3918-48EC-922B-B68D39C785F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0016FA4-3918-48EC-922B-B68D39C785F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0016FA4-3918-48EC-922B-B68D39C785F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,5 @@
-﻿using Cocorico.Server.Model;
-using Cocorico.Server.Services.Jwt;
+﻿using Cocorico.Server.Services.Jwt;
+using Cocorico.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cocorico.Server.Controllers

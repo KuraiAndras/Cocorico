@@ -1,7 +1,8 @@
-﻿namespace Cocorico.Server.Model
+﻿namespace Cocorico.Shared.Models
 {
     public class TokenDto
     {
         public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

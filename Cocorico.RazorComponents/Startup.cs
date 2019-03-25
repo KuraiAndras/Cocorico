@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Cocorico.RazorComponents.Components;
 using Cocorico.RazorComponents.Services;
 using Microsoft.Extensions.Configuration;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace Cocorico.RazorComponents
 {
@@ -22,13 +22,13 @@ namespace Cocorico.RazorComponents
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
+            services
+                .AddMvc()
                 .AddNewtonsoftJson();
 
             services.AddRazorComponents();
 
-            //TODO: Enable Swagger
-            //services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" }));
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }));
 
             services.AddSingleton<WeatherForecastService>();
         }
@@ -40,10 +40,8 @@ namespace Cocorico.RazorComponents
             {
                 app.UseDeveloperExceptionPage();
 
-                //TODO: Enable Swagger
-                //https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1068
-                //app.UseSwagger();
-                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
             }
             else
             {

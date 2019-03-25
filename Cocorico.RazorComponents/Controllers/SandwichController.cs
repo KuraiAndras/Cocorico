@@ -1,11 +1,11 @@
 ﻿using Cocorico.RazorComponents.Models.Entities.Sandwich;
 using Cocorico.RazorComponents.Services.Sandwich;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Cocorico.RazorComponents.Controllers
 {
-    //TODO: Add Authentication and Authorization
     [Route("api/[controller]")]
     public class SandwichController : Controller
     {
@@ -29,7 +29,7 @@ namespace Cocorico.RazorComponents.Controllers
             return new JsonResult(await _sandwichService.GetAsync(key));
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddOrUpdateAsync([FromForm] NewSandwichDto sandwich)
         {
@@ -40,7 +40,7 @@ namespace Cocorico.RazorComponents.Controllers
             return new OkResult();
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("{key}")]
         public async Task<IActionResult> Delete([FromRoute] int key)
         {

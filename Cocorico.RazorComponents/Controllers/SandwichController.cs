@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Cocorico.RazorComponents.Models.Entities.Sandwich;
+﻿using Cocorico.RazorComponents.Models.Entities.Sandwich;
 using Cocorico.RazorComponents.Services.Sandwich;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Cocorico.RazorComponents.Controllers
 {
@@ -11,10 +11,7 @@ namespace Cocorico.RazorComponents.Controllers
     {
         private readonly ISandwichService _sandwichService;
 
-        public SandwichController(ISandwichService sandwichService)
-        {
-            _sandwichService = sandwichService;
-        }
+        public SandwichController(ISandwichService sandwichService) => _sandwichService = sandwichService;
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()

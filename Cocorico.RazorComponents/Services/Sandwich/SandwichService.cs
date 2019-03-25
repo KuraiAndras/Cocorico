@@ -11,10 +11,7 @@ namespace Cocorico.RazorComponents.Services.Sandwich
     {
         private readonly CocoricoDbContext _cocoricoDbContext;
 
-        public SandwichService(CocoricoDbContext cocoricoDbContext)
-        {
-            _cocoricoDbContext = cocoricoDbContext;
-        }
+        public SandwichService(CocoricoDbContext cocoricoDbContext) => _cocoricoDbContext = cocoricoDbContext;
 
         public async Task<SandwichResultDto> GetAsync(int id)
         {

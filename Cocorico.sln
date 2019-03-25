@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.28714.193
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.RazorComponents", "Cocorico.RazorComponents\Cocorico.RazorComponents.csproj", "{46199392-0BA9-420C-9FFA-6917F6FABB15}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.RazorComponents.Test", "Cocorico.RazorComponents.Test\Cocorico.RazorComponents.Test.csproj", "{39C70802-9AF2-4C44-989D-04A18421D6D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{46199392-0BA9-420C-9FFA-6917F6FABB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46199392-0BA9-420C-9FFA-6917F6FABB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46199392-0BA9-420C-9FFA-6917F6FABB15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39C70802-9AF2-4C44-989D-04A18421D6D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39C70802-9AF2-4C44-989D-04A18421D6D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39C70802-9AF2-4C44-989D-04A18421D6D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39C70802-9AF2-4C44-989D-04A18421D6D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

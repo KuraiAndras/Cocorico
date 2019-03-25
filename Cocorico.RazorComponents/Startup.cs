@@ -2,10 +2,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Cocorico.RazorComponents.Components;
-using Cocorico.RazorComponents.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Cocorico.RazorComponents.Models;
+using Cocorico.RazorComponents.Components;
+using Cocorico.RazorComponents.Services;
 
 namespace Cocorico.RazorComponents
 {
@@ -27,6 +30,9 @@ namespace Cocorico.RazorComponents
                 .AddNewtonsoftJson();
 
             services.AddRazorComponents();
+
+            services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<CocoricoDbContext>();
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }));
 

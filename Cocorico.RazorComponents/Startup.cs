@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Cocorico.RazorComponents.Models;
 using Cocorico.RazorComponents.Components;
 using Cocorico.RazorComponents.Services;
+using Cocorico.RazorComponents.Services.Sandwich;
 
 namespace Cocorico.RazorComponents
 {
@@ -36,6 +37,9 @@ namespace Cocorico.RazorComponents
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }));
 
+            services.AddScoped<ISandwichService, SandwichService>();
+
+            //TODO: Delete this
             services.AddSingleton<WeatherForecastService>();
         }
 

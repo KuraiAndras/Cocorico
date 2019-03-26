@@ -17,7 +17,7 @@ namespace Cocorico.RazorComponents.Test.Services
         {
             var sandwichDto = new NewSandwichDto { Name = "Test Sandwich" };
 
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
                 await service.AddOrUpdateAsync(sandwichDto);
@@ -26,7 +26,7 @@ namespace Cocorico.RazorComponents.Test.Services
             var expected = sandwichDto.ToSandwich();
             expected.Id = 1;
 
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 var actual = await context.Sandwiches.SingleAsync();
 
@@ -39,7 +39,7 @@ namespace Cocorico.RazorComponents.Test.Services
         {
             var newSandwichDto = new NewSandwichDto { Name = "Initial" };
 
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
                 await service.AddOrUpdateAsync(newSandwichDto);
@@ -52,7 +52,7 @@ namespace Cocorico.RazorComponents.Test.Services
 
             var expected = newSandwichDto.ToSandwich();
 
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 var actual = await context.Sandwiches.SingleAsync();
 
@@ -65,13 +65,13 @@ namespace Cocorico.RazorComponents.Test.Services
         {
             var sandwichDto = new NewSandwichDto { Name = "Test Sandwich" };
 
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
                 await service.AddOrUpdateAsync(sandwichDto);
             }
 
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 var expected = new SandwichResultDto
                 {
@@ -91,19 +91,19 @@ namespace Cocorico.RazorComponents.Test.Services
         {
             var sandwichDto = new NewSandwichDto { Name = "Test Sandwich" };
 
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
                 await service.AddOrUpdateAsync(sandwichDto);
             }
 
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
                 await service.DeleteAsync(1);
             }
 
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 Assert.AreEqual(0, await context.Sandwiches.CountAsync());
             }
@@ -112,14 +112,14 @@ namespace Cocorico.RazorComponents.Test.Services
         [TestMethod]
         public async Task GetAll()
         {
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
                 await service.AddOrUpdateAsync(new NewSandwichDto { Name = "Test1" });
                 await service.AddOrUpdateAsync(new NewSandwichDto { Name = "Test2" });
             }
 
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
                 var result = await service.GetAllAsync();
@@ -129,6 +129,6 @@ namespace Cocorico.RazorComponents.Test.Services
         }
 
         [TestCleanup]
-        public void Cleanup() => _connection.Close();
+        public void Cleanup() => Connection.Close();
     }
 }

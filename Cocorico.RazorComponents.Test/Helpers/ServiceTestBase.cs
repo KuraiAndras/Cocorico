@@ -8,20 +8,20 @@ namespace Cocorico.RazorComponents.Test.Helpers
     [TestClass]
     public class ServiceTestBase
     {
-        protected SqliteConnection _connection;
-        protected DbContextOptions<CocoricoDbContext> _options;
+        protected SqliteConnection Connection;
+        protected DbContextOptions<CocoricoDbContext> Options;
 
         [TestInitialize]
         public void Initialize()
         {
-            _connection = new SqliteConnection("DataSource=:memory:");
-            _connection.Open();
+            Connection = new SqliteConnection("DataSource=:memory:");
+            Connection.Open();
 
-            _options = new DbContextOptionsBuilder<CocoricoDbContext>()
-                .UseSqlite(_connection)
+            Options = new DbContextOptionsBuilder<CocoricoDbContext>()
+                .UseSqlite(Connection)
                 .Options;
 
-            using (var context = new CocoricoDbContext(_options))
+            using (var context = new CocoricoDbContext(Options))
             {
                 context.Database.EnsureCreated();
             }

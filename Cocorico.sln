@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28714.193
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.RazorComponents", "Cocorico.RazorComponents\Cocorico.RazorComponents.csproj", "{46199392-0BA9-420C-9FFA-6917F6FABB15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Server", "Cocorico.Server\Cocorico.Server.csproj", "{B926E480-41A1-4834-BB29-7DF4F402E31B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.RazorComponents.Test", "Cocorico.RazorComponents.Test\Cocorico.RazorComponents.Test.csproj", "{39C70802-9AF2-4C44-989D-04A18421D6D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Client", "Cocorico.Client\Cocorico.Client.csproj", "{7EFC5184-BB76-4BB4-90FA-FC68F7E1E321}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Shared", "Cocorico.Shared\Cocorico.Shared.csproj", "{8B5176C3-B47B-4651-B040-9464BDD1A172}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{46199392-0BA9-420C-9FFA-6917F6FABB15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46199392-0BA9-420C-9FFA-6917F6FABB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46199392-0BA9-420C-9FFA-6917F6FABB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46199392-0BA9-420C-9FFA-6917F6FABB15}.Release|Any CPU.Build.0 = Release|Any CPU
-		{39C70802-9AF2-4C44-989D-04A18421D6D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{39C70802-9AF2-4C44-989D-04A18421D6D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{39C70802-9AF2-4C44-989D-04A18421D6D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{39C70802-9AF2-4C44-989D-04A18421D6D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B926E480-41A1-4834-BB29-7DF4F402E31B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B926E480-41A1-4834-BB29-7DF4F402E31B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B926E480-41A1-4834-BB29-7DF4F402E31B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B926E480-41A1-4834-BB29-7DF4F402E31B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EFC5184-BB76-4BB4-90FA-FC68F7E1E321}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EFC5184-BB76-4BB4-90FA-FC68F7E1E321}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EFC5184-BB76-4BB4-90FA-FC68F7E1E321}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFC5184-BB76-4BB4-90FA-FC68F7E1E321}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B5176C3-B47B-4651-B040-9464BDD1A172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B5176C3-B47B-4651-B040-9464BDD1A172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B5176C3-B47B-4651-B040-9464BDD1A172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B5176C3-B47B-4651-B040-9464BDD1A172}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

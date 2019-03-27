@@ -1,4 +1,4 @@
-﻿namespace Cocorico.Server.Models.Entities.Contract
+﻿namespace Cocorico.Shared.Contract
 {
     public interface IHashAssertable
     {

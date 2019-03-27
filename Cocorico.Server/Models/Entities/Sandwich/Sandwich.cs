@@ -1,4 +1,4 @@
-﻿using Cocorico.Server.Models.Entities.Contract;
+﻿using Cocorico.Shared.Contract;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,12 +15,7 @@ namespace Cocorico.Server.Models.Entities.Sandwich
 
         public int GetAssertHash()
         {
-            var hashCode = new HashCode();
-
-            hashCode.Add(Id);
-            hashCode.Add(Name);
-
-            return hashCode.ToHashCode();
+            throw new NotImplementedException();
         }
     }
 }

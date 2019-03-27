@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Server.Controllers
 {
+    //TODO: Delete this
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {

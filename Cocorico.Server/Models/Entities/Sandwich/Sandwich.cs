@@ -1,5 +1,5 @@
 ﻿using Cocorico.Shared.Contract;
-using System;
+using Cocorico.Shared.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,9 +13,9 @@ namespace Cocorico.Server.Models.Entities.Sandwich
 
         public string Name { get; set; }
 
-        public int GetAssertHash()
-        {
-            throw new NotImplementedException();
-        }
+        public int GetAssertHash() =>
+            CustomHashCode
+                .Of(Id)
+                .And(Name);
     }
 }

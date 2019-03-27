@@ -1,11 +1,11 @@
 ﻿using Cocorico.Server.Services.Sandwich;
 using Cocorico.Shared.Dtos.Sandwich;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Cocorico.Server.Controllers
 {
+    //TODO: Authorize
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class SandwichController : Controller
@@ -30,7 +30,6 @@ namespace Cocorico.Server.Controllers
             return new JsonResult(await _sandwichService.GetAsync(key));
         }
 
-        //[Authorize]
         [HttpPost]
         public async Task<IActionResult> AddOrUpdateAsync([FromForm] NewSandwichDto sandwich)
         {
@@ -41,7 +40,6 @@ namespace Cocorico.Server.Controllers
             return new OkResult();
         }
 
-        //[Authorize]
         [HttpDelete("{key}")]
         public async Task<IActionResult> Delete([FromRoute] int key)
         {

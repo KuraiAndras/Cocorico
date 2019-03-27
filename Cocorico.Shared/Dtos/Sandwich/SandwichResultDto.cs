@@ -1,5 +1,5 @@
 ﻿using Cocorico.Shared.Contract;
-using System;
+using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Shared.Dtos.Sandwich
 {
@@ -8,9 +8,9 @@ namespace Cocorico.Shared.Dtos.Sandwich
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public int GetAssertHash()
-        {
-            throw new NotImplementedException();
-        }
+        public int GetAssertHash() =>
+            CustomHashCode
+                .Of(Id)
+                .And(Name);
     }
 }

@@ -31,7 +31,7 @@ namespace Cocorico.Server.Test.Services
             {
                 var actual = await context.Sandwiches.SingleAsync();
 
-                Assert.AreEqual(expected.GetAssertHash(), actual.GetAssertHash());
+                Assert.AreEqual(expected, actual);
             }
         }
 
@@ -57,7 +57,7 @@ namespace Cocorico.Server.Test.Services
             {
                 var actual = await context.Sandwiches.SingleAsync();
 
-                Assert.AreEqual(expected.GetAssertHash(), actual.GetAssertHash());
+                Assert.AreEqual(expected, actual);
             }
         }
 
@@ -83,7 +83,7 @@ namespace Cocorico.Server.Test.Services
                 var service = new SandwichService(context);
                 var actual = await service.GetAsync(expected.Id);
 
-                Assert.AreEqual(expected.GetAssertHash(), actual.GetAssertHash());
+                Assert.AreEqual(expected, actual);
             }
         }
 

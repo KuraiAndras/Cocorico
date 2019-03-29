@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Services;
 using System.Threading.Tasks;
 
-namespace Cocorico.Client.Pages
+namespace Cocorico.Client.ComponentModels
 {
     public class LoginModel : ComponentBase
     {

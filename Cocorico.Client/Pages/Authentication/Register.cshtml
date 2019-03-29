@@ -1,0 +1,21 @@
+﻿@page "/register"
+
+@using Cocorico.Client.ComponentModels.Authentication
+
+@layout MainLayout
+@inherits RegisterModel
+
+<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="editor">
+                    <input type="text" bind=@RegisterDetails.Email placeholder="example@host.org" class="form-control" />
+                    <input type="password" bind=@RegisterDetails.Password placeholder="Password" class="form-control" />
+                    <input type="password" bind=@RegisterDetails.PasswordConfirmation placeholder="Password Confirmation" class="form-control" />
+                    <button class="btn btn-primary" onclick="@Register">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

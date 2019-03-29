@@ -9,12 +9,12 @@ namespace Cocorico.Server.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class TokenController : ControllerBase
+    public class AuthenticationController : Controller
     {
         private readonly IJwtTokenService _jwtTokenService;
         private readonly UserManager<CocoricoUser> _userManager;
 
-        public TokenController(
+        public AuthenticationController(
             IJwtTokenService jwtTokenService,
             UserManager<CocoricoUser> userManager)
         {
@@ -23,7 +23,7 @@ namespace Cocorico.Server.Controllers
         }
 
         [HttpPost(nameof(Login))]
-        public async Task<IActionResult> Login([FromBody] TokenDto tokenDto)
+        public async Task<IActionResult> Login([FromBody] LoginDetails tokenDto)
         {
             if (!ModelState.IsValid) return BadRequest();
 
@@ -36,7 +36,7 @@ namespace Cocorico.Server.Controllers
         }
 
         [HttpPost(nameof(Register))]
-        public async Task<IActionResult> Register([FromBody] TokenDto tokenDto)
+        public async Task<IActionResult> Register([FromBody] LoginDetails tokenDto)
         {
             if (!ModelState.IsValid) return BadRequest();
 

@@ -1,6 +1,7 @@
 using Cocorico.Server.Extensions;
 using Cocorico.Server.Models;
 using Cocorico.Server.Models.Entities.User;
+using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,7 +59,7 @@ namespace Cocorico.Server
                 {
                     Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
                     In = ParameterLocation.Header,
-                    Name = "Authorization",
+                    Name = Verbs.Authorization,
                     Type = SecuritySchemeType.ApiKey
                 });
             });

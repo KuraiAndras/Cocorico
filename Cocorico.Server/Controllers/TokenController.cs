@@ -9,7 +9,7 @@ namespace Cocorico.Server.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class TokenController : Controller
+    public class TokenController : ControllerBase
     {
         private readonly IJwtTokenService _jwtTokenService;
         private readonly UserManager<CocoricoUser> _userManager;

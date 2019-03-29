@@ -1,16 +1,28 @@
-﻿@page "/sandwiches"
+﻿@using Cocorico.Client.ComponentModels
+@page "/sandwiches"
 @inherits SandwichesModel
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
+@if (sandwiches.Count == 0)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
             @foreach (var sandwich in sandwiches)
             {
-                <ul>
-                    <li>@sandwich.Name</li>
-                    <li>@sandwich.Id</li>
-                </ul>
+                <tr>
+                    <td>@sandwich.Id</td>
+                    <td>@sandwich.Name</td>
+                </tr>
             }
-        </div>
-    </div>
-</div>
+        </tbody>
+    </table>
+}

@@ -1,13 +1,12 @@
 ﻿using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Cocorico.Client.Pages
+namespace Cocorico.Client.ComponentModels
 {
     public class SandwichesModel : ComponentBase
     {

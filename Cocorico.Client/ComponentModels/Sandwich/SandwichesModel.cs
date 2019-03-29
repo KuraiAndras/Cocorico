@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Cocorico.Client.ComponentModels
+namespace Cocorico.Client.ComponentModels.Sandwich
 {
     public class SandwichesModel : ComponentBase
     {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Services;
 using System.Threading.Tasks;
 
-namespace Cocorico.Client.ComponentModels
+namespace Cocorico.Client.ComponentModels.Authentication
 {
     public class LoginModel : ComponentBase
     {
@@ -19,9 +19,7 @@ namespace Cocorico.Client.ComponentModels
             await _appState.Login(LoginDetails);
 
             if (_appState.IsLoggedIn)
-            {
                 _uriHelper.NavigateTo("/");
-            }
             else
             {
                 ShowLoginFailed = true;

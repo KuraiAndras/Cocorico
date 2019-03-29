@@ -2,6 +2,7 @@
 using Cocorico.Shared.Dtos.Jwt;
 using Cocorico.Shared.Helpers;
 using Microsoft.JSInterop;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -14,6 +15,9 @@ namespace Cocorico.Client.Helpers
         //TODO: Background worker for continuously checking authentication 
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
+
+        public event Action UserLoggedIn;
+        public event Action UserLoggedOut;
 
         public bool IsLoggedIn { get; set; }
 
@@ -33,13 +37,16 @@ namespace Cocorico.Client.Helpers
                 await SetAuthorizationHeader();
 
                 IsLoggedIn = true;
+                UserLoggedIn();
             }
         }
 
         public async Task Logout()
         {
             await _localStorage.RemoveItem(Verbs.AuthToken);
+
             IsLoggedIn = false;
+            UserLoggedOut();
         }
 
         private async Task SaveToken(HttpResponseMessage responseMessage)

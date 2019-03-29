@@ -12,6 +12,7 @@ namespace Cocorico.Server.Controllers
     public class AuthenticationController : Controller
     {
         private readonly IJwtTokenService _jwtTokenService;
+        //TODO: Create authentication service
         private readonly UserManager<CocoricoUser> _userManager;
 
         public AuthenticationController(
@@ -36,18 +37,20 @@ namespace Cocorico.Server.Controllers
         }
 
         [HttpPost(nameof(Register))]
-        public async Task<IActionResult> Register([FromBody] LoginDetails tokenDto)
+        public async Task<IActionResult> Register([FromBody] RegisterDetails registerDetails)
         {
             if (!ModelState.IsValid) return BadRequest();
+
+            if (!registerDetails.Password.Equals(registerDetails.PasswordConfirmation)) return BadRequest();
 
             var result = await _userManager.CreateAsync(
                 new CocoricoUser
                 {
-                    UserName = tokenDto.Email,
-                    Email = tokenDto.Email,
-                    Name = tokenDto.Email,
+                    UserName = registerDetails.Email,
+                    Email = registerDetails.Email,
+                    Name = registerDetails.Email,
                 },
-                tokenDto.Password);
+                registerDetails.Password);
 
             return result.Succeeded ? Ok() : StatusCode(500);
         }

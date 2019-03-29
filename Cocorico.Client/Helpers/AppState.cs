@@ -19,12 +19,23 @@ namespace Cocorico.Client.Helpers
         public event Action UserLoggedIn;
         public event Action UserLoggedOut;
 
-        public bool IsLoggedIn { get; set; }
+        public bool IsLoggedIn { get; private set; }
 
         public AppState(HttpClient httpClient, ILocalStorageService localStorage)
         {
             _httpClient = httpClient;
             _localStorage = localStorage;
+
+            CheckLoginStatusAsync();
+        }
+
+        private async void CheckLoginStatusAsync()
+        {
+            var token = await _localStorage.GetItem<string>(Verbs.AuthToken);
+
+            IsLoggedIn = !string.IsNullOrEmpty(token);
+
+            if(IsLoggedIn) UserLoggedIn();
         }
 
         public async Task Login(LoginDetails loginDetails)

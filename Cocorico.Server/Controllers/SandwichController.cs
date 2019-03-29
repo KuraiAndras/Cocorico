@@ -8,7 +8,7 @@ namespace Cocorico.Server.Controllers
     //TODO: Authorize
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class SandwichController : Controller
+    public class SandwichController : ControllerBase
     {
         private readonly ISandwichService _sandwichService;
 

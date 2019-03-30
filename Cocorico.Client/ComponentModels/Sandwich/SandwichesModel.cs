@@ -18,7 +18,7 @@ namespace Cocorico.Client.ComponentModels.Sandwich
 
         private async Task LoadSandwichesAsync()
         {
-            var response = await _httpClient.GetJsonAsync<IEnumerable<SandwichResultDto>>(Urls.Server.GetAllSandwich);
+            var response = await _httpClient.GetJsonAsync<IEnumerable<SandwichResultDto>>(Urls.Server.SandwichBase);
 
             sandwiches = response.ToList();
         }

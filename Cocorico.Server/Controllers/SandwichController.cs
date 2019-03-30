@@ -31,7 +31,7 @@ namespace Cocorico.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddOrUpdateAsync([FromForm] NewSandwichDto sandwich)
+        public async Task<IActionResult> AddOrUpdateAsync([FromBody] NewSandwichDto sandwich)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

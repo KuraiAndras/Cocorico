@@ -3,6 +3,7 @@ using Cocorico.Shared.Dtos.Jwt;
 using Cocorico.Shared.Helpers;
 using Microsoft.JSInterop;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -67,9 +68,13 @@ namespace Cocorico.Client.Helpers
         private async Task SaveToken(HttpResponseMessage responseMessage)
         {
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
-            var jwt = Json.Deserialize<JwToken>(responseContent);
+            var jwt = Json.Deserialize<LoginResult>(responseContent);
 
-            await _localStorage.SetItem(Verbs.AuthToken, jwt.Token);
+            await _localStorage.SetItem(Verbs.AuthToken, jwt.Jwt.Token);
+
+            var roles = jwt.Roles.Aggregate("", (current, role) => current + (role + " "));
+
+            await _localStorage.SetItem(Verbs.Roles, roles);
         }
 
         private async Task SetAuthorizationHeader()

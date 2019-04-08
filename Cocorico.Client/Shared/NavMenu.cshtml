@@ -53,12 +53,12 @@
 </div>
 
 @functions {
-    bool collapseNavMenu = true;
+    bool _collapseNavMenu = true;
 
-    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
     void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        _collapseNavMenu = !_collapseNavMenu;
     }
 }

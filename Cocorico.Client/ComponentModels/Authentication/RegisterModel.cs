@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Services;
 using System.Net.Http;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Local
 namespace Cocorico.Client.ComponentModels.Authentication
 {
     public class RegisterModel : ComponentBase
@@ -11,7 +12,7 @@ namespace Cocorico.Client.ComponentModels.Authentication
         [Inject] private IUriHelper UriHelper { get; set; }
         [Inject] private HttpClient HttpClient { get; set; }
 
-        protected RegisterDetails RegisterDetails { get; set; } = new RegisterDetails();
+        protected RegisterDetails RegisterDetails { get; } = new RegisterDetails();
 
         protected async void Register()
         {

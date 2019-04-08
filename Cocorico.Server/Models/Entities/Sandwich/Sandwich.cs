@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+// ReSharper disable NonReadonlyMemberInGetHashCode
 namespace Cocorico.Server.Models.Entities.Sandwich
 {
     public class Sandwich : IEquatable<Sandwich>

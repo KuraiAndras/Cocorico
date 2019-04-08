@@ -2,6 +2,7 @@
 using Cocorico.Shared.Dtos.Sandwich;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Cocorico.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Cocorico.Server.Controllers
@@ -21,7 +22,9 @@ namespace Cocorico.Server.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            return new JsonResult(await _sandwichService.GetAllAsync());
+            var serviceResult = await _sandwichService.GetAllAsync();
+
+            return serviceResult.ToActionResult();
         }
 
         [AllowAnonymous]
@@ -30,7 +33,9 @@ namespace Cocorico.Server.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            return new JsonResult(await _sandwichService.GetAsync(key));
+            var serviceResult = await _sandwichService.GetAsync(key);
+
+            return serviceResult.ToActionResult();
         }
 
         [Authorize]
@@ -39,9 +44,9 @@ namespace Cocorico.Server.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _sandwichService.AddOrUpdateAsync(sandwich);
+            var serviceResult = await _sandwichService.AddOrUpdateAsync(sandwich);
 
-            return new OkResult();
+            return serviceResult.ToActionResult();
         }
 
         [Authorize]
@@ -50,9 +55,9 @@ namespace Cocorico.Server.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _sandwichService.DeleteAsync(key);
+            var serviceResult = await _sandwichService.DeleteAsync(key);
 
-            return new OkResult();
+            return serviceResult.ToActionResult();
         }
     }
 }

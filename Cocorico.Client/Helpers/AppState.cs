@@ -59,6 +59,11 @@ namespace Cocorico.Client.Helpers
 
         public async Task Logout()
         {
+            var response = await _httpClient.PostAsync(Urls.Server.Logout, new StringContent("", Encoding.UTF8, Verbs.ApplicationJson));
+
+            //TODO: Handle fail
+            if (!response.IsSuccessStatusCode) return;
+
             await _localStorage.RemoveItem(Verbs.AuthToken);
             await _localStorage.RemoveItem(Verbs.Roles);
 

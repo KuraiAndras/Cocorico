@@ -58,6 +58,7 @@ namespace Cocorico.Server.Services.Authentication
         public async Task<LoginResult> LoginAsync(LoginDetails model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
+            //TODO: Handle fail
 
             var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
 

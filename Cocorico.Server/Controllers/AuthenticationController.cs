@@ -26,6 +26,7 @@ namespace Cocorico.Server.Controllers
                 return BadRequest(ModelState);
 
             var result = await _customAuthenticationService.LoginAsync(credentials);
+            //TODO: Handle fail
 
             return new JsonResult(result);
         }
@@ -48,6 +49,7 @@ namespace Cocorico.Server.Controllers
         public async Task<IActionResult> Logout()
         {
             await _customAuthenticationService.LogoutAsync();
+            //TODO: Handle fail
 
             return Ok();
         }

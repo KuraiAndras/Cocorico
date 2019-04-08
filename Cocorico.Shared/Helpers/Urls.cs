@@ -7,7 +7,7 @@
             public const string Login = "api/authentication/login";
             public const string Register = "api/authentication/register";
             public const string Logout = "api/authentication/logout";
-            public const string GetAllSandwich = "api/sandwich";
+            public const string SandwichBase = "api/sandwich";
         }
 
         public static class Client
@@ -16,6 +16,7 @@
             public const string Register = "register";
             public const string Logout = "logout";
             public const string GetAllSandwich = "sandwiches";
+            public const string AddSandwich = "addSandwich";
         }
     }
 }

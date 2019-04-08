@@ -8,7 +8,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 offset-md-4">
-            <div class="editor">
                 @if (ShowLoginFailed)
                 {
                     <div class="alert alert-danger">
@@ -18,7 +17,6 @@
                 <input type="text" bind=@LoginDetails.Email placeholder="example@host.org" class="form-control" />
                 <input type="password" bind=@LoginDetails.Password placeholder="Password" class="form-control" />
                 <button class="btn btn-primary" onclick="@Login">Login</button>
-            </div>
         </div>
     </div>
 </div>

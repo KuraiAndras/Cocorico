@@ -38,7 +38,15 @@
         else
         {
             <li class="nav-item px-3">
-                <button class="oi oi-account-logout btn btn-outline-light text-left" style="width:100%" onclick="@Logout">Log Out</button>
+                <NavLink class="nav-link" href="@Urls.Client.AddSandwich">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Add Sandwich
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <button class="btn btn-outline-light text-left" style="width:100%" onclick="@Logout">
+                    <i class="oi oi-account-logout" style="vertical-align: middle"></i>
+                    <span>Log Out</span>
+                </button>
             </li>
         }
     </ul>

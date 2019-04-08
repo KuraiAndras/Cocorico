@@ -10,17 +10,17 @@ namespace Cocorico.Client.ComponentModels.Sandwich
 {
     public class SandwichesModel : ComponentBase
     {
-        [Inject] private HttpClient _httpClient { get; set; }
+        [Inject] private HttpClient HttpClient { get; set; }
 
-        protected IReadOnlyList<SandwichResultDto> sandwiches { get; private set; } = new List<SandwichResultDto>();
+        protected IReadOnlyList<SandwichResultDto> Sandwiches { get; private set; } = new List<SandwichResultDto>();
 
         protected override async Task OnInitAsync() => await LoadSandwichesAsync();
 
         private async Task LoadSandwichesAsync()
         {
-            var response = await _httpClient.GetJsonAsync<IEnumerable<SandwichResultDto>>(Urls.Server.GetAllSandwich);
+            var response = await HttpClient.GetJsonAsync<IEnumerable<SandwichResultDto>>(Urls.Server.SandwichBase);
 
-            sandwiches = response.ToList();
+            Sandwiches = response.ToList();
         }
     }
 }

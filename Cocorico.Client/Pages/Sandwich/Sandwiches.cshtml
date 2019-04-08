@@ -4,7 +4,7 @@
 
 @inherits SandwichesModel
 
-@if (sandwiches.Count == 0)
+@if (Sandwiches.Count == 0)
 {
     <p><em>Loading...</em></p>
 }
@@ -18,7 +18,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var sandwich in sandwiches)
+            @foreach (var sandwich in Sandwiches)
             {
                 <tr>
                     <td>@sandwich.Id</td>

@@ -15,7 +15,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -81,7 +80,8 @@ namespace Cocorico.Server
                 ClockSkew = TimeSpan.Zero
             };
 
-            services.AddAuthentication(options =>
+            services
+                .AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;

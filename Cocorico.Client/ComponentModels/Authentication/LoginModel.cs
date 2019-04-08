@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Services;
 using System.Threading.Tasks;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Local
 namespace Cocorico.Client.ComponentModels.Authentication
 {
     public class LoginModel : ComponentBase
@@ -11,8 +12,8 @@ namespace Cocorico.Client.ComponentModels.Authentication
         [Inject] private AppState AppState { get; set; }
         [Inject] private IUriHelper UriHelper { get; set; }
 
-        protected LoginDetails LoginDetails { get; set; } = new LoginDetails();
-        protected bool ShowLoginFailed { get; set; }
+        protected LoginDetails LoginDetails { get; } = new LoginDetails();
+        protected bool ShowLoginFailed { get; private set; }
 
         protected async Task Login()
         {

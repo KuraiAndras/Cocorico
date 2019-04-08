@@ -60,6 +60,7 @@ namespace Cocorico.Client.Helpers
         public async Task Logout()
         {
             await _localStorage.RemoveItem(Verbs.AuthToken);
+            await _localStorage.RemoveItem(Verbs.Roles);
 
             IsLoggedIn = false;
             UserLoggedOut?.Invoke();

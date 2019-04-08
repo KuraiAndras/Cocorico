@@ -12,6 +12,7 @@ namespace Cocorico.Server.Controllers
     public class AuthenticationController : Controller
     {
         private readonly IJwtTokenService _jwtTokenService;
+
         //TODO: Create authentication service
         private readonly UserManager<CocoricoUser> _userManager;
 

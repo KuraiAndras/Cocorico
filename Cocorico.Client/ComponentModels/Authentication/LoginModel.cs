@@ -8,18 +8,18 @@ namespace Cocorico.Client.ComponentModels.Authentication
 {
     public class LoginModel : ComponentBase
     {
-        [Inject] private AppState _appState { get; set; }
-        [Inject] private IUriHelper _uriHelper { get; set; }
+        [Inject] private AppState AppState { get; set; }
+        [Inject] private IUriHelper UriHelper { get; set; }
 
         protected LoginDetails LoginDetails { get; set; } = new LoginDetails();
         protected bool ShowLoginFailed { get; set; }
 
         protected async Task Login()
         {
-            await _appState.Login(LoginDetails);
+            await AppState.Login(LoginDetails);
 
-            if (_appState.IsLoggedIn)
-                _uriHelper.NavigateTo("/");
+            if (AppState.IsLoggedIn)
+                UriHelper.NavigateTo("/");
             else
             {
                 ShowLoginFailed = true;

@@ -10,14 +10,14 @@ namespace Cocorico.Client.ComponentModels.Sandwich
 {
     public class AddSandwichModel : ComponentBase
     {
-        [Inject] HttpClient _httpClient { get; set; }
+        [Inject] HttpClient HttpClient { get; set; }
 
         protected NewSandwichDto NewSandwichDto { get; set; } = new NewSandwichDto();
 
         protected async Task Add()
         {
             NewSandwichDto.Id = 0;
-            var response = await _httpClient.PostAsync(Urls.Server.SandwichBase, new StringContent(Json.Serialize(NewSandwichDto), Encoding.UTF8, Verbs.ApplicationJson));
+            var response = await HttpClient.PostAsync(Urls.Server.SandwichBase, new StringContent(Json.Serialize(NewSandwichDto), Encoding.UTF8, Verbs.ApplicationJson));
 
             //TODO: Handle fail
         }

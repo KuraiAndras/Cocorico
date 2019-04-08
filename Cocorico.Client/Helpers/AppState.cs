@@ -12,7 +12,7 @@ namespace Cocorico.Client.Helpers
 {
     public class AppState
     {
-        //TODO: Background worker for continuously checking authentication 
+        //TODO: Background worker for continuously checking authentication
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
 
@@ -35,7 +35,11 @@ namespace Cocorico.Client.Helpers
 
             IsLoggedIn = !string.IsNullOrEmpty(token);
 
-            if(IsLoggedIn) UserLoggedIn();
+            if (IsLoggedIn)
+            {
+                await SetAuthorizationHeader();
+                UserLoggedIn?.Invoke();
+            }
         }
 
         public async Task Login(LoginDetails loginDetails)
@@ -48,7 +52,7 @@ namespace Cocorico.Client.Helpers
                 await SetAuthorizationHeader();
 
                 IsLoggedIn = true;
-                UserLoggedIn();
+                UserLoggedIn?.Invoke();
             }
         }
 
@@ -57,7 +61,7 @@ namespace Cocorico.Client.Helpers
             await _localStorage.RemoveItem(Verbs.AuthToken);
 
             IsLoggedIn = false;
-            UserLoggedOut();
+            UserLoggedOut?.Invoke();
         }
 
         private async Task SaveToken(HttpResponseMessage responseMessage)

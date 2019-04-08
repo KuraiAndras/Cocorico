@@ -1,61 +1,55 @@
-﻿using Cocorico.Server.Models.Entities.User;
-using Cocorico.Server.Services.Jwt;
-using Cocorico.Shared.Dtos.Jwt;
-using Microsoft.AspNetCore.Identity;
+﻿using Cocorico.Shared.Dtos.Jwt;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Cocorico.Server.Services.Authentication;
+using Cocorico.Shared.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cocorico.Server.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class AuthenticationController : Controller
+    public class AuthenticationController : ControllerBase
     {
-        private readonly IJwtTokenService _jwtTokenService;
+        private readonly ICustomAuthenticationService _customAuthenticationService;
 
-        //TODO: Create authentication service
-        private readonly UserManager<CocoricoUser> _userManager;
-
-        public AuthenticationController(
-            IJwtTokenService jwtTokenService,
-            UserManager<CocoricoUser> userManager)
+        public AuthenticationController(ICustomAuthenticationService customAuthenticationService)
         {
-            _jwtTokenService = jwtTokenService;
-            _userManager = userManager;
+            _customAuthenticationService = customAuthenticationService;
         }
 
+        [AllowAnonymous]
         [HttpPost(nameof(Login))]
-        public async Task<IActionResult> Login([FromBody] LoginDetails tokenDto)
+        public async Task<IActionResult> Login([FromBody] LoginDetails credentials)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            var user = await _userManager.FindByEmailAsync(tokenDto.Email);
-            var correctUser = await _userManager.CheckPasswordAsync(user, tokenDto.Password);
+            var result = await _customAuthenticationService.LoginAsync(credentials);
 
-            return correctUser
-                ? (IActionResult)Ok(new { token = GenerateToken(tokenDto.Email) })
-                : BadRequest();
+            return new JsonResult(result);
         }
 
+        [AllowAnonymous]
         [HttpPost(nameof(Register))]
-        public async Task<IActionResult> Register([FromBody] RegisterDetails registerDetails)
+        public async Task<IActionResult> Register([FromBody] RegisterDetails model)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (!registerDetails.Password.Equals(registerDetails.PasswordConfirmation)) return BadRequest();
+            await _customAuthenticationService.RegisterAsync(model);
+            //TODO: Handle fail
 
-            var result = await _userManager.CreateAsync(
-                new CocoricoUser
-                {
-                    UserName = registerDetails.Email,
-                    Email = registerDetails.Email,
-                    Name = registerDetails.Email,
-                },
-                registerDetails.Password);
-
-            return result.Succeeded ? Ok() : StatusCode(500);
+            return Ok();
         }
 
-        private string GenerateToken(string email) => _jwtTokenService.BuildToken(email);
+        [Authorize(Roles = Verbs.CocoricoUser)]
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _customAuthenticationService.LogoutAsync();
+
+            return Ok();
+        }
     }
 }

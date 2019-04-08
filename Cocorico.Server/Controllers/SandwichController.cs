@@ -2,6 +2,7 @@
 using Cocorico.Shared.Dtos.Sandwich;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cocorico.Server.Controllers
 {
@@ -14,24 +15,27 @@ namespace Cocorico.Server.Controllers
 
         public SandwichController(ISandwichService sandwichService) => _sandwichService = sandwichService;
 
+        [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAll()
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             return new JsonResult(await _sandwichService.GetAllAsync());
         }
 
+        [AllowAnonymous]
         [HttpGet("{key}")]
-        public async Task<IActionResult> GetAsync([FromRoute] int key)
+        public async Task<IActionResult> Get([FromRoute] int key)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             return new JsonResult(await _sandwichService.GetAsync(key));
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddOrUpdateAsync([FromBody] NewSandwichDto sandwich)
+        public async Task<IActionResult> AddOrUpdate([FromBody] NewSandwichDto sandwich)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -40,6 +44,7 @@ namespace Cocorico.Server.Controllers
             return new OkResult();
         }
 
+        [Authorize]
         [HttpDelete("{key}")]
         public async Task<IActionResult> Delete([FromRoute] int key)
         {

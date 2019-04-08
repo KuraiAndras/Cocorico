@@ -83,7 +83,7 @@ namespace Cocorico.Server.Test.Services
                 var service = new SandwichService(context);
                 var actual = await service.GetAsync(expected.Id);
 
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(expected, actual.Data);
             }
         }
 
@@ -125,7 +125,7 @@ namespace Cocorico.Server.Test.Services
                 var service = new SandwichService(context);
                 var result = await service.GetAllAsync();
 
-                Assert.AreEqual(2, result.Count());
+                Assert.AreEqual(2, result.Data.Count());
             }
         }
 

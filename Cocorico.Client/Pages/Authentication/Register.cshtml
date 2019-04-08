@@ -9,9 +9,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4">
-                <input type="text" bind=@RegisterDetails.Email placeholder="example@host.org" class="form-control" />
-                <input type="password" bind=@RegisterDetails.Password placeholder="Password" class="form-control" />
-                <input type="password" bind=@RegisterDetails.PasswordConfirmation placeholder="Password Confirmation" class="form-control" />
+                <input type="text" bind=@RegisterDetails.Name placeholder="John Doe" class="form-control" />
+                <input type="text" bind=@RegisterDetails.Email placeholder="example@host.org" class="form-control"/>
+                <input type="password" bind=@RegisterDetails.Password placeholder="Password" class="form-control"/>
+                <input type="password" bind=@RegisterDetails.PasswordConfirmation placeholder="Password Confirmation" class="form-control"/>
                 <button class="btn btn-primary" onclick="@Register">Register</button>
             </div>
         </div>

@@ -49,7 +49,7 @@ namespace Cocorico.Server.Controllers
                 {
                     UserName = registerDetails.Email,
                     Email = registerDetails.Email,
-                    Name = registerDetails.Email,
+                    Name = registerDetails.Name,
                 },
                 registerDetails.Password);
 

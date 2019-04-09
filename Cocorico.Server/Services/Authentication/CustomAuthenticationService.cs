@@ -113,7 +113,7 @@ namespace Cocorico.Server.Services.Authentication
             // get the user to verify
             var userToVerify = await _userManager.FindByNameAsync(userName);
 
-            if (userToVerify == null) return null;
+            if (userToVerify is null) return null;
 
             // check the credentials
             return await _userManager.CheckPasswordAsync(userToVerify, password)

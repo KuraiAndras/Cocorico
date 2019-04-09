@@ -1,0 +1,14 @@
+﻿@page "/sandwiches/edit/{SandwichId:int}"
+
+@using Cocorico.Client.ComponentModels.Sandwich
+
+@inherits EditSandwichModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <input type="text" placeholder="Sandwich Name" class="form-control" bind="@Sandwich.Name" />
+            <button class="btn btn-primary" onclick="@Edit">Edit</button>
+        </div>
+    </div>
+</div>

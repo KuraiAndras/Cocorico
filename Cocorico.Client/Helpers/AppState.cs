@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Client.Helpers
 {
+    //TODO: Return results
     public class AppState
     {
         //TODO: Background worker for continuously checking authentication
@@ -21,6 +22,7 @@ namespace Cocorico.Client.Helpers
         public event Action UserLoggedOut;
 
         public bool IsLoggedIn { get; private set; }
+        public bool IsAdmin { get; private set; }
 
         public AppState(HttpClient httpClient, ILocalStorageService localStorage)
         {
@@ -30,31 +32,16 @@ namespace Cocorico.Client.Helpers
             CheckLoginStatusAsync();
         }
 
-        private async void CheckLoginStatusAsync()
-        {
-            var token = await _localStorage.GetItem<string>(Verbs.AuthToken);
-
-            IsLoggedIn = !string.IsNullOrEmpty(token);
-
-            if (IsLoggedIn)
-            {
-                await SetAuthorizationHeader();
-                UserLoggedIn?.Invoke();
-            }
-            else
-            {
-                UserLoggedOut?.Invoke();
-            }
-        }
-
         public async Task Login(LoginDetails loginDetails)
         {
             var response = await _httpClient.PostAsync(Urls.Server.Login, new StringContent(Json.Serialize(loginDetails), Encoding.UTF8, Verbs.ApplicationJson));
 
             if (response.IsSuccessStatusCode)
             {
-                await SaveToken(response);
+                await SaveTokenAndRoles(response);
                 await SetAuthorizationHeader();
+                await CheckRoles();
+
 
                 IsLoggedIn = true;
                 UserLoggedIn?.Invoke();
@@ -74,7 +61,25 @@ namespace Cocorico.Client.Helpers
             UserLoggedOut?.Invoke();
         }
 
-        private async Task SaveToken(HttpResponseMessage responseMessage)
+        private async void CheckLoginStatusAsync()
+        {
+            var token = await _localStorage.GetItem<string>(Verbs.AuthToken);
+
+            IsLoggedIn = !string.IsNullOrEmpty(token);
+
+            if (IsLoggedIn)
+            {
+                await SetAuthorizationHeader();
+                await CheckRoles();
+                UserLoggedIn?.Invoke();
+            }
+            else
+            {
+                UserLoggedOut?.Invoke();
+            }
+        }
+
+        private async Task SaveTokenAndRoles(HttpResponseMessage responseMessage)
         {
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
             var jwt = Json.Deserialize<LoginResult>(responseContent);
@@ -84,6 +89,17 @@ namespace Cocorico.Client.Helpers
             var roles = jwt.Roles.Aggregate("", (current, role) => current + role + " ");
 
             await _localStorage.SetItem(Verbs.Roles, roles);
+        }
+
+        private async Task CheckRoles()
+        {
+            var roles = await _localStorage.GetItem<string>(Verbs.Roles);
+
+            //TODO: remove CocoricoUser
+            if (roles.Contains("Admin") || roles.Contains("CocoricoUser"))
+            {
+                IsAdmin = true;
+            }
         }
 
         private async Task SetAuthorizationHeader()

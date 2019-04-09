@@ -56,6 +56,7 @@ namespace Cocorico.Client.Helpers
 
             await _localStorage.RemoveItem(Verbs.AuthToken);
             await _localStorage.RemoveItem(Verbs.Roles);
+            //TODO: Reset _httpClient header
 
             IsLoggedIn = false;
             UserLoggedOut?.Invoke();

@@ -17,6 +17,7 @@
             public const string Logout = "logout";
             public const string GetAllSandwich = "sandwiches";
             public const string AddSandwich = "addSandwich";
+            public const string EditSandwich = "sandwiches/edit";
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Cocorico.Client.ComponentModels.Sandwich
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUriHelper UriHelper { get; set; }
 
-        protected SandwichResultDto Sandwich { get; set; }
+        protected SandwichResultDto Sandwich { get; set; } = new SandwichResultDto();
 
         protected override async Task OnInitAsync()
         {

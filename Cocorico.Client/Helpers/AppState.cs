@@ -42,7 +42,6 @@ namespace Cocorico.Client.Helpers
                 await SetAuthorizationHeader();
                 await CheckRoles();
 
-
                 IsLoggedIn = true;
                 UserLoggedIn?.Invoke();
             }
@@ -50,9 +49,7 @@ namespace Cocorico.Client.Helpers
 
         public async Task Logout()
         {
-            var response = await _httpClient.PostAsync(Urls.Server.Logout, new StringContent("", Encoding.UTF8, Verbs.ApplicationJson));
-
-            if (!response.IsSuccessStatusCode) return;
+            await _httpClient.PostAsync(Urls.Server.Logout, new StringContent("", Encoding.UTF8, Verbs.ApplicationJson));
 
             await _localStorage.RemoveItem(Verbs.AuthToken);
             await _localStorage.RemoveItem(Verbs.Roles);

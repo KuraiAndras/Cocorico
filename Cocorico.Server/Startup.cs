@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Linq;
 using System.Text;
+using Cocorico.Server.Helpers;
 
 namespace Cocorico.Server
 {
@@ -133,6 +134,8 @@ namespace Cocorico.Server
             app.UseMvc(routes => routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}"));
 
             app.UseBlazor<Client.Startup>();
+
+            RolesData.SeedRoles(app.ApplicationServices).Wait();
         }
     }
 }

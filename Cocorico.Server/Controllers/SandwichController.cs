@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Cocorico.Server.Controllers
 {
-    //TODO: Authorize
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class SandwichController : ControllerBase

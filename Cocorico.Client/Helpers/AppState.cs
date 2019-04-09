@@ -41,6 +41,10 @@ namespace Cocorico.Client.Helpers
                 await SetAuthorizationHeader();
                 UserLoggedIn?.Invoke();
             }
+            else
+            {
+                UserLoggedOut?.Invoke();
+            }
         }
 
         public async Task Login(LoginDetails loginDetails)
@@ -61,7 +65,6 @@ namespace Cocorico.Client.Helpers
         {
             var response = await _httpClient.PostAsync(Urls.Server.Logout, new StringContent("", Encoding.UTF8, Verbs.ApplicationJson));
 
-            //TODO: Handle fail
             if (!response.IsSuccessStatusCode) return;
 
             await _localStorage.RemoveItem(Verbs.AuthToken);
@@ -78,7 +81,7 @@ namespace Cocorico.Client.Helpers
 
             await _localStorage.SetItem(Verbs.AuthToken, jwt.Jwt.Token);
 
-            var roles = jwt.Roles.Aggregate("", (current, role) => current + (role + " "));
+            var roles = jwt.Roles.Aggregate("", (current, role) => current + role + " ");
 
             await _localStorage.SetItem(Verbs.Roles, roles);
         }

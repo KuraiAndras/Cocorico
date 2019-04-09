@@ -12,15 +12,16 @@ namespace Cocorico.Client.ComponentModels.Sandwich
     public class EditSandwichModel : ComponentBase
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // ReSharper disable once MemberCanBePrivate.Global
         [Parameter] protected int SandwichId { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] HttpClient HttpClient { get; set; }
+        [Inject] private HttpClient HttpClient { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUriHelper UriHelper { get; set; }
 
-        protected SandwichResultDto Sandwich { get; set; } = new SandwichResultDto();
+        protected SandwichResultDto Sandwich { get; private set; } = new SandwichResultDto();
 
         protected override async Task OnInitAsync()
         {
@@ -38,7 +39,7 @@ namespace Cocorico.Client.ComponentModels.Sandwich
 
         protected async Task Edit()
         {
-            var result = await HttpClient.PostAsync(Urls.Server.SandwichBase + $"/{Sandwich.Id}", new StringContent(Json.Serialize(Sandwich), Encoding.UTF8, Verbs.ApplicationJson));
+            var result = await HttpClient.PostAsync(Urls.Server.SandwichBase, new StringContent(Json.Serialize(Sandwich), Encoding.UTF8, Verbs.ApplicationJson));
 
             if (result.IsSuccessStatusCode)
             {

@@ -65,7 +65,7 @@ namespace Cocorico.Server.Services.Sandwich
 
             if (original is null) return new Fail(new EntityNotFoundException());
 
-            set.Remove(original);
+            original.IsDeleted = true;
 
             await _cocoricoDbContext.SaveChangesAsync();
 

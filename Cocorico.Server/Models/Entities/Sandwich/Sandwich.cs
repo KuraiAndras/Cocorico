@@ -5,13 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 // ReSharper disable NonReadonlyMemberInGetHashCode
 namespace Cocorico.Server.Models.Entities.Sandwich
 {
-    public class Sandwich : IEquatable<Sandwich>
+    public class Sandwich : IDbEntity<int>, IEquatable<Sandwich>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public bool Equals(Sandwich other) =>
             !(other is null)

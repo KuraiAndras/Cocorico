@@ -17,5 +17,20 @@ namespace Cocorico.Server.Models
         {
             if (!optionsBuilder.IsConfigured) optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=EFProviders.InMemory;Trusted_Connection=True;ConnectRetryCount=0");
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder
+                .Entity<CocoricoUser>()
+                .HasQueryFilter(u => !u.IsDeleted)
+                .HasIndex(u => new { u.Id, u.Name });
+
+            builder
+                .Entity<Sandwich>()
+                .HasQueryFilter(s => !s.IsDeleted)
+                .HasIndex(s => new { s.Id, s.Name });
+        }
     }
 }

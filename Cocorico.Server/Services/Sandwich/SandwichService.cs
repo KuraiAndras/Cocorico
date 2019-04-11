@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Cocorico.Server.Exceptions;
 using Cocorico.Server.Extensions;
+using Cocorico.Server.Helpers;
 using Cocorico.Server.Models;
 using Cocorico.Shared.Dtos.Sandwich;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cocorico.Server.Helpers;
-using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server.Services.Sandwich
 {
@@ -17,26 +16,32 @@ namespace Cocorico.Server.Services.Sandwich
 
         public SandwichService(CocoricoDbContext cocoricoDbContext) => _cocoricoDbContext = cocoricoDbContext;
 
-        public async Task<ServiceResult<SandwichResultDto>> GetAsync(int id)
+        public async Task<IServiceResult<SandwichResultDto>> GetAsync(int id)
         {
             var sandwich = await _cocoricoDbContext.Sandwiches.FirstOrDefaultAsync(s => s.Id == id);
 
-            return sandwich is null
-                ? new ServiceResult<SandwichResultDto>(new InvalidOperationException())
-                : new ServiceResult<SandwichResultDto>(sandwich.ToSandwichResultDto());
+            switch (sandwich)
+            {
+                case Models.Entities.Sandwich.Sandwich s: return new Success<SandwichResultDto>(s.ToSandwichResultDto());
+                case null: return new Fail<SandwichResultDto>(new EntityNotFoundException());
+            }
         }
 
-        public async Task<ServiceResult<IEnumerable<SandwichResultDto>>> GetAllAsync()
+        public async Task<IServiceResult<IEnumerable<SandwichResultDto>>> GetAllAsync()
         {
             var sandwiches = await _cocoricoDbContext
                 .Sandwiches
                 .Select(s => s.ToSandwichResultDto())
                 .ToListAsync();
 
-            return new ServiceResult<IEnumerable<SandwichResultDto>>(sandwiches);
+            switch (sandwiches)
+            {
+                case List<SandwichResultDto> s: return new Success<IEnumerable<SandwichResultDto>>(s);
+                case null: return new Fail<IEnumerable<SandwichResultDto>>(new UnexpectedException());
+            }
         }
 
-        public async Task<ServiceResult> AddOrUpdateAsync(NewSandwichDto newSandwichDto)
+        public async Task<IServiceResult> AddOrUpdateAsync(NewSandwichDto newSandwichDto)
         {
             var sandwich = newSandwichDto.ToSandwich();
 
@@ -50,20 +55,22 @@ namespace Cocorico.Server.Services.Sandwich
 
             await _cocoricoDbContext.SaveChangesAsync();
 
-            return new ServiceResult();
+            return new Success();
         }
 
-        public async Task<ServiceResult> DeleteAsync(int id)
+        public async Task<IServiceResult> DeleteAsync(int id)
         {
             var set = _cocoricoDbContext.Sandwiches;
 
             var original = await set.SingleOrDefaultAsync(s => s.Id == id);
 
-            if (original is null) return new ServiceResult(new InvalidOperationException(Messages.NotFound));
+            if (original is null) return new Fail(new EntityNotFoundException());
 
             set.Remove(original);
+
             await _cocoricoDbContext.SaveChangesAsync();
-            return new ServiceResult();
+
+            return new Success();
         }
     }
 }

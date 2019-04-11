@@ -5,14 +5,24 @@ namespace Cocorico.Server.Extensions
 {
     public static class ServiceResultExtension
     {
-        public static IActionResult ToActionResult(this ServiceResult serviceResult)
+        public static IActionResult ToActionResult(this IServiceResult serviceResult)
         {
-            return serviceResult.IsSuccessful ? new OkResult() : new StatusCodeResult(serviceResult.Exception.GetStatusCode());
+            switch (serviceResult)
+            {
+                case Success _: return new OkResult();
+                case Fail fail: return new StatusCodeResult(fail.Exception.GetStatusCode());
+                default: return new BadRequestResult();
+            }
         }
 
-        public static IActionResult ToActionResult<T>(this ServiceResult<T> serviceResult)
+        public static IActionResult ToActionResult<T>(this IServiceResult<T> serviceResult)
         {
-            return serviceResult.IsSuccessful ? (IActionResult)new JsonResult(serviceResult.Data) : new StatusCodeResult(serviceResult.Exception.GetStatusCode());
+            switch (serviceResult)
+            {
+                case Success<T> success: return new JsonResult(success.Data);
+                case Fail<T> fail: return new StatusCodeResult(fail.Exception.GetStatusCode());
+                default: return new BadRequestResult();
+            }
         }
     }
 }

@@ -6,26 +6,11 @@ namespace Cocorico.Server.Helpers
     {
     }
 
-    // ReSharper disable once UnusedTypeParameter
-    public interface IServiceResult<T>
+    public sealed class Success : IServiceResult
     {
     }
 
-    public class Success : IServiceResult
-    {
-    }
-
-    public sealed class Success<T> : Success, IServiceResult<T>
-    {
-        public T Data { get; }
-
-        public Success(T data)
-        {
-            Data = data;
-        }
-    }
-
-    public class Fail : IServiceResult
+    public sealed class Fail : IServiceResult
     {
         public CocoricoException Exception { get; }
 
@@ -35,10 +20,28 @@ namespace Cocorico.Server.Helpers
         }
     }
 
-    public sealed class Fail<T> : Fail, IServiceResult<T>
+    // ReSharper disable once UnusedTypeParameter
+    public interface IServiceResult<T>
     {
-        public Fail(CocoricoException exception) : base(exception)
+    }
+
+    public sealed class Success<T> : IServiceResult<T>
+    {
+        public T Data { get; }
+
+        public Success(T data)
         {
+            Data = data;
+        }
+    }
+
+    public sealed class Fail<T> : IServiceResult<T>
+    {
+        public CocoricoException Exception { get; }
+
+        public Fail(CocoricoException exception)
+        {
+            Exception = exception;
         }
     }
 }

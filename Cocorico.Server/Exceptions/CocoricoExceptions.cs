@@ -13,4 +13,8 @@ namespace Cocorico.Server.Exceptions
     public class UnexpectedException : CocoricoException
     {
     }
+
+    public class UnauthorizedException : CocoricoException
+    {
+    }
 }

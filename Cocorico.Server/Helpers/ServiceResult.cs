@@ -1,54 +1,44 @@
-﻿using System;
-using Cocorico.Shared.Helpers;
+﻿using Cocorico.Server.Exceptions;
 
 namespace Cocorico.Server.Helpers
 {
-    public class ServiceResult<T> : ServiceResult
+    public interface IServiceResult
     {
-        private readonly T _data;
+    }
 
-        public T Data => IsSuccessful ? _data : throw Exception;
+    // ReSharper disable once UnusedTypeParameter
+    public interface IServiceResult<T>
+    {
+    }
 
-        public ServiceResult(T data, string message = Messages.Ok)
-            : base(message)
+    public class Success : IServiceResult
+    {
+    }
+
+    public sealed class Success<T> : Success, IServiceResult<T>
+    {
+        public T Data { get; }
+
+        public Success(T data)
         {
-            _data = data;
-        }
-
-        public ServiceResult(Exception exception)
-            : base(exception)
-        {
+            Data = data;
         }
     }
 
-    public class ServiceResult
+    public class Fail : IServiceResult
     {
-        public bool IsSuccessful { get; }
+        public CocoricoException Exception { get; }
 
-        public Exception Exception { get; }
-
-        public string Message { get; }
-
-        public ServiceResult()
-            : this(Messages.Ok)
-        {
-        }
-
-        public ServiceResult(string message)
-            : this(true, message)
-        {
-        }
-
-        public ServiceResult(Exception exception)
-            : this(false, string.Empty)
+        public Fail(CocoricoException exception)
         {
             Exception = exception;
         }
+    }
 
-        private ServiceResult(bool isSuccess, string message)
+    public sealed class Fail<T> : Fail, IServiceResult<T>
+    {
+        public Fail(CocoricoException exception) : base(exception)
         {
-            IsSuccessful = isSuccess;
-            Message = message;
         }
     }
 }

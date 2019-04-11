@@ -7,9 +7,9 @@ namespace Cocorico.Server.Services.Sandwich
 {
     public interface ISandwichService
     {
-        Task<ServiceResult<SandwichResultDto>> GetAsync(int id);
-        Task<ServiceResult<IEnumerable<SandwichResultDto>>> GetAllAsync();
-        Task<ServiceResult> AddOrUpdateAsync(NewSandwichDto newSandwichDto);
-        Task<ServiceResult> DeleteAsync(int id);
+        Task<IServiceResult<SandwichResultDto>> GetAsync(int id);
+        Task<IServiceResult<IEnumerable<SandwichResultDto>>> GetAllAsync();
+        Task<IServiceResult> AddOrUpdateAsync(NewSandwichDto newSandwichDto);
+        Task<IServiceResult> DeleteAsync(int id);
     }
 }

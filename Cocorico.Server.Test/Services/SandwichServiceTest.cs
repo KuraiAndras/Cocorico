@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Cocorico.Server.Extensions;
 using Cocorico.Server.Models;
 using Cocorico.Server.Services.Sandwich;
 using Cocorico.Server.Test.Helpers;
@@ -9,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading.Tasks;
 using Cocorico.Server.Helpers;
+using Cocorico.Server.Models.Entities.Sandwich;
 
 namespace Cocorico.Server.Test.Services
 {
@@ -26,7 +26,8 @@ namespace Cocorico.Server.Test.Services
                 await service.AddOrUpdateAsync(sandwichDto);
             }
 
-            var expected = sandwichDto.ToSandwich();
+            var expected = sandwichDto.MapTo<NewSandwichDto, Sandwich>();
+
             expected.Id = 1;
 
             using (var context = new CocoricoDbContext(Options))
@@ -53,7 +54,7 @@ namespace Cocorico.Server.Test.Services
                 await service.AddOrUpdateAsync(newSandwichDto);
             }
 
-            var expected = newSandwichDto.ToSandwich();
+            var expected = newSandwichDto.MapTo<NewSandwichDto, Sandwich>();
 
             using (var context = new CocoricoDbContext(Options))
             {

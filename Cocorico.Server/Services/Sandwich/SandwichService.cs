@@ -1,5 +1,4 @@
 ﻿using Cocorico.Server.Exceptions;
-using Cocorico.Server.Extensions;
 using Cocorico.Server.Helpers;
 using Cocorico.Server.Models;
 using Cocorico.Shared.Dtos.Sandwich;
@@ -22,19 +21,19 @@ namespace Cocorico.Server.Services.Sandwich
 
             switch (sandwich)
             {
-                case Models.Entities.Sandwich.Sandwich s: return new Success<SandwichResultDto>(s.ToSandwichResultDto());
+                case Models.Entities.Sandwich.Sandwich s: return new Success<SandwichResultDto>(s.MapTo<Models.Entities.Sandwich.Sandwich, SandwichResultDto>());
                 case null: return new Fail<SandwichResultDto>(new EntityNotFoundException());
             }
         }
 
         public async Task<IServiceResult<IEnumerable<SandwichResultDto>>> GetAllAsync()
         {
-            var sandwiches = await _cocoricoDbContext
+            var sandwichResultDtos = await _cocoricoDbContext
                 .Sandwiches
-                .Select(s => s.ToSandwichResultDto())
+                .Select(s => s.MapTo<Models.Entities.Sandwich.Sandwich, SandwichResultDto>())
                 .ToListAsync();
 
-            switch (sandwiches)
+            switch (sandwichResultDtos)
             {
                 case List<SandwichResultDto> s: return new Success<IEnumerable<SandwichResultDto>>(s);
                 case null: return new Fail<IEnumerable<SandwichResultDto>>(new UnexpectedException());
@@ -43,7 +42,7 @@ namespace Cocorico.Server.Services.Sandwich
 
         public async Task<IServiceResult> AddOrUpdateAsync(NewSandwichDto newSandwichDto)
         {
-            var sandwich = newSandwichDto.ToSandwich();
+            var sandwich = newSandwichDto.MapTo<NewSandwichDto, Models.Entities.Sandwich.Sandwich>();
 
             var set = _cocoricoDbContext.Sandwiches;
 

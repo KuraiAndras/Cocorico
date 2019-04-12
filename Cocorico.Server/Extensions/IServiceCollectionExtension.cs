@@ -9,7 +9,7 @@ namespace Cocorico.Server.Extensions
     {
         public static void AddCocoricoServices(this IServiceCollection services)
         {
-            services.AddScoped<ICustomAuthenticationService, CustomAuthenticationService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ISandwichService, SandwichService>();
         }
     }

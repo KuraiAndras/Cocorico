@@ -10,6 +10,7 @@ namespace Cocorico.Server.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [ApiController]
     public class SandwichController : ControllerBase
     {
         private readonly ISandwichService _sandwichService;
@@ -18,10 +19,8 @@ namespace Cocorico.Server.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var serviceResult = await _sandwichService.GetAllAsync();
 
             return serviceResult.ToActionResult();
@@ -29,10 +28,8 @@ namespace Cocorico.Server.Controllers
 
         [AllowAnonymous]
         [HttpGet("{key}")]
-        public async Task<IActionResult> Get([FromRoute] int key)
+        public async Task<IActionResult> GetAsync([FromRoute] int key)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var serviceResult = await _sandwichService.GetAsync(key);
 
             return serviceResult.ToActionResult();
@@ -40,10 +37,8 @@ namespace Cocorico.Server.Controllers
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpPost]
-        public async Task<IActionResult> AddOrUpdate([FromBody] NewSandwichDto sandwich)
+        public async Task<IActionResult> AddOrUpdateAsync([FromBody] NewSandwichDto sandwich)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var serviceResult = await _sandwichService.AddOrUpdateAsync(sandwich);
 
             return serviceResult.ToActionResult();
@@ -51,10 +46,8 @@ namespace Cocorico.Server.Controllers
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpDelete("{key}")]
-        public async Task<IActionResult> Delete([FromRoute] int key)
+        public async Task<IActionResult> DeleteAsync([FromRoute] int key)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var serviceResult = await _sandwichService.DeleteAsync(key);
 
             return serviceResult.ToActionResult();

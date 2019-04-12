@@ -7,16 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Cocorico.Server.Exceptions;
+using Cocorico.Server.Helpers;
 
 namespace Cocorico.Server.Services.Authentication
 {
-    public class CustomAuthenticationService : ICustomAuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         private readonly CocoricoDbContext _cocoricoDbContext;
         private readonly UserManager<CocoricoUser> _userManager;
         private readonly SignInManager<CocoricoUser> _signInManager;
 
-        public CustomAuthenticationService(
+        public AuthenticationService(
             UserManager<CocoricoUser> userManager,
             CocoricoDbContext cocoricoDbContext,
             SignInManager<CocoricoUser> signInManager)
@@ -26,14 +28,14 @@ namespace Cocorico.Server.Services.Authentication
             _signInManager = signInManager;
         }
 
-        public async Task RegisterAsync(RegisterDetails model)
+        public async Task<IServiceResult> RegisterAsync(RegisterDetails model)
         {
             var userIdentity = model.MapTo(m => new CocoricoUser { UserName = m.Name });
 
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
 
-            //TODO: Handle fail
-            if (!result.Succeeded) return;
+            //TODO: Better exception
+            if (!result.Succeeded) return new Fail(new UnexpectedException());
 
             var customerClaim = new List<Claim>
             {
@@ -44,33 +46,37 @@ namespace Cocorico.Server.Services.Authentication
 
             var claimResult = await _userManager.AddClaimsAsync(userIdentity, customerClaim);
 
-            //TODO: Handle fail
-            if (!claimResult.Succeeded) return;
+            //TODO: Better exception
+            if (!claimResult.Succeeded) return new Fail(new UnexpectedException());
 
             await _cocoricoDbContext.SaveChangesAsync();
+
+            return new Success();
         }
 
-        public async Task<LoginResult> LoginAsync(LoginDetails model)
+        public async Task<IServiceResult<LoginResult>> LoginAsync(LoginDetails model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            //TODO: Handle fail
+            if (user is null) return new Fail<LoginResult>(new EntityNotFoundException());
 
             var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
-
-            //TODO: Handle fail
-            if (login != SignInResult.Success) return new LoginResult { Claims = new List<string>() };
-
-            var claims = await _userManager.GetClaimsAsync(user);
-
-            var result = new LoginResult { Claims = claims.Select(c => c.Value) };
+            if (login != SignInResult.Success) return new Fail<LoginResult>(new UnexpectedException()); //TODO: Better exception
 
             await _userManager.UpdateAsync(user);
 
             await _cocoricoDbContext.SaveChangesAsync();
 
-            return result;
+            var claims = await _userManager.GetClaimsAsync(user);
+            var result = new LoginResult { Claims = claims.Select(c => c.Value) };
+
+            return new Success<LoginResult>(result);
         }
 
-        public async Task LogoutAsync() => await _signInManager.SignOutAsync();
+        public async Task<IServiceResult> LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+
+            return new Success();
+        }
     }
 }

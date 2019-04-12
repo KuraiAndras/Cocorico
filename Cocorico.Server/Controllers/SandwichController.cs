@@ -3,6 +3,7 @@ using Cocorico.Shared.Dtos.Sandwich;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Cocorico.Server.Extensions;
+using Cocorico.Server.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Cocorico.Server.Controllers
@@ -37,7 +38,7 @@ namespace Cocorico.Server.Controllers
             return serviceResult.ToActionResult();
         }
 
-        [Authorize]
+        [Authorize(Policy = Policies.Administrator)]
         [HttpPost]
         public async Task<IActionResult> AddOrUpdate([FromBody] NewSandwichDto sandwich)
         {
@@ -48,7 +49,7 @@ namespace Cocorico.Server.Controllers
             return serviceResult.ToActionResult();
         }
 
-        [Authorize]
+        [Authorize(Policy = Policies.Administrator)]
         [HttpDelete("{key}")]
         public async Task<IActionResult> Delete([FromRoute] int key)
         {

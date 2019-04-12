@@ -3,6 +3,7 @@ using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Helpers;
 using Microsoft.JSInterop;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -21,7 +22,10 @@ namespace Cocorico.Client.Helpers
         public event Action UserLoggedOut;
 
         public bool IsLoggedIn { get; private set; }
-        public bool IsAdmin { get; private set; }
+
+        private readonly List<string> _userClaims = new List<string>();
+
+        public IEnumerable<string> UserClaims => _userClaims.AsEnumerable();
 
         public AppState(HttpClient httpClient, ILocalStorageService localStorage)
         {
@@ -37,8 +41,8 @@ namespace Cocorico.Client.Helpers
 
             if (response.IsSuccessStatusCode)
             {
-                await SaveRoles(response);
-                await CheckRoles();
+                await SaveClaims(response);
+                await UpdateLocalClaims();
 
                 IsLoggedIn = true;
                 UserLoggedIn?.Invoke();
@@ -49,7 +53,7 @@ namespace Cocorico.Client.Helpers
         {
             await _httpClient.PostAsync(Urls.Server.Logout, new StringContent("", Encoding.UTF8, Verbs.ApplicationJson));
 
-            await _localStorage.RemoveItem(Verbs.Roles);
+            await _localStorage.RemoveItem(Verbs.Claims);
 
             IsLoggedIn = false;
             UserLoggedOut?.Invoke();
@@ -57,13 +61,22 @@ namespace Cocorico.Client.Helpers
 
         private async void CheckLoginStatusAsync()
         {
-            var roles = await _localStorage.GetItem<string>(Verbs.Roles);
+            //TODO: check server instead of local storage
+            var claims = await _localStorage.GetItem<IEnumerable<string>>(Verbs.Claims);
 
-            IsLoggedIn = !string.IsNullOrEmpty(roles);
+            if (claims is null)
+            {
+                UserLoggedOut?.Invoke();
+                return;
+            }
+
+            var claimsList = claims.ToList();
+
+            IsLoggedIn = claimsList.Contains(Claims.User);
 
             if (IsLoggedIn)
             {
-                await CheckRoles();
+                await UpdateLocalClaims();
                 UserLoggedIn?.Invoke();
             }
             else
@@ -72,25 +85,20 @@ namespace Cocorico.Client.Helpers
             }
         }
 
-        private async Task SaveRoles(HttpResponseMessage responseMessage)
+        private async Task SaveClaims(HttpResponseMessage responseMessage)
         {
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
             var loginResult = Json.Deserialize<LoginResult>(responseContent);
 
-            var roles = loginResult.Roles.Aggregate("", (current, role) => current + role + " ");
-
-            await _localStorage.SetItem(Verbs.Roles, roles);
+            await _localStorage.SetItem(Verbs.Claims, loginResult.Claims);
         }
 
-        private async Task CheckRoles()
+        private async Task UpdateLocalClaims()
         {
-            var roles = await _localStorage.GetItem<string>(Verbs.Roles);
+            var claims = await _localStorage.GetItem<IEnumerable<string>>(Verbs.Claims);
 
-            //TODO: remove CocoricoUser
-            if (roles.Contains("Admin") || roles.Contains("CocoricoUser"))
-            {
-                IsAdmin = true;
-            }
+            _userClaims.Clear();
+            _userClaims.AddRange(claims);
         }
     }
 }

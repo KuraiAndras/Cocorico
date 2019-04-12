@@ -1,15 +1,16 @@
-﻿using Cocorico.Client.Helpers;
-using Cocorico.Shared.Dtos.Authentication;
+﻿using Cocorico.Shared.Dtos.Authentication;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Services;
 using System.Threading.Tasks;
+using Cocorico.Client.Services.Authentication;
+using Cocorico.Shared.Services.Helpers;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 namespace Cocorico.Client.ComponentModels.Authentication
 {
     public class LoginModel : ComponentBase
     {
-        [Inject] private AppState AppState { get; set; }
+        [Inject] private IUserAuthenticationService UserAuthenticationService { get; set; }
         [Inject] private IUriHelper UriHelper { get; set; }
 
         protected LoginDetails LoginDetails { get; } = new LoginDetails();
@@ -17,13 +18,16 @@ namespace Cocorico.Client.ComponentModels.Authentication
 
         protected async Task Login()
         {
-            await AppState.LoginAsync(LoginDetails);
+            var result = await UserAuthenticationService.LoginAsync(LoginDetails);
 
-            if (AppState.IsLoggedIn)
-                UriHelper.NavigateTo("/");
-            else
+            switch (result)
             {
-                ShowLoginFailed = true;
+                case Success _:
+                    UriHelper.NavigateTo("/");
+                    break;
+                default:
+                    ShowLoginFailed = true;
+                    break;
             }
         }
     }

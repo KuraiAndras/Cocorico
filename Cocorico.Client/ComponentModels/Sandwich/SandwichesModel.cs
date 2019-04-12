@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Cocorico.Client.Helpers;
+using Cocorico.Client.Services.Authentication;
 using Microsoft.AspNetCore.Components.Services;
 using Microsoft.JSInterop;
 
@@ -17,7 +17,7 @@ namespace Cocorico.Client.ComponentModels.Sandwich
         [Inject] private HttpClient HttpClient { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        [Inject] protected AppState AppState { get; set; }
+        [Inject] protected IUserAuthenticationService UserAuthenticationService { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         [Inject] private IUriHelper UriHelper { get; set; }

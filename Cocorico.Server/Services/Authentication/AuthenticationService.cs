@@ -1,14 +1,14 @@
 ﻿using Cocorico.Server.Models;
 using Cocorico.Server.Models.Entities.User;
 using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Cocorico.Server.Exceptions;
-using Cocorico.Server.Helpers;
 
 namespace Cocorico.Server.Services.Authentication
 {

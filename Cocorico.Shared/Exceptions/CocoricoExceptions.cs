@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cocorico.Server.Exceptions
+namespace Cocorico.Shared.Exceptions
 {
     public abstract class CocoricoException : Exception
     {

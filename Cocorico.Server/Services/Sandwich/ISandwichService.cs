@@ -1,7 +1,7 @@
 ﻿using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Services.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cocorico.Server.Helpers;
 
 namespace Cocorico.Server.Services.Sandwich
 {

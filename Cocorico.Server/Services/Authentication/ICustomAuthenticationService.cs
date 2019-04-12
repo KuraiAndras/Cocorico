@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Cocorico.Shared.Dtos.Jwt;
+﻿using Cocorico.Shared.Dtos.Authentication;
+using System.Threading.Tasks;
 
 namespace Cocorico.Server.Services.Authentication
 {

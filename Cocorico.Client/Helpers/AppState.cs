@@ -1,11 +1,10 @@
 ﻿using Blazored.LocalStorage;
-using Cocorico.Shared.Dtos.Jwt;
+using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Helpers;
 using Microsoft.JSInterop;
 using System;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,8 +37,7 @@ namespace Cocorico.Client.Helpers
 
             if (response.IsSuccessStatusCode)
             {
-                await SaveTokenAndRoles(response);
-                await SetAuthorizationHeader();
+                await SaveRoles(response);
                 await CheckRoles();
 
                 IsLoggedIn = true;
@@ -51,9 +49,7 @@ namespace Cocorico.Client.Helpers
         {
             await _httpClient.PostAsync(Urls.Server.Logout, new StringContent("", Encoding.UTF8, Verbs.ApplicationJson));
 
-            await _localStorage.RemoveItem(Verbs.AuthToken);
             await _localStorage.RemoveItem(Verbs.Roles);
-            //TODO: Reset _httpClient header
 
             IsLoggedIn = false;
             UserLoggedOut?.Invoke();
@@ -61,13 +57,12 @@ namespace Cocorico.Client.Helpers
 
         private async void CheckLoginStatusAsync()
         {
-            var token = await _localStorage.GetItem<string>(Verbs.AuthToken);
+            var roles = await _localStorage.GetItem<string>(Verbs.Roles);
 
-            IsLoggedIn = !string.IsNullOrEmpty(token);
+            IsLoggedIn = !string.IsNullOrEmpty(roles);
 
             if (IsLoggedIn)
             {
-                await SetAuthorizationHeader();
                 await CheckRoles();
                 UserLoggedIn?.Invoke();
             }
@@ -77,14 +72,12 @@ namespace Cocorico.Client.Helpers
             }
         }
 
-        private async Task SaveTokenAndRoles(HttpResponseMessage responseMessage)
+        private async Task SaveRoles(HttpResponseMessage responseMessage)
         {
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
-            var jwt = Json.Deserialize<LoginResult>(responseContent);
+            var loginResult = Json.Deserialize<LoginResult>(responseContent);
 
-            await _localStorage.SetItem(Verbs.AuthToken, jwt.Jwt.Token);
-
-            var roles = jwt.Roles.Aggregate("", (current, role) => current + role + " ");
+            var roles = loginResult.Roles.Aggregate("", (current, role) => current + role + " ");
 
             await _localStorage.SetItem(Verbs.Roles, roles);
         }
@@ -97,15 +90,6 @@ namespace Cocorico.Client.Helpers
             if (roles.Contains("Admin") || roles.Contains("CocoricoUser"))
             {
                 IsAdmin = true;
-            }
-        }
-
-        private async Task SetAuthorizationHeader()
-        {
-            if (!_httpClient.DefaultRequestHeaders.Contains(Verbs.Authorization))
-            {
-                var token = await _localStorage.GetItem<string>(Verbs.AuthToken);
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Verbs.Bearer, token);
             }
         }
     }

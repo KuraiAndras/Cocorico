@@ -31,6 +31,8 @@ namespace Cocorico.Server.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id", "Name");
+
                     b.ToTable("Sandwiches");
                 });
 
@@ -85,6 +87,8 @@ namespace Cocorico.Server.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("Id", "Name");
 
                     b.ToTable("AspNetUsers");
                 });

@@ -1,4 +1,4 @@
-﻿namespace Cocorico.Shared.Dtos.Jwt
+﻿namespace Cocorico.Shared.Dtos.Authentication
 {
     public class LoginDetails
     {

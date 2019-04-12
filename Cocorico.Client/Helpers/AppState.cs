@@ -21,7 +21,31 @@ namespace Cocorico.Client.Helpers
         public event Action UserLoggedIn;
         public event Action UserLoggedOut;
 
-        public bool IsLoggedIn { get; private set; }
+        private bool _isLoggedIn;
+
+        public bool IsLoggedIn
+        {
+            get => _isLoggedIn;
+            private set
+            {
+                _isLoggedIn = value;
+                if (_isLoggedIn)
+                {
+                    UserLoggedIn?.Invoke();
+                }
+                else
+                {
+                    UserLoggedOut?.Invoke();
+                }
+            }
+        }
+
+        private async Task SetIsLoggedInAsync(bool val)
+        {
+            if (val) await UpdateLocalClaimsAsync();
+
+            IsLoggedIn = val;
+        }
 
         private readonly List<string> _userClaims = new List<string>();
 
@@ -35,28 +59,30 @@ namespace Cocorico.Client.Helpers
             CheckLoginStatusAsync();
         }
 
-        public async Task Login(LoginDetails loginDetails)
+        public async Task LoginAsync(LoginDetails loginDetails)
         {
             var response = await _httpClient.PostAsync(Urls.Server.Login, new StringContent(Json.Serialize(loginDetails), Encoding.UTF8, Verbs.ApplicationJson));
 
             if (response.IsSuccessStatusCode)
             {
-                await SaveClaims(response);
-                await UpdateLocalClaims();
+                await SaveClaimsAsync(response);
+                await UpdateLocalClaimsAsync();
 
-                IsLoggedIn = true;
-                UserLoggedIn?.Invoke();
+                await SetIsLoggedInAsync(true);
+            }
+            else
+            {
+                await SetIsLoggedInAsync(false);
             }
         }
 
-        public async Task Logout()
+        public async Task LogoutAsync()
         {
             await _httpClient.PostAsync(Urls.Server.Logout, new StringContent("", Encoding.UTF8, Verbs.ApplicationJson));
 
             await _localStorage.RemoveItem(Verbs.Claims);
 
-            IsLoggedIn = false;
-            UserLoggedOut?.Invoke();
+            await SetIsLoggedInAsync(false);
         }
 
         private async void CheckLoginStatusAsync()
@@ -66,26 +92,18 @@ namespace Cocorico.Client.Helpers
 
             if (claims is null)
             {
-                UserLoggedOut?.Invoke();
+                await SetIsLoggedInAsync(false);
                 return;
             }
 
             var claimsList = claims.ToList();
 
-            IsLoggedIn = claimsList.Contains(Claims.User);
+            await SetIsLoggedInAsync(claimsList.Contains(Claims.User));
 
-            if (IsLoggedIn)
-            {
-                await UpdateLocalClaims();
-                UserLoggedIn?.Invoke();
-            }
-            else
-            {
-                UserLoggedOut?.Invoke();
-            }
+            if (IsLoggedIn) await UpdateLocalClaimsAsync();
         }
 
-        private async Task SaveClaims(HttpResponseMessage responseMessage)
+        private async Task SaveClaimsAsync(HttpResponseMessage responseMessage)
         {
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
             var loginResult = Json.Deserialize<LoginResult>(responseContent);
@@ -93,7 +111,7 @@ namespace Cocorico.Client.Helpers
             await _localStorage.SetItem(Verbs.Claims, loginResult.Claims);
         }
 
-        private async Task UpdateLocalClaims()
+        private async Task UpdateLocalClaimsAsync()
         {
             var claims = await _localStorage.GetItem<IEnumerable<string>>(Verbs.Claims);
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cocorico.Server.Migrations
 {
     [DbContext(typeof(CocoricoDbContext))]
-    [Migration("20190327211352_Initial")]
+    [Migration("20190412085636_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,9 +27,13 @@ namespace Cocorico.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("IsDeleted");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id", "Name");
 
                     b.ToTable("Sandwiches");
                 });
@@ -48,6 +52,8 @@ namespace Cocorico.Server.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -83,6 +89,8 @@ namespace Cocorico.Server.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("Id", "Name");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -153,11 +161,9 @@ namespace Cocorico.Server.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -188,11 +194,9 @@ namespace Cocorico.Server.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 

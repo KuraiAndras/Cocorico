@@ -1,5 +1,6 @@
 ﻿using System;
 
+// ReSharper disable NonReadonlyMemberInGetHashCode
 namespace Cocorico.Shared.Dtos.Sandwich
 {
     public class NewSandwichDto : IEquatable<NewSandwichDto>

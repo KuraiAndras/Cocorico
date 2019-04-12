@@ -1,7 +1,7 @@
 using Cocorico.Server.Extensions;
 using Cocorico.Server.Models;
 using Cocorico.Server.Models.Entities.User;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -10,10 +10,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Linq;
-using System.Text;
+using System.Security.Claims;
+using Cocorico.Server.Helpers;
+using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server
 {
@@ -38,30 +39,27 @@ namespace Cocorico.Server
                 .AddIdentity<CocoricoUser, IdentityRole>(config => config.User.RequireUniqueEmail = true)
                 .AddEntityFrameworkStores<CocoricoDbContext>()
                 .AddDefaultTokenProviders();
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration["Jwt:Issuer"],
-                        ValidAudience = Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-                    });
-
-            services.AddSwaggerGen(c =>
+            services.Configure<IdentityOptions>(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-                {
-                    Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
-                    In = ParameterLocation.Header,
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                });
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
             });
+
+            services
+                .AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.Administrator, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Admin));
+                options.AddPolicy(Policies.Customer, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Customer));
+                options.AddPolicy(Policies.User, policy => policy.RequireClaim(ClaimTypes.Role, Claims.User));
+            });
+
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }));
 
             services.AddCocoricoServices();
         }

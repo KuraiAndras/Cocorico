@@ -1,6 +1,6 @@
-﻿namespace Cocorico.Shared.Dtos.Jwt
+﻿namespace Cocorico.Shared.Dtos.Authentication
 {
-    public class TokenDto
+    public class LoginDetails
     {
         public string Email { get; set; }
         public string Password { get; set; }

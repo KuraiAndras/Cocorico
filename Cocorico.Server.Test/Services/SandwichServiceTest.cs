@@ -1,4 +1,4 @@
-﻿using Cocorico.Server.Extensions;
+﻿using System.Collections.Generic;
 using Cocorico.Server.Models;
 using Cocorico.Server.Services.Sandwich;
 using Cocorico.Server.Test.Helpers;
@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading.Tasks;
+using Cocorico.Server.Helpers;
+using Cocorico.Server.Models.Entities.Sandwich;
 
 namespace Cocorico.Server.Test.Services
 {
@@ -24,7 +26,8 @@ namespace Cocorico.Server.Test.Services
                 await service.AddOrUpdateAsync(sandwichDto);
             }
 
-            var expected = sandwichDto.ToSandwich();
+            var expected = sandwichDto.MapTo<NewSandwichDto, Sandwich>();
+
             expected.Id = 1;
 
             using (var context = new CocoricoDbContext(Options))
@@ -51,7 +54,7 @@ namespace Cocorico.Server.Test.Services
                 await service.AddOrUpdateAsync(newSandwichDto);
             }
 
-            var expected = newSandwichDto.ToSandwich();
+            var expected = newSandwichDto.MapTo<NewSandwichDto, Sandwich>();
 
             using (var context = new CocoricoDbContext(Options))
             {
@@ -83,7 +86,14 @@ namespace Cocorico.Server.Test.Services
                 var service = new SandwichService(context);
                 var actual = await service.GetAsync(expected.Id);
 
-                Assert.AreEqual(expected, actual);
+                if (actual is Success<SandwichResultDto> result)
+                {
+                    Assert.AreEqual(expected, result.Data);
+                }
+                else
+                {
+                    Assert.Fail();
+                }
             }
         }
 
@@ -125,7 +135,14 @@ namespace Cocorico.Server.Test.Services
                 var service = new SandwichService(context);
                 var result = await service.GetAllAsync();
 
-                Assert.AreEqual(2, result.Count());
+                if (result is Success<IEnumerable<SandwichResultDto>> success)
+                {
+                    Assert.AreEqual(2, success.Data.Count());
+                }
+                else
+                {
+                    Assert.Fail();
+                }
             }
         }
 

@@ -1,0 +1,22 @@
+﻿@page "/login"
+
+@using Cocorico.Client.ComponentModels.Authentication
+
+@layout MainLayout
+@inherits LoginModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+                @if (ShowLoginFailed)
+                {
+                    <div class="alert alert-danger">
+                        Login attempt failed.
+                    </div>
+                }
+                <input type="text" bind=@LoginDetails.Email placeholder="example@host.org" class="form-control" />
+                <input type="password" bind=@LoginDetails.Password placeholder="Password" class="form-control" />
+                <button class="btn btn-primary" onclick="@Login">Login</button>
+        </div>
+    </div>
+</div>

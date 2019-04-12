@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Client", "Cocorico
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Shared", "Cocorico.Shared\Cocorico.Shared.csproj", "{8B5176C3-B47B-4651-B040-9464BDD1A172}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Server.Test", "Cocorico.Server.Test\Cocorico.Server.Test.csproj", "{F5F4CA42-9439-436F-B8CC-E76494FF4DF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Server.Test", "Cocorico.Server.Test\Cocorico.Server.Test.csproj", "{F5F4CA42-9439-436F-B8CC-E76494FF4DF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

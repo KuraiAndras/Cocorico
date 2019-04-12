@@ -1,9 +1,9 @@
 ﻿using Cocorico.Server.Services.Authentication;
 using Cocorico.Shared.Dtos.Authentication;
-using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Cocorico.Server.Helpers;
 
 namespace Cocorico.Server.Controllers
 {
@@ -42,7 +42,7 @@ namespace Cocorico.Server.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = Verbs.CocoricoUser)]
+        [Authorize(Policy = Policies.User)]
         [HttpPost(nameof(Logout))]
         public async Task<IActionResult> Logout()
         {

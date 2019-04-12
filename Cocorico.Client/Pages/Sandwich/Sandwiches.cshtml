@@ -1,6 +1,7 @@
 ﻿@page "/sandwiches"
 
 @using Cocorico.Client.ComponentModels.Sandwich
+@using Cocorico.Shared.Helpers
 
 @inherits SandwichesModel
 
@@ -15,7 +16,7 @@ else
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                @if (AppState.IsAdmin)
+                @if (AppState.UserClaims.Contains(Claims.Admin))
                 {
                     <th> </th>
                     <th> </th>
@@ -28,7 +29,7 @@ else
                 <tr>
                     <td>@sandwich.Id</td>
                     <td>@sandwich.Name</td>
-                    @if (AppState.IsAdmin)
+                    @if (AppState.UserClaims.Contains(Claims.Admin))
                     {
                         <td><button class="btn btn-secondary" onclick="@(() => Edit(sandwich.Id))">Edit</button></td>
                         <td><button class="btn btn-danger" onclick="@(() => Delete(sandwich.Id))">Delete</button></td>

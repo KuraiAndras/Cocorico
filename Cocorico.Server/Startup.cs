@@ -12,6 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Linq;
+using System.Security.Claims;
+using Cocorico.Server.Helpers;
+using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server
 {
@@ -31,7 +34,6 @@ namespace Cocorico.Server
 
             services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" }));
 
-            //DataBase with identity
             services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services
                 .AddIdentity<CocoricoUser, IdentityRole>(config => config.User.RequireUniqueEmail = true)
@@ -46,10 +48,16 @@ namespace Cocorico.Server
                 options.Password.RequireNonAlphanumeric = true;
             });
 
-            //Cookie Authentication
             services
                 .AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.Administrator, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Admin));
+                options.AddPolicy(Policies.Customer, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Customer));
+                options.AddPolicy(Policies.User, policy => policy.RequireClaim(ClaimTypes.Role, Claims.User));
+            });
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }));
 

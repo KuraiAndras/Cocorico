@@ -17,7 +17,7 @@ namespace Cocorico.Client.ComponentModels.Authentication
 
         protected async Task Login()
         {
-            await AppState.Login(LoginDetails);
+            await AppState.LoginAsync(LoginDetails);
 
             if (AppState.IsLoggedIn)
                 UriHelper.NavigateTo("/");

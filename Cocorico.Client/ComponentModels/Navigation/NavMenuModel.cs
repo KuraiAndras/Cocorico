@@ -16,7 +16,7 @@ namespace Cocorico.Client.ComponentModels.Navigation
 
         protected async Task Logout()
         {
-            await AppState.Logout();
+            await AppState.LogoutAsync();
 
             UriHelper.NavigateTo("/");
         }

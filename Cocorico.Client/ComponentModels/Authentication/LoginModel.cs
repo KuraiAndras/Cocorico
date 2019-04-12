@@ -1,5 +1,5 @@
 ﻿using Cocorico.Client.Helpers;
-using Cocorico.Shared.Dtos.Jwt;
+using Cocorico.Shared.Dtos.Authentication;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Services;
 using System.Threading.Tasks;

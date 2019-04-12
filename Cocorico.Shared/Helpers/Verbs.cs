@@ -4,8 +4,6 @@
     {
         public const string ApplicationJson = "application/json";
         public const string Authorization = "Authorization";
-        public const string Bearer = "Bearer";
-        public const string AuthToken = "authToken";
         public const string CocoricoUser = "CocoricoUser";
         public const string Roles = "Roles";
     }

@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Jwt;
+﻿using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Services;

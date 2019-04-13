@@ -9,5 +9,6 @@ namespace Cocorico.Shared.Services
         Task<IServiceResult> RegisterAsync(RegisterDetails model);
         Task<IServiceResult<LoginResult>> LoginAsync(LoginDetails model);
         Task<IServiceResult> LogoutAsync();
+        Task<IServiceResult> AddClaimToUserAsync(UserClaimRequest userClaimRequest);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Cocorico.Server.Domain.Models;
@@ -37,17 +36,15 @@ namespace Cocorico.Server.Domain.Services.Authentication
             //TODO: Better exception
             if (!result.Succeeded) return new Fail(new UnexpectedException());
 
-            var customerClaim = new List<Claim>
+            var customerClaim = new[]
             {
                 new Claim(ClaimTypes.Role, Claims.User, ClaimValueTypes.String),
                 new Claim(ClaimTypes.Role, Claims.Customer, ClaimValueTypes.String),
-                new Claim(ClaimTypes.Role, Claims.Admin, ClaimValueTypes.String) //TODO: Do not add admin in register
             };
 
             var claimResult = await _userManager.AddClaimsAsync(userIdentity, customerClaim);
 
-            //TODO: Better exception
-            if (!claimResult.Succeeded) return new Fail(new UnexpectedException());
+            if (!claimResult.Succeeded) return new Fail();
 
             await _cocoricoDbContext.SaveChangesAsync();
 
@@ -75,6 +72,33 @@ namespace Cocorico.Server.Domain.Services.Authentication
         public async Task<IServiceResult> LogoutAsync()
         {
             await _signInManager.SignOutAsync();
+
+            return new Success();
+        }
+
+        public async Task<IServiceResult> AddClaimToUserAsync(UserClaimRequest userClaimRequest)
+        {
+            var user = await _userManager.FindByIdAsync(userClaimRequest.UserId);
+            if (user is null) return new Fail(new EntityNotFoundException());
+
+            //Sign user out
+            await _userManager.UpdateSecurityStampAsync(user);
+
+            var oldClaims = await _userManager.GetClaimsAsync(user);
+
+            var newClaim = new Claim(ClaimTypes.Role, userClaimRequest.Claim.ClaimValue, ClaimValueTypes.String);
+            var oldClaim = oldClaims.SingleOrDefault(c => c.Value.Equals(newClaim.Value));
+
+            if (!(oldClaim is null))
+            {
+                var removeClaimResult = await _userManager.RemoveClaimAsync(user, oldClaim);
+                if (!removeClaimResult.Succeeded) return new Fail();
+            }
+
+            var addClaimResult = await _userManager.AddClaimAsync(user, newClaim);
+            if (!addClaimResult.Succeeded) return new Fail();
+
+            await _cocoricoDbContext.SaveChangesAsync();
 
             return new Success();
         }

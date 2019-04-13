@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Restful.Extensions;
-using Cocorico.Server.Restful.Helpers;
 using Cocorico.Shared.Dtos.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Cocorico.Server.Restful.Controllers
 {
@@ -40,6 +40,15 @@ namespace Cocorico.Server.Restful.Controllers
         public async Task<IActionResult> Logout()
         {
             var result = await _serverCocoricoAuthenticationService.LogoutAsync();
+
+            return result.ToActionResult();
+        }
+
+        [Authorize(Policy = Policies.Administrator)]
+        [HttpPost(nameof(AddClaimToUser))]
+        public async Task<IActionResult> AddClaimToUser([FromBody] UserClaimRequest userClaimRequest)
+        {
+            var result = await _serverCocoricoAuthenticationService.AddClaimToUserAsync(userClaimRequest);
 
             return result.ToActionResult();
         }

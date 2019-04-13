@@ -8,6 +8,7 @@
             public const string Register = "api/authentication/register";
             public const string Logout = "api/authentication/logout";
             public const string SandwichBase = "api/sandwich";
+            public const string AddClaimToUser = "api/authentication/addClaimToUser";
         }
 
         public static class Client

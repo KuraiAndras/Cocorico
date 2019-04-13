@@ -1,4 +1,4 @@
-﻿namespace Cocorico.Server.Restful.Helpers
+﻿namespace Cocorico.Server.Domain.Helpers
 {
     public static class Policies
     {

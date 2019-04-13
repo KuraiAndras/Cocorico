@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Sandwich;
 using Cocorico.Server.Restful.Extensions;
-using Cocorico.Server.Restful.Helpers;
 using Cocorico.Shared.Dtos.Sandwich;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Cocorico.Server.Restful.Controllers
 {

@@ -31,6 +31,9 @@ namespace Cocorico.Client.Domain.Extensions
                 case HttpVerbs.Get:
                     response = await httpClient.GetAsync(requestUri);
                     break;
+                case HttpVerbs.Delete:
+                    response = await httpClient.DeleteAsync(requestUri);
+                    break;
                 default: return new Fail<TTarget>(new InvalidCommandException());
             }
 
@@ -53,6 +56,32 @@ namespace Cocorico.Client.Domain.Extensions
             where T : class =>
             await httpClient.RetrieveFromServerAsync<string, T>(verb, requestUri, "", exception);
 
+        public static async Task<IServiceResult> RetrieveMessageFromServerAsync<T>(
+            this HttpClient httpClient,
+            HttpVerbs verb,
+            string requestUri,
+            T body,
+            CocoricoException exception = null)
+            where T : class
+        {
+            exception = exception ?? new UnexpectedException();
+
+            HttpResponseMessage response;
+            switch (verb)
+            {
+                case HttpVerbs.Post:
+                    response = await httpClient.PostJsonWithResultAsync(requestUri, body);
+                    break;
+                case HttpVerbs.Delete:
+                    response = await httpClient.DeleteAsync(requestUri);
+                    break;
+                default: return new Fail(new InvalidCommandException());
+            }
+
+            return !response.IsSuccessStatusCode
+                ? (IServiceResult) new Fail(exception)
+                : new Success();
+        }
 
         public static Task<HttpResponseMessage> PostJsonWithResultAsync(this HttpClient httpClient, string requestUri, object content) =>
             httpClient.PostAsync(requestUri, new StringContent(Json.Serialize(content), Encoding.UTF8, Verbs.ApplicationJson));

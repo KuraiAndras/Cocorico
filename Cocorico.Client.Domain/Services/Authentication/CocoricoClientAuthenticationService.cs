@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Blazored.LocalStorage;
+﻿using Blazored.LocalStorage;
 using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Services.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Domain.Services.Authentication
 {
@@ -93,6 +93,17 @@ namespace Cocorico.Client.Domain.Services.Authentication
             await UpdateAuthStateAsync();
 
             return new Success();
+        }
+
+        public async Task<IServiceResult> AddClaimToUserAsync(UserClaimRequest userClaimRequest)
+        {
+            var response = await _httpClient.RetrieveMessageFromServerAsync(HttpVerbs.Post, Urls.Server.AddClaimToUser, userClaimRequest, new InvalidCommandException());
+
+            switch (response)
+            {
+                case Success success: return success;
+                default: return new Fail(new InvalidCommandException());
+            }
         }
 
         private async Task UpdateAuthStateAsync()

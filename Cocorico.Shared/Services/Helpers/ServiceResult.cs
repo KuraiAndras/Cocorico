@@ -14,10 +14,7 @@ namespace Cocorico.Shared.Services.Helpers
     {
         public CocoricoException Exception { get; }
 
-        public Fail(CocoricoException exception)
-        {
-            Exception = exception;
-        }
+        public Fail(CocoricoException exception = null) => Exception = exception ?? new UnexpectedException();
     }
 
     // ReSharper disable once UnusedTypeParameter
@@ -29,19 +26,13 @@ namespace Cocorico.Shared.Services.Helpers
     {
         public T Data { get; }
 
-        public Success(T data)
-        {
-            Data = data;
-        }
+        public Success(T data) => Data = data;
     }
 
     public sealed class Fail<T> : IServiceResult<T>
     {
         public CocoricoException Exception { get; }
 
-        public Fail(CocoricoException exception)
-        {
-            Exception = exception;
-        }
+        public Fail(CocoricoException exception = null) => Exception = exception ?? new UnexpectedException();
     }
 }

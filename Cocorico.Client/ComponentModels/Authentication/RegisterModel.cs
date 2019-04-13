@@ -11,7 +11,7 @@ namespace Cocorico.Client.ComponentModels.Authentication
     public class RegisterModel : ComponentBase
     {
         [Inject] private IUriHelper UriHelper { get; set; }
-        [Inject] private IUserAuthenticationService UserAuthenticationService { get; set; }
+        [Inject] private ICocoricoClientAuthenticationService CocoricoClientAuthenticationService { get; set; }
 
         protected RegisterDetails RegisterDetails { get; } = new RegisterDetails();
 
@@ -19,7 +19,7 @@ namespace Cocorico.Client.ComponentModels.Authentication
 
         protected async void Register()
         {
-            var result = await UserAuthenticationService.RegisterAsync(RegisterDetails);
+            var result = await CocoricoClientAuthenticationService.RegisterAsync(RegisterDetails);
 
             switch (result)
             {

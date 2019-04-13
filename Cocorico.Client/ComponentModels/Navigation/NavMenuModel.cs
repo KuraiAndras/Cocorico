@@ -9,22 +9,22 @@ namespace Cocorico.Client.ComponentModels.Navigation
     public class NavMenuModel : LayoutComponentBase
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        [Inject] protected IUserAuthenticationService UserAuthenticationService { get; set; }
+        [Inject] protected ICocoricoClientAuthenticationService CocoricoClientAuthenticationService { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUriHelper UriHelper { get; set; }
 
         protected async Task Logout()
         {
-            await UserAuthenticationService.LogoutAsync();
+            await CocoricoClientAuthenticationService.LogoutAsync();
 
             UriHelper.NavigateTo("/");
         }
 
         protected override void OnInit()
         {
-            UserAuthenticationService.UserLoggedIn += UserLoggedIn;
-            UserAuthenticationService.UserLoggedOut += UserLoggedOut;
+            CocoricoClientAuthenticationService.UserLoggedIn += UserLoggedIn;
+            CocoricoClientAuthenticationService.UserLoggedOut += UserLoggedOut;
         }
 
         private void UserLoggedOut() => StateHasChanged();

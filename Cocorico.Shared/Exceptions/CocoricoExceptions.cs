@@ -21,4 +21,12 @@ namespace Cocorico.Shared.Exceptions
     public class DatabaseException : CocoricoException
     {
     }
+
+    public class InvalidCredentialsException : CocoricoException
+    {
+    }
+
+    public class InvalidCommandException : CocoricoException
+    {
+    }
 }

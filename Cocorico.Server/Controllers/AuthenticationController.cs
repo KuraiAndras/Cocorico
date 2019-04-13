@@ -13,15 +13,15 @@ namespace Cocorico.Server.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IServerCocoricoAuthenticationService _serverCocoricoAuthenticationService;
 
-        public AuthenticationController(IAuthenticationService authenticationService) => _authenticationService = authenticationService;
+        public AuthenticationController(IServerCocoricoAuthenticationService serverCocoricoAuthenticationService) => _serverCocoricoAuthenticationService = serverCocoricoAuthenticationService;
 
         [AllowAnonymous]
         [HttpPost(nameof(Login))]
         public async Task<IActionResult> Login([FromBody] LoginDetails credentials)
         {
-            var result = await _authenticationService.LoginAsync(credentials);
+            var result = await _serverCocoricoAuthenticationService.LoginAsync(credentials);
 
             return result.ToActionResult();
         }
@@ -30,7 +30,7 @@ namespace Cocorico.Server.Controllers
         [HttpPost(nameof(Register))]
         public async Task<IActionResult> Register([FromBody] RegisterDetails model)
         {
-            var result = await _authenticationService.RegisterAsync(model);
+            var result = await _serverCocoricoAuthenticationService.RegisterAsync(model);
 
             return result.ToActionResult();
         }
@@ -39,7 +39,7 @@ namespace Cocorico.Server.Controllers
         [HttpPost(nameof(Logout))]
         public async Task<IActionResult> Logout()
         {
-            var result = await _authenticationService.LogoutAsync();
+            var result = await _serverCocoricoAuthenticationService.LogoutAsync();
 
             return result.ToActionResult();
         }

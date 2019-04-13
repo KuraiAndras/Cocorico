@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Server.Services.Sandwich
 {
-    public class SandwichService : EntityServiceBase<Models.Entities.Sandwich.Sandwich>, ISandwichService
+    public class ServerSandwichService : EntityServiceBase<Models.Entities.Sandwich.Sandwich>, IServerSandwichService
     {
-        public SandwichService(CocoricoDbContext context) : base(context)
+        public ServerSandwichService(CocoricoDbContext context) : base(context)
         {
         }
 
-        public async Task<IServiceResult<SandwichResultDto>> GetSandwichResult(int id)
+        public async Task<IServiceResult<SandwichResultDto>> GetSandwichResultAsync(int id)
         {
             var sandwich = await Context.Sandwiches.FirstOrDefaultAsync(s => s.Id == id);
 

@@ -11,7 +11,7 @@ namespace Cocorico.Client.ComponentModels.Authentication
 {
     public class LoginModel : ComponentBase
     {
-        [Inject] private IUserAuthenticationService UserAuthenticationService { get; set; }
+        [Inject] private ICocoricoClientAuthenticationService CocoricoClientAuthenticationService { get; set; }
         [Inject] private IUriHelper UriHelper { get; set; }
 
         protected LoginDetails LoginDetails { get; } = new LoginDetails();
@@ -19,11 +19,11 @@ namespace Cocorico.Client.ComponentModels.Authentication
 
         protected async Task Login()
         {
-            var result = await UserAuthenticationService.LoginAsync(LoginDetails);
+            var result = await CocoricoClientAuthenticationService.LoginAsync(LoginDetails);
 
             switch (result)
             {
-                case Success _:
+                case Success<LoginResult> _:
                     UriHelper.NavigateTo(Urls.Client.Home);
                     break;
                 default:

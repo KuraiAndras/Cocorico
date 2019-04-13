@@ -106,6 +106,17 @@ namespace Cocorico.Client.Domain.Services.Authentication
             }
         }
 
+        public async Task<IServiceResult> RemoveClaimFromUserAsync(UserClaimRequest userClaimRequest)
+        {
+            var response = await _httpClient.RetrieveMessageFromServerAsync(HttpVerbs.Post, Urls.Server.RemoveClaimFromUser, userClaimRequest, new InvalidCommandException());
+
+            switch (response)
+            {
+                case Success success: return success;
+                default: return new Fail(new InvalidCommandException());
+            }
+        }
+
         private async Task UpdateAuthStateAsync()
         {
             await _localStorageServiceLock.LockAsync(async () =>

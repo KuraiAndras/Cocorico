@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Cocorico.Server.Domain.Models;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Services.Helpers;
@@ -27,6 +28,34 @@ namespace Cocorico.Server.Domain.Extensions
             return SetGetters[entityType](context) is DbSet<T> dbSet
                 ? (IServiceResult<DbSet<T>>)new Success<DbSet<T>>(dbSet)
                 : new Fail<DbSet<T>>(new UnexpectedException());
+        }
+
+        public static async Task<IServiceResult> TrySaveChangesAsync(this CocoricoDbContext context)
+        {
+            try
+            {
+                await context.SaveChangesAsync();
+
+                return new Success();
+            }
+            catch (Exception)
+            {
+                return new Fail();
+            }
+        }
+
+        public static async Task<IServiceResult<T>> TrySaveChangesAsync<T>(this CocoricoDbContext context, T data)
+        {
+            try
+            {
+                await context.SaveChangesAsync();
+
+                return new Success<T>(data);
+            }
+            catch (Exception)
+            {
+                return new Fail<T>();
+            }
         }
 
         private static IServiceResult AddPropertyAccessor<T>() where T : class

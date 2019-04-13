@@ -10,5 +10,6 @@ namespace Cocorico.Shared.Services
         Task<IServiceResult<LoginResult>> LoginAsync(LoginDetails model);
         Task<IServiceResult> LogoutAsync();
         Task<IServiceResult> AddClaimToUserAsync(UserClaimRequest userClaimRequest);
+        Task<IServiceResult> RemoveClaimFromUserAsync(UserClaimRequest userClaimRequest);
     }
 }

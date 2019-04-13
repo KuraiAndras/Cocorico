@@ -87,7 +87,7 @@ namespace Cocorico.Server.Domain.Services.Authentication
             await _userManager.UpdateSecurityStampAsync(user);
 
             var userClaims = await _userManager.GetClaimsAsync(user);
-            var newClaim = new Claim(ClaimTypes.Role, userClaimRequest.Claim.ClaimValue, ClaimValueTypes.String);
+            var newClaim = new Claim(ClaimTypes.Role, userClaimRequest.CocoricoClaim.ClaimValue, ClaimValueTypes.String);
             var oldClaim = userClaims.SingleOrDefault(c => c.Value.Equals(newClaim.Value));
 
             if (!(oldClaim is null))
@@ -114,7 +114,7 @@ namespace Cocorico.Server.Domain.Services.Authentication
 
             var userClaims = await _userManager.GetClaimsAsync(user);
 
-            var claimToRemove = new Claim(ClaimTypes.Role, userClaimRequest.Claim.ClaimValue, ClaimValueTypes.String);
+            var claimToRemove = new Claim(ClaimTypes.Role, userClaimRequest.CocoricoClaim.ClaimValue, ClaimValueTypes.String);
             var oldClaim = userClaims.SingleOrDefault(c => c.Value.Equals(claimToRemove.Value));
 
             if (oldClaim is null) return new Fail(new InvalidCommandException());

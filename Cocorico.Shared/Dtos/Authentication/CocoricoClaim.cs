@@ -1,6 +1,6 @@
 ﻿namespace Cocorico.Shared.Dtos.Authentication
 {
-    public class ClaimRequest
+    public class CocoricoClaim
     {
         public string ClaimValue { get; set; }
     }

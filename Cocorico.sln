@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Server.Api", "Coco
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Server.Api.Test", "Cocorico.Server.Api.Test\Cocorico.Server.Api.Test.csproj", "{DABD50FD-9685-4CF0-8F05-7D9499EBF443}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Client.Api", "Cocorico.Client.Api\Cocorico.Client.Api.csproj", "{B8B6E89D-3F74-4175-BE40-BCAECDD5F612}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DABD50FD-9685-4CF0-8F05-7D9499EBF443}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DABD50FD-9685-4CF0-8F05-7D9499EBF443}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DABD50FD-9685-4CF0-8F05-7D9499EBF443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B6E89D-3F74-4175-BE40-BCAECDD5F612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B6E89D-3F74-4175-BE40-BCAECDD5F612}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B6E89D-3F74-4175-BE40-BCAECDD5F612}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B6E89D-3F74-4175-BE40-BCAECDD5F612}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

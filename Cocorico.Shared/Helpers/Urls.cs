@@ -12,6 +12,7 @@
 
         public static class Client
         {
+            public const string Home = "/";
             public const string Login = "login";
             public const string Register = "register";
             public const string Logout = "logout";

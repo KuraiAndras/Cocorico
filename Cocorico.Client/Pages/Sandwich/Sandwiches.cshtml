@@ -16,7 +16,7 @@ else
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                @if (UserAuthenticationService.Claims.Contains(Claims.Admin))
+                @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin))
                 {
                     <th> </th>
                     <th> </th>
@@ -29,7 +29,7 @@ else
                 <tr>
                     <td>@sandwich.Id</td>
                     <td>@sandwich.Name</td>
-                    @if (UserAuthenticationService.Claims.Contains(Claims.Admin))
+                    @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin))
                     {
                         <td><button class="btn btn-secondary" onclick="@(() => Edit(sandwich.Id))">Edit</button></td>
                         <td><button class="btn btn-danger" onclick="@(() => Delete(sandwich.Id))">Delete</button></td>

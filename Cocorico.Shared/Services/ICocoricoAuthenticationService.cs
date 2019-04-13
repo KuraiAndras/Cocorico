@@ -2,9 +2,9 @@
 using Cocorico.Shared.Services.Helpers;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Services.Authentication
+namespace Cocorico.Shared.Services
 {
-    public interface IAuthenticationService
+    public interface ICocoricoAuthenticationService
     {
         Task<IServiceResult> RegisterAsync(RegisterDetails model);
         Task<IServiceResult<LoginResult>> LoginAsync(LoginDetails model);

@@ -22,7 +22,7 @@ namespace Cocorico.Server.Test.Services
 
             using (var context = new CocoricoDbContext(Options))
             {
-                var service = new SandwichService(context);
+                var service = new ServerSandwichService(context);
                 await service.AddOrUpdateSandwichAsync(sandwichDto);
             }
 
@@ -45,7 +45,7 @@ namespace Cocorico.Server.Test.Services
 
             using (var context = new CocoricoDbContext(Options))
             {
-                var service = new SandwichService(context);
+                var service = new ServerSandwichService(context);
                 await service.AddOrUpdateSandwichAsync(newSandwichDto);
 
                 newSandwichDto.Id = 1;
@@ -71,7 +71,7 @@ namespace Cocorico.Server.Test.Services
 
             using (var context = new CocoricoDbContext(Options))
             {
-                var service = new SandwichService(context);
+                var service = new ServerSandwichService(context);
                 await service.AddOrUpdateSandwichAsync(sandwichDto);
             }
 
@@ -83,7 +83,7 @@ namespace Cocorico.Server.Test.Services
                     Name = sandwichDto.Name,
                 };
 
-                var service = new SandwichService(context);
+                var service = new ServerSandwichService(context);
                 var actual = await service.GetSandwichResult(expected.Id);
 
                 if (actual is Success<SandwichResultDto> result)
@@ -104,13 +104,13 @@ namespace Cocorico.Server.Test.Services
 
             using (var context = new CocoricoDbContext(Options))
             {
-                var service = new SandwichService(context);
+                var service = new ServerSandwichService(context);
                 await service.AddOrUpdateSandwichAsync(sandwichDto);
             }
 
             using (var context = new CocoricoDbContext(Options))
             {
-                var service = new SandwichService(context);
+                var service = new ServerSandwichService(context);
                 await service.DeleteSandwichAsync(1);
             }
 
@@ -125,14 +125,14 @@ namespace Cocorico.Server.Test.Services
         {
             using (var context = new CocoricoDbContext(Options))
             {
-                var service = new SandwichService(context);
+                var service = new ServerSandwichService(context);
                 await service.AddOrUpdateSandwichAsync(new NewSandwichDto { Name = "Test1" });
                 await service.AddOrUpdateSandwichAsync(new NewSandwichDto { Name = "Test2" });
             }
 
             using (var context = new CocoricoDbContext(Options))
             {
-                var service = new SandwichService(context);
+                var service = new ServerSandwichService(context);
                 var result = await service.GetAllSandwichResultAsync();
 
                 if (result is Success<IEnumerable<SandwichResultDto>> success)

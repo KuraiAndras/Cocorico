@@ -10,7 +10,7 @@ namespace Cocorico.Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBlazoredLocalStorage();
-            services.AddSingleton<IUserAuthenticationService, UserAuthenticationService>();
+            services.AddSingleton<ICocoricoClientAuthenticationService, CocoricoClientAuthenticationService>();
         }
 
         public void Configure(IComponentsApplicationBuilder app) => app.AddComponent<App>("app");

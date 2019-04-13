@@ -3,7 +3,7 @@ using Cocorico.Shared.Services.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Services.Sandwich
+namespace Cocorico.Shared.Services
 {
     public interface ISandwichService
     {

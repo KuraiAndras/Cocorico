@@ -13,15 +13,15 @@ namespace Cocorico.Server.Controllers
     [ApiController]
     public class SandwichController : ControllerBase
     {
-        private readonly ISandwichService _sandwichService;
+        private readonly IServerSandwichService _serverSandwichService;
 
-        public SandwichController(ISandwichService sandwichService) => _sandwichService = sandwichService;
+        public SandwichController(IServerSandwichService serverSandwichService) => _serverSandwichService = serverSandwichService;
 
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var serviceResult = await _sandwichService.GetAllSandwichResultAsync();
+            var serviceResult = await _serverSandwichService.GetAllSandwichResultAsync();
 
             return serviceResult.ToActionResult();
         }
@@ -30,7 +30,7 @@ namespace Cocorico.Server.Controllers
         [HttpGet("{key}")]
         public async Task<IActionResult> GetAsync([FromRoute] int key)
         {
-            var serviceResult = await _sandwichService.GetSandwichResult(key);
+            var serviceResult = await _serverSandwichService.GetSandwichResult(key);
 
             return serviceResult.ToActionResult();
         }
@@ -39,7 +39,7 @@ namespace Cocorico.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrUpdateAsync([FromBody] NewSandwichDto sandwich)
         {
-            var serviceResult = await _sandwichService.AddOrUpdateSandwichAsync(sandwich);
+            var serviceResult = await _serverSandwichService.AddOrUpdateSandwichAsync(sandwich);
 
             return serviceResult.ToActionResult();
         }
@@ -48,7 +48,7 @@ namespace Cocorico.Server.Controllers
         [HttpDelete("{key}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] int key)
         {
-            var serviceResult = await _sandwichService.DeleteSandwichAsync(key);
+            var serviceResult = await _serverSandwichService.DeleteSandwichAsync(key);
 
             return serviceResult.ToActionResult();
         }

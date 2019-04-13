@@ -4,7 +4,6 @@ using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Services.Helpers;
-using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ using System.Threading.Tasks;
 namespace Cocorico.Client.Services.Authentication
 {
     // ReSharper disable once UnusedMember.Global
-    public class UserAuthenticationService : IUserAuthenticationService
+    public class CocoricoClientAuthenticationService : ICocoricoClientAuthenticationService
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorageService;
@@ -49,7 +48,7 @@ namespace Cocorico.Client.Services.Authentication
         public event Action UserLoggedIn;
         public event Action UserLoggedOut;
 
-        public UserAuthenticationService(HttpClient httpClient, ILocalStorageService localStorageService)
+        public CocoricoClientAuthenticationService(HttpClient httpClient, ILocalStorageService localStorageService)
         {
             _httpClient = httpClient;
             _localStorageService = localStorageService;
@@ -65,35 +64,34 @@ namespace Cocorico.Client.Services.Authentication
             return response.GetServiceResult();
         }
 
-        public async Task<IServiceResult> LoginAsync(LoginDetails loginDetails)
+        public async Task<IServiceResult<LoginResult>> LoginAsync(LoginDetails loginDetails)
         {
-            var response = await _httpClient.PostJsonWithResultAsync(Urls.Server.Login, loginDetails);
+            var exception = new InvalidCredentialsException();
+            var result = await _httpClient.RetrieveFromServerAsync<LoginDetails, LoginResult>(Urls.Server.Login, loginDetails, exception);
 
-            if (response.IsSuccessStatusCode) await SaveClaimsAsync(response);
+            switch (result)
+            {
+                case Success<LoginResult> success:
+                    await _localStorageServiceLock.LockAsync(async () => await _localStorageService.SetItem(Verbs.Claims, success.Data.Claims));
 
-            await UpdateAuthStateAsync();
+                    await UpdateAuthStateAsync();
 
-            return response.GetServiceResult(new EntityNotFoundException());
+                    return new Success<LoginResult>(success.Data);
+                default: return new Fail<LoginResult>(exception);
+            }
         }
 
         public async Task<IServiceResult> LogoutAsync()
         {
             var response = await _httpClient.PostJsonWithResultAsync(Urls.Server.Logout, "");
 
+            if (!response.IsSuccessStatusCode) return new Fail(new UnexpectedException());
+
             await _localStorageServiceLock.LockAsync(async () => await _localStorageService.RemoveItem(Verbs.Claims));
 
             await UpdateAuthStateAsync();
 
-            return response.GetServiceResult();
-        }
-
-        private async Task SaveClaimsAsync(HttpResponseMessage responseMessage)
-        {
-            var responseContent = await responseMessage.Content.ReadAsStringAsync();
-            var loginResult = Json.Deserialize<LoginResult>(responseContent);
-
-            await _localStorageServiceLock.LockAsync(async () =>
-                await _localStorageService.SetItem(Verbs.Claims, loginResult.Claims));
+            return new Success();
         }
 
         private async Task UpdateAuthStateAsync()

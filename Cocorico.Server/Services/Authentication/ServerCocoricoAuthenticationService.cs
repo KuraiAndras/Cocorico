@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Server.Services.Authentication
 {
-    public class AuthenticationService : IAuthenticationService
+    public class ServerCocoricoAuthenticationService : IServerCocoricoAuthenticationService
     {
         private readonly CocoricoDbContext _cocoricoDbContext;
         private readonly UserManager<CocoricoUser> _userManager;
         private readonly SignInManager<CocoricoUser> _signInManager;
 
-        public AuthenticationService(
+        public ServerCocoricoAuthenticationService(
             UserManager<CocoricoUser> userManager,
             CocoricoDbContext cocoricoDbContext,
             SignInManager<CocoricoUser> signInManager)

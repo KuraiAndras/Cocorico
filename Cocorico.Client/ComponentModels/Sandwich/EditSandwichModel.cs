@@ -1,11 +1,11 @@
-﻿using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Cocorico.Client.Services.Sandwich;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Services;
-using Microsoft.JSInterop;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.ComponentModels.Sandwich
 {
@@ -16,38 +16,34 @@ namespace Cocorico.Client.ComponentModels.Sandwich
         [Parameter] protected int SandwichId { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private HttpClient HttpClient { get; set; }
-
-        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUriHelper UriHelper { get; set; }
 
-        protected SandwichResultDto Sandwich { get; private set; } = new SandwichResultDto();
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Inject] private IClientSandwichService SandwichService { get; set; }
+
+        protected NewSandwichDto Sandwich { get; private set; } = new NewSandwichDto();
 
         protected override async Task OnInitAsync()
         {
-            var result = await HttpClient.GetAsync(Urls.Server.SandwichBase + $"/{SandwichId}");
+            var result = await SandwichService.GetSandwichResultAsync(SandwichId);
 
-            if (result.IsSuccessStatusCode)
+            switch (result)
             {
-                Sandwich = Json.Deserialize<SandwichResultDto>(await result.Content.ReadAsStringAsync());
-            }
-            else
-            {
-                //TODO: Handle fail
+                case Success<SandwichResultDto> success:
+                    Sandwich = success.Data.MapTo<SandwichResultDto, NewSandwichDto>();
+                    break;
             }
         }
 
         protected async Task Edit()
         {
-            var result = await HttpClient.PostAsync(Urls.Server.SandwichBase, new StringContent(Json.Serialize(Sandwich), Encoding.UTF8, Verbs.ApplicationJson));
+            var result = await SandwichService.AddOrUpdateSandwichAsync(Sandwich);
 
-            if (result.IsSuccessStatusCode)
+            switch (result)
             {
-                UriHelper.NavigateTo(Urls.Client.GetAllSandwich);
-            }
-            else
-            {
-                //TODO: Show fail
+                case Success _:
+                    UriHelper.NavigateTo(Urls.Client.GetAllSandwich);
+                    break;
             }
         }
     }

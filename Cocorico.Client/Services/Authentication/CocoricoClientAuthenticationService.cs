@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Cocorico.Client.Helpers;
 
 namespace Cocorico.Client.Services.Authentication
 {
@@ -67,7 +68,7 @@ namespace Cocorico.Client.Services.Authentication
         public async Task<IServiceResult<LoginResult>> LoginAsync(LoginDetails loginDetails)
         {
             var exception = new InvalidCredentialsException();
-            var result = await _httpClient.RetrieveFromServerAsync<LoginDetails, LoginResult>(Urls.Server.Login, loginDetails, exception);
+            var result = await _httpClient.RetrieveFromServerAsync<LoginDetails, LoginResult>(HttpVerbs.Post, Urls.Server.Login, loginDetails, exception);
 
             switch (result)
             {

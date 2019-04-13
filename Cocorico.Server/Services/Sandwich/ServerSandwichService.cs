@@ -16,7 +16,7 @@ namespace Cocorico.Server.Services.Sandwich
         {
         }
 
-        public async Task<IServiceResult<SandwichResultDto>> GetSandwichResult(int id)
+        public async Task<IServiceResult<SandwichResultDto>> GetSandwichResultAsync(int id)
         {
             var sandwich = await Context.Sandwiches.FirstOrDefaultAsync(s => s.Id == id);
 

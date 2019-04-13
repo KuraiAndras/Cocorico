@@ -1,4 +1,5 @@
-﻿using Cocorico.Shared.Exceptions;
+﻿using Cocorico.Client.Helpers;
+using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Services.Helpers;
 using Microsoft.JSInterop;
@@ -12,6 +13,7 @@ namespace Cocorico.Client.Extensions
     {
         public static async Task<IServiceResult<TTarget>> RetrieveFromServerAsync<TSource, TTarget>(
             this HttpClient httpClient,
+            HttpVerbs verb,
             string requestUri,
             TSource body,
             CocoricoException exception = null)
@@ -20,7 +22,18 @@ namespace Cocorico.Client.Extensions
         {
             exception = exception ?? new UnexpectedException();
 
-            var response = await httpClient.PostJsonWithResultAsync(requestUri, body);
+            HttpResponseMessage response;
+            switch (verb)
+            {
+                case HttpVerbs.Post:
+                    response = await httpClient.PostJsonWithResultAsync(requestUri, body);
+                    break;
+                case HttpVerbs.Get:
+                    response = await httpClient.GetAsync(requestUri);
+                    break;
+                default: return new Fail<TTarget>(new InvalidCommandException());
+            }
+
             if (!response.IsSuccessStatusCode) return new Fail<TTarget>(exception);
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -34,10 +47,11 @@ namespace Cocorico.Client.Extensions
 
         public static async Task<IServiceResult<T>> RetrieveFromServerAsync<T>(
             this HttpClient httpClient,
+            HttpVerbs verb,
             string requestUri,
             CocoricoException exception = null)
             where T : class =>
-            await httpClient.RetrieveFromServerAsync<string, T>(requestUri, "", exception);
+            await httpClient.RetrieveFromServerAsync<string, T>(verb, requestUri, "", exception);
 
 
         public static Task<HttpResponseMessage> PostJsonWithResultAsync(this HttpClient httpClient, string requestUri, object content) =>

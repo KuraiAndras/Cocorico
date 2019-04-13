@@ -1,58 +1,50 @@
-﻿using Cocorico.Shared.Dtos.Sandwich;
+﻿using Cocorico.Client.Services.Authentication;
+using Cocorico.Client.Services.Sandwich;
+using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Services;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Cocorico.Client.Services.Authentication;
-using Microsoft.AspNetCore.Components.Services;
-using Microsoft.JSInterop;
 
-// ReSharper disable UnusedAutoPropertyAccessor.Local
 namespace Cocorico.Client.ComponentModels.Sandwich
 {
     public class SandwichesModel : ComponentBase
     {
-        [Inject] private HttpClient HttpClient { get; set; }
-
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        [Inject] protected IUserAuthenticationService UserAuthenticationService { get; set; }
+        [Inject] protected ICocoricoClientAuthenticationService CocoricoClientAuthenticationService { get; set; }
 
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUriHelper UriHelper { get; set; }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Inject] private IClientSandwichService SandwichService { get; set; }
+
         protected IReadOnlyList<SandwichResultDto> Sandwiches { get; private set; } = new List<SandwichResultDto>();
 
         protected override async Task OnInitAsync() => await LoadSandwichesAsync();
 
         private async Task LoadSandwichesAsync()
         {
-            var response = await HttpClient.GetAsync(Urls.Server.SandwichBase);
+            var result = await SandwichService.GetAllSandwichResultAsync();
 
-            if (response.IsSuccessStatusCode)
+            switch (result)
             {
-                var sandwiches = Json.Deserialize<IEnumerable<SandwichResultDto>>(await response.Content.ReadAsStringAsync());
-                Sandwiches = sandwiches.ToList();
-            }
-            else
-            {
-                //TODO: Handle fail
+                case Success<IEnumerable<SandwichResultDto>> success:
+                    Sandwiches = success.Data.ToList();
+                    break;
             }
         }
 
-        protected void Edit(int sandwichId)
-        {
-            UriHelper.NavigateTo(Urls.Client.EditSandwich + $"/{sandwichId}");
-        }
+        protected void Edit(int sandwichId) => UriHelper.NavigateTo(Urls.Client.EditSandwich + $"/{sandwichId}");
 
         protected async Task Delete(int sandwichId)
         {
-            var response = await HttpClient.DeleteAsync(Urls.Server.SandwichBase + $"/{sandwichId}");
+            var result = await SandwichService.DeleteSandwichAsync(sandwichId);
 
-            if (response.IsSuccessStatusCode)
-            {
-                await LoadSandwichesAsync();
-            }
+            if (result is Success) await LoadSandwichesAsync();
         }
     }
 }

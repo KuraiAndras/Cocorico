@@ -30,7 +30,7 @@ namespace Cocorico.Server.Controllers
         [HttpGet("{key}")]
         public async Task<IActionResult> GetAsync([FromRoute] int key)
         {
-            var serviceResult = await _serverSandwichService.GetSandwichResult(key);
+            var serviceResult = await _serverSandwichService.GetSandwichResultAsync(key);
 
             return serviceResult.ToActionResult();
         }

@@ -84,7 +84,7 @@ namespace Cocorico.Server.Test.Services
                 };
 
                 var service = new ServerSandwichService(context);
-                var actual = await service.GetSandwichResult(expected.Id);
+                var actual = await service.GetSandwichResultAsync(expected.Id);
 
                 if (actual is Success<SandwichResultDto> result)
                 {

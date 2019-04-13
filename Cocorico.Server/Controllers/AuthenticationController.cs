@@ -1,6 +1,6 @@
-﻿using Cocorico.Server.Extensions;
+﻿using Cocorico.Server.Api.Services.Authentication;
+using Cocorico.Server.Extensions;
 using Cocorico.Server.Helpers;
-using Cocorico.Server.Services.Authentication;
 using Cocorico.Shared.Dtos.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

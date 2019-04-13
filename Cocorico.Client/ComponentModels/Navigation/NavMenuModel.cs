@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Cocorico.Client.Api.Services.Authentication;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Layouts;
 using Microsoft.AspNetCore.Components.Services;
 using System.Threading.Tasks;
-using Cocorico.Client.Services.Authentication;
 
 namespace Cocorico.Client.ComponentModels.Navigation
 {

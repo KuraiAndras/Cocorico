@@ -1,6 +1,8 @@
-using Cocorico.Server.Extensions;
-using Cocorico.Server.Models;
-using Cocorico.Server.Models.Entities.User;
+using Cocorico.Server.Api.Extensions;
+using Cocorico.Server.Api.Models;
+using Cocorico.Server.Api.Models.Entities.User;
+using Cocorico.Server.Helpers;
+using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,8 +15,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Linq;
 using System.Security.Claims;
-using Cocorico.Server.Helpers;
-using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server
 {

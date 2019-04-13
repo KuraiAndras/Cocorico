@@ -1,0 +1,63 @@
+﻿@using Cocorico.Shared.Helpers
+
+@inherits Cocorico.Client.Blazor.ComponentModels.Navigation.NavMenuModel
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">Cocorico</a>
+    <button class="navbar-toggler" onclick="@ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" onclick="@ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="@Urls.Client.GetAllSandwich">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Sandwiches
+            </NavLink>
+        </li>
+        @if (!CocoricoClientAuthenticationService.IsLoggedIn)
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.Login">
+                    <span class="oi oi-account-login" aria-hidden="true"></span> Log In
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.Register">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Register
+                </NavLink>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.AddSandwich">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Add Sandwich
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <button class="btn btn-outline-light text-left" style="width:100%" onclick="@Logout">
+                    <i class="oi oi-account-logout" style="vertical-align: middle"></i>
+                    <span>Log Out</span>
+                </button>
+            </li>
+        }
+    </ul>
+</div>
+
+@functions {
+    bool _collapseNavMenu = true;
+
+    string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
+
+    void ToggleNavMenu()
+    {
+        _collapseNavMenu = !_collapseNavMenu;
+    }
+}

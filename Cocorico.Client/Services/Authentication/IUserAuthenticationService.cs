@@ -13,7 +13,7 @@ namespace Cocorico.Client.Services.Authentication
         Task<IServiceResult> LogoutAsync();
 
         bool IsLoggedIn { get; }
-        IReadOnlyCollection<string> Claims { get; }
+        IEnumerable<string> Claims { get; }
 
         event Action UserLoggedIn;
         event Action UserLoggedOut;

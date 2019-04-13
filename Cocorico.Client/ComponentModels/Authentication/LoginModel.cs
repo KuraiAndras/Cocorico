@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Services;
 using System.Threading.Tasks;
 using Cocorico.Client.Services.Authentication;
+using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Services.Helpers;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
@@ -23,7 +24,7 @@ namespace Cocorico.Client.ComponentModels.Authentication
             switch (result)
             {
                 case Success _:
-                    UriHelper.NavigateTo("/");
+                    UriHelper.NavigateTo(Urls.Client.Home);
                     break;
                 default:
                     ShowLoginFailed = true;

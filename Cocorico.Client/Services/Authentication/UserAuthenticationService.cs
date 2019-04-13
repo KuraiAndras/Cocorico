@@ -42,7 +42,9 @@ namespace Cocorico.Client.Services.Authentication
 
         private readonly List<string> _userClaims = new List<string>();
 
-        public IReadOnlyCollection<string> Claims => _userClaims.ToList();
+        public IEnumerable<string> Claims => _userClaims;
+
+        private event Func<Task> AppStarted;
 
         public event Action UserLoggedIn;
         public event Action UserLoggedOut;
@@ -52,7 +54,8 @@ namespace Cocorico.Client.Services.Authentication
             _httpClient = httpClient;
             _localStorageService = localStorageService;
 
-            UpdateAuthStateAsync().RunSynchronously();
+            AppStarted = UpdateAuthStateAsync;
+            AppStarted.Invoke();
         }
 
         public async Task<IServiceResult> RegisterAsync(RegisterDetails registerDetails)
@@ -115,13 +118,20 @@ namespace Cocorico.Client.Services.Authentication
         {
             await _localStorageServiceLock.LockAsync(async () =>
             {
-                var claims = (await _localStorageService.GetItem<IEnumerable<string>>(Verbs.Claims)).ToList();
+                var claims = await _localStorageService.GetItem<IEnumerable<string>>(Verbs.Claims);
 
-                _userClaims.Clear();
-
-                if (claims.Any())
+                if (claims is null)
                 {
-                    _userClaims.AddRange(claims);
+                    IsLoggedIn = false;
+                    return;
+                }
+
+                var claimList = claims.ToList();
+
+                if (claimList.Any())
+                {
+                    _userClaims.Clear();
+                    _userClaims.AddRange(claimList);
 
                     IsLoggedIn = true;
                 }

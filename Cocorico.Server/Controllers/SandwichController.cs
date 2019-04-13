@@ -21,7 +21,7 @@ namespace Cocorico.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var serviceResult = await _sandwichService.GetAllAsync();
+            var serviceResult = await _sandwichService.GetAllSandwichResultAsync();
 
             return serviceResult.ToActionResult();
         }
@@ -30,7 +30,7 @@ namespace Cocorico.Server.Controllers
         [HttpGet("{key}")]
         public async Task<IActionResult> GetAsync([FromRoute] int key)
         {
-            var serviceResult = await _sandwichService.GetAsync(key);
+            var serviceResult = await _sandwichService.GetSandwichResult(key);
 
             return serviceResult.ToActionResult();
         }
@@ -39,7 +39,7 @@ namespace Cocorico.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrUpdateAsync([FromBody] NewSandwichDto sandwich)
         {
-            var serviceResult = await _sandwichService.AddOrUpdateAsync(sandwich);
+            var serviceResult = await _sandwichService.AddOrUpdateSandwichAsync(sandwich);
 
             return serviceResult.ToActionResult();
         }
@@ -48,7 +48,7 @@ namespace Cocorico.Server.Controllers
         [HttpDelete("{key}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] int key)
         {
-            var serviceResult = await _sandwichService.DeleteAsync(key);
+            var serviceResult = await _sandwichService.DeleteSandwichAsync(key);
 
             return serviceResult.ToActionResult();
         }

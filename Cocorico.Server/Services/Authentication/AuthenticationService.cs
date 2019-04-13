@@ -30,7 +30,7 @@ namespace Cocorico.Server.Services.Authentication
 
         public async Task<IServiceResult> RegisterAsync(RegisterDetails model)
         {
-            var userIdentity = model.MapTo(m => new CocoricoUser { UserName = m.Name });
+            var userIdentity = model.MapTo(m => new CocoricoUser { UserName = m.Email });
 
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
 

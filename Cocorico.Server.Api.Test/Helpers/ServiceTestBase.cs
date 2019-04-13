@@ -1,9 +1,9 @@
-﻿using Cocorico.Server.Models;
+﻿using Cocorico.Server.Api.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Cocorico.Server.Test.Helpers
+namespace Cocorico.Server.Api.Test.Helpers
 {
     [TestClass]
     public class ServiceTestBase

@@ -1,7 +1,7 @@
-﻿using Cocorico.Server.Models;
-using Cocorico.Server.Models.Entities.Sandwich;
-using Cocorico.Server.Services.Sandwich;
-using Cocorico.Server.Test.Helpers;
+﻿using Cocorico.Server.Api.Models;
+using Cocorico.Server.Api.Models.Entities.Sandwich;
+using Cocorico.Server.Api.Services.Sandwich;
+using Cocorico.Server.Api.Test.Helpers;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Test.Services
+namespace Cocorico.Server.Api.Test.Services
 {
     [TestClass]
     public class SandwichServiceTest : ServiceTestBase

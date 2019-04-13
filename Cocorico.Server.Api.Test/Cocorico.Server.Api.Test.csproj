@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cocorico.Server\Cocorico.Server.csproj" />
+    <ProjectReference Include="..\Cocorico.Server.Api\Cocorico.Server.Api.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
-﻿using Cocorico.Server.Services.Authentication;
-using Cocorico.Server.Services.Sandwich;
+﻿using Cocorico.Server.Api.Services.Authentication;
+using Cocorico.Server.Api.Services.Sandwich;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Cocorico.Server.Extensions
+namespace Cocorico.Server.Api.Extensions
 {
     // ReSharper disable once InconsistentNaming
     public static class IServiceCollectionExtension

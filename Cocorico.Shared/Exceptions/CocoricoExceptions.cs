@@ -17,4 +17,8 @@ namespace Cocorico.Shared.Exceptions
     public class UnauthorizedException : CocoricoException
     {
     }
+
+    public class DatabaseException : CocoricoException
+    {
+    }
 }

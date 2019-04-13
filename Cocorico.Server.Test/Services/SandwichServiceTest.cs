@@ -23,7 +23,7 @@ namespace Cocorico.Server.Test.Services
             using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
-                await service.AddOrUpdateAsync(sandwichDto);
+                await service.AddOrUpdateSandwichAsync(sandwichDto);
             }
 
             var expected = sandwichDto.MapTo<NewSandwichDto, Sandwich>();
@@ -46,12 +46,12 @@ namespace Cocorico.Server.Test.Services
             using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
-                await service.AddOrUpdateAsync(newSandwichDto);
+                await service.AddOrUpdateSandwichAsync(newSandwichDto);
 
                 newSandwichDto.Id = 1;
                 newSandwichDto.Name = "Updated";
 
-                await service.AddOrUpdateAsync(newSandwichDto);
+                await service.AddOrUpdateSandwichAsync(newSandwichDto);
             }
 
             var expected = newSandwichDto.MapTo<NewSandwichDto, Sandwich>();
@@ -72,7 +72,7 @@ namespace Cocorico.Server.Test.Services
             using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
-                await service.AddOrUpdateAsync(sandwichDto);
+                await service.AddOrUpdateSandwichAsync(sandwichDto);
             }
 
             using (var context = new CocoricoDbContext(Options))
@@ -84,7 +84,7 @@ namespace Cocorico.Server.Test.Services
                 };
 
                 var service = new SandwichService(context);
-                var actual = await service.GetAsync(expected.Id);
+                var actual = await service.GetSandwichResult(expected.Id);
 
                 if (actual is Success<SandwichResultDto> result)
                 {
@@ -105,13 +105,13 @@ namespace Cocorico.Server.Test.Services
             using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
-                await service.AddOrUpdateAsync(sandwichDto);
+                await service.AddOrUpdateSandwichAsync(sandwichDto);
             }
 
             using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
-                await service.DeleteAsync(1);
+                await service.DeleteSandwichAsync(1);
             }
 
             using (var context = new CocoricoDbContext(Options))
@@ -126,14 +126,14 @@ namespace Cocorico.Server.Test.Services
             using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
-                await service.AddOrUpdateAsync(new NewSandwichDto { Name = "Test1" });
-                await service.AddOrUpdateAsync(new NewSandwichDto { Name = "Test2" });
+                await service.AddOrUpdateSandwichAsync(new NewSandwichDto { Name = "Test1" });
+                await service.AddOrUpdateSandwichAsync(new NewSandwichDto { Name = "Test2" });
             }
 
             using (var context = new CocoricoDbContext(Options))
             {
                 var service = new SandwichService(context);
-                var result = await service.GetAllAsync();
+                var result = await service.GetAllSandwichResultAsync();
 
                 if (result is Success<IEnumerable<SandwichResultDto>> success)
                 {

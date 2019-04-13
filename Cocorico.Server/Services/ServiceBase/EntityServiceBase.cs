@@ -18,13 +18,13 @@ namespace Cocorico.Server.Services.ServiceBase
 
     public abstract class EntityServiceBase<T, TKey> where T : class, IDbEntity<TKey>
     {
-        private readonly CocoricoDbContext _context;
+        protected readonly CocoricoDbContext Context;
 
-        protected EntityServiceBase(CocoricoDbContext context) => _context = context;
+        protected EntityServiceBase(CocoricoDbContext context) => Context = context;
 
-        public async Task<IServiceResult> AddOrUpdateAsync(T entity)
+        protected async Task<IServiceResult> AddOrUpdateAsync(T entity)
         {
-            var result = _context.GetDbSet<T>();
+            var result = Context.GetDbSet<T>();
 
             switch (result)
             {
@@ -41,7 +41,7 @@ namespace Cocorico.Server.Services.ServiceBase
 
                     try
                     {
-                        await _context.SaveChangesAsync();
+                        await Context.SaveChangesAsync();
                     }
                     catch (Exception)
                     {
@@ -54,9 +54,9 @@ namespace Cocorico.Server.Services.ServiceBase
             }
         }
 
-        public async Task<IServiceResult> DeleteAsync(TKey key)
+        protected async Task<IServiceResult> DeleteAsync(TKey key)
         {
-            var result = _context.GetDbSet<T>();
+            var result = Context.GetDbSet<T>();
 
             switch (result)
             {
@@ -71,7 +71,7 @@ namespace Cocorico.Server.Services.ServiceBase
 
                     try
                     {
-                        await _context.SaveChangesAsync();
+                        await Context.SaveChangesAsync();
                     }
                     catch (Exception)
                     {

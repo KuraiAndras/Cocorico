@@ -1,5 +1,5 @@
 ﻿using System;
-using Cocorico.Server.Exceptions;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Server.Extensions
 {

@@ -9,7 +9,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4">
-                <input type="text" bind=@RegisterDetails.Name placeholder="John Doe" class="form-control" />
+                @if (ShowRegisterFailed)
+                {
+                    <div class="alert alert-danger">
+                        Login attempt failed.
+                    </div>
+                }
+                <input type="text" bind=@RegisterDetails.Name placeholder="John Doe" class="form-control"/>
                 <input type="text" bind=@RegisterDetails.Email placeholder="example@host.org" class="form-control"/>
                 <input type="password" bind=@RegisterDetails.Password placeholder="Password" class="form-control"/>
                 <button class="btn btn-primary" onclick="@Register">Register</button>

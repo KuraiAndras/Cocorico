@@ -1,4 +1,4 @@
-﻿using Cocorico.Server.Helpers;
+﻿using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cocorico.Server.Extensions

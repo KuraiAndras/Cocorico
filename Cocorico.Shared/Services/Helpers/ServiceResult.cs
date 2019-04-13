@@ -1,6 +1,6 @@
-﻿using Cocorico.Server.Exceptions;
+﻿using Cocorico.Shared.Exceptions;
 
-namespace Cocorico.Server.Helpers
+namespace Cocorico.Shared.Services.Helpers
 {
     public interface IServiceResult
     {

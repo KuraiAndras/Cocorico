@@ -36,7 +36,7 @@ namespace Cocorico.Server.Controllers
         }
 
         [Authorize(Policy = Policies.User)]
-        [HttpPost(nameof(Register))]
+        [HttpPost(nameof(Logout))]
         public async Task<IActionResult> Logout()
         {
             var result = await _authenticationService.LogoutAsync();

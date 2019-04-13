@@ -1,8 +1,9 @@
-﻿using Cocorico.Shared.Dtos.Authentication;
+﻿using Cocorico.Client.Services.Authentication;
+using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Services;
-using System.Net.Http;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 namespace Cocorico.Client.ComponentModels.Authentication
@@ -10,15 +11,26 @@ namespace Cocorico.Client.ComponentModels.Authentication
     public class RegisterModel : ComponentBase
     {
         [Inject] private IUriHelper UriHelper { get; set; }
-        [Inject] private HttpClient HttpClient { get; set; }
+        [Inject] private IUserAuthenticationService UserAuthenticationService { get; set; }
 
         protected RegisterDetails RegisterDetails { get; } = new RegisterDetails();
 
+        protected bool ShowRegisterFailed { get; private set; }
+
         protected async void Register()
         {
-            await HttpClient.PostJsonAsync(Urls.Server.Register, RegisterDetails);
+            var result = await UserAuthenticationService.RegisterAsync(RegisterDetails);
 
-            UriHelper.NavigateTo("/");
+            switch (result)
+            {
+                case Success _:
+                    UriHelper.NavigateTo(Urls.Client.Login);
+                    break;
+                default:
+                    ShowRegisterFailed = true;
+                    StateHasChanged();
+                    break;
+            }
         }
     }
 }

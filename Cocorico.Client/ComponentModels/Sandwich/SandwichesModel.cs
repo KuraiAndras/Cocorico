@@ -1,5 +1,5 @@
-﻿using Cocorico.Client.Services.Authentication;
-using Cocorico.Client.Services.Sandwich;
+﻿using Cocorico.Client.Api.Services.Authentication;
+using Cocorico.Client.Api.Services.Sandwich;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Services.Helpers;

@@ -1,10 +1,10 @@
-﻿using Cocorico.Shared.Dtos.Authentication;
+﻿using Cocorico.Client.Api.Services.Authentication;
+using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Services;
 using System.Threading.Tasks;
-using Cocorico.Client.Services.Authentication;
-using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 namespace Cocorico.Client.ComponentModels.Authentication

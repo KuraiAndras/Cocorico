@@ -19,6 +19,13 @@ namespace Cocorico.Client.Domain.Services.User
             _httpClient = httpClient;
         }
 
+        public async Task<IServiceResult<UserForAdminPage>> GetUserForAdminPageAsync(string userId)
+        {
+            var result = await _httpClient.RetrieveDataFromServerAsync<UserForAdminPage>(HttpVerbs.Get, Urls.Server.GetUserForAdminPage + $"/{userId}");
+
+            return result;
+        }
+
         public async Task<IServiceResult<IEnumerable<UserForAdminPage>>> GetAllUsersForAdminPageAsync()
         {
             var result = await _httpClient.RetrieveDataFromServerAsync<IEnumerable<UserForAdminPage>>(HttpVerbs.Get, Urls.Server.GetAllUsersForAdminPage, new InvalidCredentialsException());

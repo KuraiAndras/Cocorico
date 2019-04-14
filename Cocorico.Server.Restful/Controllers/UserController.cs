@@ -25,5 +25,14 @@ namespace Cocorico.Server.Restful.Controllers
 
             return result.ToActionResult();
         }
+
+        [Authorize(Policy = Policies.Administrator)]
+        [HttpGet(Urls.ServerAction.GetUserForAdminPage + "/{userId}")]
+        public async Task<IActionResult> GetUserForAdminPageAsync([FromRoute] string userId)
+        {
+            var serviceResult = await _userService.GetUserForAdminPageAsync(userId);
+
+            return serviceResult.ToActionResult();
+        }
     }
 }

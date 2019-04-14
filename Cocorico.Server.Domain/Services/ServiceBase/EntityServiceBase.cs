@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Cocorico.Server.Domain.Extensions;
+﻿using Cocorico.Server.Domain.Extensions;
 using Cocorico.Server.Domain.Models;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Cocorico.Server.Domain.Services.ServiceBase
 {
@@ -39,16 +38,9 @@ namespace Cocorico.Server.Domain.Services.ServiceBase
 
                     await dbSet.AddAsync(entity);
 
-                    try
-                    {
-                        await Context.SaveChangesAsync();
-                    }
-                    catch (Exception)
-                    {
-                        return new Fail(new DatabaseException());
-                    }
+                    var saveResult = await Context.TrySaveChangesAsync();
 
-                    return new Success();
+                    return saveResult;
 
                 default: return new Fail(new UnexpectedException());
             }
@@ -69,16 +61,9 @@ namespace Cocorico.Server.Domain.Services.ServiceBase
 
                     original.IsDeleted = true;
 
-                    try
-                    {
-                        await Context.SaveChangesAsync();
-                    }
-                    catch (Exception)
-                    {
-                        return new Fail(new DatabaseException());
-                    }
+                    var saveResult = await Context.TrySaveChangesAsync();
 
-                    return new Success();
+                    return saveResult;
 
                 default: return new Fail(new UnexpectedException());
             }

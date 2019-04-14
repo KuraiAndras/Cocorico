@@ -11,7 +11,7 @@ namespace Cocorico.Client.Domain.Extensions
 {
     public static class HttpClientExtension
     {
-        public static async Task<IServiceResult<TTarget>> RetrieveFromServerAsync<TSource, TTarget>(
+        public static async Task<IServiceResult<TTarget>> RetrieveDataFromServerAsync<TSource, TTarget>(
             this HttpClient httpClient,
             HttpVerbs verb,
             string requestUri,
@@ -31,6 +31,9 @@ namespace Cocorico.Client.Domain.Extensions
                 case HttpVerbs.Get:
                     response = await httpClient.GetAsync(requestUri);
                     break;
+                case HttpVerbs.Delete:
+                    response = await httpClient.DeleteAsync(requestUri);
+                    break;
                 default: return new Fail<TTarget>(new InvalidCommandException());
             }
 
@@ -45,14 +48,40 @@ namespace Cocorico.Client.Domain.Extensions
             return new Success<TTarget>(resultDto);
         }
 
-        public static async Task<IServiceResult<T>> RetrieveFromServerAsync<T>(
+        public static async Task<IServiceResult<T>> RetrieveDataFromServerAsync<T>(
             this HttpClient httpClient,
             HttpVerbs verb,
             string requestUri,
             CocoricoException exception = null)
             where T : class =>
-            await httpClient.RetrieveFromServerAsync<string, T>(verb, requestUri, "", exception);
+            await httpClient.RetrieveDataFromServerAsync<string, T>(verb, requestUri, "", exception);
 
+        public static async Task<IServiceResult> RetrieveMessageFromServerAsync<T>(
+            this HttpClient httpClient,
+            HttpVerbs verb,
+            string requestUri,
+            T body,
+            CocoricoException exception = null)
+            where T : class
+        {
+            exception = exception ?? new UnexpectedException();
+
+            HttpResponseMessage response;
+            switch (verb)
+            {
+                case HttpVerbs.Post:
+                    response = await httpClient.PostJsonWithResultAsync(requestUri, body);
+                    break;
+                case HttpVerbs.Delete:
+                    response = await httpClient.DeleteAsync(requestUri);
+                    break;
+                default: return new Fail(new InvalidCommandException());
+            }
+
+            return !response.IsSuccessStatusCode
+                ? (IServiceResult) new Fail(exception)
+                : new Success();
+        }
 
         public static Task<HttpResponseMessage> PostJsonWithResultAsync(this HttpClient httpClient, string requestUri, object content) =>
             httpClient.PostAsync(requestUri, new StringContent(Json.Serialize(content), Encoding.UTF8, Verbs.ApplicationJson));

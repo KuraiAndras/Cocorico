@@ -1,7 +1,8 @@
 ﻿@page "/sandwiches"
 @using Cocorico.Shared.Helpers
+@using Cocorico.Client.Blazor.ComponentModels.Sandwich
 
-@inherits Cocorico.Client.Blazor.ComponentModels.Sandwich.SandwichesModel
+@inherits SandwichesModel
 
 @if (Sandwiches.Count == 0)
 {
@@ -30,7 +31,7 @@ else
                     @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin))
                     {
                         <td><button class="btn btn-secondary" onclick="@(() => Edit(sandwich.Id))">Edit</button></td>
-                        <td><button class="btn btn-danger" onclick="@(() => Delete(sandwich.Id))">Delete</button></td>
+                        <td><button class="btn btn-danger" onclick="@(() => DeleteAsync(sandwich.Id))">Delete</button></td>
                     }
                 </tr>
             }

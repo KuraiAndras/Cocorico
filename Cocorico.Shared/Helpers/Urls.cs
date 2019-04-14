@@ -11,6 +11,7 @@
             public const string RemoveClaimFromUser = "RemoveClaimFromUser";
             public const string SandwichBase = "Sandwich";
             public const string GetAllUsersForAdminPage = "GetAllForAdminPage";
+            public const string GetUserForAdminPage = "GetUserForAdminPage";
         }
 
         private static class Controllers
@@ -29,6 +30,7 @@
             public const string RemoveClaimFromUser = Controllers.Api + Controllers.Authentication + "/" + ServerAction.RemoveClaimFromUser;
             public const string SandwichBase = Controllers.Api + "/" + ServerAction.SandwichBase;
             public const string GetAllUsersForAdminPage = Controllers.Api + Controllers.User + "/" + ServerAction.GetAllUsersForAdminPage;
+            public const string GetUserForAdminPage = Controllers.Api + "/" + ServerAction.GetUserForAdminPage;
         }
 
         public static class Client

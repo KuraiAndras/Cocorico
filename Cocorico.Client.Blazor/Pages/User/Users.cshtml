@@ -1,7 +1,6 @@
 ﻿@page "/users"
 @using Cocorico.Client.Blazor.ComponentModels.User
 @using Cocorico.Shared.Dtos.User
-@using Cocorico.Shared.Helpers
 
 @inherits UsersModel
 
@@ -16,7 +15,7 @@ else
         <tr>
             <th>@nameof(UserForAdminPage.Name)</th>
             <th>@nameof(UserForAdminPage.Email)</th>
-            <th>Claims</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -25,18 +24,7 @@ else
                 <tr>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
-                    @foreach (var claim in Claims.ClaimsCollection)
-                    {
-
-                        @if (user.Claims.SingleOrDefault(c => c.Equals(claim)) is null)
-                        {
-                            <td><button class="btn btn-danger" onclick="@(() => AddClaimToUserAsync(user.Id, claim))">Add as @claim</button></td>
-                        }
-                        else
-                        {
-                            <td><button class="btn btn-primary" onclick="@(() => RemoveClaimFromUserAsync(user.Id, claim))">Remove from @claim</button></td>
-                        }
-                    }
+                    <td><button class="btn btn-primary" onclick="@(() => GoToEdit(user.Id))">Edit</button></td>
                 </tr>
             }
         </tbody>

@@ -1,5 +1,45 @@
-﻿@page "/AdminEditUserClaim/{UserId:string}"
+﻿@page "/adminEditUserClaim/{UserId}"
 
+@using Cocorico.Client.Blazor.ComponentModels.User
+@using Cocorico.Shared.Helpers
 
+@inherits AdminEditUserClaimModel
 
-@inherits 
+@if (UserForAdminPage is null)
+{
+    <label>Loading...</label>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>@UserForAdminPage.Email</td></tr>
+            <tr><td>@UserForAdminPage.Name</td></tr>
+            @foreach (var claim in Claims.ClaimsCollection.Where(c => !c.Equals(Claims.User)))
+            {
+
+                @if (UserForAdminPage.Claims.SingleOrDefault(c => c.Equals(claim)) is null)
+                {
+                    <tr><td><button class="btn btn-danger" onclick="@(() => AddClaimToUserAsync(claim))">Add as @claim</button></td></tr>
+                }
+                else
+                {
+                    <tr><td><button class="btn btn-primary" onclick="@(() => RemoveClaimFromUserAsync(claim))">Remove from @claim</button></td></tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+
+            </div>
+        </div>
+    </div>
+}

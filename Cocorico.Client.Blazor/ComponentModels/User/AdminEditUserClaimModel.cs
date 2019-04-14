@@ -10,19 +10,19 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
 {
     public class AdminEditUserClaimModel : ComponentBase
     {
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        [Parameter] protected string UserId { get; set; }
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Parameter] private string UserId { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private ICocoricoClientAuthenticationService AuthenticationService { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IClientUserService UserService { get; set; }
-        protected UserForAdminPage UserForAdminPage { get; private set; } = new UserForAdminPage();
+        protected UserForAdminPage UserForAdminPage { get; private set; }
 
-        protected override async Task OnInitAsync() => await LoadUser();
+        protected override async Task OnInitAsync() => await LoadUserAsync();
 
-        private async Task LoadUser()
+        private async Task LoadUserAsync()
         {
             var result = await UserService.GetUserForAdminPageAsync(UserId);
 
@@ -48,12 +48,12 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
             switch (result)
             {
                 case Success _:
-                    await LoadUser();
+                    await LoadUserAsync();
                     break;
             }
         }
 
-        protected async Task RemoveClaimFromUser(string claimValue)
+        protected async Task RemoveClaimFromUserAsync(string claimValue)
         {
             var result = await AuthenticationService.RemoveClaimFromUserAsync(new UserClaimRequest
             {
@@ -64,7 +64,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
             switch (result)
             {
                 case Success _:
-                    await LoadUser();
+                    await LoadUserAsync();
                     break;
             }
         }

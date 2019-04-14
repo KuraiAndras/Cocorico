@@ -1,12 +1,12 @@
 ﻿using Cocorico.Client.Domain.Services.User;
 using Cocorico.Shared.Dtos.User;
+using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cocorico.Client.Domain.Services.Authentication;
-using Cocorico.Shared.Dtos.Authentication;
 
 namespace Cocorico.Client.Blazor.ComponentModels.User
 {
@@ -16,7 +16,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
         [Inject] private IClientUserService UserService { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private ICocoricoClientAuthenticationService AuthenticationService { get; set; }
+        [Inject] private IUriHelper UriHelper { get; set; }
         protected IReadOnlyList<UserForAdminPage> Users { get; private set; } = new List<UserForAdminPage>();
 
         protected override async Task OnInitAsync() => await LoadUsersAsync();
@@ -34,28 +34,6 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
             }
         }
 
-        protected async Task AddClaimToUserAsync(string userId, string claim)
-        {
-            var result = await AuthenticationService.AddClaimToUserAsync(new UserClaimRequest
-            {
-                CocoricoClaim = new CocoricoClaim { ClaimValue = claim },
-                UserId = userId,
-            });
-
-            //TODO: Handle fail
-            if (result is Success) await LoadUsersAsync();
-        }
-
-        protected async Task RemoveClaimFromUserAsync(string userId, string claim)
-        {
-            var result = await AuthenticationService.RemoveClaimFromUserAsync(new UserClaimRequest
-            {
-                CocoricoClaim = new CocoricoClaim { ClaimValue = claim },
-                UserId = userId,
-            });
-
-            //TODO: Handle fail
-            if (result is Success) await LoadUsersAsync();
-        }
+        protected void GoToEdit(string userId) => UriHelper.NavigateTo(Urls.Client.AdminEditUserClaim + $"/{userId}");
     }
 }

@@ -30,7 +30,7 @@
             public const string RemoveClaimFromUser = Controllers.Api + Controllers.Authentication + "/" + ServerAction.RemoveClaimFromUser;
             public const string SandwichBase = Controllers.Api + "/" + ServerAction.SandwichBase;
             public const string GetAllUsersForAdminPage = Controllers.Api + Controllers.User + "/" + ServerAction.GetAllUsersForAdminPage;
-            public const string GetUserForAdminPage = Controllers.Api + "/" + ServerAction.GetUserForAdminPage;
+            public const string GetUserForAdminPage = Controllers.Api + Controllers.User + "/" + ServerAction.GetUserForAdminPage;
         }
 
         public static class Client
@@ -42,6 +42,7 @@
             public const string EditSandwich = "sandwiches/edit";
             public const string AddSandwich = "addSandwich";
             public const string Users = "users";
+            public const string AdminEditUserClaim = "adminEditUserClaim";
         }
     }
 }

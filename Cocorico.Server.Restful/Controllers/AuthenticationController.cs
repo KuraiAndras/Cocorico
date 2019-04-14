@@ -2,15 +2,15 @@
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Restful.Extensions;
 using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server.Restful.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Produces(Verbs.ApplicationJson)]
+    [Route(Verbs.ApiController)]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {

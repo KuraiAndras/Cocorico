@@ -5,11 +5,12 @@ using Cocorico.Shared.Dtos.Sandwich;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server.Restful.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Produces(Verbs.ApplicationJson)]
+    [Route(Verbs.ApiController)]
     [ApiController]
     public class SandwichController : ControllerBase
     {

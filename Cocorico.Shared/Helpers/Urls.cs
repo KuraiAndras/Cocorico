@@ -10,6 +10,8 @@
             public const string AddClaimToUser = "AddClaimToUser";
             public const string RemoveClaimFromUser = "RemoveClaimFromUser";
             public const string SandwichBase = "Sandwich";
+            public const string UserBase = "";
+            public const string GetAllUsersForAdminPage = "GetAllForAdminPage";
         }
 
         private static class Controllers

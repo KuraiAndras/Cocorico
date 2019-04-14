@@ -1,15 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Restful.Extensions;
-using Cocorico.Server.Restful.Helpers;
 using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Cocorico.Server.Restful.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Produces(Verbs.ApplicationJson)]
+    [Route(Verbs.ApiController)]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -18,8 +19,8 @@ namespace Cocorico.Server.Restful.Controllers
         public AuthenticationController(IServerCocoricoAuthenticationService serverCocoricoAuthenticationService) => _serverCocoricoAuthenticationService = serverCocoricoAuthenticationService;
 
         [AllowAnonymous]
-        [HttpPost(nameof(Login))]
-        public async Task<IActionResult> Login([FromBody] LoginDetails credentials)
+        [HttpPost(Urls.ServerAction.Login)]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginDetails credentials)
         {
             var result = await _serverCocoricoAuthenticationService.LoginAsync(credentials);
 
@@ -27,8 +28,8 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost(nameof(Register))]
-        public async Task<IActionResult> Register([FromBody] RegisterDetails model)
+        [HttpPost(Urls.ServerAction.Register)]
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterDetails model)
         {
             var result = await _serverCocoricoAuthenticationService.RegisterAsync(model);
 
@@ -36,10 +37,28 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [Authorize(Policy = Policies.User)]
-        [HttpPost(nameof(Logout))]
-        public async Task<IActionResult> Logout()
+        [HttpPost(Urls.ServerAction.Logout)]
+        public async Task<IActionResult> LogoutAsync()
         {
             var result = await _serverCocoricoAuthenticationService.LogoutAsync();
+
+            return result.ToActionResult();
+        }
+
+        [Authorize(Policy = Policies.Administrator)]
+        [HttpPost(Urls.ServerAction.AddClaimToUser)]
+        public async Task<IActionResult> AddClaimToUserAsync([FromBody] UserClaimRequest userClaimRequest)
+        {
+            var result = await _serverCocoricoAuthenticationService.AddClaimToUserAsync(userClaimRequest);
+
+            return result.ToActionResult();
+        }
+
+        [Authorize(Policy = Policies.Administrator)]
+        [HttpPost(Urls.ServerAction.RemoveClaimFromUser)]
+        public async Task<IActionResult> RemoveClaimFromUserAsync([FromBody] UserClaimRequest userClaimRequest)
+        {
+            var result = await _serverCocoricoAuthenticationService.RemoveClaimFromUserAsync(userClaimRequest);
 
             return result.ToActionResult();
         }

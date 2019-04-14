@@ -30,6 +30,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
         {
             var result = await SandwichService.GetAllSandwichResultAsync();
 
+            //TODO: Handle fail
             switch (result)
             {
                 case Success<IEnumerable<SandwichResultDto>> success:
@@ -40,7 +41,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 
         protected void Edit(int sandwichId) => UriHelper.NavigateTo(Urls.Client.EditSandwich + $"/{sandwichId}");
 
-        protected async Task Delete(int sandwichId)
+        protected async Task DeleteAsync(int sandwichId)
         {
             var result = await SandwichService.DeleteSandwichAsync(sandwichId);
 

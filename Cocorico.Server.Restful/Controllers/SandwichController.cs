@@ -1,15 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Sandwich;
 using Cocorico.Server.Restful.Extensions;
-using Cocorico.Server.Restful.Helpers;
 using Cocorico.Shared.Dtos.Sandwich;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server.Restful.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Produces(Verbs.ApplicationJson)]
+    [Route(Verbs.ApiController)]
     [ApiController]
     public class SandwichController : ControllerBase
     {
@@ -27,10 +28,10 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{key}")]
-        public async Task<IActionResult> GetAsync([FromRoute] int key)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetAsync([FromRoute] int id)
         {
-            var serviceResult = await _serverSandwichService.GetSandwichResultAsync(key);
+            var serviceResult = await _serverSandwichService.GetSandwichResultAsync(id);
 
             return serviceResult.ToActionResult();
         }
@@ -45,10 +46,10 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [Authorize(Policy = Policies.Administrator)]
-        [HttpDelete("{key}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] int key)
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
-            var serviceResult = await _serverSandwichService.DeleteSandwichAsync(key);
+            var serviceResult = await _serverSandwichService.DeleteSandwichAsync(id);
 
             return serviceResult.ToActionResult();
         }

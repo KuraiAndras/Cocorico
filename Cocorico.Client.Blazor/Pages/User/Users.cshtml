@@ -1,0 +1,44 @@
+﻿@page "/users"
+@using Cocorico.Client.Blazor.ComponentModels.User
+@using Cocorico.Shared.Dtos.User
+@using Cocorico.Shared.Helpers
+
+@inherits UsersModel
+
+@if (Users.Count == 0)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>@nameof(UserForAdminPage.Name)</th>
+            <th>@nameof(UserForAdminPage.Email)</th>
+            <th>Claims</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Users)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    @foreach (var claim in Claims.ClaimsCollection)
+                    {
+
+                        @if (user.Claims.SingleOrDefault(c => c.Equals(claim)) is null)
+                        {
+                            <td><button class="btn btn-danger" onclick="@(() => AddClaimToUserAsync(user.Id, claim))">Add as @claim</button></td>
+                        }
+                        else
+                        {
+                            <td><button class="btn btn-primary" onclick="@(() => RemoveClaimFromUserAsync(user.Id, claim))">Remove from @claim</button></td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}

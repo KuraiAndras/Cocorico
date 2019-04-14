@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using Cocorico.Client.Domain.Services.Authentication;
+﻿using Cocorico.Client.Domain.Services.Authentication;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Layouts;
 using Microsoft.AspNetCore.Components.Services;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Blazor.ComponentModels.Navigation
 {

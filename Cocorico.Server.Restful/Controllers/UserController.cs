@@ -1,11 +1,10 @@
 ﻿using Cocorico.Server.Domain.Helpers;
+using Cocorico.Server.Domain.Services.User;
 using Cocorico.Server.Restful.Extensions;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Cocorico.Server.Domain.Services.User;
 
 namespace Cocorico.Server.Restful.Controllers
 {

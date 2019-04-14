@@ -13,16 +13,18 @@ else
 {
     <table class="table">
         <thead>
-            <tr>
-                <th>@nameof(UserForAdminPage.Name)</th>
-                <th>Claims</th>
-            </tr>
+        <tr>
+            <th>@nameof(UserForAdminPage.Name)</th>
+            <th>@nameof(UserForAdminPage.Email)</th>
+            <th>Claims</th>
+        </tr>
         </thead>
         <tbody>
             @foreach (var user in Users)
             {
                 <tr>
                     <td>@user.Name</td>
+                    <td>@user.Email</td>
                     @foreach (var claim in Claims.ClaimsCollection)
                     {
 

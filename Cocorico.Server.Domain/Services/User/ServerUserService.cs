@@ -26,12 +26,7 @@ namespace Cocorico.Server.Domain.Services.User
             {
                 var claims = (await _userManager.GetClaimsAsync(cocoricoUser)).Select(c => c.Value);
 
-                usersForAdminPage.Add(new UserForAdminPage
-                {
-                    Name = cocoricoUser.Name,
-                    Claims = claims,
-                    Id = cocoricoUser.Id,
-                });
+                usersForAdminPage.Add(cocoricoUser.MapTo(u => new UserForAdminPage { Claims = claims }));
             }
 
             return new Success<IEnumerable<UserForAdminPage>>(usersForAdminPage);

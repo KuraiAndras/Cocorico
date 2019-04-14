@@ -28,7 +28,7 @@ else
 
                         @if (user.Claims.SingleOrDefault(c => c.Equals(claim)) is null)
                         {
-                            <td><button class="btn btn-primary" onclick="@(() => AddClaimToUserAsync(user.Id, claim))">Add as @claim</button></td>
+                            <td><button class="btn btn-danger" onclick="@(() => AddClaimToUserAsync(user.Id, claim))">Add as @claim</button></td>
                         }
                         else
                         {

@@ -5,6 +5,7 @@ using Cocorico.Shared.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Cocorico.Server.Domain.Services.User;
 
 namespace Cocorico.Server.Restful.Controllers
 {
@@ -13,9 +14,9 @@ namespace Cocorico.Server.Restful.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IServerUserService _userService;
 
-        public UserController(IUserService userService) => _userService = userService;
+        public UserController(IServerUserService userService) => _userService = userService;
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpGet(Urls.ServerAction.GetAllUsersForAdminPage)]

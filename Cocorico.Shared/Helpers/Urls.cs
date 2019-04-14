@@ -17,7 +17,7 @@
         {
             public const string Api = "api";
             public const string Authentication = "/Authentication";
-            public const string User = "User";
+            public const string User = "/User";
         }
 
         public static class Server
@@ -39,6 +39,7 @@
             public const string GetAllSandwich = "sandwiches";
             public const string EditSandwich = "sandwiches/edit";
             public const string AddSandwich = "addSandwich";
+            public const string Users = "users";
         }
     }
 }

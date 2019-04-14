@@ -12,7 +12,10 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
 {
     public class UsersModel : ComponentBase
     {
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IClientUserService UserService { get; set; }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private ICocoricoClientAuthenticationService AuthenticationService { get; set; }
         protected IReadOnlyList<UserForAdminPage> Users { get; private set; } = new List<UserForAdminPage>();
 

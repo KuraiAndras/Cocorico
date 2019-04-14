@@ -21,14 +21,14 @@ namespace Cocorico.Client.Domain.Services.Sandwich
 
         public async Task<IServiceResult<SandwichResultDto>> GetSandwichResultAsync(int id)
         {
-            var result = await _httpClient.RetrieveFromServerAsync<SandwichResultDto>(HttpVerbs.Get, Urls.Server.SandwichBase + $"/{id}");
+            var result = await _httpClient.RetrieveDataFromServerAsync<SandwichResultDto>(HttpVerbs.Get, Urls.Server.SandwichBase + $"/{id}");
 
             return result;
         }
 
         public async Task<IServiceResult<IEnumerable<SandwichResultDto>>> GetAllSandwichResultAsync()
         {
-            var result = await _httpClient.RetrieveFromServerAsync<IEnumerable<SandwichResultDto>>(HttpVerbs.Get, Urls.Server.SandwichBase);
+            var result = await _httpClient.RetrieveDataFromServerAsync<IEnumerable<SandwichResultDto>>(HttpVerbs.Get, Urls.Server.SandwichBase);
 
             return result;
         }

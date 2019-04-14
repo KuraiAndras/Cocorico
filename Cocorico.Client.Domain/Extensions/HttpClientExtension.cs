@@ -11,7 +11,7 @@ namespace Cocorico.Client.Domain.Extensions
 {
     public static class HttpClientExtension
     {
-        public static async Task<IServiceResult<TTarget>> RetrieveFromServerAsync<TSource, TTarget>(
+        public static async Task<IServiceResult<TTarget>> RetrieveDataFromServerAsync<TSource, TTarget>(
             this HttpClient httpClient,
             HttpVerbs verb,
             string requestUri,
@@ -48,13 +48,13 @@ namespace Cocorico.Client.Domain.Extensions
             return new Success<TTarget>(resultDto);
         }
 
-        public static async Task<IServiceResult<T>> RetrieveFromServerAsync<T>(
+        public static async Task<IServiceResult<T>> RetrieveDataFromServerAsync<T>(
             this HttpClient httpClient,
             HttpVerbs verb,
             string requestUri,
             CocoricoException exception = null)
             where T : class =>
-            await httpClient.RetrieveFromServerAsync<string, T>(verb, requestUri, "", exception);
+            await httpClient.RetrieveDataFromServerAsync<string, T>(verb, requestUri, "", exception);
 
         public static async Task<IServiceResult> RetrieveMessageFromServerAsync<T>(
             this HttpClient httpClient,

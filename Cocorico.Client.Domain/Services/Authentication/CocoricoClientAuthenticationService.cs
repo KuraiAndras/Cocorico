@@ -68,7 +68,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
         public async Task<IServiceResult<LoginResult>> LoginAsync(LoginDetails loginDetails)
         {
             var exception = new InvalidCredentialsException();
-            var result = await _httpClient.RetrieveFromServerAsync<LoginDetails, LoginResult>(HttpVerbs.Post, Urls.Server.Login, loginDetails, exception);
+            var result = await _httpClient.RetrieveDataFromServerAsync<LoginDetails, LoginResult>(HttpVerbs.Post, Urls.Server.Login, loginDetails, exception);
 
             switch (result)
             {

@@ -28,10 +28,10 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{key}")]
-        public async Task<IActionResult> GetAsync([FromRoute] int key)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetAsync([FromRoute] int id)
         {
-            var serviceResult = await _serverSandwichService.GetSandwichResultAsync(key);
+            var serviceResult = await _serverSandwichService.GetSandwichResultAsync(id);
 
             return serviceResult.ToActionResult();
         }
@@ -46,10 +46,10 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [Authorize(Policy = Policies.Administrator)]
-        [HttpDelete("{key}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] int key)
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
-            var serviceResult = await _serverSandwichService.DeleteSandwichAsync(key);
+            var serviceResult = await _serverSandwichService.DeleteSandwichAsync(id);
 
             return serviceResult.ToActionResult();
         }

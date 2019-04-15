@@ -6,11 +6,11 @@ namespace Cocorico.Shared.Services.Helpers
     {
     }
 
-    public sealed class Success : IServiceResult
+    public readonly struct Success : IServiceResult
     {
     }
 
-    public sealed class Fail : IServiceResult
+    public readonly struct Fail : IServiceResult
     {
         public CocoricoException Exception { get; }
 
@@ -22,14 +22,14 @@ namespace Cocorico.Shared.Services.Helpers
     {
     }
 
-    public sealed class Success<T> : IServiceResult<T>
+    public readonly struct Success<T> : IServiceResult<T>
     {
         public T Data { get; }
 
         public Success(T data) => Data = data;
     }
 
-    public sealed class Fail<T> : IServiceResult<T>
+    public readonly struct Fail<T> : IServiceResult<T>
     {
         public CocoricoException Exception { get; }
 

@@ -11,9 +11,8 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 {
     public class EditSandwichModel : ComponentBase
     {
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        // ReSharper disable once MemberCanBePrivate.Global
-        [Parameter] protected int SandwichId { get; set; }
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Parameter] private int SandwichId { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUriHelper UriHelper { get; set; }

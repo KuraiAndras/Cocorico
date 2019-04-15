@@ -7,28 +7,32 @@ namespace Cocorico.Shared.Dtos.Sandwich
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int Price { get; set; }
 
-        public bool Equals(NewSandwichDto other) =>
-            !(other is null)
-            && (ReferenceEquals(this, other)
-                || (Id == other.Id
-                    && string.Equals(Name, other.Name)));
+        public bool Equals(NewSandwichDto other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Id == other.Id && string.Equals(Name, other.Name) && Price == other.Price;
+        }
 
-        public override bool Equals(object obj) =>
-            !(obj is null)
-            && (ReferenceEquals(this, obj)
-                || (obj is NewSandwichDto newSandwichDto && Equals(newSandwichDto)));
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((NewSandwichDto) obj);
+        }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (Id * 397) ^ (Name?.GetHashCode() ?? 0);
+                var hashCode = Id;
+                hashCode = (hashCode * 397) ^ (Name != null ? Name.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ Price;
+                return hashCode;
             }
         }
-
-        public static bool operator ==(NewSandwichDto left, NewSandwichDto right) => Equals(left, right);
-
-        public static bool operator !=(NewSandwichDto left, NewSandwichDto right) => !Equals(left, right);
     }
 }

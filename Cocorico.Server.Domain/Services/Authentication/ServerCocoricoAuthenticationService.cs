@@ -1,6 +1,6 @@
 ﻿using Cocorico.Server.Domain.Extensions;
 using Cocorico.Server.Domain.Models;
-using Cocorico.Server.Domain.Models.Entities.User;
+using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;

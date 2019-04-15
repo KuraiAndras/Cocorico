@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cocorico.Server.Domain.Models;
+﻿using Cocorico.Server.Domain.Models;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cocorico.Server.Domain.Services.Sandwich
 {
-    public class ServerSandwichService : EntityServiceBase<Models.Entities.Sandwich.Sandwich>, IServerSandwichService
+    public class ServerSandwichService : EntityServiceBase<Models.Entities.Sandwich>, IServerSandwichService
     {
         public ServerSandwichService(CocoricoDbContext context) : base(context)
         {
@@ -22,14 +22,14 @@ namespace Cocorico.Server.Domain.Services.Sandwich
 
             if (sandwich is null) return new Fail<SandwichResultDto>(new EntityNotFoundException());
 
-            return new Success<SandwichResultDto>(sandwich.MapTo<Models.Entities.Sandwich.Sandwich, SandwichResultDto>());
+            return new Success<SandwichResultDto>(sandwich.MapTo<Models.Entities.Sandwich, SandwichResultDto>());
         }
 
         public async Task<IServiceResult<IEnumerable<SandwichResultDto>>> GetAllSandwichResultAsync()
         {
             var sandwiches = Context.Sandwiches;
 
-            var sandwichResultList = await sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich.Sandwich, SandwichResultDto>()).ToListAsync();
+            var sandwichResultList = await sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichResultDto>()).ToListAsync();
 
             switch (sandwichResultList)
             {
@@ -39,7 +39,7 @@ namespace Cocorico.Server.Domain.Services.Sandwich
         }
 
         public async Task<IServiceResult> AddOrUpdateSandwichAsync(NewSandwichDto newSandwichDto) =>
-            await AddOrUpdateAsync(newSandwichDto.MapTo<NewSandwichDto, Models.Entities.Sandwich.Sandwich>());
+            await AddOrUpdateAsync(newSandwichDto.MapTo<NewSandwichDto, Models.Entities.Sandwich>());
 
         public async Task<IServiceResult> DeleteSandwichAsync(int id) =>
             await DeleteAsync(id);

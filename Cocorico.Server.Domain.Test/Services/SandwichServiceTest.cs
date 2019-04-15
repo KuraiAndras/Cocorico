@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cocorico.Server.Domain.Models;
-using Cocorico.Server.Domain.Models.Entities.Sandwich;
+﻿using Cocorico.Server.Domain.Models;
+using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Server.Domain.Services.Sandwich;
 using Cocorico.Server.Domain.Test.Helpers;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cocorico.Server.Domain.Test.Services
 {

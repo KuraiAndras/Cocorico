@@ -1,5 +1,4 @@
-﻿using Cocorico.Server.Domain.Models.Entities.Sandwich;
-using Cocorico.Server.Domain.Models.Entities.User;
+﻿using Cocorico.Server.Domain.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

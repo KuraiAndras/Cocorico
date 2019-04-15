@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Cocorico.Server.Domain.Models.Entities.User
+namespace Cocorico.Server.Domain.Models.Entities
 {
     public class CocoricoUser : IdentityUser, IDbEntity<string>
     {

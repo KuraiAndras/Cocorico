@@ -1,15 +1,15 @@
 ﻿using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Models;
-using Cocorico.Server.Domain.Models.Entities.User;
+using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Domain.Services.Sandwich;
+using Cocorico.Server.Domain.Services.User;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Security.Claims;
-using Cocorico.Server.Domain.Services.User;
 
 namespace Cocorico.Server.Domain.Extensions
 {

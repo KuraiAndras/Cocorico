@@ -11,6 +11,7 @@ namespace Cocorico.Server.Domain.Models
         }
 
         public DbSet<Sandwich> Sandwiches { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,6 +31,11 @@ namespace Cocorico.Server.Domain.Models
                 .Entity<Sandwich>()
                 .HasQueryFilter(s => !s.IsDeleted)
                 .HasIndex(s => new { s.Id, s.Name });
+
+            builder
+                .Entity<Order>()
+                .HasQueryFilter(o => !o.IsDeleted)
+                .HasIndex(o => new { o.Id, o.CustomerId });
         }
     }
 }

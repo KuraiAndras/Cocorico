@@ -21,25 +21,6 @@ namespace Cocorico.Client.Domain.Services.Authentication
 
         private readonly SemaphoreLocker _localStorageServiceLock = new SemaphoreLocker();
 
-        private bool _isLoggedIn;
-
-        public bool IsLoggedIn
-        {
-            get => _isLoggedIn;
-            private set
-            {
-                _isLoggedIn = value;
-                if (_isLoggedIn)
-                {
-                    UserLoggedIn?.Invoke();
-                }
-                else
-                {
-                    UserLoggedOut?.Invoke();
-                }
-            }
-        }
-
         private readonly List<string> _userClaims = new List<string>();
 
         public IEnumerable<string> Claims => _userClaims;
@@ -125,7 +106,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
 
                 if (claims is null)
                 {
-                    IsLoggedIn = false;
+                    UserLoggedOut?.Invoke();
                     return;
                 }
 
@@ -136,11 +117,11 @@ namespace Cocorico.Client.Domain.Services.Authentication
                     _userClaims.Clear();
                     _userClaims.AddRange(claimList);
 
-                    IsLoggedIn = true;
+                    UserLoggedIn?.Invoke();
                 }
                 else
                 {
-                    IsLoggedIn = false;
+                    UserLoggedOut?.Invoke();
                 }
             });
         }

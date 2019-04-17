@@ -24,5 +24,7 @@ namespace Cocorico.Server.Domain.Models.Entities
 
         [Required]
         public bool IsDeleted { get; set; }
+
+        //TODO: State
     }
 }

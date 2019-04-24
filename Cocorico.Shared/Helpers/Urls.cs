@@ -4,14 +4,14 @@
     {
         public static class ServerAction
         {
-            public const string Login = "Login";
-            public const string Register = "Register";
-            public const string Logout = "Logout";
-            public const string AddClaimToUser = "AddClaimToUser";
-            public const string RemoveClaimFromUser = "RemoveClaimFromUser";
-            public const string SandwichBase = "Sandwich";
-            public const string GetAllUsersForAdminPage = "GetAllForAdminPage";
-            public const string GetUserForAdminPage = "GetUserForAdminPage";
+            public const string Login = nameof(Login);
+            public const string Register = nameof(Register);
+            public const string Logout = nameof(Logout);
+            public const string AddClaimToUser = nameof(AddClaimToUser);
+            public const string RemoveClaimFromUser = nameof(RemoveClaimFromUser);
+            public const string GetAllUsersForAdminPage = nameof(GetAllUsersForAdminPage);
+            public const string GetUserForAdminPage = nameof(GetUserForAdminPage);
+            public const string PendingOrdersForWorker = nameof(PendingOrdersForWorker);
         }
 
         private static class Controllers
@@ -19,6 +19,8 @@
             public const string Api = "api";
             public const string Authentication = "/Authentication";
             public const string User = "/User";
+            public const string Order = "/Order";
+            public const string Sandwich = "/Sandwich";
         }
 
         public static class Server
@@ -28,9 +30,10 @@
             public const string Logout = Controllers.Api + Controllers.Authentication + "/" + ServerAction.Logout;
             public const string AddClaimToUser = Controllers.Api + Controllers.Authentication + "/" + ServerAction.AddClaimToUser;
             public const string RemoveClaimFromUser = Controllers.Api + Controllers.Authentication + "/" + ServerAction.RemoveClaimFromUser;
-            public const string SandwichBase = Controllers.Api + "/" + ServerAction.SandwichBase;
+            public const string SandwichBase = Controllers.Api + Controllers.Sandwich;
             public const string GetAllUsersForAdminPage = Controllers.Api + Controllers.User + "/" + ServerAction.GetAllUsersForAdminPage;
             public const string GetUserForAdminPage = Controllers.Api + Controllers.User + "/" + ServerAction.GetUserForAdminPage;
+            public const string PendingOrdersForWorker = Controllers.Api + Controllers.Order + "/" + ServerAction.PendingOrdersForWorker;
         }
 
         public static class Client

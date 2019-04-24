@@ -36,6 +36,11 @@ namespace Cocorico.Server.Domain.Models
                 .Entity<Order>()
                 .HasQueryFilter(o => !o.IsDeleted)
                 .HasIndex(o => new { o.Id, o.CustomerId });
+
+            builder
+                .Entity<Order>()
+                .Property(o => o.State)
+                .HasConversion<int>();
         }
     }
 }

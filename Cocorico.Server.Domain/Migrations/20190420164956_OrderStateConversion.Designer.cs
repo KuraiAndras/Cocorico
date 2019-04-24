@@ -4,14 +4,16 @@ using Cocorico.Server.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cocorico.Server.Domain.Migrations
 {
     [DbContext(typeof(CocoricoDbContext))]
-    partial class CocoricoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190420164956_OrderStateConversion")]
+    partial class OrderStateConversion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

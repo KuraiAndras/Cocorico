@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server.Domain.Models.Entities
 {
@@ -23,8 +24,9 @@ namespace Cocorico.Server.Domain.Models.Entities
         public int Price { get; set; }
 
         [Required]
-        public bool IsDeleted { get; set; }
+        public OrderState State { get; set; }
 
-        //TODO: State
+        [Required]
+        public bool IsDeleted { get; set; }
     }
 }

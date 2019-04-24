@@ -1,14 +1,14 @@
-﻿using Cocorico.Shared.Dtos.Sandwich;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Shared.Dtos.Order
 {
-    public class WorkerOrderDto
+    public class OrderCustomerViewDto
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
-        public string UserName { get; set; }
         public IEnumerable<SandwichResultDto> Sandwiches { get; set; }
         public int Price { get; set; }
+        public OrderState State { get; set; }
     }
 }

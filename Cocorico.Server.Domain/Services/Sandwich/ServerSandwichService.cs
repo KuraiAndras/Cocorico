@@ -27,9 +27,9 @@ namespace Cocorico.Server.Domain.Services.Sandwich
 
         public async Task<IServiceResult<IEnumerable<SandwichResultDto>>> GetAllSandwichResultAsync()
         {
-            var sandwiches = Context.Sandwiches;
+            var sandwiches = await Context.Sandwiches.ToListAsync();
 
-            var sandwichResultList = await sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichResultDto>()).ToListAsync();
+            var sandwichResultList = sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichResultDto>());
 
             switch (sandwichResultList)
             {

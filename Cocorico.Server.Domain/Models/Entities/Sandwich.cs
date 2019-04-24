@@ -20,6 +20,8 @@ namespace Cocorico.Server.Domain.Models.Entities
         [Required]
         public bool IsDeleted { get; set; }
 
+        #region GeneratedEqualatyMembers
+
         public bool Equals(Sandwich other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -32,7 +34,7 @@ namespace Cocorico.Server.Domain.Models.Entities
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Sandwich)obj);
+            return Equals((Sandwich) obj);
         }
 
         public override int GetHashCode()
@@ -46,5 +48,17 @@ namespace Cocorico.Server.Domain.Models.Entities
                 return hashCode;
             }
         }
+
+        public static bool operator ==(Sandwich left, Sandwich right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Sandwich left, Sandwich right)
+        {
+            return !Equals(left, right);
+        }
+
+        #endregion
     }
 }

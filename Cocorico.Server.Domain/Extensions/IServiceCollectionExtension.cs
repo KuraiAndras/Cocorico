@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Security.Claims;
+using Cocorico.Server.Domain.Services.Order;
 
 namespace Cocorico.Server.Domain.Extensions
 {
@@ -41,12 +42,14 @@ namespace Cocorico.Server.Domain.Extensions
                 options.AddPolicy(Policies.Administrator, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Admin));
                 options.AddPolicy(Policies.Customer, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Customer));
                 options.AddPolicy(Policies.User, policy => policy.RequireClaim(ClaimTypes.Role, Claims.User));
+                options.AddPolicy(Policies.Worker, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Worker));
             });
 
             //Services
             services.AddScoped<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
             services.AddScoped<IServerSandwichService, ServerSandwichService>();
             services.AddScoped<IServerUserService, ServerUserService>();
+            services.AddScoped<IServerOrderService, ServerOrderService>();
         }
     }
 }

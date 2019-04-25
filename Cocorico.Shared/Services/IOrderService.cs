@@ -9,7 +9,7 @@ namespace Cocorico.Shared.Services
     {
         Task<IServiceResult<IEnumerable<OrderCustomerViewDto>>> GetAllOrderForCustomerAsync(string customerId);
         Task<IServiceResult<IEnumerable<OrderWorkerViewDto>>> GetPendingOrdersForWorkerAsync();
-        Task<IServiceResult> AddOrderAsync(OrderAddDto workerOrderDto);
+        Task<IServiceResult> AddOrderAsync(OrderAddDto orderAddDto);
         Task<IServiceResult> DeleteOrderAsync(int orderId);
     }
 }

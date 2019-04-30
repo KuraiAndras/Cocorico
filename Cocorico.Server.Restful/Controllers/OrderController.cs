@@ -5,7 +5,11 @@ using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Shared.Dtos.Order;
+using Cocorico.Shared.Exceptions;
+using Cocorico.Shared.Services.Helpers;
+using Microsoft.AspNetCore.Identity;
 
 namespace Cocorico.Server.Restful.Controllers
 {
@@ -14,10 +18,14 @@ namespace Cocorico.Server.Restful.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
+        private readonly UserManager<CocoricoUser> _userManager;
         private readonly IServerOrderService _serverOrderService;
 
-        public OrderController(IServerOrderService serverOrderService)
+        public OrderController(
+            UserManager<CocoricoUser> userManager,
+            IServerOrderService serverOrderService)
         {
+            _userManager = userManager;
             _serverOrderService = serverOrderService;
         }
 
@@ -45,6 +53,13 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrderAsync([FromBody] OrderAddDto orderAddDto)
         {
+            //TODO: Might change
+            var userId = _userManager.GetUserId(HttpContext.User);
+            if (userId is null) return new Fail(new InvalidCommandException()).ToActionResult();
+
+            orderAddDto.UserId = userId;
+
+            //Authorize
             var serviceResult = await _serverOrderService.AddOrderAsync(orderAddDto);
 
             return serviceResult.ToActionResult();

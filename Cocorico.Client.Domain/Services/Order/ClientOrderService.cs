@@ -6,12 +6,14 @@ using Cocorico.Shared.Services.Helpers;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Cocorico.Shared.Dtos.Sandwich;
 
 namespace Cocorico.Client.Domain.Services.Order
 {
     public class ClientOrderService : IClientOrderService
     {
         private readonly HttpClient _httpClient;
+        private readonly List<SandwichResultDto> _basket = new List<SandwichResultDto>();
 
         public ClientOrderService(HttpClient httpClient)
         {
@@ -29,5 +31,11 @@ namespace Cocorico.Client.Domain.Services.Order
 
         public async Task<IServiceResult> DeleteOrderAsync(int orderId) =>
             await _httpClient.RetrieveMessageFromServerAsync(HttpVerbs.Delete, Urls.Server.OrderBase + $"/{orderId}", "");
+
+        public void AddToBasket(SandwichResultDto sandwich) => _basket.Add(sandwich);
+
+        public void RemoveFromBasket(int sandwichId) => _basket.Remove(_basket.Find(s => s.Id == sandwichId));
+
+        public IEnumerable<SandwichResultDto> SandwichesInBasket() => _basket;
     }
 }

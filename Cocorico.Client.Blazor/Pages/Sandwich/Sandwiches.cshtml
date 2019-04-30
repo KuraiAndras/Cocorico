@@ -36,7 +36,7 @@ else
                     <td>@sandwich.Price</td>
                     @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Customer))
                     {
-                        <td><button class="btn-primary" onclick="@(() => AddToBasket(sandwich))">Order</button></td>
+                        <td><button class="btn btn-primary" onclick="@(() => AddToBasket(sandwich))">Order</button></td>
                     }
                     @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin))
                     {

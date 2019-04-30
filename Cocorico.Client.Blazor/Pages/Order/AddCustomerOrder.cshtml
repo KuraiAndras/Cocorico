@@ -1,17 +1,27 @@
-﻿@page "/addCustomerOrder"
+﻿@page "/AddCustomerOrder"
 
 @using Cocorico.Client.Blazor.ComponentModels.Order
 
 @inherits AddOrderModel
 
-<div class="container">
-    <div class="row">
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
         @foreach (var sandwich in OrderAddDto.Sandwiches)
         {
-            <label>@sandwich.Name @sandwich.Price JMF</label>
+            <tr>
+                <td>@sandwich.Name</td>
+                <td>@sandwich.Price JMF</td>
+            </tr>
         }
-
-        <label>Sum: @OrderAddDto.Sandwiches.Sum(s => s.Price) JMF</label>
-        <button class="btn btn-primary" onclick="@Add">Add</button>
-    </div>
-</div>
+    <tr>
+        <td>Sum: @OrderAddDto.Sandwiches.Sum(s => s.Price) JMF</td>
+        <td><button class="btn btn-primary" onclick="@Add">Add</button></td>
+    </tr>
+    </tbody>
+</table>

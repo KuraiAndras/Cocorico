@@ -49,6 +49,7 @@
             public const string AddSandwich = "addSandwich";
             public const string Users = "users";
             public const string AdminEditUserClaim = "adminEditUserClaim";
+            public const string AddCustomerOrder = nameof(AddCustomerOrder);
         }
     }
 }

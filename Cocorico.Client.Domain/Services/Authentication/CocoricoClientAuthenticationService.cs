@@ -54,7 +54,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
             switch (result)
             {
                 case Success<LoginResult> success:
-                    await _localStorageServiceLock.LockAsync(async () => await _localStorageService.SetItem(Verbs.Claims, success.Data.Claims));
+                    await _localStorageServiceLock.LockAsync(async () => await _localStorageService.SetItemAsync(Verbs.Claims, success.Data.Claims));
 
                     await UpdateAuthStateAsync();
 
@@ -69,7 +69,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
 
             if (!response.IsSuccessStatusCode) return new Fail(new UnexpectedException());
 
-            await _localStorageServiceLock.LockAsync(async () => await _localStorageService.RemoveItem(Verbs.Claims));
+            await _localStorageServiceLock.LockAsync(async () => await _localStorageService.RemoveItemAsync(Verbs.Claims));
 
             await UpdateAuthStateAsync();
 
@@ -102,7 +102,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
         {
             await _localStorageServiceLock.LockAsync(async () =>
             {
-                var claims = await _localStorageService.GetItem<IEnumerable<string>>(Verbs.Claims);
+                var claims = await _localStorageService.GetItemAsync<IEnumerable<string>>(Verbs.Claims);
 
                 if (claims is null)
                 {

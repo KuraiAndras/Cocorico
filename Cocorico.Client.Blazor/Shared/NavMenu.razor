@@ -30,6 +30,20 @@
             </li>
         }
 
+        @if (IsWorker)
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.OrdersToMake">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Orders To Make
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.OrdersToDeliver">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Orders To Deliver
+                </NavLink>
+            </li>
+        }
+
         @if (IsAdmin)
         {
             <li class="nav-item px-3">

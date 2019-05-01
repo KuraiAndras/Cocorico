@@ -52,6 +52,8 @@
             public const string Users = "users";
             public const string AdminEditUserClaim = "adminEditUserClaim";
             public const string AddCustomerOrder = nameof(AddCustomerOrder);
+            public const string OrdersToDeliver = nameof(OrdersToDeliver);
+            public const string OrdersToMake = nameof(OrdersToMake);
         }
     }
 }

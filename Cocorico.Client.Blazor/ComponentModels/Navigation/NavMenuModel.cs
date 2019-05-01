@@ -21,6 +21,8 @@ namespace Cocorico.Client.Blazor.ComponentModels.Navigation
 
         protected bool IsAdmin => CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin);
 
+        protected bool IsWorker => CocoricoClientAuthenticationService.Claims.Contains(Claims.Worker);
+
         protected async Task Logout()
         {
             await CocoricoClientAuthenticationService.LogoutAsync();

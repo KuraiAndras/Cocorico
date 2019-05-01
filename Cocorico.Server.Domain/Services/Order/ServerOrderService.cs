@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cocorico.Server.Domain.Extensions;
 
 namespace Cocorico.Server.Domain.Services.Order
 {
@@ -62,6 +63,22 @@ namespace Cocorico.Server.Domain.Services.Order
                 State = o.State,
                 UserName = o.Customer.UserName,
             }));
+        }
+
+        public async Task<IServiceResult> UpdateOrderAsync(UpdateOrderDto updateOrderDto)
+        {
+            var order = await Context
+                .Orders
+                .SingleOrDefaultAsync(o => o.Id == updateOrderDto.OrderId);
+            if (order is null) return new Fail(new EntityNotFoundException());
+
+            order.State = updateOrderDto.State;
+
+            await AddOrUpdateAsync(order);
+
+            var saveResult = await Context.TrySaveChangesAsync();
+
+            return saveResult;
         }
 
         public async Task<IServiceResult> AddOrderAsync(OrderAddDto orderAddDto)

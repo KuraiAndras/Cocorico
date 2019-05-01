@@ -26,6 +26,9 @@ namespace Cocorico.Client.Domain.Services.Order
         public async Task<IServiceResult<IEnumerable<OrderWorkerViewDto>>> GetPendingOrdersForWorkerAsync() =>
             await _httpClient.RetrieveDataFromServerAsync<IEnumerable<OrderWorkerViewDto>>(HttpVerbs.Get, Urls.Server.PendingOrdersForWorker);
 
+        public async Task<IServiceResult> UpdateOrderAsync(UpdateOrderDto updateOrderDto) =>
+            await _httpClient.RetrieveMessageFromServerAsync(HttpVerbs.Post, Urls.Server.UpdateOrder, updateOrderDto);
+
         public async Task<IServiceResult> AddOrderAsync(OrderAddDto orderAddDto) =>
             await _httpClient.RetrieveMessageFromServerAsync(HttpVerbs.Post, Urls.Server.OrderBase, orderAddDto);
 

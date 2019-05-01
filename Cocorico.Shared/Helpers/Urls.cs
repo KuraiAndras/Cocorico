@@ -13,6 +13,7 @@
             public const string GetUserForAdminPage = nameof(GetUserForAdminPage);
             public const string PendingOrdersForWorker = nameof(PendingOrdersForWorker);
             public const string GetAllOrderForCustomer = nameof(GetAllOrderForCustomer);
+            public const string UpdateOrder = nameof(UpdateOrder);
         }
 
         private static class Controllers
@@ -37,6 +38,7 @@
             public const string OrderBase = Controllers.Api + Controllers.Order;
             public const string PendingOrdersForWorker = Controllers.Api + Controllers.Order + "/" + ServerAction.PendingOrdersForWorker;
             public const string GetAllOrderForCustomer = Controllers.Api + Controllers.Order + "/" + ServerAction.GetAllOrderForCustomer;
+            public const string UpdateOrder = Controllers.Api + Controllers.Order + "/" + ServerAction.UpdateOrder;
         }
 
         public static class Client

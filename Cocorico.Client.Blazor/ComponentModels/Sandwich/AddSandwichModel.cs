@@ -4,7 +4,6 @@ using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Services;
 
 namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 {

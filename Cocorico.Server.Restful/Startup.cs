@@ -52,7 +52,13 @@ namespace Cocorico.Server.Restful
 
             app.UseAuthentication();
 
-            app.UseMvc(routes => routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}"));
+            //MVC
+            app.UseRouting();
+
+            app.UseEndpoints(routes =>
+            {
+                routes.MapDefaultControllerRoute();
+            });
 
             app.UseBlazor<Client.Blazor.Startup>();
         }

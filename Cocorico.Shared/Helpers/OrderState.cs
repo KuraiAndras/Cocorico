@@ -6,6 +6,7 @@ namespace Cocorico.Shared.Helpers
     {
         OrderPlaced,
         InTheOven,
+        ToBeDelivered,
         Delivered,
     }
 
@@ -19,6 +20,8 @@ namespace Cocorico.Shared.Helpers
                     return "Order Placed";
                 case OrderState.InTheOven:
                     return "In The Oven";
+                case OrderState.ToBeDelivered:
+                    return "To Be Delivered";
                 case OrderState.Delivered:
                     return "Delivered";
                 default:

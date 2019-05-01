@@ -245,14 +245,14 @@ namespace Cocorico.Server.Domain.Migrations
 
             modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.Sandwich", b =>
                 {
-                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Order")
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Order", null)
                         .WithMany("Sandwiches")
                         .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -260,7 +260,7 @@ namespace Cocorico.Server.Domain.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser")
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -268,7 +268,7 @@ namespace Cocorico.Server.Domain.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser")
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -276,12 +276,12 @@ namespace Cocorico.Server.Domain.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser")
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -289,7 +289,7 @@ namespace Cocorico.Server.Domain.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser")
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

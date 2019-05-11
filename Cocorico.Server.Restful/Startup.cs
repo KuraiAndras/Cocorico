@@ -6,14 +6,13 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using System.Linq;
 
 namespace Cocorico.Server.Restful
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration) => Configuration = configuration;
 
@@ -31,12 +30,13 @@ namespace Cocorico.Server.Restful
                 .AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
-            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }));
+            services.AddSwaggerDocument();
 
             services.AddCocoricoServices(Configuration.GetConnectionString("DefaultConnection"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // ReSharper disable once UnusedMember.Global
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseResponseCompression();
@@ -47,7 +47,7 @@ namespace Cocorico.Server.Restful
                 app.UseBlazorDebugging();
 
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
+                app.UseSwaggerUi3();
             }
 
             app.UseAuthentication();

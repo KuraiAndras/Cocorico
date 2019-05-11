@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using Hellang.Middleware.ProblemDetails;
 
 namespace Cocorico.Server.Restful
 {
@@ -32,6 +33,8 @@ namespace Cocorico.Server.Restful
 
             services.AddSwaggerDocument();
 
+            services.AddProblemDetails();
+
             services.AddCocoricoServices(Configuration.GetConnectionString("DefaultConnection"));
         }
 
@@ -52,6 +55,8 @@ namespace Cocorico.Server.Restful
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseProblemDetails();
 
             //MVC
             app.UseRouting();

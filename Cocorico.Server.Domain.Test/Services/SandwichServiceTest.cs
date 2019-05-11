@@ -87,14 +87,7 @@ namespace Cocorico.Server.Domain.Test.Services
                 var service = new ServerSandwichService(context);
                 var actual = await service.GetSandwichResultAsync(expected.Id);
 
-                if (actual is Success<SandwichResultDto> result)
-                {
-                    Assert.AreEqual(expected, result.Data);
-                }
-                else
-                {
-                    Assert.Fail();
-                }
+                Assert.AreEqual(expected, actual);
             }
         }
 
@@ -136,14 +129,7 @@ namespace Cocorico.Server.Domain.Test.Services
                 var service = new ServerSandwichService(context);
                 var result = await service.GetAllSandwichResultAsync();
 
-                if (result is Success<IEnumerable<SandwichResultDto>> success)
-                {
-                    Assert.AreEqual(2, success.Data.Count());
-                }
-                else
-                {
-                    Assert.Fail();
-                }
+                Assert.AreEqual(2, result.Count());
             }
         }
 

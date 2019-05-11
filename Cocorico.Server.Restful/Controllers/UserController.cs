@@ -1,9 +1,10 @@
 ﻿using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.User;
-using Cocorico.Server.Restful.Extensions;
+using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Cocorico.Server.Restful.Controllers
@@ -19,20 +20,20 @@ namespace Cocorico.Server.Restful.Controllers
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpGet(Urls.ServerAction.GetAllUsersForAdminPage)]
-        public async Task<IActionResult> GetAllForAdminAsync()
+        public async Task<ActionResult<IEnumerable<UserForAdminPage>>> GetAllForAdminAsync()
         {
-            var result = await _userService.GetAllUsersForAdminPageAsync();
+            var serviceResult = await _userService.GetAllUsersForAdminPageAsync();
 
-            return result.ToActionResult();
+            return new ActionResult<IEnumerable<UserForAdminPage>>(serviceResult);
         }
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpGet(Urls.ServerAction.GetUserForAdminPage + "/{userId}")]
-        public async Task<IActionResult> GetUserForAdminPageAsync([FromRoute] string userId)
+        public async Task<ActionResult<UserForAdminPage>> GetUserForAdminPageAsync([FromRoute] string userId)
         {
             var serviceResult = await _userService.GetUserForAdminPageAsync(userId);
 
-            return serviceResult.ToActionResult();
+            return new ActionResult<UserForAdminPage>(serviceResult);
         }
     }
 }

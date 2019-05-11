@@ -3,7 +3,6 @@ using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Exceptions;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -18,19 +17,18 @@ namespace Cocorico.Server.Domain.Services.User
 
         public ServerUserService(CocoricoDbContext context, UserManager<CocoricoUser> userManager) : base(context) => _userManager = userManager;
 
-        public async Task<IServiceResult<UserForAdminPage>> GetUserForAdminPageAsync(string userId)
+        public async Task<UserForAdminPage> GetUserForAdminPageAsync(string userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user is null) return new Fail<UserForAdminPage>(new EntityNotFoundException());
+            var user = await _userManager.FindByIdAsync(userId) ?? throw new EntityNotFoundException($"Cant find user with id:{userId}");
 
             var userClaims = await _userManager.GetClaimsAsync(user);
 
-            return new Success<UserForAdminPage>(user.MapTo(u => new UserForAdminPage { Claims = userClaims.Select(c => c.Value) }));
+            return user.MapTo(u => new UserForAdminPage { Claims = userClaims.Select(c => c.Value) });
         }
 
-        public async Task<IServiceResult<IEnumerable<UserForAdminPage>>> GetAllUsersForAdminPageAsync()
+        public async Task<IEnumerable<UserForAdminPage>> GetAllUsersForAdminPageAsync()
         {
-            var users = await Context.Users.ToListAsync();
+            var users = await Context.Users.ToListAsync() ?? throw new UnexpectedException();
 
             var usersForAdminPage = new List<UserForAdminPage>();
             foreach (var cocoricoUser in users)
@@ -40,7 +38,7 @@ namespace Cocorico.Server.Domain.Services.User
                 usersForAdminPage.Add(cocoricoUser.MapTo(u => new UserForAdminPage { Claims = claims }));
             }
 
-            return new Success<IEnumerable<UserForAdminPage>>(usersForAdminPage);
+            return usersForAdminPage;
         }
     }
 }

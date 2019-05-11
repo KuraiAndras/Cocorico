@@ -2,7 +2,6 @@
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Layouts;
-using Microsoft.AspNetCore.Components.Services;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,9 +15,13 @@ namespace Cocorico.Client.Blazor.ComponentModels.Navigation
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUriHelper UriHelper { get; set; }
 
+        protected bool IsCustomer => CocoricoClientAuthenticationService.Claims.Contains(Claims.Customer);
+
         protected bool IsLoggedIn { get; private set; }
 
-        protected bool IsAdmin { get; private set; }
+        protected bool IsAdmin => CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin);
+
+        protected bool IsWorker => CocoricoClientAuthenticationService.Claims.Contains(Claims.Worker);
 
         protected async Task Logout()
         {
@@ -36,14 +39,12 @@ namespace Cocorico.Client.Blazor.ComponentModels.Navigation
         private void UserLoggedOut()
         {
             IsLoggedIn = false;
-            IsAdmin = false;
             StateHasChanged();
         }
 
         private void UserLoggedIn()
         {
             IsLoggedIn = true;
-            IsAdmin = !(CocoricoClientAuthenticationService.Claims.SingleOrDefault(c => c.Equals(Claims.Admin)) is null);
             StateHasChanged();
         }
     }

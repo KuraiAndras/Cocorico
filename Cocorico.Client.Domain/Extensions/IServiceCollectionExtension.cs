@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Cocorico.Client.Domain.Services.Authentication;
+using Cocorico.Client.Domain.Services.Order;
 using Cocorico.Client.Domain.Services.Sandwich;
 using Cocorico.Client.Domain.Services.User;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ namespace Cocorico.Client.Domain.Extensions
             services.AddSingleton<ICocoricoClientAuthenticationService, CocoricoClientAuthenticationService>();
             services.AddScoped<IClientSandwichService, ClientSandwichService>();
             services.AddScoped<IClientUserService, ClientUserService>();
+            services.AddSingleton<IClientOrderService, ClientOrderService>();
         }
     }
 }

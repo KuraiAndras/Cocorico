@@ -4,7 +4,6 @@ using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Services;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 namespace Cocorico.Client.Blazor.ComponentModels.Authentication

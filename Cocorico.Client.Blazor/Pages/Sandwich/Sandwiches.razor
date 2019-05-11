@@ -15,6 +15,11 @@ else
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Price</th>
+                @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Customer))
+                {
+                    <th> </th>
+                }
                 @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin))
                 {
                     <th> </th>
@@ -28,6 +33,11 @@ else
                 <tr>
                     <td>@sandwich.Id</td>
                     <td>@sandwich.Name</td>
+                    <td>@sandwich.Price</td>
+                    @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Customer))
+                    {
+                        <td><button class="btn btn-primary" onclick="@(() => AddToBasket(sandwich))">Order</button></td>
+                    }
                     @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin))
                     {
                         <td><button class="btn btn-secondary" onclick="@(() => Edit(sandwich.Id))">Edit</button></td>

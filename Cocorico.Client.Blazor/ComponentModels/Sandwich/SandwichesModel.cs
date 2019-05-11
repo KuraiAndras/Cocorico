@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Cocorico.Client.Domain.Services.Authentication;
+using Cocorico.Client.Domain.Services.Order;
 using Cocorico.Client.Domain.Services.Sandwich;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Services;
 
 namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 {
@@ -21,6 +21,9 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IClientSandwichService SandwichService { get; set; }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Inject] private IClientOrderService OrderService { get; set; }
 
         protected IReadOnlyList<SandwichResultDto> Sandwiches { get; private set; } = new List<SandwichResultDto>();
 
@@ -47,5 +50,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 
             if (result is Success) await LoadSandwichesAsync();
         }
+
+        protected void AddToBasket(SandwichResultDto sandwich) => OrderService.AddToBasket(sandwich);
     }
 }

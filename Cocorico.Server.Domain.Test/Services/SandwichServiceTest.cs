@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cocorico.Server.Domain.Models;
-using Cocorico.Server.Domain.Models.Entities.Sandwich;
+﻿using Cocorico.Server.Domain.Models;
+using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Server.Domain.Services.Sandwich;
 using Cocorico.Server.Domain.Test.Helpers;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cocorico.Server.Domain.Test.Services
 {
@@ -20,19 +20,20 @@ namespace Cocorico.Server.Domain.Test.Services
         {
             var sandwichDto = new NewSandwichDto { Name = "Test Sandwich" };
 
-            using (var context = new CocoricoDbContext(Options))
+            using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
                 await service.AddOrUpdateSandwichAsync(sandwichDto);
             }
 
-            var expected = sandwichDto.MapTo<NewSandwichDto, Sandwich>();
-
-            expected.Id = 1;
-
-            using (var context = new CocoricoDbContext(Options))
+            using (var context = NewDbContext)
             {
                 var actual = await context.Sandwiches.SingleAsync();
+
+                var expected = sandwichDto.MapTo(s => new Sandwich
+                {
+                    Id = 1,
+                });
 
                 Assert.AreEqual(expected, actual);
             }
@@ -43,7 +44,7 @@ namespace Cocorico.Server.Domain.Test.Services
         {
             var newSandwichDto = new NewSandwichDto { Name = "Initial" };
 
-            using (var context = new CocoricoDbContext(Options))
+            using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
                 await service.AddOrUpdateSandwichAsync(newSandwichDto);
@@ -56,7 +57,7 @@ namespace Cocorico.Server.Domain.Test.Services
 
             var expected = newSandwichDto.MapTo<NewSandwichDto, Sandwich>();
 
-            using (var context = new CocoricoDbContext(Options))
+            using (var context = NewDbContext)
             {
                 var actual = await context.Sandwiches.SingleAsync();
 
@@ -69,13 +70,13 @@ namespace Cocorico.Server.Domain.Test.Services
         {
             var sandwichDto = new NewSandwichDto { Name = "Test Sandwich" };
 
-            using (var context = new CocoricoDbContext(Options))
+            using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
                 await service.AddOrUpdateSandwichAsync(sandwichDto);
             }
 
-            using (var context = new CocoricoDbContext(Options))
+            using (var context = NewDbContext)
             {
                 var expected = new SandwichResultDto
                 {
@@ -102,13 +103,13 @@ namespace Cocorico.Server.Domain.Test.Services
         {
             var sandwichDto = new NewSandwichDto { Name = "Test Sandwich" };
 
-            using (var context = new CocoricoDbContext(Options))
+            using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
                 await service.AddOrUpdateSandwichAsync(sandwichDto);
             }
 
-            using (var context = new CocoricoDbContext(Options))
+            using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
                 await service.DeleteSandwichAsync(1);
@@ -123,14 +124,14 @@ namespace Cocorico.Server.Domain.Test.Services
         [TestMethod]
         public async Task GetAll()
         {
-            using (var context = new CocoricoDbContext(Options))
+            using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
                 await service.AddOrUpdateSandwichAsync(new NewSandwichDto { Name = "Test1" });
                 await service.AddOrUpdateSandwichAsync(new NewSandwichDto { Name = "Test2" });
             }
 
-            using (var context = new CocoricoDbContext(Options))
+            using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
                 var result = await service.GetAllSandwichResultAsync();

@@ -1,5 +1,4 @@
-﻿using Cocorico.Server.Domain.Models.Entities.Sandwich;
-using Cocorico.Server.Domain.Models.Entities.User;
+﻿using Cocorico.Server.Domain.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +11,7 @@ namespace Cocorico.Server.Domain.Models
         }
 
         public DbSet<Sandwich> Sandwiches { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,6 +31,16 @@ namespace Cocorico.Server.Domain.Models
                 .Entity<Sandwich>()
                 .HasQueryFilter(s => !s.IsDeleted)
                 .HasIndex(s => new { s.Id, s.Name });
+
+            builder
+                .Entity<Order>()
+                .HasQueryFilter(o => !o.IsDeleted)
+                .HasIndex(o => new { o.Id, o.CustomerId });
+
+            builder
+                .Entity<Order>()
+                .Property(o => o.State)
+                .HasConversion<int>();
         }
     }
 }

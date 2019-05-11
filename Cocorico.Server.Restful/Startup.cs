@@ -51,6 +51,7 @@ namespace Cocorico.Server.Restful
             }
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
             //MVC
             app.UseRouting();

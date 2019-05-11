@@ -1,0 +1,41 @@
+﻿@page "/OrdersToDeliver"
+
+@using Cocorico.Client.Blazor.ComponentModels.Order
+@using Cocorico.Shared.Helpers
+
+@inherits UpdateOrdersModel
+
+@if (Orders.Count == 0)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var order in Orders.Where(o => o.State == OrderState.ToBeDelivered))
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.State</td>
+                <td><button class="btn btn-primary" onclick="@(() => UpdateStateAsync(order.Id, OrderState.Delivered))">To Oven</button></td>
+            </tr>
+            @foreach (var sandwich in order.Sandwiches)
+             {
+                 <tr>
+                     <td></td>
+                     <td>@sandwich.Name</td>
+                     <td></td>
+                 </tr>
+             }
+        }
+        </tbody>
+    </table>
+}

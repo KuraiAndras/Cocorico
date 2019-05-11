@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 // ReSharper disable NonReadonlyMemberInGetHashCode
-namespace Cocorico.Server.Domain.Models.Entities.Sandwich
+namespace Cocorico.Server.Domain.Models.Entities
 {
     public class Sandwich : IDbEntity<int>, IEquatable<Sandwich>
     {
@@ -19,6 +19,8 @@ namespace Cocorico.Server.Domain.Models.Entities.Sandwich
 
         [Required]
         public bool IsDeleted { get; set; }
+
+        #region GeneratedEqualatyMembers
 
         public bool Equals(Sandwich other)
         {
@@ -46,5 +48,17 @@ namespace Cocorico.Server.Domain.Models.Entities.Sandwich
                 return hashCode;
             }
         }
+
+        public static bool operator ==(Sandwich left, Sandwich right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Sandwich left, Sandwich right)
+        {
+            return !Equals(left, right);
+        }
+
+        #endregion
     }
 }

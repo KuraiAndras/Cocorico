@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server.Domain.Test.Services
 {
@@ -79,6 +80,30 @@ namespace Cocorico.Server.Domain.Test.Services
 
                 var success = (Success<IEnumerable<OrderCustomerViewDto>>)result;
                 Assert.AreEqual(1, success.Data.Count());
+            }
+        }
+
+        [TestMethod]
+        public async Task UpdateOrderState()
+        {
+            await CreateOrder();
+
+            using (var context = NewDbContext)
+            {
+                var service = new ServerOrderService(context);
+
+                var order = await context.Orders.FirstAsync();
+                var result = await service.UpdateOrderAsync(new UpdateOrderDto
+                {
+                    OrderId = order.Id,
+                    State = OrderState.InTheOven,
+                });
+
+                Assert.IsInstanceOfType(result, typeof(Success));
+
+                order = await context.Orders.FirstAsync();
+
+                Assert.AreEqual(order.State, OrderState.InTheOven);
             }
         }
 

@@ -74,7 +74,8 @@ namespace Cocorico.Server.Domain.Services.Order
 
             order.State = updateOrderDto.State;
 
-            await AddOrUpdateAsync(order);
+            var updateResult = await AddOrUpdateAsync(order);
+            if (updateResult is Fail fail) return fail;
 
             var saveResult = await Context.TrySaveChangesAsync();
 

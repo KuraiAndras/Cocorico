@@ -18,7 +18,7 @@ namespace Cocorico.Server.Restful.Controllers
         public AuthenticationController(IServerCocoricoAuthenticationService serverCocoricoAuthenticationService) => _serverCocoricoAuthenticationService = serverCocoricoAuthenticationService;
 
         [AllowAnonymous]
-        [HttpPost(Urls.ServerAction.Login)]
+        [HttpPost(nameof(LoginAsync))]
         public async Task<ActionResult<LoginResult>> LoginAsync([FromBody] LoginDetails credentials)
         {
             var result = await _serverCocoricoAuthenticationService.LoginAsync(credentials);
@@ -27,7 +27,7 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost(Urls.ServerAction.Register)]
+        [HttpPost(nameof(RegisterAsync))]
         public async Task<ActionResult> RegisterAsync([FromBody] RegisterDetails model)
         {
             await _serverCocoricoAuthenticationService.RegisterAsync(model);
@@ -36,7 +36,7 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [Authorize(Policy = Policies.User)]
-        [HttpPost(Urls.ServerAction.Logout)]
+        [HttpPost(nameof(LogoutAsync))]
         public async Task<ActionResult> LogoutAsync()
         {
             await _serverCocoricoAuthenticationService.LogoutAsync();
@@ -45,7 +45,7 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [Authorize(Policy = Policies.Administrator)]
-        [HttpPost(Urls.ServerAction.AddClaimToUser)]
+        [HttpPost(nameof(AddClaimToUserAsync))]
         public async Task<ActionResult> AddClaimToUserAsync([FromBody] UserClaimRequest userClaimRequest)
         {
             await _serverCocoricoAuthenticationService.AddClaimToUserAsync(userClaimRequest);
@@ -54,7 +54,7 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [Authorize(Policy = Policies.Administrator)]
-        [HttpPost(Urls.ServerAction.RemoveClaimFromUser)]
+        [HttpPost(nameof(RemoveClaimFromUserAsync))]
         public async Task<ActionResult> RemoveClaimFromUserAsync([FromBody] UserClaimRequest userClaimRequest)
         {
             await _serverCocoricoAuthenticationService.RemoveClaimFromUserAsync(userClaimRequest);

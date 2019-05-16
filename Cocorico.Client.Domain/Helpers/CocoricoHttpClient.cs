@@ -95,7 +95,7 @@ namespace Cocorico.Client.Domain.Helpers
         public async System.Threading.Tasks.Task<LoginResult> LoginAsync(LoginDetails credentials, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/Login");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/LoginAsync");
     
             var client_ = _httpClient;
             try
@@ -172,7 +172,7 @@ namespace Cocorico.Client.Domain.Helpers
         public async System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterDetails model, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/Register");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/RegisterAsync");
     
             var client_ = _httpClient;
             try
@@ -242,7 +242,7 @@ namespace Cocorico.Client.Domain.Helpers
         public async System.Threading.Tasks.Task<FileResponse> LogoutAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/Logout");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/LogoutAsync");
     
             var client_ = _httpClient;
             try
@@ -310,7 +310,7 @@ namespace Cocorico.Client.Domain.Helpers
         public async System.Threading.Tasks.Task<FileResponse> AddClaimToUserAsync(UserClaimRequest userClaimRequest, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/AddClaimToUser");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/AddClaimToUserAsync");
     
             var client_ = _httpClient;
             try
@@ -380,7 +380,7 @@ namespace Cocorico.Client.Domain.Helpers
         public async System.Threading.Tasks.Task<FileResponse> RemoveClaimFromUserAsync(UserClaimRequest userClaimRequest, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/RemoveClaimFromUser");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/RemoveClaimFromUserAsync");
     
             var client_ = _httpClient;
             try
@@ -632,7 +632,7 @@ namespace Cocorico.Client.Domain.Helpers
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrderWorkerViewDto>> GetPendingOrdersForWorkerAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/PendingOrdersForWorker");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/GetPendingOrdersForWorkerAsync");
     
             var client_ = _httpClient;
             try
@@ -847,7 +847,7 @@ namespace Cocorico.Client.Domain.Helpers
         public async System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrderDto updateOrderDto, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/UpdateOrder");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/UpdateOrderAsync");
     
             var client_ = _httpClient;
             try
@@ -1473,7 +1473,7 @@ namespace Cocorico.Client.Domain.Helpers
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserForAdminPage>> GetAllForAdminAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/User/GetAllUsersForAdminPage");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/User/GetAllForAdminAsync");
     
             var client_ = _httpClient;
             try
@@ -1547,7 +1547,7 @@ namespace Cocorico.Client.Domain.Helpers
         public async System.Threading.Tasks.Task<UserForAdminPage> GetUserForAdminPageAsync(string userId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/User/GetUserForAdminPage/{userId}");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/User/GetUserForAdminPageAsync/{userId}");
             urlBuilder_.Replace("{userId}", System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
     
             var client_ = _httpClient;

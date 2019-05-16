@@ -4,7 +4,6 @@ using Cocorico.Server.Domain.Services.Order;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +42,7 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [Authorize(Policy = Policies.Worker)]
-        [HttpGet(Urls.ServerAction.PendingOrdersForWorker)]
+        [HttpGet(nameof(GetPendingOrdersForWorkerAsync))]
         public async Task<ActionResult<IEnumerable<OrderWorkerViewDto>>> GetPendingOrdersForWorkerAsync()
         {
             var serviceResult = await _serverOrderService.GetPendingOrdersForWorkerAsync();
@@ -76,8 +75,8 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [Authorize(Policy = Policies.Worker)]
-        [HttpPost("UpdateOrder")]
-        public async Task<ActionResult> UpdateOrderAsync([FromBody]UpdateOrderDto updateOrderDto)
+        [HttpPost(nameof(UpdateOrderAsync))]
+        public async Task<ActionResult> UpdateOrderAsync([FromBody] UpdateOrderDto updateOrderDto)
         {
             await _serverOrderService.UpdateOrderAsync(updateOrderDto);
 

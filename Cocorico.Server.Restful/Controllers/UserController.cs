@@ -19,7 +19,7 @@ namespace Cocorico.Server.Restful.Controllers
         public UserController(IServerUserService userService) => _userService = userService;
 
         [Authorize(Policy = Policies.Administrator)]
-        [HttpGet(Urls.ServerAction.GetAllUsersForAdminPage)]
+        [HttpGet(nameof(GetAllForAdminAsync))]
         public async Task<ActionResult<IEnumerable<UserForAdminPage>>> GetAllForAdminAsync()
         {
             var serviceResult = await _userService.GetAllUsersForAdminPageAsync();
@@ -28,7 +28,7 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [Authorize(Policy = Policies.Administrator)]
-        [HttpGet(Urls.ServerAction.GetUserForAdminPage + "/{userId}")]
+        [HttpGet(nameof(GetUserForAdminPageAsync) + "/{userId}")]
         public async Task<ActionResult<UserForAdminPage>> GetUserForAdminPageAsync([FromRoute] string userId)
         {
             var serviceResult = await _userService.GetUserForAdminPageAsync(userId);

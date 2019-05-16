@@ -1,9 +1,9 @@
-using System.Threading.Tasks;
-using Cocorico.Client.Domain.Services.Sandwich;
+using Cocorico.Client.Domain.Extensions;
+using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 {
@@ -13,7 +13,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
         [Inject] private IUriHelper UriHelper { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private IClientSandwichService SandwichService { get; set; }
+        [Inject] private ISandwichClient SandwichHttpClient { get; set; }
 
         protected NewSandwichDto NewSandwichDto { get; } = new NewSandwichDto();
 
@@ -21,14 +21,9 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
         {
             NewSandwichDto.Id = 0;
 
-            var result = await SandwichService.AddOrUpdateSandwichAsync(NewSandwichDto);
+            var result = await SandwichHttpClient.AddAsync(NewSandwichDto);
 
-            switch (result)
-            {
-                case Success _:
-                    UriHelper.NavigateTo(Urls.Client.GetAllSandwich);
-                    break;
-            }
+            if (result.IsSuccessfulStatusCode()) UriHelper.NavigateTo(Urls.Client.GetAllSandwich);
         }
     }
 }

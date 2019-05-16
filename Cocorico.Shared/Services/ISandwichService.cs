@@ -8,7 +8,10 @@ namespace Cocorico.Shared.Services
     {
         Task<SandwichResultDto> GetSandwichResultAsync(int id);
         Task<IEnumerable<SandwichResultDto>> GetAllSandwichResultAsync();
-        Task AddOrUpdateSandwichAsync(NewSandwichDto newSandwichDto);
+
+        Task AddSandwichAsync(NewSandwichDto newSandwichDto);
+        Task UpdateSandwichAsync(NewSandwichDto newSandwichDto);
+
         Task DeleteSandwichAsync(int id);
     }
 }

@@ -26,34 +26,17 @@ namespace Cocorico.Shared.Exceptions
 
     public class UnexpectedException : CocoricoException
     {
-        public UnexpectedException()
-        {
-        }
-
-        public UnexpectedException(string message) : base(message)
-        {
-        }
     }
 
     public class InvalidCredentialsException : CocoricoException
     {
-        public InvalidCredentialsException()
-        {
-        }
-
-        public InvalidCredentialsException(string message) : base(message)
-        {
-        }
     }
 
     public class InvalidCommandException : CocoricoException
     {
-        public InvalidCommandException()
-        {
-        }
+    }
 
-        public InvalidCommandException(string message) : base(message)
-        {
-        }
+    public class EntityAlreadyExistsException : CocoricoException
+    {
     }
 }

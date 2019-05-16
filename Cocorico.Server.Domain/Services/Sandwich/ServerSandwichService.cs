@@ -1,4 +1,5 @@
-﻿using Cocorico.Server.Domain.Models;
+﻿using System;
+using Cocorico.Server.Domain.Models;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
@@ -34,8 +35,24 @@ namespace Cocorico.Server.Domain.Services.Sandwich
             return sandwichResultList;
         }
 
-        public async Task AddOrUpdateSandwichAsync(NewSandwichDto newSandwichDto) =>
-            await AddOrUpdateAsync(newSandwichDto.MapTo<NewSandwichDto, Models.Entities.Sandwich>());
+        //TODO: Create new and update sandwich dtos
+        public async Task AddSandwichAsync(NewSandwichDto newSandwichDto) =>
+            await AddAsync(new Models.Entities.Sandwich
+            {
+                Id = 0,
+                IsDeleted = false,
+                Name = newSandwichDto.Name,
+                Price = newSandwichDto.Price,
+            });
+
+        public async Task UpdateSandwichAsync(NewSandwichDto newSandwichDto) =>
+            await UpdateAsync(new Models.Entities.Sandwich
+            {
+                Id = newSandwichDto.Id,
+                IsDeleted = false,
+                Name = newSandwichDto.Name,
+                Price = newSandwichDto.Price,
+            });
 
         public async Task DeleteSandwichAsync(int id) =>
             await DeleteAsync(id);

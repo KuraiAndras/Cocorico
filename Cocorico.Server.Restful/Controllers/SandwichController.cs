@@ -38,9 +38,18 @@ namespace Cocorico.Server.Restful.Controllers
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpPost]
-        public async Task<ActionResult> AddOrUpdateAsync([FromBody] NewSandwichDto sandwich)
+        public async Task<ActionResult> UpdateAsync([FromBody] NewSandwichDto sandwich)
         {
-            await _serverSandwichService.AddOrUpdateSandwichAsync(sandwich);
+            await _serverSandwichService.UpdateSandwichAsync(sandwich);
+
+            return new OkResult();
+        }
+
+        [Authorize(Policy = Policies.Administrator)]
+        [HttpPost]
+        public async Task<ActionResult> AddAsync([FromBody] NewSandwichDto sandwich)
+        {
+            await _serverSandwichService.AddSandwichAsync(sandwich);
 
             return new OkResult();
         }

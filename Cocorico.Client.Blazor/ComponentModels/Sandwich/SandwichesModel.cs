@@ -1,7 +1,7 @@
 ﻿using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Client.Domain.Services.Authentication;
-using Cocorico.Client.Domain.Services.Order;
+using Cocorico.Client.Domain.Services.Basket;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
@@ -23,7 +23,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
         [Inject] private ISandwichClient SandwichHttpClient { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private IClientOrderService OrderService { get; set; }
+        [Inject] private IBasketService BasketService { get; set; }
 
         protected IReadOnlyList<SandwichResultDto> Sandwiches { get; private set; } = new List<SandwichResultDto>();
 
@@ -47,11 +47,18 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 
         protected async Task DeleteAsync(int sandwichId)
         {
-            var fileResponse = await SandwichHttpClient.DeleteAsync(sandwichId);
+            try
+            {
+                var fileResponse = await SandwichHttpClient.DeleteAsync(sandwichId);
 
-            if (fileResponse.IsSuccessfulStatusCode()) await LoadSandwichesAsync();
+                if (fileResponse.IsSuccessfulStatusCode()) await LoadSandwichesAsync();
+            }
+            catch (SwaggerException)
+            {
+                //TODO: Handle fail
+            }
         }
 
-        protected void AddToBasket(SandwichResultDto sandwich) => OrderService.AddToBasket(sandwich);
+        protected void AddToBasket(SandwichResultDto sandwich) => BasketService.AddToBasket(sandwich);
     }
 }

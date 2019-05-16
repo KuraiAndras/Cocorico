@@ -1,7 +1,7 @@
-﻿using Cocorico.Client.Domain.Services.Order;
+﻿using Cocorico.Client.Domain.Extensions;
+using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,8 @@ namespace Cocorico.Client.Blazor.ComponentModels.Order
 {
     public class UpdateOrdersModel : ComponentBase
     {
-        [Inject] private IClientOrderService OrderService { get; set; }
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Inject] private IOrderClient OrderHttpClient { get; set; }
 
         protected IReadOnlyCollection<OrderWorkerViewDto> Orders { get; private set; } = new List<OrderWorkerViewDto>();
 
@@ -19,25 +20,34 @@ namespace Cocorico.Client.Blazor.ComponentModels.Order
 
         protected async Task UpdateStateAsync(int orderId, OrderState newState)
         {
-            var result = await OrderService.UpdateOrderAsync(new UpdateOrderDto
+            try
             {
-                OrderId = orderId,
-                State = newState,
-            });
+                var fileResponse = await OrderHttpClient.UpdateOrderAsync(new UpdateOrderDto
+                {
+                    OrderId = orderId,
+                    State = newState,
+                });
 
-            if (result is Success) await LoadOrdersAsync();
+                //TODO: Handle fail
+                if (fileResponse.IsSuccessfulStatusCode()) await LoadOrdersAsync();
+            }
+            catch (SwaggerException)
+            {
+                //TODO: Handle fail
+            }
         }
 
         private async Task LoadOrdersAsync()
         {
-            var result = await OrderService.GetPendingOrdersForWorkerAsync();
-
-            //TODO: Handle fail
-            switch (result)
+            try
             {
-                case Success<IEnumerable<OrderWorkerViewDto>> success:
-                    Orders = success.Data.ToList();
-                    break;
+                var pendingOrders = await OrderHttpClient.GetPendingOrdersForWorkerAsync();
+
+                Orders = pendingOrders.ToList();
+            }
+            catch (SwaggerException)
+            {
+                //TODO: Handle fail
             }
         }
     }

@@ -58,9 +58,11 @@ namespace Cocorico.Server.Domain.Test.Services
             using (var context = NewDbContext)
             {
                 var service = new ServerOrderService(context);
-                var result = await service.GetPendingOrdersForWorkerAsync();
+                var result = (await service.GetPendingOrdersForWorkerAsync()).ToList();
 
-                Assert.AreEqual(1, result.Count());
+                Assert.AreEqual(1, result.Count);
+
+                Assert.IsTrue(!string.IsNullOrEmpty(result.First().UserName));
             }
         }
 

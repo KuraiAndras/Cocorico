@@ -19,6 +19,7 @@ namespace Cocorico.Client.Domain.Extensions
             services.AddScoped<ISandwichClient, SandwichClient>();
             services.AddScoped<IClientUserService, ClientUserService>();
             services.AddScoped<IOrderClient, OrderClient>();
+            services.AddScoped<IAuthenticationClient, AuthenticationClient>();
         }
     }
 }

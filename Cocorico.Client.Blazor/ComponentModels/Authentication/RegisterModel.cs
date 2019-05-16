@@ -1,8 +1,8 @@
 ﻿using Cocorico.Client.Domain.Services.Authentication;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
+using System;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 namespace Cocorico.Client.Blazor.ComponentModels.Authentication
@@ -18,17 +18,16 @@ namespace Cocorico.Client.Blazor.ComponentModels.Authentication
 
         protected async void Register()
         {
-            var result = await CocoricoClientAuthenticationService.RegisterAsync(RegisterDetails);
-
-            switch (result)
+            try
             {
-                case Success _:
-                    UriHelper.NavigateTo(Urls.Client.Login);
-                    break;
-                default:
-                    ShowRegisterFailed = true;
-                    StateHasChanged();
-                    break;
+                await CocoricoClientAuthenticationService.RegisterAsync(RegisterDetails);
+
+                UriHelper.NavigateTo(Urls.Client.Login);
+            }
+            catch (Exception)
+            {
+                ShowRegisterFailed = true;
+                StateHasChanged();
             }
         }
     }

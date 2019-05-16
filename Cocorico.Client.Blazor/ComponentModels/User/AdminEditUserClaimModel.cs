@@ -4,6 +4,7 @@ using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Blazor.ComponentModels.User
@@ -37,35 +38,37 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
 
         protected async Task AddClaimToUserAsync(string claimValue)
         {
-            var result = await AuthenticationService.AddClaimToUserAsync(new UserClaimRequest
+            try
             {
-                UserId = UserId,
-                CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
-            });
+                await AuthenticationService.AddClaimToUserAsync(new UserClaimRequest
+                {
+                    UserId = UserId,
+                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
+                });
 
-            //TODO: Handle fail
-
-            switch (result)
+                await LoadUserAsync();
+            }
+            catch (Exception)
             {
-                case Success _:
-                    await LoadUserAsync();
-                    break;
+                //TODO: Handle fail
             }
         }
 
         protected async Task RemoveClaimFromUserAsync(string claimValue)
         {
-            var result = await AuthenticationService.RemoveClaimFromUserAsync(new UserClaimRequest
+            try
             {
-                UserId = UserId,
-                CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
-            });
+                await AuthenticationService.RemoveClaimFromUserAsync(new UserClaimRequest
+                {
+                    UserId = UserId,
+                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
+                });
 
-            switch (result)
+                await LoadUserAsync();
+            }
+            catch (Exception)
             {
-                case Success _:
-                    await LoadUserAsync();
-                    break;
+                //TODO: Handle fail
             }
         }
     }

@@ -95,9 +95,9 @@ namespace Cocorico.Client.Domain.Services.Authentication
 
                 var claimList = claims.ToList();
 
+                _userClaims.Clear();
                 if (claimList.Any())
                 {
-                    _userClaims.Clear();
                     _userClaims.AddRange(claimList);
 
                     UserLoggedIn?.Invoke();

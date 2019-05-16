@@ -2,7 +2,6 @@
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Client.Domain.Services.Authentication;
 using Cocorico.Client.Domain.Services.Basket;
-using Cocorico.Client.Domain.Services.User;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cocorico.Client.Domain.Extensions
@@ -17,7 +16,7 @@ namespace Cocorico.Client.Domain.Extensions
             services.AddSingleton<IBasketService, InMemoryBasketService>();
 
             services.AddScoped<ISandwichClient, SandwichClient>();
-            services.AddScoped<IClientUserService, ClientUserService>();
+            services.AddScoped<IUserClient, UserClient>();
             services.AddScoped<IOrderClient, OrderClient>();
             services.AddScoped<IAuthenticationClient, AuthenticationClient>();
         }

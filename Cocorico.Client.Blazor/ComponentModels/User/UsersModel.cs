@@ -1,8 +1,8 @@
-﻿using Cocorico.Client.Domain.Services.User;
+﻿using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
     public class UsersModel : ComponentBase
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private IClientUserService UserService { get; set; }
+        [Inject] private IUserClient UserHttpClient { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUriHelper UriHelper { get; set; }
@@ -22,14 +22,15 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
 
         private async Task LoadUsersAsync()
         {
-            var result = await UserService.GetAllUsersForAdminPageAsync();
-
-            //TODO: Handle fail
-            switch (result)
+            try
             {
-                case Success<IEnumerable<UserForAdminPage>> success:
-                    Users = success.Data.ToList();
-                    break;
+                var result = await UserHttpClient.GetAllForAdminAsync();
+
+                Users = result.ToList();
+            }
+            catch (Exception)
+            {
+                //TODO: Handle fail
             }
         }
 

@@ -12,6 +12,19 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Mime;
+using System.Security.Claims;
+using Cocorico.Server.Domain.Helpers;
+using Cocorico.Server.Domain.Models;
+using Cocorico.Server.Domain.Models.Entities;
+using Cocorico.Server.Domain.Services.Authentication;
+using Cocorico.Server.Domain.Services.Order;
+using Cocorico.Server.Domain.Services.Sandwich;
+using Cocorico.Server.Domain.Services.User;
+using Cocorico.Shared.Helpers;
+using Microsoft.AspNetCore.Components.Server;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cocorico.Server.Restful
 {
@@ -30,17 +43,41 @@ namespace Cocorico.Server.Restful
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services
-                .AddMvc()
-                .AddNewtonsoftJson();
+                .AddIdentity<CocoricoUser, IdentityRole>(identityOptions => identityOptions.User.RequireUniqueEmail = true)
+                .AddEntityFrameworkStores<CocoricoDbContext>()
+                .AddDefaultTokenProviders();
 
-            services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" }));
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+            });
+
+            //Instant logout
+            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.Zero);
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.Administrator, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Admin));
+                options.AddPolicy(Policies.Customer, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Customer));
+                options.AddPolicy(Policies.User, policy => policy.RequireClaim(ClaimTypes.Role, Claims.User));
+                options.AddPolicy(Policies.Worker, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Worker));
+            });
 
             services
                 .AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
-            services.AddSwaggerDocument();
+            //Services
+            services.AddScoped<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
+            services.AddScoped<IServerSandwichService, ServerSandwichService>();
+            services.AddScoped<IServerUserService, ServerUserService>();
+            services.AddScoped<IServerOrderService, ServerOrderService>();
 
             services.AddProblemDetails(options =>
             {
@@ -56,7 +93,17 @@ namespace Cocorico.Server.Restful
                 options.Map<Exception>(ex => new ExceptionProblemDetails(ex, StatusCodes.Status500InternalServerError));
             });
 
-            services.AddCocoricoServices(Configuration.GetConnectionString("DefaultConnection"));
+            services
+                .AddMvc()
+                .AddNewtonsoftJson();
+
+            services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
+            {
+                MediaTypeNames.Application.Octet,
+                WasmMediaTypeNames.Application.Wasm,
+            }));
+
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,13 +121,12 @@ namespace Cocorico.Server.Restful
                 app.UseSwaggerUi3();
             }
 
-            app.UseAuthentication();
-            app.UseAuthorization();
-
             app.UseProblemDetails();
 
             //MVC
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(routes =>
             {

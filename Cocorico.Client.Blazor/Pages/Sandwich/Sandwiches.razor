@@ -4,47 +4,40 @@
 
 @inherits SandwichesModel
 
-@if (Sandwiches.Count == 0)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            @if (IsCustomer)
+            {
+                <th> </th>
+            }
+            @if (IsAdmin)
+            {
+                <th> </th>
+                <th> </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sandwich in Sandwiches)
+        {
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-                @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Customer))
+                <td>@sandwich.Id</td>
+                <td>@sandwich.Name</td>
+                <td>@sandwich.Price</td>
+                @if (IsCustomer)
                 {
-                    <th> </th>
+                    <td><button class="btn btn-primary" onclick="@(() => AddToBasket(sandwich))">Order</button></td>
                 }
-                @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin))
+                @if (IsAdmin)
                 {
-                    <th> </th>
-                    <th> </th>
+                    <td><button class="btn btn-secondary" onclick="@(() => Edit(sandwich.Id))">Edit</button></td>
+                    <td><button class="btn btn-danger" onclick="@(() => DeleteAsync(sandwich.Id))">Delete</button></td>
                 }
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var sandwich in Sandwiches)
-            {
-                <tr>
-                    <td>@sandwich.Id</td>
-                    <td>@sandwich.Name</td>
-                    <td>@sandwich.Price</td>
-                    @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Customer))
-                    {
-                        <td><button class="btn btn-primary" onclick="@(() => AddToBasket(sandwich))">Order</button></td>
-                    }
-                    @if (CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin))
-                    {
-                        <td><button class="btn btn-secondary" onclick="@(() => Edit(sandwich.Id))">Edit</button></td>
-                        <td><button class="btn btn-danger" onclick="@(() => DeleteAsync(sandwich.Id))">Delete</button></td>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+        }
+    </tbody>
+</table>

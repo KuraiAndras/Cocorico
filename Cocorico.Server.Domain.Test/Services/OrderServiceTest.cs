@@ -3,13 +3,11 @@ using Cocorico.Server.Domain.Services.Order;
 using Cocorico.Server.Domain.Test.Helpers;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Dtos.Sandwich;
-using Cocorico.Shared.Services.Helpers;
+using Cocorico.Shared.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server.Domain.Test.Services
 {
@@ -60,11 +58,11 @@ namespace Cocorico.Server.Domain.Test.Services
             using (var context = NewDbContext)
             {
                 var service = new ServerOrderService(context);
-                var result = await service.GetPendingOrdersForWorkerAsync();
+                var result = (await service.GetPendingOrdersForWorkerAsync()).ToList();
 
+                Assert.AreEqual(1, result.Count);
 
-                var success = (Success<IEnumerable<OrderWorkerViewDto>>)result;
-                Assert.AreEqual(1, success.Data.Count());
+                Assert.IsTrue(!string.IsNullOrEmpty(result.First().UserName));
             }
         }
 
@@ -78,8 +76,7 @@ namespace Cocorico.Server.Domain.Test.Services
                 var service = new ServerOrderService(context);
                 var result = await service.GetAllOrderForCustomerAsync(order.CustomerId);
 
-                var success = (Success<IEnumerable<OrderCustomerViewDto>>)result;
-                Assert.AreEqual(1, success.Data.Count());
+                Assert.AreEqual(1, result.Count());
             }
         }
 
@@ -93,13 +90,11 @@ namespace Cocorico.Server.Domain.Test.Services
                 var service = new ServerOrderService(context);
 
                 var order = await context.Orders.FirstAsync();
-                var result = await service.UpdateOrderAsync(new UpdateOrderDto
+                await service.UpdateOrderAsync(new UpdateOrderDto
                 {
                     OrderId = order.Id,
                     State = OrderState.InTheOven,
                 });
-
-                Assert.IsInstanceOfType(result, typeof(Success));
 
                 order = await context.Orders.FirstAsync();
 

@@ -1,10 +1,8 @@
-﻿using Cocorico.Server.Domain.Extensions;
-using Cocorico.Server.Domain.Models;
+﻿using Cocorico.Server.Domain.Models;
 using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Security.Claims;
@@ -28,14 +26,14 @@ namespace Cocorico.Server.Domain.Services.Authentication
             _signInManager = signInManager;
         }
 
-        public async Task<IServiceResult> RegisterAsync(RegisterDetails model)
+        public async Task RegisterAsync(RegisterDetails model)
         {
             var userIdentity = model.MapTo(m => new CocoricoUser { UserName = m.Email });
 
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
 
             //TODO: Better exception
-            if (!result.Succeeded) return new Fail(new UnexpectedException());
+            if (!result.Succeeded) throw new UnexpectedException();
 
             var customerClaim = new[]
             {
@@ -45,43 +43,34 @@ namespace Cocorico.Server.Domain.Services.Authentication
 
             var claimResult = await _userManager.AddClaimsAsync(userIdentity, customerClaim);
 
-            if (!claimResult.Succeeded) return new Fail();
+            if (!claimResult.Succeeded) throw new UnexpectedException();
 
-            var saveResult = await _cocoricoDbContext.TrySaveChangesAsync();
-
-            return saveResult;
+            await _cocoricoDbContext.SaveChangesAsync();
         }
 
-        public async Task<IServiceResult<LoginResult>> LoginAsync(LoginDetails model)
+        public async Task<LoginResult> LoginAsync(LoginDetails model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user is null) return new Fail<LoginResult>(new EntityNotFoundException());
+            var user = await _userManager.FindByEmailAsync(model.Email) ?? throw new EntityNotFoundException($"User not found with email: {model.Email}");
 
             var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
-            if (login != SignInResult.Success) return new Fail<LoginResult>(); //TODO: Better exception
+            if (login != SignInResult.Success) throw new InvalidCredentialsException();
 
             await _userManager.UpdateAsync(user);
 
-            var saveResult = await _cocoricoDbContext.TrySaveChangesAsync();
-            if (saveResult is Fail) return new Fail<LoginResult>();
+            await _cocoricoDbContext.SaveChangesAsync();
 
-            var claims = await _userManager.GetClaimsAsync(user);
+            var claims = await _userManager.GetClaimsAsync(user) ?? throw new UnexpectedException();
             var result = new LoginResult { Claims = claims.Select(c => c.Value) };
 
-            return new Success<LoginResult>(result);
+            return result;
         }
 
-        public async Task<IServiceResult> LogoutAsync()
-        {
-            await _signInManager.SignOutAsync();
+        public async Task LogoutAsync() => await _signInManager.SignOutAsync();
 
-            return new Success();
-        }
-
-        public async Task<IServiceResult> AddClaimToUserAsync(UserClaimRequest userClaimRequest)
+        public async Task AddClaimToUserAsync(UserClaimRequest userClaimRequest)
         {
-            var user = await _userManager.FindByIdAsync(userClaimRequest.UserId);
-            if (user is null) return new Fail(new EntityNotFoundException());
+            var user = await _userManager.FindByIdAsync(userClaimRequest.UserId)
+                       ?? throw new EntityNotFoundException($"User not found with id: {userClaimRequest.UserId}");
 
             //Sign user out
             await _userManager.UpdateSecurityStampAsync(user);
@@ -93,21 +82,19 @@ namespace Cocorico.Server.Domain.Services.Authentication
             if (!(oldClaim is null))
             {
                 var removeClaimResult = await _userManager.RemoveClaimAsync(user, oldClaim);
-                if (!removeClaimResult.Succeeded) return new Fail();
+                if (!removeClaimResult.Succeeded) throw new UnexpectedException();
             }
 
             var addClaimResult = await _userManager.AddClaimAsync(user, newClaim);
-            if (!addClaimResult.Succeeded) return new Fail();
+            if (!addClaimResult.Succeeded) throw new UnexpectedException();
 
-            var saveResult = await _cocoricoDbContext.TrySaveChangesAsync();
-
-            return saveResult;
+            await _cocoricoDbContext.SaveChangesAsync();
         }
 
-        public async Task<IServiceResult> RemoveClaimFromUserAsync(UserClaimRequest userClaimRequest)
+        public async Task RemoveClaimFromUserAsync(UserClaimRequest userClaimRequest)
         {
-            var user = await _userManager.FindByIdAsync(userClaimRequest.UserId);
-            if (user is null) return new Fail(new EntityNotFoundException());
+            var user = await _userManager.FindByIdAsync(userClaimRequest.UserId)
+                       ?? throw new EntityNotFoundException($"User not found with id:{userClaimRequest.UserId}");
 
             //Sign user out
             await _userManager.UpdateSecurityStampAsync(user);
@@ -117,14 +104,12 @@ namespace Cocorico.Server.Domain.Services.Authentication
             var claimToRemove = new Claim(ClaimTypes.Role, userClaimRequest.CocoricoClaim.ClaimValue, ClaimValueTypes.String);
             var oldClaim = userClaims.SingleOrDefault(c => c.Value.Equals(claimToRemove.Value));
 
-            if (oldClaim is null) return new Fail(new InvalidCommandException());
+            if (oldClaim is null) throw new InvalidCommandException();
 
             var removeClaimResult = await _userManager.RemoveClaimAsync(user, claimToRemove);
-            if (!removeClaimResult.Succeeded) return new Fail();
+            if (!removeClaimResult.Succeeded) throw new UnexpectedException();
 
-            var saveResult = await _cocoricoDbContext.TrySaveChangesAsync();
-
-            return saveResult;
+            await _cocoricoDbContext.SaveChangesAsync();
         }
     }
 }

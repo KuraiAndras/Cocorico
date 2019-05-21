@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using Cocorico.Client.Domain.Services.Authentication;
+﻿using Cocorico.Client.Domain.Services.Authentication;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
+using System;
+using System.Threading.Tasks;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 namespace Cocorico.Client.Blazor.ComponentModels.Authentication
@@ -18,16 +18,15 @@ namespace Cocorico.Client.Blazor.ComponentModels.Authentication
 
         protected async Task Login()
         {
-            var result = await CocoricoClientAuthenticationService.LoginAsync(LoginDetails);
-
-            switch (result)
+            try
             {
-                case Success<LoginResult> _:
-                    UriHelper.NavigateTo(Urls.Client.Home);
-                    break;
-                default:
-                    ShowLoginFailed = true;
-                    break;
+                await CocoricoClientAuthenticationService.LoginAsync(LoginDetails);
+
+                UriHelper.NavigateTo(Urls.Client.Home);
+            }
+            catch (Exception)
+            {
+                ShowLoginFailed = true;
             }
         }
     }

@@ -1,10 +1,9 @@
 ﻿using Cocorico.Shared.Dtos.Sandwich;
-using Cocorico.Shared.Services;
 using System.Collections.Generic;
 
-namespace Cocorico.Client.Domain.Services.Order
+namespace Cocorico.Client.Domain.Services.Basket
 {
-    public interface IClientOrderService : IOrderService
+    public interface IBasketService
     {
         void AddToBasket(SandwichResultDto sandwich);
         void RemoveFromBasket(int sandwichId);

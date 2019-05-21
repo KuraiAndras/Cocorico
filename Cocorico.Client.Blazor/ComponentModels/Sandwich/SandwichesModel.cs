@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Cocorico.Client.Domain.Extensions;
+using Cocorico.Client.Domain.Helpers;
 using Cocorico.Client.Domain.Services.Authentication;
-using Cocorico.Client.Domain.Services.Order;
-using Cocorico.Client.Domain.Services.Sandwich;
+using Cocorico.Client.Domain.Services.Basket;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 {
@@ -20,10 +20,10 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
         [Inject] private IUriHelper UriHelper { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private IClientSandwichService SandwichService { get; set; }
+        [Inject] private ISandwichClient SandwichHttpClient { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private IClientOrderService OrderService { get; set; }
+        [Inject] private IBasketService BasketService { get; set; }
 
         protected IReadOnlyList<SandwichResultDto> Sandwiches { get; private set; } = new List<SandwichResultDto>();
 
@@ -31,14 +31,15 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 
         private async Task LoadSandwichesAsync()
         {
-            var result = await SandwichService.GetAllSandwichResultAsync();
-
-            //TODO: Handle fail
-            switch (result)
+            try
             {
-                case Success<IEnumerable<SandwichResultDto>> success:
-                    Sandwiches = success.Data.ToList();
-                    break;
+                var sandwiches = await SandwichHttpClient.GetAllAsync();
+
+                Sandwiches = sandwiches.ToList();
+            }
+            catch (SwaggerException)
+            {
+                //TODO: Handle fail
             }
         }
 
@@ -46,11 +47,18 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 
         protected async Task DeleteAsync(int sandwichId)
         {
-            var result = await SandwichService.DeleteSandwichAsync(sandwichId);
+            try
+            {
+                var fileResponse = await SandwichHttpClient.DeleteAsync(sandwichId);
 
-            if (result is Success) await LoadSandwichesAsync();
+                if (fileResponse.IsSuccessfulStatusCode()) await LoadSandwichesAsync();
+            }
+            catch (SwaggerException)
+            {
+                //TODO: Handle fail
+            }
         }
 
-        protected void AddToBasket(SandwichResultDto sandwich) => OrderService.AddToBasket(sandwich);
+        protected void AddToBasket(SandwichResultDto sandwich) => BasketService.AddToBasket(sandwich);
     }
 }

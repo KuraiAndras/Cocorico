@@ -1,11 +1,9 @@
 ﻿using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Server.Domain.Services.Order;
-using Cocorico.Server.Restful.Extensions;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,61 +29,58 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [Authorize(Policy = Policies.User)]
-        [HttpGet("customer/{customerId:int}")]
-        public async Task<IActionResult> GetAllOrderForCustomerAsync([FromRoute] string customerId)
+        [HttpGet("customer/{customerId}")]
+        public async Task<ActionResult<IEnumerable<OrderCustomerViewDto>>> GetAllOrderForCustomerAsync([FromRoute] string customerId)
         {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            if (userId is null) return new Fail<IEnumerable<OrderCustomerViewDto>>(new InvalidCommandException()).ToActionResult();
+            var userId = _userManager.GetUserId(HttpContext.User) ?? throw new InvalidCommandException();
 
-            if (!userId.Equals(customerId)) return new Fail<IEnumerable<OrderCustomerViewDto>>(new InvalidCommandException()).ToActionResult();
+            if (!userId.Equals(customerId)) throw new InvalidCommandException();
 
             var serviceResult = await _serverOrderService.GetAllOrderForCustomerAsync(customerId);
 
-            return serviceResult.ToActionResult();
+            return new ActionResult<IEnumerable<OrderCustomerViewDto>>(serviceResult);
         }
 
         [Authorize(Policy = Policies.Worker)]
-        [HttpGet(Urls.ServerAction.PendingOrdersForWorker)]
-        public async Task<IActionResult> GetPendingOrdersForWorkerAsync()
+        [HttpGet(nameof(GetPendingOrdersForWorkerAsync))]
+        public async Task<ActionResult<IEnumerable<OrderWorkerViewDto>>> GetPendingOrdersForWorkerAsync()
         {
             var serviceResult = await _serverOrderService.GetPendingOrdersForWorkerAsync();
 
-            return serviceResult.ToActionResult();
+            return new ActionResult<IEnumerable<OrderWorkerViewDto>>(serviceResult);
         }
 
         //TODO: Worker policy update
         [Authorize(Policy = Policies.Customer)]
         [HttpPost]
-        public async Task<IActionResult> AddOrderAsync([FromBody] OrderAddDto orderAddDto)
+        public async Task<ActionResult> AddOrderAsync([FromBody] OrderAddDto orderAddDto)
         {
             //TODO: Might change
-            var userId = _userManager.GetUserId(HttpContext.User);
-            if (userId is null) return new Fail(new InvalidCommandException()).ToActionResult();
+            var userId = _userManager.GetUserId(HttpContext.User) ?? throw new InvalidCommandException();
 
             orderAddDto.UserId = userId;
 
-            //Authorize
-            var serviceResult = await _serverOrderService.AddOrderAsync(orderAddDto);
+            await _serverOrderService.AddOrderAsync(orderAddDto);
 
-            return serviceResult.ToActionResult();
+            return new OkResult();
         }
 
         [Authorize(Policy = Policies.Worker)]
         [HttpDelete("{orderId:int}")]
-        public async Task<IActionResult> DeleteOrderAsync([FromRoute] int orderId)
+        public async Task<ActionResult> DeleteOrderAsync([FromRoute] int orderId)
         {
-            var serviceResult = await _serverOrderService.DeleteOrderAsync(orderId);
+            await _serverOrderService.DeleteOrderAsync(orderId);
 
-            return serviceResult.ToActionResult();
+            return new OkResult();
         }
 
         [Authorize(Policy = Policies.Worker)]
-        [HttpPost("UpdateOrder")]
-        public async Task<IActionResult> UpdateOrderAsync([FromBody]UpdateOrderDto updateOrderDto)
+        [HttpPost(nameof(UpdateOrderAsync))]
+        public async Task<ActionResult> UpdateOrderAsync([FromBody] UpdateOrderDto updateOrderDto)
         {
-            var serviceResult = await _serverOrderService.UpdateOrderAsync(updateOrderDto);
+            await _serverOrderService.UpdateOrderAsync(updateOrderDto);
 
-            return serviceResult.ToActionResult();
+            return new OkResult();
         }
     }
 }

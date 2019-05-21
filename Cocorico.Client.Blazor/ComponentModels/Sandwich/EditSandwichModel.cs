@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Cocorico.Client.Domain.Services.Sandwich;
+﻿using Cocorico.Client.Domain.Extensions;
+using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 {
@@ -12,31 +12,37 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
     {
         [Parameter] private int SandwichId { get; set; }
         [Inject] private IUriHelper UriHelper { get; set; }
-        [Inject] private IClientSandwichService SandwichService { get; set; }
+        [Inject] private ISandwichClient SandwichHttpClient { get; set; }
 
         protected NewSandwichDto Sandwich { get; private set; } = new NewSandwichDto();
 
         protected override async Task OnInitAsync()
         {
-            var result = await SandwichService.GetSandwichResultAsync(SandwichId);
-
-            switch (result)
+            try
             {
-                case Success<SandwichResultDto> success:
-                    Sandwich = success.Data.MapTo<SandwichResultDto, NewSandwichDto>();
-                    break;
+                var sandwichResultDto = await SandwichHttpClient.GetAsync(SandwichId);
+                Sandwich = sandwichResultDto.MapTo<SandwichResultDto, NewSandwichDto>();
+            }
+            catch (SwaggerException)
+            {
+                //TODO: Handle fail
             }
         }
 
         protected async Task Edit()
         {
-            var result = await SandwichService.AddOrUpdateSandwichAsync(Sandwich);
-
-            switch (result)
+            try
             {
-                case Success _:
-                    UriHelper.NavigateTo(Urls.Client.GetAllSandwich);
-                    break;
+                var fileResponse = await SandwichHttpClient.UpdateAsync(Sandwich);
+
+                //TODO: Handle fail
+                if (!fileResponse.IsSuccessfulStatusCode()) return;
+
+                UriHelper.NavigateTo(Urls.Client.GetAllSandwich);
+            }
+            catch (SwaggerException)
+            {
+                //TODO: Handle fail
             }
         }
     }

@@ -65,10 +65,9 @@ namespace Cocorico.Server.Domain.Services.Order
             var user = await Context.Users.SingleOrDefaultAsync(u => u.Id == orderAddDto.UserId)
                        ?? throw new EntityNotFoundException($"User not found with id:{orderAddDto.UserId}");
 
-            //TODO: Might change
-            var sandwiches = orderAddDto.Sandwiches
-                .Select(s => s.MapTo<SandwichResultDto, Models.Entities.Sandwich>())
-                .ToList();
+            //TODO: This might change
+            var allSandwich = await Context.Sandwiches.ToListAsync();
+            var sandwiches = allSandwich.Where(s => !(orderAddDto.Sandwiches.SingleOrDefault(os => os.Id == s.Id) is null)).ToList();
 
             var newOrder = new Models.Entities.Order
             {

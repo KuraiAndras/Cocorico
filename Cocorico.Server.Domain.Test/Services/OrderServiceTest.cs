@@ -21,7 +21,9 @@ namespace Cocorico.Server.Domain.Test.Services
 
             using (var context = NewDbContext)
             {
-                var actual = await context.Orders.SingleAsync();
+                var actual = await context.Orders
+                    .Include(o => o.Sandwiches)
+                    .SingleAsync();
 
                 var expected = orderDto.MapTo(s => new Order
                 {
@@ -29,7 +31,8 @@ namespace Cocorico.Server.Domain.Test.Services
                     Price = 300,
                 });
 
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(expected.Price, actual.Price);
+                Assert.AreEqual(expected.Sandwiches.Count, actual.Sandwiches.Count);
             }
         }
 

@@ -15,10 +15,10 @@ namespace Cocorico.Client.Domain.Extensions
             services.AddSingleton<ICocoricoClientAuthenticationService, CocoricoClientAuthenticationService>();
             services.AddSingleton<IBasketService, InMemoryBasketService>();
 
-            services.AddScoped<ISandwichClient, SandwichClient>();
-            services.AddScoped<IUserClient, UserClient>();
-            services.AddScoped<IOrderClient, OrderClient>();
-            services.AddScoped<IAuthenticationClient, AuthenticationClient>();
+            services.AddTransient<ISandwichClient, SandwichClient>();
+            services.AddTransient<IUserClient, UserClient>();
+            services.AddTransient<IOrderClient, OrderClient>();
+            services.AddTransient<IAuthenticationClient, AuthenticationClient>();
         }
     }
 }

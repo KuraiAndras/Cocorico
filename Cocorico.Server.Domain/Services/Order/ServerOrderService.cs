@@ -82,6 +82,6 @@ namespace Cocorico.Server.Domain.Services.Order
             await AddAsync(newOrder);
         }
 
-        public async Task DeleteOrderAsync(int orderId) => await DeleteAsync(orderId);
+        public async Task DeleteOrderAsync(int orderId) => await DeleteByIdAsync(orderId);
     }
 }

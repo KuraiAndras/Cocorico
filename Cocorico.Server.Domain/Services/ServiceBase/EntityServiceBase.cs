@@ -45,7 +45,7 @@ namespace Cocorico.Server.Domain.Services.ServiceBase
             await Context.SaveChangesAsync();
         }
 
-        protected async Task DeleteAsync(TKey key)
+        protected async Task DeleteByIdAsync(TKey key)
         {
             var dbSet = Context.GetDbSet<T>();
 

@@ -69,6 +69,42 @@ namespace Cocorico.Server.Domain.Test.Services
             }
         }
 
+        [TestMethod]
+        public async Task GetAllIngredient()
+        {
+            await CreateIngredient();
+            await CreateIngredient();
+
+            using (var context = NewDbContext)
+            {
+                var service = new ServerIngredientService(context);
+
+                var ingredients = await service.GetAllAsync();
+
+                Assert.AreEqual(2, ingredients.Count());
+            }
+        }
+
+        [TestMethod]
+        public async Task DeleteIngredient()
+        {
+            await CreateIngredient();
+
+            using (var context = NewDbContext)
+            {
+                Assert.AreEqual(1, await context.Ingredients.CountAsync());
+
+                var service = new ServerIngredientService(context);
+
+                await service.DeleteAsync(1);
+            }
+
+            using (var context = NewDbContext)
+            {
+                Assert.AreEqual(0, await context.Ingredients.CountAsync());
+            }
+        }
+
         private async Task<IngredientAddDto> CreateIngredient()
         {
             var addDto = new IngredientAddDto { Name = "Test" };

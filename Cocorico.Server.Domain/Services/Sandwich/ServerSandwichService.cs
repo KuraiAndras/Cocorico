@@ -55,6 +55,6 @@ namespace Cocorico.Server.Domain.Services.Sandwich
             });
 
         public async Task DeleteSandwichAsync(int id) =>
-            await DeleteAsync(id);
+            await DeleteByIdAsync(id);
     }
 }

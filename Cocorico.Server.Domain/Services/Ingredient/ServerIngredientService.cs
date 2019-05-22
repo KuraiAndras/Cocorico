@@ -2,7 +2,6 @@
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Exceptions;
-using Cocorico.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +31,7 @@ namespace Cocorico.Server.Domain.Services.Ingredient
         public async Task UpdateAsync(IngredientDto ingredientDto) =>
             await UpdateAsync(ingredientDto.MapTo<IngredientDto, Models.Entities.Ingredient>());
 
-        async Task IIngredientService.DeleteAsync(int id) =>
-            await DeleteAsync(id);
+        public async Task DeleteAsync(int id) =>
+            await DeleteByIdAsync(id);
     }
 }

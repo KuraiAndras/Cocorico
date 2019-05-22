@@ -12,19 +12,16 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Client.Domain.Services.Authentication
 {
-    // ReSharper disable once UnusedMember.Global
     public class CocoricoClientAuthenticationService : ICocoricoClientAuthenticationService
     {
         private readonly ILocalStorageService _localStorageService;
         private readonly IAuthenticationClient _authenticationClient;
 
-        private readonly SemaphoreLocker _localStorageServiceLock = new SemaphoreLocker();
-
         private readonly List<string> _userClaims = new List<string>();
 
         public IEnumerable<string> Claims => _userClaims;
 
-        private event Func<Task> ServiceStarted;
+        private event Action ServiceStarted;
 
         public event Action UserLoggedIn;
         public event Action UserLoggedOut;
@@ -36,7 +33,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
             _localStorageService = localStorageService;
             _authenticationClient = authenticationClient;
 
-            ServiceStarted = UpdateAuthStateAsync;
+            ServiceStarted = async () => await UpdateAuthStateAsync();
             ServiceStarted.Invoke();
         }
 
@@ -51,7 +48,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
         {
             var result = await _authenticationClient.LoginAsync(loginDetails);
 
-            await _localStorageServiceLock.LockAsync(async () => await _localStorageService.SetItemAsync(Verbs.Claims, result.Claims));
+            await _localStorageService.SetItemAsync(Verbs.Claims, result.Claims);
 
             await UpdateAuthStateAsync();
         }
@@ -62,7 +59,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
 
             if (!response.IsSuccessfulStatusCode()) throw new UnexpectedException();
 
-            await _localStorageServiceLock.LockAsync(async () => await _localStorageService.RemoveItemAsync(Verbs.Claims));
+            await _localStorageService.RemoveItemAsync(Verbs.Claims);
 
             await UpdateAuthStateAsync();
         }
@@ -83,30 +80,27 @@ namespace Cocorico.Client.Domain.Services.Authentication
 
         private async Task UpdateAuthStateAsync()
         {
-            await _localStorageServiceLock.LockAsync(async () =>
+            var claims = await _localStorageService.GetItemAsync<IEnumerable<string>>(Verbs.Claims);
+
+            if (claims is null)
             {
-                var claims = await _localStorageService.GetItemAsync<IEnumerable<string>>(Verbs.Claims);
+                UserLoggedOut?.Invoke();
+                return;
+            }
 
-                if (claims is null)
-                {
-                    UserLoggedOut?.Invoke();
-                    return;
-                }
+            var claimList = claims.ToList();
 
-                var claimList = claims.ToList();
+            _userClaims.Clear();
+            if (claimList.Any())
+            {
+                _userClaims.AddRange(claimList);
 
-                _userClaims.Clear();
-                if (claimList.Any())
-                {
-                    _userClaims.AddRange(claimList);
-
-                    UserLoggedIn?.Invoke();
-                }
-                else
-                {
-                    UserLoggedOut?.Invoke();
-                }
-            });
+                UserLoggedIn?.Invoke();
+            }
+            else
+            {
+                UserLoggedOut?.Invoke();
+            }
         }
     }
 }

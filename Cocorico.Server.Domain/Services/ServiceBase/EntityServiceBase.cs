@@ -22,6 +22,8 @@ namespace Cocorico.Server.Domain.Services.ServiceBase
 
         protected async Task AddAsync(T entity)
         {
+            if (!entity.Id.Equals(default(TKey))) throw new InvalidCommandException();
+
             var dbSet = Context.GetDbSet<T>();
 
             if (!(await dbSet.AsNoTracking().SingleOrDefaultAsync(e => e.Id.Equals(entity.Id)) is null)) throw new EntityAlreadyExistsException();

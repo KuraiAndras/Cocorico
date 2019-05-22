@@ -13,8 +13,8 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 {
     public class SandwichesModel : ComponentBase
     {
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        [Inject] protected ICocoricoClientAuthenticationService CocoricoClientAuthenticationService { get; set; }
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Inject] private ICocoricoClientAuthenticationService AuthenticationService { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUriHelper UriHelper { get; set; }
@@ -24,6 +24,10 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IBasketService BasketService { get; set; }
+
+        protected bool IsAdmin => AuthenticationService.Claims.Contains(Claims.Admin);
+
+        protected bool IsCustomer => AuthenticationService.Claims.Contains(Claims.Customer);
 
         protected IReadOnlyList<SandwichResultDto> Sandwiches { get; private set; } = new List<SandwichResultDto>();
 

@@ -116,7 +116,7 @@ namespace Cocorico.Server.Domain.Test.Services
                     Id = s.Id,
                     Name = s.Name,
                     Price = s.Price,
-                })
+                }).ToList(),
             };
 
             using (var context = NewDbContext)

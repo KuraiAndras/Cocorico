@@ -5,12 +5,11 @@ namespace Cocorico.Client.Domain.Services.Basket
 {
     public class InMemoryBasketService : IBasketService
     {
-        private readonly List<SandwichResultDto> _basket = new List<SandwichResultDto>();
+        public void AddToBasket(SandwichResultDto sandwich) => SandwichesInBasket.Add(sandwich);
 
-        public void AddToBasket(SandwichResultDto sandwich) => _basket.Add(sandwich);
+        public void RemoveFromBasket(int index) => SandwichesInBasket.RemoveAt(index);
+        public void EmptyBasket() => SandwichesInBasket.Clear();
 
-        public void RemoveFromBasket(int sandwichId) => _basket.Remove(_basket.Find(s => s.Id == sandwichId));
-
-        public IEnumerable<SandwichResultDto> SandwichesInBasket() => _basket;
+        public List<SandwichResultDto> SandwichesInBasket { get; } = new List<SandwichResultDto>();
     }
 }

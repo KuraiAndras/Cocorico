@@ -6,7 +6,7 @@ namespace Cocorico.Shared.Dtos.Order
     public class OrderAddDto
     {
         public string UserId { get; set; }
-        public IEnumerable<SandwichResultDto> Sandwiches { get; set; }
+        public List<SandwichResultDto> Sandwiches { get; set; }
         public string CustomerId { get; set; }
     }
 }

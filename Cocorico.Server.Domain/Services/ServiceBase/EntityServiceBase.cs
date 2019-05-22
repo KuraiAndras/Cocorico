@@ -24,7 +24,7 @@ namespace Cocorico.Server.Domain.Services.ServiceBase
         {
             var dbSet = Context.GetDbSet<T>();
 
-            if (!(await dbSet.SingleOrDefaultAsync(e => e.Id.Equals(entity.Id)) is null)) throw new EntityAlreadyExistsException();
+            if (!(await dbSet.AsNoTracking().SingleOrDefaultAsync(e => e.Id.Equals(entity.Id)) is null)) throw new EntityAlreadyExistsException();
 
             await dbSet.AddAsync(entity);
 

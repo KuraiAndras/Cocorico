@@ -19,7 +19,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Order
 
         protected override Task OnInitAsync()
         {
-            OrderAddDto.Sandwiches = BasketService.SandwichesInBasket();
+            OrderAddDto.Sandwiches = BasketService.SandwichesInBasket;
             return base.OnInitAsync();
         }
 
@@ -30,12 +30,17 @@ namespace Cocorico.Client.Blazor.ComponentModels.Order
                 var result = await OrderHttpClient.AddOrderAsync(OrderAddDto);
 
                 //TODO: Go to orders
-                if (result.IsSuccessfulStatusCode()) return;
+                if (result.IsSuccessfulStatusCode())
+                {
+                    BasketService.EmptyBasket();
+                }
             }
             catch (SwaggerException)
             {
                 //TODO: Handle fail
             }
         }
+
+        protected void DeleteSandwich(int id) => BasketService.RemoveFromBasket(id);
     }
 }

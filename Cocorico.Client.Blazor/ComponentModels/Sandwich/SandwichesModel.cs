@@ -56,6 +56,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
                 var fileResponse = await SandwichHttpClient.DeleteAsync(sandwichId);
 
                 if (fileResponse.IsSuccessfulStatusCode()) await LoadSandwichesAsync();
+                //TODO: Handle fail
             }
             catch (SwaggerException)
             {

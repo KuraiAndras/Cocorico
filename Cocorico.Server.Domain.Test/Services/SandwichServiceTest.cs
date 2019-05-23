@@ -2,6 +2,7 @@
 using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Server.Domain.Services.Sandwich;
 using Cocorico.Server.Domain.Test.Helpers;
+using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Sandwich;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +17,13 @@ namespace Cocorico.Server.Domain.Test.Services
         [TestMethod]
         public async Task Add()
         {
-            var sandwichDto = new SandwichAddDto { Name = "Test Sandwich" };
+            var ingredients = SeedIngredients().ToList();
+            var sandwichDto = new SandwichAddDto
+            {
+                Name = "Test Sandwich",
+                Ingredients = ingredients.MapTo<Ingredient, IngredientDto>(),
+                Price = 200,
+            };
 
             using (var context = NewDbContext)
             {
@@ -26,83 +33,113 @@ namespace Cocorico.Server.Domain.Test.Services
 
             using (var context = NewDbContext)
             {
-                var actual = await context.Sandwiches.SingleAsync();
+                var actual = await context
+                    .Sandwiches
+                    .Include(s => s.Ingredients)
+                    .SingleAsync();
 
                 var expected = sandwichDto.MapTo(s => new Sandwich
                 {
                     Id = 1,
+                    Ingredients = ingredients,
                 });
 
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(expected.Id, actual.Id);
+                Assert.AreEqual(expected.Ingredients.Count, actual.Ingredients.Count);
+                Assert.AreEqual(expected.Name, actual.Name);
+                Assert.AreEqual(expected.Price, actual.Price);
             }
         }
 
         [TestMethod]
         public async Task Update()
         {
-            var newSandwichDto = new SandwichAddDto { Name = "Initial" };
+            var ingredients = SeedIngredients();
+            var sandwichAddDto = new SandwichAddDto
+            {
+                Name = "Initial",
+                Ingredients = ingredients.MapTo<Ingredient, IngredientDto>()
+            };
 
             using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
-                await service.AddSandwichAsync(newSandwichDto);
+                await service.AddSandwichAsync(sandwichAddDto);
             }
 
             using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
 
-                newSandwichDto.Name = "Updated";
+                sandwichAddDto.Name = "Updated";
 
-                await service.UpdateSandwichAsync(newSandwichDto.MapTo(s => new SandwichDto
+                await service.UpdateSandwichAsync(sandwichAddDto.MapTo(s => new SandwichDto
                 {
                     Id = 1,
                 }));
             }
 
-            var expected = newSandwichDto.MapTo(s => new Sandwich
-            {
-                Id = 1,
-            });
-
             using (var context = NewDbContext)
             {
-                var actual = await context.Sandwiches.SingleAsync();
+                var actual = await new ServerSandwichService(context).GetSandwichResultAsync(1);
 
-                Assert.AreEqual(expected, actual);
+                var expected = sandwichAddDto.MapTo(s => new SandwichDto
+                {
+                    Id = 1,
+                    Ingredients = s.Ingredients.ToList(),
+                });
+
+                Assert.AreEqual(expected.Id, actual.Id);
+                Assert.AreEqual(expected.Ingredients.Count, actual.Ingredients.Count);
+                Assert.AreEqual(expected.Name, actual.Name);
+                Assert.AreEqual(expected.Price, actual.Price);
             }
         }
 
         [TestMethod]
         public async Task Get()
         {
-            var sandwichDto = new SandwichAddDto { Name = "Test Sandwich" };
+            var ingredients = SeedIngredients().ToList();
+            var sandwichAddDto = new SandwichAddDto
+            {
+                Name = "Test Sandwich",
+                Ingredients = ingredients.MapTo<Ingredient, IngredientDto>(),
+                Price = 200,
+            };
 
             using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
-                await service.AddSandwichAsync(sandwichDto);
+                await service.AddSandwichAsync(sandwichAddDto);
             }
 
             using (var context = NewDbContext)
             {
-                var expected = new SandwichDto
+                var expected = sandwichAddDto.MapTo(s => new SandwichDto
                 {
                     Id = 1,
-                    Name = sandwichDto.Name,
-                };
+                    Ingredients = s.Ingredients.ToList(),
+                });
 
                 var service = new ServerSandwichService(context);
                 var actual = await service.GetSandwichResultAsync(expected.Id);
 
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(expected.Id, actual.Id);
+                Assert.AreEqual(expected.Ingredients.Count, actual.Ingredients.Count);
+                Assert.AreEqual(expected.Name, actual.Name);
+                Assert.AreEqual(expected.Price, actual.Price);
             }
         }
 
         [TestMethod]
         public async Task Delete()
         {
-            var sandwichDto = new SandwichAddDto { Name = "Test Sandwich" };
+            var ingredients = SeedIngredients();
+            var sandwichDto = new SandwichAddDto
+            {
+                Name = "Test Sandwich",
+                Ingredients = ingredients.MapTo<Ingredient, IngredientDto>()
+            };
 
             using (var context = NewDbContext)
             {
@@ -125,11 +162,21 @@ namespace Cocorico.Server.Domain.Test.Services
         [TestMethod]
         public async Task GetAll()
         {
+            var ingredients = SeedIngredients().ToList();
+
             using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
-                await service.AddSandwichAsync(new SandwichAddDto { Name = "Test1" });
-                await service.AddSandwichAsync(new SandwichAddDto { Name = "Test2" });
+                await service.AddSandwichAsync(new SandwichAddDto
+                {
+                    Name = "Test1",
+                    Ingredients = ingredients.MapTo<Ingredient, IngredientDto>()
+                });
+                await service.AddSandwichAsync(new SandwichAddDto
+                {
+                    Name = "Test2",
+                    Ingredients = ingredients.MapTo<Ingredient, IngredientDto>()
+                });
             }
 
             using (var context = NewDbContext)
@@ -140,8 +187,5 @@ namespace Cocorico.Server.Domain.Test.Services
                 Assert.AreEqual(2, result.Count());
             }
         }
-
-        [TestCleanup]
-        public void Cleanup() => Connection.Close();
     }
 }

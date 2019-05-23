@@ -56,34 +56,61 @@ namespace Cocorico.Server.Domain.Test.Helpers
             return user;
         }
 
-        protected List<Sandwich> SeedSandwiches()
+        protected IEnumerable<Sandwich> SeedSandwiches()
         {
+            var ingredients = SeedIngredients().ToList();
+
             var sandwiches = new List<Sandwich>
             {
                 new Sandwich
                 {
                     Name = "Test Name1",
-                    Price = 40
+                    Price = 40,
+                    Ingredients = ingredients.Where(i =>
+                            i.Id == 1)
+                        .ToList(),
                 },
                 new Sandwich
                 {
                     Name = "Test Name2",
-                    Price = 50
+                    Price = 50,
+                    Ingredients = ingredients.Where(i =>
+                            i.Id == 1
+                            || i.Id == 2)
+                        .ToList(),
                 },
                 new Sandwich
                 {
                     Name = "Test Name3",
-                    Price = 60
+                    Price = 60,
+                    Ingredients = ingredients.Where(i =>
+                            i.Id == 1
+                            || i.Id == 2
+                            || i.Id == 3)
+                        .ToList(),
                 },
                 new Sandwich
                 {
                     Name = "Test Name4",
-                    Price = 70
+                    Price = 70,
+                    Ingredients = ingredients.Where(i =>
+                            i.Id == 1
+                            || i.Id == 2
+                            || i.Id == 3
+                            || i.Id == 4)
+                        .ToList(),
                 },
                 new Sandwich
                 {
                     Name = "Test Name5",
-                    Price = 80
+                    Price = 80,
+                    Ingredients = ingredients.Where(i =>
+                            i.Id == 1
+                            || i.Id == 2
+                            || i.Id == 3
+                            || i.Id == 4
+                            || i.Id == 5)
+                        .ToList(),
                 },
             };
 
@@ -95,5 +122,28 @@ namespace Cocorico.Server.Domain.Test.Helpers
 
             return sandwiches;
         }
+
+        protected IEnumerable<Ingredient> SeedIngredients()
+        {
+            var ingredients = new List<Ingredient>
+            {
+                new Ingredient{Name = "Test 1"},
+                new Ingredient{Name = "Test 2"},
+                new Ingredient{Name = "Test 3"},
+                new Ingredient{Name = "Test 4"},
+                new Ingredient{Name = "Test 5"},
+            };
+
+            using (var context = NewDbContext)
+            {
+                context.AddRange(ingredients);
+                context.SaveChanges();
+            }
+
+            return ingredients;
+        }
+
+        [TestCleanup]
+        public void Cleanup() => Connection.Close();
     }
 }

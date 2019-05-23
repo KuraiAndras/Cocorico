@@ -19,6 +19,7 @@ namespace Cocorico.Server.Domain.Services.Sandwich
         {
             var sandwich = await Context
                                .Sandwiches
+                               .Include(s => s.Ingredients)
                                .SingleOrDefaultAsync(s => s.Id == id)
                            ?? throw new EntityNotFoundException($"Cant find sandwich with id:{id}");
 
@@ -27,22 +28,31 @@ namespace Cocorico.Server.Domain.Services.Sandwich
 
         public async Task<IEnumerable<SandwichDto>> GetAllSandwichResultAsync()
         {
-            var sandwiches = await Context.Sandwiches.ToListAsync();
+            var sandwiches = await Context
+                .Sandwiches
+                .Include(s => s.Ingredients)
+                .ToListAsync();
 
             var sandwichResultList = sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichDto>());
 
             return sandwichResultList;
         }
 
-        //TODO: Create new and update sandwich dtos
-        public async Task AddSandwichAsync(SandwichAddDto newSandwichDto) =>
+        public async Task AddSandwichAsync(SandwichAddDto newSandwichDto)
+        {
+            var ingredients = await Context
+                .Ingredients
+                .ToListAsync();
+
             await AddAsync(new Models.Entities.Sandwich
             {
                 Id = 0,
                 IsDeleted = false,
                 Name = newSandwichDto.Name,
                 Price = newSandwichDto.Price,
+                Ingredients = ingredients.Where(i => newSandwichDto.Ingredients.SingleOrDefault(iDto => iDto.Id == i.Id) != null).ToList()
             });
+        }
 
         public async Task UpdateSandwichAsync(SandwichDto sandwichDto) =>
             await UpdateAsync(new Models.Entities.Sandwich

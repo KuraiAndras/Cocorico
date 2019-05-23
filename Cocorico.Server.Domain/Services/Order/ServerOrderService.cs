@@ -23,6 +23,7 @@ namespace Cocorico.Server.Domain.Services.Order
 
             var ordersForCustomer = await Context.Orders
                                         .Include(o => o.Sandwiches)
+                                        .ThenInclude(s => s.Ingredients)
                                         .Where(o => o.CustomerId == customerId)
                                         .ToListAsync()
                                     ?? throw new UnexpectedException();
@@ -37,6 +38,7 @@ namespace Cocorico.Server.Domain.Services.Order
         {
             var ordersForWorkerView = await Context.Orders
                                           .Include(o => o.Sandwiches)
+                                          .ThenInclude(s => s.Ingredients)
                                           .Include(o => o.Customer)
                                           .Where(o => o.State != OrderState.Delivered)
                                           .ToListAsync() ?? throw new UnexpectedException();
@@ -52,6 +54,7 @@ namespace Cocorico.Server.Domain.Services.Order
         {
             var order = await Context.Orders
                             .Include(o => o.Sandwiches)
+                            .ThenInclude(s => s.Ingredients)
                             .SingleOrDefaultAsync(o => o.Id == updateOrderDto.OrderId)
                         ?? throw new EntityNotFoundException($"Order not found with id:{updateOrderDto.OrderId}");
 
@@ -66,7 +69,11 @@ namespace Cocorico.Server.Domain.Services.Order
                        ?? throw new EntityNotFoundException($"User not found with id:{orderAddDto.UserId}");
 
             //TODO: This might change
-            var allSandwich = await Context.Sandwiches.ToListAsync();
+            var allSandwich = await Context
+                .Sandwiches
+                .Include(s => s.Ingredients)
+                .ToListAsync();
+
             var sandwiches = allSandwich.Where(s => !(orderAddDto.Sandwiches.SingleOrDefault(os => os.Id == s.Id) is null)).ToList();
 
             var newOrder = new Models.Entities.Order

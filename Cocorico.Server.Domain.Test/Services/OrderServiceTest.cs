@@ -114,7 +114,7 @@ namespace Cocorico.Server.Domain.Test.Services
             {
                 UserId = user.Id,
                 CustomerId = user.Id,
-                Sandwiches = sandwiches.Select(s => new SandwichResultDto
+                Sandwiches = sandwiches.Select(s => new SandwichDto
                 {
                     Id = s.Id,
                     Name = s.Name,

@@ -6,11 +6,11 @@ namespace Cocorico.Shared.Services
 {
     public interface ISandwichService
     {
-        Task<SandwichResultDto> GetSandwichResultAsync(int id);
-        Task<IEnumerable<SandwichResultDto>> GetAllSandwichResultAsync();
+        Task<SandwichDto> GetSandwichResultAsync(int id);
+        Task<IEnumerable<SandwichDto>> GetAllSandwichResultAsync();
 
-        Task AddSandwichAsync(NewSandwichDto newSandwichDto);
-        Task UpdateSandwichAsync(NewSandwichDto newSandwichDto);
+        Task AddSandwichAsync(SandwichAddDto newSandwichDto);
+        Task UpdateSandwichAsync(SandwichDto sandwichDto);
 
         Task DeleteSandwichAsync(int id);
     }

@@ -29,7 +29,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 
         protected bool IsCustomer => AuthenticationService.Claims.Contains(Claims.Customer);
 
-        protected IReadOnlyList<SandwichResultDto> Sandwiches { get; private set; } = new List<SandwichResultDto>();
+        protected IReadOnlyList<SandwichDto> Sandwiches { get; private set; } = new List<SandwichDto>();
 
         protected override async Task OnInitAsync() => await LoadSandwichesAsync();
 
@@ -63,6 +63,6 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
             }
         }
 
-        protected void AddToBasket(SandwichResultDto sandwich) => BasketService.AddToBasket(sandwich);
+        protected void AddToBasket(SandwichDto sandwich) => BasketService.AddToBasket(sandwich);
     }
 }

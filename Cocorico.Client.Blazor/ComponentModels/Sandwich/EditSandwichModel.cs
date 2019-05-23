@@ -14,14 +14,14 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
         [Inject] private IUriHelper UriHelper { get; set; }
         [Inject] private ISandwichClient SandwichHttpClient { get; set; }
 
-        protected NewSandwichDto Sandwich { get; private set; } = new NewSandwichDto();
+        protected SandwichAddDto Sandwich { get; private set; } = new SandwichAddDto();
 
         protected override async Task OnInitAsync()
         {
             try
             {
                 var sandwichResultDto = await SandwichHttpClient.GetAsync(SandwichId);
-                Sandwich = sandwichResultDto.MapTo<SandwichResultDto, NewSandwichDto>();
+                Sandwich = sandwichResultDto.MapTo<SandwichDto, SandwichAddDto>();
             }
             catch (SwaggerException)
             {

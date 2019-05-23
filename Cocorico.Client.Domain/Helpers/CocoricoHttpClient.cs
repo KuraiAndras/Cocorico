@@ -1417,32 +1417,32 @@ namespace Cocorico.Client.Domain.Helpers
     public partial interface ISandwichClient
     {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichResultDto>> GetAllAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichDto>> GetAllAsync();
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichResultDto>> GetAllAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichDto>> GetAllAsync(System.Threading.CancellationToken cancellationToken);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> UpdateAsync(NewSandwichDto sandwich);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<FileResponse> UpdateAsync(NewSandwichDto sandwich, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> AddAsync(NewSandwichDto sandwich);
+        System.Threading.Tasks.Task<FileResponse> UpdateAsync(SandwichAddDto sandwich);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<FileResponse> AddAsync(NewSandwichDto sandwich, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<FileResponse> UpdateAsync(SandwichAddDto sandwich, System.Threading.CancellationToken cancellationToken);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SandwichResultDto> GetAsync(int id);
+        System.Threading.Tasks.Task<FileResponse> AddAsync(SandwichAddDto sandwich);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SandwichResultDto> GetAsync(int id, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<FileResponse> AddAsync(SandwichAddDto sandwich, System.Threading.CancellationToken cancellationToken);
+    
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<SandwichDto> GetAsync(int id);
+    
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<SandwichDto> GetAsync(int id, System.Threading.CancellationToken cancellationToken);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DeleteAsync(int id);
@@ -1485,14 +1485,14 @@ namespace Cocorico.Client.Domain.Helpers
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichResultDto>> GetAllAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichDto>> GetAllAsync()
         {
             return GetAllAsync(System.Threading.CancellationToken.None);
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichResultDto>> GetAllAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichDto>> GetAllAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Sandwich");
@@ -1526,10 +1526,10 @@ namespace Cocorico.Client.Domain.Helpers
                         if (status_ == "200") 
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(System.Collections.Generic.ICollection<SandwichResultDto>); 
+                            var result_ = default(System.Collections.Generic.ICollection<SandwichDto>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.ICollection<SandwichResultDto>>(responseData_, _settings.Value);
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.ICollection<SandwichDto>>(responseData_, _settings.Value);
                                 return result_; 
                             } 
                             catch (System.Exception exception_) 
@@ -1544,7 +1544,7 @@ namespace Cocorico.Client.Domain.Helpers
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(System.Collections.Generic.ICollection<SandwichResultDto>);
+                        return default(System.Collections.Generic.ICollection<SandwichDto>);
                     }
                     finally
                     {
@@ -1559,14 +1559,14 @@ namespace Cocorico.Client.Domain.Helpers
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> UpdateAsync(NewSandwichDto sandwich)
+        public System.Threading.Tasks.Task<FileResponse> UpdateAsync(SandwichAddDto sandwich)
         {
             return UpdateAsync(sandwich, System.Threading.CancellationToken.None);
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<FileResponse> UpdateAsync(NewSandwichDto sandwich, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> UpdateAsync(SandwichAddDto sandwich, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Sandwich");
@@ -1629,14 +1629,14 @@ namespace Cocorico.Client.Domain.Helpers
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> AddAsync(NewSandwichDto sandwich)
+        public System.Threading.Tasks.Task<FileResponse> AddAsync(SandwichAddDto sandwich)
         {
             return AddAsync(sandwich, System.Threading.CancellationToken.None);
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<FileResponse> AddAsync(NewSandwichDto sandwich, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> AddAsync(SandwichAddDto sandwich, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Sandwich");
@@ -1699,14 +1699,14 @@ namespace Cocorico.Client.Domain.Helpers
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<SandwichResultDto> GetAsync(int id)
+        public System.Threading.Tasks.Task<SandwichDto> GetAsync(int id)
         {
             return GetAsync(id, System.Threading.CancellationToken.None);
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<SandwichResultDto> GetAsync(int id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<SandwichDto> GetAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -1744,10 +1744,10 @@ namespace Cocorico.Client.Domain.Helpers
                         if (status_ == "200") 
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(SandwichResultDto); 
+                            var result_ = default(SandwichDto); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<SandwichResultDto>(responseData_, _settings.Value);
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<SandwichDto>(responseData_, _settings.Value);
                                 return result_; 
                             } 
                             catch (System.Exception exception_) 
@@ -1762,7 +1762,7 @@ namespace Cocorico.Client.Domain.Helpers
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(SandwichResultDto);
+                        return default(SandwichDto);
                     }
                     finally
                     {

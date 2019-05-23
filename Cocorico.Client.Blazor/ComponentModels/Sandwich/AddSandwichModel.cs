@@ -15,12 +15,10 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private ISandwichClient SandwichHttpClient { get; set; }
 
-        protected NewSandwichDto NewSandwichDto { get; } = new NewSandwichDto();
+        protected SandwichAddDto NewSandwichDto { get; } = new SandwichAddDto();
 
         protected async Task Add()
         {
-            NewSandwichDto.Id = 0;
-
             var result = await SandwichHttpClient.AddAsync(NewSandwichDto);
 
             if (result.IsSuccessfulStatusCode()) UriHelper.NavigateTo(Urls.Client.GetAllSandwich);

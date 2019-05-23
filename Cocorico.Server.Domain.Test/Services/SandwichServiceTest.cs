@@ -16,7 +16,7 @@ namespace Cocorico.Server.Domain.Test.Services
         [TestMethod]
         public async Task Add()
         {
-            var sandwichDto = new NewSandwichDto { Name = "Test Sandwich" };
+            var sandwichDto = new SandwichAddDto { Name = "Test Sandwich" };
 
             using (var context = NewDbContext)
             {
@@ -40,7 +40,7 @@ namespace Cocorico.Server.Domain.Test.Services
         [TestMethod]
         public async Task Update()
         {
-            var newSandwichDto = new NewSandwichDto { Name = "Initial" };
+            var newSandwichDto = new SandwichAddDto { Name = "Initial" };
 
             using (var context = NewDbContext)
             {
@@ -52,13 +52,18 @@ namespace Cocorico.Server.Domain.Test.Services
             {
                 var service = new ServerSandwichService(context);
 
-                newSandwichDto.Id = 1;
                 newSandwichDto.Name = "Updated";
 
-                await service.UpdateSandwichAsync(newSandwichDto);
+                await service.UpdateSandwichAsync(newSandwichDto.MapTo(s => new SandwichDto
+                {
+                    Id = 1,
+                }));
             }
 
-            var expected = newSandwichDto.MapTo<NewSandwichDto, Sandwich>();
+            var expected = newSandwichDto.MapTo(s => new Sandwich
+            {
+                Id = 1,
+            });
 
             using (var context = NewDbContext)
             {
@@ -71,7 +76,7 @@ namespace Cocorico.Server.Domain.Test.Services
         [TestMethod]
         public async Task Get()
         {
-            var sandwichDto = new NewSandwichDto { Name = "Test Sandwich" };
+            var sandwichDto = new SandwichAddDto { Name = "Test Sandwich" };
 
             using (var context = NewDbContext)
             {
@@ -81,7 +86,7 @@ namespace Cocorico.Server.Domain.Test.Services
 
             using (var context = NewDbContext)
             {
-                var expected = new SandwichResultDto
+                var expected = new SandwichDto
                 {
                     Id = 1,
                     Name = sandwichDto.Name,
@@ -97,7 +102,7 @@ namespace Cocorico.Server.Domain.Test.Services
         [TestMethod]
         public async Task Delete()
         {
-            var sandwichDto = new NewSandwichDto { Name = "Test Sandwich" };
+            var sandwichDto = new SandwichAddDto { Name = "Test Sandwich" };
 
             using (var context = NewDbContext)
             {
@@ -123,8 +128,8 @@ namespace Cocorico.Server.Domain.Test.Services
             using (var context = NewDbContext)
             {
                 var service = new ServerSandwichService(context);
-                await service.AddSandwichAsync(new NewSandwichDto { Name = "Test1" });
-                await service.AddSandwichAsync(new NewSandwichDto { Name = "Test2" });
+                await service.AddSandwichAsync(new SandwichAddDto { Name = "Test1" });
+                await service.AddSandwichAsync(new SandwichAddDto { Name = "Test2" });
             }
 
             using (var context = NewDbContext)

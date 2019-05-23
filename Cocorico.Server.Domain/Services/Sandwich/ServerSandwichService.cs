@@ -1,5 +1,4 @@
-﻿using System;
-using Cocorico.Server.Domain.Models;
+﻿using Cocorico.Server.Domain.Models;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
@@ -16,27 +15,27 @@ namespace Cocorico.Server.Domain.Services.Sandwich
         {
         }
 
-        public async Task<SandwichResultDto> GetSandwichResultAsync(int id)
+        public async Task<SandwichDto> GetSandwichResultAsync(int id)
         {
             var sandwich = await Context
                                .Sandwiches
                                .SingleOrDefaultAsync(s => s.Id == id)
                            ?? throw new EntityNotFoundException($"Cant find sandwich with id:{id}");
 
-            return sandwich.MapTo<Models.Entities.Sandwich, SandwichResultDto>();
+            return sandwich.MapTo<Models.Entities.Sandwich, SandwichDto>();
         }
 
-        public async Task<IEnumerable<SandwichResultDto>> GetAllSandwichResultAsync()
+        public async Task<IEnumerable<SandwichDto>> GetAllSandwichResultAsync()
         {
             var sandwiches = await Context.Sandwiches.ToListAsync();
 
-            var sandwichResultList = sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichResultDto>());
+            var sandwichResultList = sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichDto>());
 
             return sandwichResultList;
         }
 
         //TODO: Create new and update sandwich dtos
-        public async Task AddSandwichAsync(NewSandwichDto newSandwichDto) =>
+        public async Task AddSandwichAsync(SandwichAddDto newSandwichDto) =>
             await AddAsync(new Models.Entities.Sandwich
             {
                 Id = 0,
@@ -45,13 +44,13 @@ namespace Cocorico.Server.Domain.Services.Sandwich
                 Price = newSandwichDto.Price,
             });
 
-        public async Task UpdateSandwichAsync(NewSandwichDto newSandwichDto) =>
+        public async Task UpdateSandwichAsync(SandwichDto sandwichDto) =>
             await UpdateAsync(new Models.Entities.Sandwich
             {
-                Id = newSandwichDto.Id,
+                Id = sandwichDto.Id,
                 IsDeleted = false,
-                Name = newSandwichDto.Name,
-                Price = newSandwichDto.Price,
+                Name = sandwichDto.Name,
+                Price = sandwichDto.Price,
             });
 
         public async Task DeleteSandwichAsync(int id) =>

@@ -3,13 +3,13 @@
 // ReSharper disable NonReadonlyMemberInGetHashCode
 namespace Cocorico.Shared.Dtos.Sandwich
 {
-    public class NewSandwichDto : IEquatable<NewSandwichDto>
+    public class SandwichDto : IEquatable<SandwichDto>
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
 
-        public bool Equals(NewSandwichDto other)
+        public bool Equals(SandwichDto other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -21,7 +21,7 @@ namespace Cocorico.Shared.Dtos.Sandwich
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((NewSandwichDto) obj);
+            return Equals((SandwichDto) obj);
         }
 
         public override int GetHashCode()

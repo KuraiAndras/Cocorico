@@ -29,7 +29,7 @@ namespace Cocorico.Server.Domain.Services.Order
 
             return ordersForCustomer.Select(order => order.MapTo(o => new OrderCustomerViewDto
             {
-                Sandwiches = o.Sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichResultDto>()),
+                Sandwiches = o.Sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichDto>()),
             }));
         }
 
@@ -44,7 +44,7 @@ namespace Cocorico.Server.Domain.Services.Order
             return ordersForWorkerView.Select(order => order.MapTo(o => new OrderWorkerViewDto
             {
                 UserName = o.Customer.Name,
-                Sandwiches = o.Sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichResultDto>())
+                Sandwiches = o.Sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichDto>())
             }));
         }
 

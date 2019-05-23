@@ -1,0 +1,906 @@
+{
+    "x-generator": "NSwag v12.3.0.0 (NJsonSchema v9.14.1.0 (Newtonsoft.Json v12.0.0.0))",
+    "swagger": "2.0",
+    "info": {
+      "title": "My Title",
+      "version": "1.0.0"
+    },
+    "host": "localhost:51219",
+    "schemes": [
+      "http"
+    ],
+    "paths": {
+      "/api/Authentication/LoginAsync": {
+        "post": {
+          "tags": [
+            "Authentication"
+          ],
+          "operationId": "Authentication_Login",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "credentials",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/LoginDetails"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/LoginResult"
+              }
+            }
+          }
+        }
+      },
+      "/api/Authentication/RegisterAsync": {
+        "post": {
+          "tags": [
+            "Authentication"
+          ],
+          "operationId": "Authentication_Register",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "parameters": [
+            {
+              "name": "model",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/RegisterDetails"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      },
+      "/api/Authentication/LogoutAsync": {
+        "post": {
+          "tags": [
+            "Authentication"
+          ],
+          "operationId": "Authentication_Logout",
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      },
+      "/api/Authentication/AddClaimToUserAsync": {
+        "post": {
+          "tags": [
+            "Authentication"
+          ],
+          "operationId": "Authentication_AddClaimToUser",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "parameters": [
+            {
+              "name": "userClaimRequest",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserClaimRequest"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      },
+      "/api/Authentication/RemoveClaimFromUserAsync": {
+        "post": {
+          "tags": [
+            "Authentication"
+          ],
+          "operationId": "Authentication_RemoveClaimFromUser",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "parameters": [
+            {
+              "name": "userClaimRequest",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserClaimRequest"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      },
+      "/api/Ingredient": {
+        "get": {
+          "tags": [
+            "Ingredient"
+          ],
+          "operationId": "Ingredient_GetAll",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/IngredientDto"
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Ingredient"
+          ],
+          "operationId": "Ingredient_Add",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "parameters": [
+            {
+              "name": "ingredientAddDto",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/IngredientAddDto"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "Ingredient"
+          ],
+          "operationId": "Ingredient_Update",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "parameters": [
+            {
+              "name": "ingredientDto",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/IngredientDto"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      },
+      "/api/Ingredient/{id}": {
+        "get": {
+          "tags": [
+            "Ingredient"
+          ],
+          "operationId": "Ingredient_Get",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "type": "integer",
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "format": "int32",
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/IngredientDto"
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Ingredient"
+          ],
+          "operationId": "Ingredient_Delete",
+          "parameters": [
+            {
+              "type": "integer",
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "format": "int32",
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      },
+      "/api/Order/customer/{customerId}": {
+        "get": {
+          "tags": [
+            "Order"
+          ],
+          "operationId": "Order_GetAllOrderForCustomer",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "type": "string",
+              "name": "customerId",
+              "in": "path",
+              "required": true,
+              "x-nullable": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/OrderCustomerViewDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/Order/GetPendingOrdersForWorkerAsync": {
+        "get": {
+          "tags": [
+            "Order"
+          ],
+          "operationId": "Order_GetPendingOrdersForWorker",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/OrderWorkerViewDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/Order": {
+        "post": {
+          "tags": [
+            "Order"
+          ],
+          "operationId": "Order_AddOrder",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "parameters": [
+            {
+              "name": "orderAddDto",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/OrderAddDto"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      },
+      "/api/Order/{orderId}": {
+        "delete": {
+          "tags": [
+            "Order"
+          ],
+          "operationId": "Order_DeleteOrder",
+          "parameters": [
+            {
+              "type": "integer",
+              "name": "orderId",
+              "in": "path",
+              "required": true,
+              "format": "int32",
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      },
+      "/api/Order/UpdateOrderAsync": {
+        "post": {
+          "tags": [
+            "Order"
+          ],
+          "operationId": "Order_UpdateOrder",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "parameters": [
+            {
+              "name": "updateOrderDto",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UpdateOrderDto"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      },
+      "/api/Sandwich": {
+        "get": {
+          "tags": [
+            "Sandwich"
+          ],
+          "operationId": "Sandwich_GetAll",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/SandwichDto"
+                }
+              }
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "Sandwich"
+          ],
+          "operationId": "Sandwich_Update",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "parameters": [
+            {
+              "name": "sandwich",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/SandwichDto"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Sandwich"
+          ],
+          "operationId": "Sandwich_Add",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "parameters": [
+            {
+              "name": "sandwich",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/SandwichAddDto"
+              },
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      },
+      "/api/Sandwich/{id}": {
+        "get": {
+          "tags": [
+            "Sandwich"
+          ],
+          "operationId": "Sandwich_Get",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "type": "integer",
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "format": "int32",
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/SandwichDto"
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Sandwich"
+          ],
+          "operationId": "Sandwich_Delete",
+          "parameters": [
+            {
+              "type": "integer",
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "format": "int32",
+              "x-nullable": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      },
+      "/api/User/GetAllForAdminAsync": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "operationId": "User_GetAllForAdmin",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/UserForAdminPage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/User/GetUserForAdminPageAsync/{userId}": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "operationId": "User_GetUserForAdminPage",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "type": "string",
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "x-nullable": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "x-nullable": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/UserForAdminPage"
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "LoginResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "claims": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "LoginDetails": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "RegisterDetails": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UserClaimRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "cocoricoClaim": {
+            "$ref": "#/definitions/CocoricoClaim"
+          }
+        }
+      },
+      "CocoricoClaim": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "claimValue": {
+            "type": "string"
+          }
+        }
+      },
+      "IngredientDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "IngredientAddDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "OrderCustomerViewDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "price",
+          "state"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sandwiches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/SandwichDto"
+            }
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state": {
+            "$ref": "#/definitions/OrderState"
+          }
+        }
+      },
+      "SandwichDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "price"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "OrderState": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "OrderPlaced",
+          "InTheOven",
+          "ToBeDelivered",
+          "Delivered"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "OrderWorkerViewDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "state"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "sandwiches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/SandwichDto"
+            }
+          },
+          "state": {
+            "$ref": "#/definitions/OrderState"
+          }
+        }
+      },
+      "OrderAddDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "sandwiches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/SandwichDto"
+            }
+          },
+          "customerId": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateOrderDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "orderId",
+          "state"
+        ],
+        "properties": {
+          "orderId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state": {
+            "$ref": "#/definitions/OrderState"
+          }
+        }
+      },
+      "SandwichAddDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "price"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UserForAdminPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "claims": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }

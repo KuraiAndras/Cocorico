@@ -58,65 +58,66 @@ namespace Cocorico.Server.Domain.Test.Helpers
 
         protected IEnumerable<Sandwich> SeedSandwiches()
         {
-            var ingredients = SeedIngredients().ToList();
+            SeedIngredients();
 
-            var sandwiches = new List<Sandwich>
-            {
-                new Sandwich
-                {
-                    Name = "Test Name1",
-                    Price = 40,
-                    Ingredients = ingredients.Where(i =>
-                            i.Id == 1)
-                        .ToList(),
-                },
-                new Sandwich
-                {
-                    Name = "Test Name2",
-                    Price = 50,
-                    Ingredients = ingredients.Where(i =>
-                            i.Id == 1
-                            || i.Id == 2)
-                        .ToList(),
-                },
-                new Sandwich
-                {
-                    Name = "Test Name3",
-                    Price = 60,
-                    Ingredients = ingredients.Where(i =>
-                            i.Id == 1
-                            || i.Id == 2
-                            || i.Id == 3)
-                        .ToList(),
-                },
-                new Sandwich
-                {
-                    Name = "Test Name4",
-                    Price = 70,
-                    Ingredients = ingredients.Where(i =>
-                            i.Id == 1
-                            || i.Id == 2
-                            || i.Id == 3
-                            || i.Id == 4)
-                        .ToList(),
-                },
-                new Sandwich
-                {
-                    Name = "Test Name5",
-                    Price = 80,
-                    Ingredients = ingredients.Where(i =>
-                            i.Id == 1
-                            || i.Id == 2
-                            || i.Id == 3
-                            || i.Id == 4
-                            || i.Id == 5)
-                        .ToList(),
-                },
-            };
-
+            var sandwiches = new List<Sandwich>();
             using (var context = NewDbContext)
             {
-                context.AddRange(sandwiches);
+                sandwiches.AddRange(new List<Sandwich>
+                {
+                    new Sandwich
+                    {
+                        Name = "Test Name1",
+                        Price = 40,
+                        Ingredients = context.Ingredients.Where(i =>
+                                i.Id == 1)
+                            .ToList(),
+                    },
+                    new Sandwich
+                    {
+                        Name = "Test Name2",
+                        Price = 50,
+                        Ingredients = context.Ingredients.Where(i =>
+                                i.Id == 1
+                                || i.Id == 2)
+                            .ToList(),
+                    },
+                    new Sandwich
+                    {
+                        Name = "Test Name3",
+                        Price = 60,
+                        Ingredients = context.Ingredients.Where(i =>
+                                i.Id == 1
+                                || i.Id == 2
+                                || i.Id == 3)
+                            .ToList(),
+                    },
+                    new Sandwich
+                    {
+                        Name = "Test Name4",
+                        Price = 70,
+                        Ingredients = context.Ingredients.Where(i =>
+                                i.Id == 1
+                                || i.Id == 2
+                                || i.Id == 3
+                                || i.Id == 4)
+                            .ToList(),
+                    },
+                    new Sandwich
+                    {
+                        Name = "Test Name5",
+                        Price = 80,
+                        Ingredients = context.Ingredients.Where(i =>
+                                i.Id == 1
+                                || i.Id == 2
+                                || i.Id == 3
+                                || i.Id == 4
+                                || i.Id == 5)
+                            .ToList(),
+                    },
+                });
+
+                context.Sandwiches.AddRange(sandwiches);
                 context.SaveChanges();
             }
 
@@ -136,7 +137,7 @@ namespace Cocorico.Server.Domain.Test.Helpers
 
             using (var context = NewDbContext)
             {
-                context.AddRange(ingredients);
+                context.Ingredients.AddRange(ingredients);
                 context.SaveChanges();
             }
 

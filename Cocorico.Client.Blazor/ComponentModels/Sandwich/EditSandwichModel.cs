@@ -3,25 +3,29 @@ using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 {
     public class EditSandwichModel : ComponentBase
     {
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Parameter] private int SandwichId { get; set; }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUriHelper UriHelper { get; set; }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private ISandwichClient SandwichHttpClient { get; set; }
 
-        protected SandwichAddDto Sandwich { get; private set; } = new SandwichAddDto();
+        protected SandwichDto Sandwich { get; private set; } = new SandwichDto();
 
         protected override async Task OnInitAsync()
         {
             try
             {
                 var sandwichResultDto = await SandwichHttpClient.GetAsync(SandwichId);
-                Sandwich = sandwichResultDto.MapTo<SandwichDto, SandwichAddDto>();
+                Sandwich = sandwichResultDto;
             }
             catch (SwaggerException)
             {

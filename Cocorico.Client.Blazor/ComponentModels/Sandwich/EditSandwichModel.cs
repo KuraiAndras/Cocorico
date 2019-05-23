@@ -42,7 +42,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
                 //TODO: Handle fail
                 if (!fileResponse.IsSuccessfulStatusCode()) return;
 
-                UriHelper.NavigateTo(Urls.Client.GetAllSandwich);
+                UriHelper.NavigateTo(Urls.Client.Sandwiches);
             }
             catch (SwaggerException)
             {

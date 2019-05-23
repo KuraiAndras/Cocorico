@@ -47,7 +47,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
             }
         }
 
-        protected void Edit(int sandwichId) => UriHelper.NavigateTo(Urls.Client.EditSandwich + $"/{sandwichId}");
+        protected void Edit(int sandwichId) => UriHelper.NavigateTo(Urls.Client.Sandwiches + $"/{sandwichId}");
 
         protected async Task DeleteAsync(int sandwichId)
         {

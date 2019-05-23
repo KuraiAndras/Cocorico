@@ -21,7 +21,8 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
         {
             var result = await SandwichHttpClient.AddAsync(NewSandwichDto);
 
-            if (result.IsSuccessfulStatusCode()) UriHelper.NavigateTo(Urls.Client.GetAllSandwich);
+            if (result.IsSuccessfulStatusCode()) UriHelper.NavigateTo(Urls.Client.Sandwiches);
+            //TODO: Handle fail
         }
     }
 }

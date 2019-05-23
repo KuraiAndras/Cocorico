@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,6 +14,8 @@ namespace Cocorico.Server.Domain.Models.Entities
 
         [Required]
         public string Name { get; set; }
+
+        public ICollection<Ingredient> Ingredients { get; set; }
 
         [Required]
         public int Price { get; set; }
@@ -34,7 +37,7 @@ namespace Cocorico.Server.Domain.Models.Entities
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Sandwich) obj);
+            return Equals((Sandwich)obj);
         }
 
         public override int GetHashCode()

@@ -21,13 +21,19 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var order in Orders.Where(o => o.State == OrderState.OrderPlaced))
+            @foreach (var order in Orders.Where(o => o.State == OrderState.OrderPlaced || o.State == OrderState.InTheOven))
             {
                 <tr>
                     <td>@order.Id</td>
                     <td>@order.State</td>
-                    <td><button class="btn btn-primary" onclick="@(() => UpdateStateAsync(order.Id, OrderState.InTheOven))">To Oven</button></td>
-                    <td><button class="btn btn-primary" onclick="@(() => UpdateStateAsync(order.Id, OrderState.ToBeDelivered))">To Delivery</button></td>
+                    @if (order.State == OrderState.OrderPlaced)
+                    {
+                        <td><button class="btn btn-primary" onclick="@(() => UpdateStateAsync(order.Id, OrderState.InTheOven))">To Oven</button></td>
+                    }
+                    @if (order.State == OrderState.InTheOven)
+                    {
+                        <td><button class="btn btn-primary" onclick="@(() => UpdateStateAsync(order.Id, OrderState.ToBeDelivered))">To Delivery</button></td>
+                    }
                 </tr>
                 @foreach (var sandwich in order.Sandwiches)
                 {

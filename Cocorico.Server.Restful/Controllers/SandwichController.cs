@@ -1,11 +1,11 @@
 ﻿using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Sandwich;
-using Cocorico.Server.Restful.Extensions;
 using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server.Restful.Controllers
 {
@@ -20,38 +20,47 @@ namespace Cocorico.Server.Restful.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<SandwichDto>>> GetAllAsync()
         {
-            var serviceResult = await _serverSandwichService.GetAllSandwichResultAsync();
+            var serviceResult = await _serverSandwichService.GetAllAsync();
 
-            return serviceResult.ToActionResult();
+            return new ActionResult<IEnumerable<SandwichDto>>(serviceResult);
         }
 
         [AllowAnonymous]
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetAsync([FromRoute] int id)
+        public async Task<ActionResult<SandwichDto>> GetAsync([FromRoute] int id)
         {
-            var serviceResult = await _serverSandwichService.GetSandwichResultAsync(id);
+            var serviceResult = await _serverSandwichService.GetAsync(id);
 
-            return serviceResult.ToActionResult();
+            return new ActionResult<SandwichDto>(serviceResult);
+        }
+
+        [Authorize(Policy = Policies.Administrator)]
+        [HttpPatch]
+        public async Task<ActionResult> UpdateAsync([FromBody] SandwichDto sandwich)
+        {
+            await _serverSandwichService.UpdateAsync(sandwich);
+
+            return new OkResult();
         }
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpPost]
-        public async Task<IActionResult> AddOrUpdateAsync([FromBody] NewSandwichDto sandwich)
+        public async Task<ActionResult> AddAsync([FromBody] SandwichAddDto sandwich)
         {
-            var serviceResult = await _serverSandwichService.AddOrUpdateSandwichAsync(sandwich);
+            await _serverSandwichService.AddAsync(sandwich);
 
-            return serviceResult.ToActionResult();
+            return new OkResult();
         }
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+        public async Task<ActionResult> DeleteAsync([FromRoute] int id)
         {
-            var serviceResult = await _serverSandwichService.DeleteSandwichAsync(id);
+            await _serverSandwichService.DeleteAsync(id);
 
-            return serviceResult.ToActionResult();
+            return new OkResult();
         }
     }
 }

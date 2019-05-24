@@ -15,14 +15,13 @@ namespace Cocorico.Server.Domain.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0-preview3.19153.1")
+                .HasAnnotation("ProductVersion", "3.0.0-preview5.19227.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.CocoricoUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id");
 
                     b.Property<int>("AccessFailedCount");
 
@@ -77,6 +76,24 @@ namespace Cocorico.Server.Domain.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.Ingredient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id", "Name");
+
+                    b.ToTable("Ingredients");
+                });
+
             modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -112,23 +129,44 @@ namespace Cocorico.Server.Domain.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int?>("OrderId");
-
                     b.Property<int>("Price");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.HasIndex("Id", "Name");
 
                     b.ToTable("Sandwiches");
                 });
 
+            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.SandwichIngredient", b =>
+                {
+                    b.Property<int>("SandwichId");
+
+                    b.Property<int>("IngredientId");
+
+                    b.HasKey("SandwichId", "IngredientId");
+
+                    b.HasIndex("IngredientId");
+
+                    b.ToTable("SandwichIngredient");
+                });
+
+            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.SandwichOrder", b =>
+                {
+                    b.Property<int>("SandwichId");
+
+                    b.Property<int>("OrderId");
+
+                    b.HasKey("SandwichId", "OrderId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("SandwichOrder");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -240,14 +278,38 @@ namespace Cocorico.Server.Domain.Migrations
                     b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.Sandwich", b =>
+            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.SandwichIngredient", b =>
                 {
-                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Order", null)
-                        .WithMany("Sandwiches")
-                        .HasForeignKey("OrderId");
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Ingredient", "Ingredient")
+                        .WithMany("SandwichLinks")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Sandwich", "Sandwich")
+                        .WithMany("IngredientLinks")
+                        .HasForeignKey("SandwichId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.SandwichOrder", b =>
+                {
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Order", "Order")
+                        .WithMany("SandwichLinks")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Sandwich", "Sandwich")
+                        .WithMany("OrderLinks")
+                        .HasForeignKey("SandwichId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -255,7 +317,8 @@ namespace Cocorico.Server.Domain.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -263,7 +326,8 @@ namespace Cocorico.Server.Domain.Migrations
                     b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -271,7 +335,8 @@ namespace Cocorico.Server.Domain.Migrations
                     b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -279,12 +344,14 @@ namespace Cocorico.Server.Domain.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -292,7 +359,8 @@ namespace Cocorico.Server.Domain.Migrations
                     b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

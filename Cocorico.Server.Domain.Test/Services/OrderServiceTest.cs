@@ -1,15 +1,14 @@
-﻿using Cocorico.Server.Domain.Models.Entities;
+﻿using System.Collections.Generic;
+using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Server.Domain.Services.Order;
 using Cocorico.Server.Domain.Test.Helpers;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Dtos.Sandwich;
-using Cocorico.Shared.Services.Helpers;
+using Cocorico.Shared.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Server.Domain.Test.Services
 {
@@ -23,15 +22,33 @@ namespace Cocorico.Server.Domain.Test.Services
 
             using (var context = NewDbContext)
             {
-                var actual = await context.Orders.SingleAsync();
+                var actual = await context.Orders
+                    .Include(o => o.SandwichLinks)
+                    .ThenInclude(sl => sl.Sandwich)
+                    .SingleAsync();
 
                 var expected = orderDto.MapTo(s => new Order
                 {
                     Id = 1,
-                    Price = 300,
+                    Price = 150,
+                    SandwichLinks = new List<SandwichOrder>(),
                 });
 
-                Assert.AreEqual(expected, actual);
+                var dbSandwiches = await context
+                    .Sandwiches
+                    .ToListAsync();
+
+                expected.SandwichLinks = dbSandwiches
+                    .Where(s => orderDto.Sandwiches.Any(iDto => iDto.Id == s.Id))
+                    .Select(s => new SandwichOrder()
+                    {
+                        Order = expected,
+                        Sandwich = s,
+                    })
+                    .ToList();
+
+                Assert.AreEqual(expected.Price, actual.Price);
+                Assert.AreEqual(expected.Sandwiches().Count(), actual.Sandwiches().Count());
             }
         }
 
@@ -60,11 +77,11 @@ namespace Cocorico.Server.Domain.Test.Services
             using (var context = NewDbContext)
             {
                 var service = new ServerOrderService(context);
-                var result = await service.GetPendingOrdersForWorkerAsync();
+                var result = (await service.GetPendingOrdersForWorkerAsync()).ToList();
 
+                Assert.AreEqual(1, result.Count);
 
-                var success = (Success<IEnumerable<OrderWorkerViewDto>>)result;
-                Assert.AreEqual(1, success.Data.Count());
+                Assert.IsTrue(!string.IsNullOrEmpty(result.First().UserName));
             }
         }
 
@@ -78,8 +95,7 @@ namespace Cocorico.Server.Domain.Test.Services
                 var service = new ServerOrderService(context);
                 var result = await service.GetAllOrderForCustomerAsync(order.CustomerId);
 
-                var success = (Success<IEnumerable<OrderCustomerViewDto>>)result;
-                Assert.AreEqual(1, success.Data.Count());
+                Assert.AreEqual(1, result.Count());
             }
         }
 
@@ -93,13 +109,11 @@ namespace Cocorico.Server.Domain.Test.Services
                 var service = new ServerOrderService(context);
 
                 var order = await context.Orders.FirstAsync();
-                var result = await service.UpdateOrderAsync(new UpdateOrderDto
+                await service.UpdateOrderAsync(new UpdateOrderDto
                 {
                     OrderId = order.Id,
                     State = OrderState.InTheOven,
                 });
-
-                Assert.IsInstanceOfType(result, typeof(Success));
 
                 order = await context.Orders.FirstAsync();
 
@@ -116,12 +130,12 @@ namespace Cocorico.Server.Domain.Test.Services
             {
                 UserId = user.Id,
                 CustomerId = user.Id,
-                Sandwiches = sandwiches.Select(s => new SandwichResultDto
+                Sandwiches = sandwiches.Select(s => new SandwichDto
                 {
                     Id = s.Id,
                     Name = s.Name,
                     Price = s.Price,
-                })
+                }).ToList(),
             };
 
             using (var context = NewDbContext)

@@ -1,5 +1,4 @@
 ﻿using Cocorico.Shared.Dtos.Sandwich;
-using Cocorico.Shared.Services.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,9 +6,12 @@ namespace Cocorico.Shared.Services
 {
     public interface ISandwichService
     {
-        Task<IServiceResult<SandwichResultDto>> GetSandwichResultAsync(int id);
-        Task<IServiceResult<IEnumerable<SandwichResultDto>>> GetAllSandwichResultAsync();
-        Task<IServiceResult> AddOrUpdateSandwichAsync(NewSandwichDto newSandwichDto);
-        Task<IServiceResult> DeleteSandwichAsync(int id);
+        Task<SandwichDto> GetAsync(int id);
+        Task<IEnumerable<SandwichDto>> GetAllAsync();
+
+        Task AddAsync(SandwichAddDto sandwichAddDto);
+        Task UpdateAsync(SandwichDto sandwichDto);
+
+        Task DeleteAsync(int id);
     }
 }

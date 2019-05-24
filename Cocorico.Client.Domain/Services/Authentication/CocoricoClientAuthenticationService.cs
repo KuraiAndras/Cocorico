@@ -1,129 +1,106 @@
 ﻿using Blazored.LocalStorage;
+using Cocorico.Client.Domain.Exceptions;
 using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Domain.Services.Authentication
 {
-    // ReSharper disable once UnusedMember.Global
     public class CocoricoClientAuthenticationService : ICocoricoClientAuthenticationService
     {
-        private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorageService;
-
-        private readonly SemaphoreLocker _localStorageServiceLock = new SemaphoreLocker();
+        private readonly IAuthenticationClient _authenticationClient;
 
         private readonly List<string> _userClaims = new List<string>();
 
         public IEnumerable<string> Claims => _userClaims;
 
-        private event Func<Task> ServiceStarted;
+        private event Action ServiceStarted;
 
         public event Action UserLoggedIn;
         public event Action UserLoggedOut;
 
-        public CocoricoClientAuthenticationService(HttpClient httpClient, ILocalStorageService localStorageService)
+        public CocoricoClientAuthenticationService(
+            ILocalStorageService localStorageService,
+            IAuthenticationClient authenticationClient)
         {
-            _httpClient = httpClient;
             _localStorageService = localStorageService;
+            _authenticationClient = authenticationClient;
 
-            ServiceStarted = UpdateAuthStateAsync;
+            ServiceStarted = async () => await UpdateAuthStateAsync();
             ServiceStarted.Invoke();
         }
 
-        public async Task<IServiceResult> RegisterAsync(RegisterDetails registerDetails)
+        public async Task RegisterAsync(RegisterDetails registerDetails)
         {
-            var response = await _httpClient.PostJsonWithResultAsync(Urls.Server.Register, registerDetails);
+            var response = await _authenticationClient.RegisterAsync(registerDetails);
 
-            return response.GetServiceResult();
+            if (!response.IsSuccessfulStatusCode()) throw new RegisterFailedException();
         }
 
-        public async Task<IServiceResult<LoginResult>> LoginAsync(LoginDetails loginDetails)
+        public async Task LoginAsync(LoginDetails loginDetails)
         {
-            var exception = new InvalidCredentialsException();
-            var result = await _httpClient.RetrieveDataFromServerAsync<LoginDetails, LoginResult>(HttpVerbs.Post, Urls.Server.Login, loginDetails, exception);
+            var result = await _authenticationClient.LoginAsync(loginDetails);
 
-            switch (result)
-            {
-                case Success<LoginResult> success:
-                    await _localStorageServiceLock.LockAsync(async () => await _localStorageService.SetItemAsync(Verbs.Claims, success.Data.Claims));
-
-                    await UpdateAuthStateAsync();
-
-                    return new Success<LoginResult>(success.Data);
-                default: return new Fail<LoginResult>(exception);
-            }
-        }
-
-        public async Task<IServiceResult> LogoutAsync()
-        {
-            var response = await _httpClient.PostJsonWithResultAsync(Urls.Server.Logout, "");
-
-            if (!response.IsSuccessStatusCode) return new Fail(new UnexpectedException());
-
-            await _localStorageServiceLock.LockAsync(async () => await _localStorageService.RemoveItemAsync(Verbs.Claims));
+            await _localStorageService.SetItemAsync(Verbs.Claims, result.Claims);
 
             await UpdateAuthStateAsync();
-
-            return new Success();
         }
 
-        public async Task<IServiceResult> AddClaimToUserAsync(UserClaimRequest userClaimRequest)
+        public async Task LogoutAsync()
         {
-            var response = await _httpClient.RetrieveMessageFromServerAsync(HttpVerbs.Post, Urls.Server.AddClaimToUser, userClaimRequest, new InvalidCommandException());
+            var response = await _authenticationClient.LogoutAsync();
 
-            switch (response)
-            {
-                case Success success: return success;
-                default: return new Fail(new InvalidCommandException());
-            }
+            if (!response.IsSuccessfulStatusCode()) throw new UnexpectedException();
+
+            await _localStorageService.RemoveItemAsync(Verbs.Claims);
+
+            await UpdateAuthStateAsync();
         }
 
-        public async Task<IServiceResult> RemoveClaimFromUserAsync(UserClaimRequest userClaimRequest)
+        public async Task AddClaimToUserAsync(UserClaimRequest userClaimRequest)
         {
-            var response = await _httpClient.RetrieveMessageFromServerAsync(HttpVerbs.Post, Urls.Server.RemoveClaimFromUser, userClaimRequest, new InvalidCommandException());
+            var response = await _authenticationClient.AddClaimToUserAsync(userClaimRequest);
 
-            switch (response)
-            {
-                case Success success: return success;
-                default: return new Fail(new InvalidCommandException());
-            }
+            if (!response.IsSuccessfulStatusCode()) throw new InvalidCommandException();
+        }
+
+        public async Task RemoveClaimFromUserAsync(UserClaimRequest userClaimRequest)
+        {
+            var response = await _authenticationClient.RemoveClaimFromUserAsync(userClaimRequest);
+
+            if (!response.IsSuccessfulStatusCode()) throw new InvalidCommandException();
         }
 
         private async Task UpdateAuthStateAsync()
         {
-            await _localStorageServiceLock.LockAsync(async () =>
+            var claims = await _localStorageService.GetItemAsync<IEnumerable<string>>(Verbs.Claims);
+
+            if (claims is null)
             {
-                var claims = await _localStorageService.GetItemAsync<IEnumerable<string>>(Verbs.Claims);
+                UserLoggedOut?.Invoke();
+                return;
+            }
 
-                if (claims is null)
-                {
-                    UserLoggedOut?.Invoke();
-                    return;
-                }
+            var claimList = claims.ToList();
 
-                var claimList = claims.ToList();
+            _userClaims.Clear();
+            if (claimList.Any())
+            {
+                _userClaims.AddRange(claimList);
 
-                if (claimList.Any())
-                {
-                    _userClaims.Clear();
-                    _userClaims.AddRange(claimList);
-
-                    UserLoggedIn?.Invoke();
-                }
-                else
-                {
-                    UserLoggedOut?.Invoke();
-                }
-            });
+                UserLoggedIn?.Invoke();
+            }
+            else
+            {
+                UserLoggedOut?.Invoke();
+            }
         }
     }
 }

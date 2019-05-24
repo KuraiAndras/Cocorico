@@ -1,9 +1,9 @@
-﻿using Cocorico.Client.Domain.Services.Authentication;
-using Cocorico.Client.Domain.Services.User;
+﻿using Cocorico.Client.Domain.Helpers;
+using Cocorico.Client.Domain.Services.Authentication;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.User;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Blazor.ComponentModels.User
@@ -17,55 +17,58 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
         [Inject] private ICocoricoClientAuthenticationService AuthenticationService { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private IClientUserService UserService { get; set; }
+        [Inject] private IUserClient UserHttpClient { get; set; }
         protected UserForAdminPage UserForAdminPage { get; private set; }
 
         protected override async Task OnInitAsync() => await LoadUserAsync();
 
         private async Task LoadUserAsync()
         {
-            var result = await UserService.GetUserForAdminPageAsync(UserId);
-
-            //TODO: Handle fail
-            switch (result)
+            try
             {
-                case Success<UserForAdminPage> success:
-                    UserForAdminPage = success.Data;
-                    break;
+                var result = await UserHttpClient.GetUserForAdminPageAsync(UserId);
+
+                UserForAdminPage = result;
+            }
+            catch (Exception)
+            {
+                //TODO: Handle fail
             }
         }
 
         protected async Task AddClaimToUserAsync(string claimValue)
         {
-            var result = await AuthenticationService.AddClaimToUserAsync(new UserClaimRequest
+            try
             {
-                UserId = UserId,
-                CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
-            });
+                await AuthenticationService.AddClaimToUserAsync(new UserClaimRequest
+                {
+                    UserId = UserId,
+                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
+                });
 
-            //TODO: Handle fail
-
-            switch (result)
+                await LoadUserAsync();
+            }
+            catch (Exception)
             {
-                case Success _:
-                    await LoadUserAsync();
-                    break;
+                //TODO: Handle fail
             }
         }
 
         protected async Task RemoveClaimFromUserAsync(string claimValue)
         {
-            var result = await AuthenticationService.RemoveClaimFromUserAsync(new UserClaimRequest
+            try
             {
-                UserId = UserId,
-                CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
-            });
+                await AuthenticationService.RemoveClaimFromUserAsync(new UserClaimRequest
+                {
+                    UserId = UserId,
+                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
+                });
 
-            switch (result)
+                await LoadUserAsync();
+            }
+            catch (Exception)
             {
-                case Success _:
-                    await LoadUserAsync();
-                    break;
+                //TODO: Handle fail
             }
         }
     }

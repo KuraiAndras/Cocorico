@@ -1,6 +1,7 @@
-﻿using Cocorico.Client.Domain.Services.Order;
+﻿using Cocorico.Client.Domain.Extensions;
+using Cocorico.Client.Domain.Helpers;
+using Cocorico.Client.Domain.Services.Basket;
 using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -9,25 +10,37 @@ namespace Cocorico.Client.Blazor.ComponentModels.Order
     public class AddOrderModel : ComponentBase
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private IClientOrderService OrderService { get; set; }
+        [Inject] private IBasketService BasketService { get; set; }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Inject] private IOrderClient OrderHttpClient { get; set; }
 
         protected OrderAddDto OrderAddDto { get; } = new OrderAddDto();
 
         protected override Task OnInitAsync()
         {
-            OrderAddDto.Sandwiches = OrderService.SandwichesInBasket();
+            OrderAddDto.Sandwiches = BasketService.SandwichesInBasket;
             return base.OnInitAsync();
         }
 
         protected async Task Add()
         {
-            var result = await OrderService.AddOrderAsync(OrderAddDto);
-            switch (result)
+            try
             {
-                case Success _:
-                    //TODO: Go to orders
-                    break;
+                var result = await OrderHttpClient.AddOrderAsync(OrderAddDto);
+
+                //TODO: Go to orders
+                if (result.IsSuccessfulStatusCode())
+                {
+                    BasketService.EmptyBasket();
+                }
+            }
+            catch (SwaggerException)
+            {
+                //TODO: Handle fail
             }
         }
+
+        protected void DeleteSandwich(int id) => BasketService.RemoveFromBasket(id);
     }
 }

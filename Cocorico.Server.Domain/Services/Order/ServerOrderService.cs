@@ -4,12 +4,11 @@ using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cocorico.Server.Domain.Extensions;
+using Cocorico.Server.Domain.Models.Entities;
 
 namespace Cocorico.Server.Domain.Services.Order
 {
@@ -19,84 +18,67 @@ namespace Cocorico.Server.Domain.Services.Order
         {
         }
 
-        public async Task<IServiceResult<IEnumerable<OrderCustomerViewDto>>> GetAllOrderForCustomerAsync(string customerId)
+        public async Task<IEnumerable<OrderCustomerViewDto>> GetAllOrderForCustomerAsync(string customerId)
         {
-            if (customerId is null) return new Fail<IEnumerable<OrderCustomerViewDto>>(new InvalidCommandException());
-            var ordersForCustomer = await Context
-                .Orders
-                .IncludeSandwiches()
-                .Where(o => o.CustomerId == customerId)
-                .ToListAsync();
+            if (string.IsNullOrEmpty(customerId)) throw new EntityNotFoundException($"Invalid customer Id:{customerId}");
 
-            return new Success<IEnumerable<OrderCustomerViewDto>>(ordersForCustomer.Select(o => new OrderCustomerViewDto
+            var ordersForCustomer = await Context.Orders
+                                        .Include(o => o.SandwichLinks)
+                                        .ThenInclude(sl => sl.Sandwich)
+                                        .ThenInclude(s => s.IngredientLinks)
+                                        .ThenInclude(il => il.Ingredient)
+                                        .Where(o => o.CustomerId == customerId)
+                                        .ToListAsync()
+                                    ?? throw new UnexpectedException();
+
+            return ordersForCustomer.Select(order => order.MapTo(o => new OrderCustomerViewDto
             {
-                Id = o.Id,
-                Price = o.Price,
-                Sandwiches = o.Sandwiches.Select(s => new SandwichResultDto
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Price = s.Price,
-                }),
-                State = o.State,
+                Sandwiches = o.Sandwiches().Select(s => s.ToSandwichDto()),
             }));
         }
 
-        public async Task<IServiceResult<IEnumerable<OrderWorkerViewDto>>> GetPendingOrdersForWorkerAsync()
+        public async Task<IEnumerable<OrderWorkerViewDto>> GetPendingOrdersForWorkerAsync()
         {
-            var ordersForWorkerView = await Context
-                .Orders
-                .IncludeSandwiches()
-                .Include(o => o.Customer)
-                .Where(o => o.State == OrderState.InTheOven || o.State == OrderState.OrderPlaced)
-                .ToListAsync();
+            var ordersForWorkerView = await Context.Orders
+                                          .Include(o => o.SandwichLinks)
+                                          .ThenInclude(sl => sl.Sandwich)
+                                          .ThenInclude(s => s.IngredientLinks)
+                                          .ThenInclude(il => il.Ingredient)
+                                          .Include(o => o.Customer)
+                                          .Where(o => o.State != OrderState.Delivered)
+                                          .ToListAsync() ?? throw new UnexpectedException();
 
-            return new Success<IEnumerable<OrderWorkerViewDto>>(ordersForWorkerView.Select(o => new OrderWorkerViewDto
-            {
-                Id = o.Id,
-                Sandwiches = o.Sandwiches.Select(s => new SandwichResultDto
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Price = s.Price,
-                }),
-                State = o.State,
-                UserName = o.Customer.UserName,
-            }));
+            return ordersForWorkerView.Select(order => order.ToOrderWorkerViewDto());
         }
 
-        public async Task<IServiceResult> UpdateOrderAsync(UpdateOrderDto updateOrderDto)
+        public async Task UpdateOrderAsync(UpdateOrderDto updateOrderDto)
         {
-            var order = await Context
-                .Orders
-                .SingleOrDefaultAsync(o => o.Id == updateOrderDto.OrderId);
-            if (order is null) return new Fail(new EntityNotFoundException());
+            var order = await Context.Orders
+                            .Include(o => o.SandwichLinks)
+                            .ThenInclude(sl => sl.Sandwich)
+                            .ThenInclude(s => s.IngredientLinks)
+                            .ThenInclude(il => il.Ingredient)
+                            .SingleOrDefaultAsync(o => o.Id == updateOrderDto.OrderId)
+                        ?? throw new EntityNotFoundException($"Order not found with id:{updateOrderDto.OrderId}");
 
             order.State = updateOrderDto.State;
 
-            var updateResult = await AddOrUpdateAsync(order);
-            if (updateResult is Fail fail) return fail;
-
-            var saveResult = await Context.TrySaveChangesAsync();
-
-            return saveResult;
+            await UpdateAsync(order);
         }
 
-        public async Task<IServiceResult> AddOrderAsync(OrderAddDto orderAddDto)
+        public async Task AddOrderAsync(OrderAddDto orderAddDto)
         {
-            var user = await Context
-                .Users
-                .SingleOrDefaultAsync(u => u.Id == orderAddDto.UserId);
-            if (user is null) return new Fail(new EntityNotFoundException());
+            var user = await Context.Users.SingleOrDefaultAsync(u => u.Id == orderAddDto.UserId)
+                       ?? throw new EntityNotFoundException($"User not found with id:{orderAddDto.UserId}");
 
-            var sandwiches = new List<Models.Entities.Sandwich>();
-            foreach (var id in orderAddDto.Sandwiches.Select(s => s.Id))
-            {
-                var sandwich = await Context.Sandwiches.SingleOrDefaultAsync(s => s.Id == id);
-                if (sandwich is null) return new Fail(new EntityNotFoundException());
+            //TODO: This might change
+            var allSandwich = await Context
+                .Sandwiches
+                .Include(s => s.IngredientLinks)
+                .ThenInclude(il => il.Ingredient)
+                .ToListAsync();
 
-                sandwiches.Add(sandwich);
-            }
+            var sandwiches = allSandwich.Where(s => !(orderAddDto.Sandwiches.SingleOrDefault(os => os.Id == s.Id) is null)).ToList();
 
             var newOrder = new Models.Entities.Order
             {
@@ -104,22 +86,20 @@ namespace Cocorico.Server.Domain.Services.Order
                 CustomerId = user.Id,
                 Customer = user,
                 Price = sandwiches.Select(s => s.Price).Aggregate((sum, price) => sum + price),
-                Sandwiches = sandwiches,
                 State = OrderState.OrderPlaced,
             };
 
-            var addResult = await AddOrUpdateAsync(newOrder);
+            newOrder.SandwichLinks = sandwiches
+                .Select(s => new SandwichOrder
+                {
+                    Order = newOrder,
+                    Sandwich = s,
+                })
+                .ToList();
 
-            return addResult;
+            await AddAsync(newOrder);
         }
 
-        public async Task<IServiceResult> DeleteOrderAsync(int orderId) => await DeleteAsync(orderId);
-    }
-
-    internal static class ContextOrderExtension
-    {
-        internal static IQueryable<Models.Entities.Order> IncludeSandwiches(this IQueryable<Models.Entities.Order> queryable) =>
-            queryable
-                .Include(o => o.Sandwiches);
+        public async Task DeleteOrderAsync(int orderId) => await DeleteByIdAsync(orderId);
     }
 }

@@ -1,7 +1,9 @@
-﻿using Cocorico.Server.Domain.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Cocorico.Server.Domain.Extensions;
 using Cocorico.Server.Domain.Models;
 using Cocorico.Shared.Exceptions;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -21,52 +23,40 @@ namespace Cocorico.Server.Domain.Services.ServiceBase
 
         protected EntityServiceBase(CocoricoDbContext context) => Context = context;
 
-        protected async Task<IServiceResult> AddOrUpdateAsync(T entity)
+        protected async Task AddAsync(T entity)
         {
-            var result = Context.GetDbSet<T>();
+            if (!entity.Id.Equals(default(TKey))) throw new InvalidCommandException();
 
-            switch (result)
-            {
-                case Success<DbSet<T>> success:
-                    var dbSet = success.Data;
+            var dbSet = Context.GetDbSet<T>();
 
-                    var original = await dbSet.SingleOrDefaultAsync(e => e.Id.Equals(entity.Id));
+            if (!(await dbSet.AsNoTracking().SingleOrDefaultAsync(e => e.Id.Equals(entity.Id)) is null)) throw new EntityAlreadyExistsException();
 
-                    if (!(original is null)) dbSet.Remove(original);
+            await dbSet.AddAsync(entity);
 
-                    entity.IsDeleted = false;
-
-                    await dbSet.AddAsync(entity);
-
-                    var saveResult = await Context.TrySaveChangesAsync();
-
-                    return saveResult;
-
-                default: return new Fail(new UnexpectedException());
-            }
+            await Context.SaveChangesAsync();
         }
 
-        protected async Task<IServiceResult> DeleteAsync(TKey key)
+        protected async Task UpdateAsync(T entity)
         {
-            var result = Context.GetDbSet<T>();
+            var dbSet = Context.GetDbSet<T>();
 
-            switch (result)
-            {
-                case Success<DbSet<T>> success:
-                    var dbSet = success.Data;
+            var _ = await dbSet.AsNoTracking().SingleOrDefaultAsync(e => e.Id.Equals(entity.Id))
+                    ?? throw new EntityNotFoundException();
 
-                    var original = await dbSet.SingleOrDefaultAsync(e => e.Id.Equals(key));
+            dbSet.Update(entity);
 
-                    if (original is null) return new Fail(new EntityNotFoundException());
+            await Context.SaveChangesAsync();
+        }
 
-                    original.IsDeleted = true;
+        protected async Task DeleteByIdAsync(TKey key)
+        {
+            var dbSet = Context.GetDbSet<T>();
 
-                    var saveResult = await Context.TrySaveChangesAsync();
+            var original = await dbSet.SingleOrDefaultAsync(e => e.Id.Equals(key)) ?? throw new EntityNotFoundException();
 
-                    return saveResult;
+            original.IsDeleted = true;
 
-                default: return new Fail(new UnexpectedException());
-            }
+            await Context.SaveChangesAsync();
         }
     }
 }

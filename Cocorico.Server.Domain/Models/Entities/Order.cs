@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Cocorico.Shared.Dtos.Order;
+using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Cocorico.Shared.Helpers;
+using System.Linq;
 
 // ReSharper disable NonReadonlyMemberInGetHashCode
 namespace Cocorico.Server.Domain.Models.Entities
 {
-    public class Order : IDbEntity<int>, IEquatable<Order>
+    public class Order : IDbEntity<int>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -20,7 +22,7 @@ namespace Cocorico.Server.Domain.Models.Entities
         [ForeignKey(nameof(CustomerId))]
         public CocoricoUser Customer { get; set; }
 
-        public ICollection<Sandwich> Sandwiches { get; set; }
+        public ICollection<SandwichOrder> SandwichLinks { get; set; }
 
         [Required]
         public int Price { get; set; }
@@ -31,49 +33,20 @@ namespace Cocorico.Server.Domain.Models.Entities
         [Required]
         public bool IsDeleted { get; set; }
 
-
-        #region GeneratedEqualatyMembers
-
-        public bool Equals(Order other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Id == other.Id && string.Equals(CustomerId, other.CustomerId) && Equals(Customer, other.Customer) && Equals(Sandwiches, other.Sandwiches) && Price == other.Price && State == other.State && IsDeleted == other.IsDeleted;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((Order) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
+        public OrderWorkerViewDto ToOrderWorkerViewDto() =>
+            this.MapTo(o => new OrderWorkerViewDto
             {
-                var hashCode = Id;
-                hashCode = (hashCode * 397) ^ (CustomerId != null ? CustomerId.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (Customer != null ? Customer.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (Sandwiches != null ? Sandwiches.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ Price;
-                hashCode = (hashCode * 397) ^ (int) State;
-                hashCode = (hashCode * 397) ^ IsDeleted.GetHashCode();
-                return hashCode;
-            }
-        }
+                UserName = o.Customer.Name,
+                Sandwiches = o.Sandwiches().Select(s => s.MapTo(sa => new SandwichDto
+                {
+                    Ingredients = sa.IngredientLinks.Select(i => i.Ingredient.ToIngredientDto()).ToList()
+                }))
+            });
+    }
 
-        public static bool operator ==(Order left, Order right)
-        {
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(Order left, Order right)
-        {
-            return !Equals(left, right);
-        }
-
-        #endregion
+    public static class OrderExtension
+    {
+        public static IEnumerable<Sandwich> Sandwiches(this Order order) =>
+            order.SandwichLinks.Select(sl => sl.Sandwich);
     }
 }

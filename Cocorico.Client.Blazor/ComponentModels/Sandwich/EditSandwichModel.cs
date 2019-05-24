@@ -1,42 +1,81 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Cocorico.Client.Domain.Services.Sandwich;
+﻿using System.Collections.Generic;
+using Cocorico.Client.Domain.Extensions;
+using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
-using Cocorico.Shared.Services.Helpers;
 using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
+using Cocorico.Shared.Dtos.Ingredient;
 
 namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 {
     public class EditSandwichModel : ComponentBase
     {
-        [Parameter] private int SandwichId { get; set; }
-        [Inject] private IUriHelper UriHelper { get; set; }
-        [Inject] private IClientSandwichService SandwichService { get; set; }
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Parameter] private int Id { get; set; }
 
-        protected NewSandwichDto Sandwich { get; private set; } = new NewSandwichDto();
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Inject] private IUriHelper UriHelper { get; set; }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Inject] private ISandwichClient SandwichHttpClient { get; set; }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        [Inject] private IIngredientClient IngredientClient { get; set; }
+
+        protected SandwichDto Sandwich { get; private set; } = new SandwichDto();
+
+        protected List<IngredientDto> AvailableIngredients { get; private set; } = new List<IngredientDto>();
+
+        private List<IngredientDto> AddedIngredients { get; } = new List<IngredientDto>();
 
         protected override async Task OnInitAsync()
         {
-            var result = await SandwichService.GetSandwichResultAsync(SandwichId);
-
-            switch (result)
+            try
             {
-                case Success<SandwichResultDto> success:
-                    Sandwich = success.Data.MapTo<SandwichResultDto, NewSandwichDto>();
-                    break;
+                var sandwichDto = await SandwichHttpClient.GetAsync(Id);
+                Sandwich = sandwichDto;
+                AddedIngredients.Clear();
+                AddedIngredients.AddRange(sandwichDto.Ingredients);
+
+                var ingredients = await IngredientClient.GetAllAsync();
+
+                AvailableIngredients.AddRange(ingredients);
             }
+            catch (SwaggerException)
+            {
+                //TODO: Handle fail
+            }
+        }
+
+        protected void AddIngredient(IngredientDto ingredient)
+        {
+            AddedIngredients.Add(ingredient);
+            Sandwich.Ingredients = AddedIngredients;
+        }
+
+        protected void RemoveIngredient(IngredientDto ingredient)
+        {
+            AddedIngredients.Remove(ingredient);
+            Sandwich.Ingredients = AddedIngredients;
         }
 
         protected async Task Edit()
         {
-            var result = await SandwichService.AddOrUpdateSandwichAsync(Sandwich);
-
-            switch (result)
+            try
             {
-                case Success _:
-                    UriHelper.NavigateTo(Urls.Client.GetAllSandwich);
-                    break;
+                Sandwich.Ingredients = AddedIngredients;
+
+                var fileResponse = await SandwichHttpClient.UpdateAsync(Sandwich);
+
+                //TODO: Handle fail
+                if (!fileResponse.IsSuccessfulStatusCode()) return;
+
+                UriHelper.NavigateTo(Urls.Client.Sandwiches);
+            }
+            catch (SwaggerException)
+            {
+                //TODO: Handle fail
             }
         }
     }

@@ -23,7 +23,7 @@ namespace Cocorico.Server.Domain.Services.Order
 
             var ordersForCustomer = await Context.Orders
                                         .Include(o => o.Sandwiches)
-                                        .ThenInclude(s => s.Ingredients)
+                                        .ThenInclude(s => s.IngredientLinks)
                                         .Where(o => o.CustomerId == customerId)
                                         .ToListAsync()
                                     ?? throw new UnexpectedException();
@@ -38,23 +38,19 @@ namespace Cocorico.Server.Domain.Services.Order
         {
             var ordersForWorkerView = await Context.Orders
                                           .Include(o => o.Sandwiches)
-                                          .ThenInclude(s => s.Ingredients)
+                                          .ThenInclude(s => s.IngredientLinks)
                                           .Include(o => o.Customer)
                                           .Where(o => o.State != OrderState.Delivered)
                                           .ToListAsync() ?? throw new UnexpectedException();
 
-            return ordersForWorkerView.Select(order => order.MapTo(o => new OrderWorkerViewDto
-            {
-                UserName = o.Customer.Name,
-                Sandwiches = o.Sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichDto>())
-            }));
+            return ordersForWorkerView.Select(order => order.ToOrderWorkerViewDto());
         }
 
         public async Task UpdateOrderAsync(UpdateOrderDto updateOrderDto)
         {
             var order = await Context.Orders
                             .Include(o => o.Sandwiches)
-                            .ThenInclude(s => s.Ingredients)
+                            .ThenInclude(s => s.IngredientLinks)
                             .SingleOrDefaultAsync(o => o.Id == updateOrderDto.OrderId)
                         ?? throw new EntityNotFoundException($"Order not found with id:{updateOrderDto.OrderId}");
 
@@ -71,7 +67,7 @@ namespace Cocorico.Server.Domain.Services.Order
             //TODO: This might change
             var allSandwich = await Context
                 .Sandwiches
-                .Include(s => s.Ingredients)
+                .Include(s => s.IngredientLinks)
                 .ToListAsync();
 
             var sandwiches = allSandwich.Where(s => !(orderAddDto.Sandwiches.SingleOrDefault(os => os.Id == s.Id) is null)).ToList();

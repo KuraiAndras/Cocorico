@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Cocorico.Shared.Dtos.Sandwich;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 // ReSharper disable NonReadonlyMemberInGetHashCode
 namespace Cocorico.Server.Domain.Models.Entities
@@ -14,13 +16,39 @@ namespace Cocorico.Server.Domain.Models.Entities
         [Required]
         public string Name { get; set; }
 
-        [Required]
-        public ICollection<Ingredient> Ingredients { get; set; }
+        public ICollection<SandwichIngredient> IngredientLinks { get; set; }
 
         [Required]
         public int Price { get; set; }
 
         [Required]
         public bool IsDeleted { get; set; }
+
+        public SandwichDto ToSandwichDto() =>
+            this.MapTo(s => new SandwichDto
+            {
+                Ingredients = IngredientLinks.Select(il => il.Ingredient.ToIngredientDto()).ToList()
+            });
+    }
+
+    public static class SandwichExtensions
+    {
+        public static Sandwich ToSandwich(this SandwichAddDto sandwichAddDto) =>
+            sandwichAddDto.MapTo(s => new Sandwich
+            {
+                Name = sandwichAddDto.Name,
+                Price = sandwichAddDto.Price,
+                IngredientLinks = new List<SandwichIngredient>(),
+            });
+
+        public static Sandwich ToSandwich(this SandwichDto sandwichDto) =>
+            sandwichDto.MapTo(s => new Sandwich
+            {
+                Name = sandwichDto.Name,
+                Price = sandwichDto.Price,
+                IngredientLinks = new List<SandwichIngredient>(),
+            });
+
+        public static IEnumerable<Ingredient> Ingredients(this Sandwich sandwich) => sandwich.IngredientLinks.Select(i => i.Ingredient);
     }
 }

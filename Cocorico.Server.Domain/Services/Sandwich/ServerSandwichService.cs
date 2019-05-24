@@ -1,4 +1,5 @@
 ﻿using Cocorico.Server.Domain.Models;
+using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
@@ -15,55 +16,72 @@ namespace Cocorico.Server.Domain.Services.Sandwich
         {
         }
 
-        public async Task<SandwichDto> GetSandwichResultAsync(int id)
+        public async Task<SandwichDto> GetAsync(int id)
         {
             var sandwich = await Context
                                .Sandwiches
-                               .Include(s => s.Ingredients)
+                               .Include(s => s.IngredientLinks)
+                               .ThenInclude(il => il.Ingredient)
                                .SingleOrDefaultAsync(s => s.Id == id)
                            ?? throw new EntityNotFoundException($"Cant find sandwich with id:{id}");
 
-            return sandwich.MapTo<Models.Entities.Sandwich, SandwichDto>();
+            return sandwich.ToSandwichDto();
         }
 
-        public async Task<IEnumerable<SandwichDto>> GetAllSandwichResultAsync()
+        public async Task<IEnumerable<SandwichDto>> GetAllAsync()
         {
             var sandwiches = await Context
                 .Sandwiches
-                .Include(s => s.Ingredients)
+                .Include(s => s.IngredientLinks)
+                .ThenInclude(il => il.Ingredient)
                 .ToListAsync();
 
-            var sandwichResultList = sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichDto>());
+            var sandwichResultList = sandwiches.Select(s => s.ToSandwichDto());
 
             return sandwichResultList;
         }
 
-        public async Task AddSandwichAsync(SandwichAddDto newSandwichDto)
+        public async Task AddAsync(SandwichAddDto sandwichAddDto)
         {
+            var sandwich = sandwichAddDto.ToSandwich();
+
             var ingredients = await Context
                 .Ingredients
                 .ToListAsync();
 
-            await AddAsync(new Models.Entities.Sandwich
-            {
-                Id = 0,
-                IsDeleted = false,
-                Name = newSandwichDto.Name,
-                Price = newSandwichDto.Price,
-                Ingredients = ingredients.Where(i => newSandwichDto.Ingredients.SingleOrDefault(iDto => iDto.Id == i.Id) != null).ToList()
-            });
+            sandwich.IngredientLinks = ingredients
+                .Where(i => sandwichAddDto.Ingredients.Any(iDto => iDto.Id == i.Id))
+                .Select(i => new SandwichIngredient
+                {
+                    Ingredient = i,
+                    Sandwich = sandwich,
+                })
+                .ToList();
+
+            await AddAsync(sandwich);
         }
 
-        public async Task UpdateSandwichAsync(SandwichDto sandwichDto) =>
-            await UpdateAsync(new Models.Entities.Sandwich
-            {
-                Id = sandwichDto.Id,
-                IsDeleted = false,
-                Name = sandwichDto.Name,
-                Price = sandwichDto.Price,
-            });
+        public async Task UpdateAsync(SandwichDto sandwichDto)
+        {
+            var sandwich = sandwichDto.ToSandwich();
 
-        public async Task DeleteSandwichAsync(int id) =>
+            var ingredients = await Context
+                .Ingredients
+                .ToListAsync();
+
+            sandwich.IngredientLinks = ingredients
+                .Where(i => sandwichDto.Ingredients.Any(iDto => iDto.Id == i.Id))
+                .Select(i => new SandwichIngredient
+                {
+                    Ingredient = i,
+                    Sandwich = sandwich,
+                })
+                .ToList();
+
+            await UpdateAsync(sandwich);
+        }
+
+        public async Task DeleteAsync(int id) =>
             await DeleteByIdAsync(id);
     }
 }

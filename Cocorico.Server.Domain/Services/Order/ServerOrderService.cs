@@ -39,6 +39,7 @@ namespace Cocorico.Server.Domain.Services.Order
             var ordersForWorkerView = await Context.Orders
                                           .Include(o => o.Sandwiches)
                                           .ThenInclude(s => s.IngredientLinks)
+                                          .ThenInclude(il => il.Ingredient)
                                           .Include(o => o.Customer)
                                           .Where(o => o.State != OrderState.Delivered)
                                           .ToListAsync() ?? throw new UnexpectedException();

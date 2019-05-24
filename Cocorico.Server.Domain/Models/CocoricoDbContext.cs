@@ -26,6 +26,9 @@ namespace Cocorico.Server.Domain.Models
             builder.Entity<SandwichIngredient>()
                 .HasKey(s => new { s.SandwichId, s.IngredientId });
 
+            builder.Entity<SandwichOrder>()
+                .HasKey(s => new { s.SandwichId, s.OrderId });
+
             builder
                 .Entity<CocoricoUser>()
                 .HasQueryFilter(u => !u.IsDeleted)

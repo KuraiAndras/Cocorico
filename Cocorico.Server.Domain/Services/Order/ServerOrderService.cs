@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cocorico.Server.Domain.Models.Entities;
 
 namespace Cocorico.Server.Domain.Services.Order
 {
@@ -22,22 +23,25 @@ namespace Cocorico.Server.Domain.Services.Order
             if (string.IsNullOrEmpty(customerId)) throw new EntityNotFoundException($"Invalid customer Id:{customerId}");
 
             var ordersForCustomer = await Context.Orders
-                                        .Include(o => o.Sandwiches)
+                                        .Include(o => o.SandwichLinks)
+                                        .ThenInclude(sl => sl.Sandwich)
                                         .ThenInclude(s => s.IngredientLinks)
+                                        .ThenInclude(il => il.Ingredient)
                                         .Where(o => o.CustomerId == customerId)
                                         .ToListAsync()
                                     ?? throw new UnexpectedException();
 
             return ordersForCustomer.Select(order => order.MapTo(o => new OrderCustomerViewDto
             {
-                Sandwiches = o.Sandwiches.Select(s => s.MapTo<Models.Entities.Sandwich, SandwichDto>()),
+                Sandwiches = o.Sandwiches().Select(s => s.ToSandwichDto()),
             }));
         }
 
         public async Task<IEnumerable<OrderWorkerViewDto>> GetPendingOrdersForWorkerAsync()
         {
             var ordersForWorkerView = await Context.Orders
-                                          .Include(o => o.Sandwiches)
+                                          .Include(o => o.SandwichLinks)
+                                          .ThenInclude(sl => sl.Sandwich)
                                           .ThenInclude(s => s.IngredientLinks)
                                           .ThenInclude(il => il.Ingredient)
                                           .Include(o => o.Customer)
@@ -50,8 +54,10 @@ namespace Cocorico.Server.Domain.Services.Order
         public async Task UpdateOrderAsync(UpdateOrderDto updateOrderDto)
         {
             var order = await Context.Orders
-                            .Include(o => o.Sandwiches)
+                            .Include(o => o.SandwichLinks)
+                            .ThenInclude(sl => sl.Sandwich)
                             .ThenInclude(s => s.IngredientLinks)
+                            .ThenInclude(il => il.Ingredient)
                             .SingleOrDefaultAsync(o => o.Id == updateOrderDto.OrderId)
                         ?? throw new EntityNotFoundException($"Order not found with id:{updateOrderDto.OrderId}");
 
@@ -69,6 +75,7 @@ namespace Cocorico.Server.Domain.Services.Order
             var allSandwich = await Context
                 .Sandwiches
                 .Include(s => s.IngredientLinks)
+                .ThenInclude(il => il.Ingredient)
                 .ToListAsync();
 
             var sandwiches = allSandwich.Where(s => !(orderAddDto.Sandwiches.SingleOrDefault(os => os.Id == s.Id) is null)).ToList();
@@ -79,9 +86,16 @@ namespace Cocorico.Server.Domain.Services.Order
                 CustomerId = user.Id,
                 Customer = user,
                 Price = sandwiches.Select(s => s.Price).Aggregate((sum, price) => sum + price),
-                Sandwiches = sandwiches,
                 State = OrderState.OrderPlaced,
             };
+
+            newOrder.SandwichLinks = sandwiches
+                .Select(s => new SandwichOrder
+                {
+                    Order = newOrder,
+                    Sandwich = s,
+                })
+                .ToList();
 
             await AddAsync(newOrder);
         }

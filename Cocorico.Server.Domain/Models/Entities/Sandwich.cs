@@ -17,6 +17,7 @@ namespace Cocorico.Server.Domain.Models.Entities
         public string Name { get; set; }
 
         public ICollection<SandwichIngredient> IngredientLinks { get; set; }
+        public ICollection<SandwichOrder> OrderLinks { get; set; }
 
         [Required]
         public int Price { get; set; }

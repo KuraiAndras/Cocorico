@@ -22,7 +22,7 @@ namespace Cocorico.Server.Domain.Models.Entities
         [ForeignKey(nameof(CustomerId))]
         public CocoricoUser Customer { get; set; }
 
-        public ICollection<Sandwich> Sandwiches { get; set; }
+        public ICollection<SandwichOrder> SandwichLinks { get; set; }
 
         [Required]
         public int Price { get; set; }
@@ -37,10 +37,16 @@ namespace Cocorico.Server.Domain.Models.Entities
             this.MapTo(o => new OrderWorkerViewDto
             {
                 UserName = o.Customer.Name,
-                Sandwiches = o.Sandwiches.Select(s => s.MapTo(sa => new SandwichDto
+                Sandwiches = o.Sandwiches().Select(s => s.MapTo(sa => new SandwichDto
                 {
                     Ingredients = sa.IngredientLinks.Select(i => i.Ingredient.ToIngredientDto()).ToList()
                 }))
             });
+    }
+
+    public static class OrderExtension
+    {
+        public static IEnumerable<Sandwich> Sandwiches(this Order order) =>
+            order.SandwichLinks.Select(sl => sl.Sandwich);
     }
 }

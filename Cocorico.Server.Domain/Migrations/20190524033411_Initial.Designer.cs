@@ -3,23 +3,23 @@ using System;
 using Cocorico.Server.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Cocorico.Server.Domain.Migrations
 {
     [DbContext(typeof(CocoricoDbContext))]
-    [Migration("20190523161403_IngredientsOnSandwich")]
-    partial class IngredientsOnSandwich
+    [Migration("20190524033411_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "3.0.0-preview5.19227.1")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.CocoricoUser", b =>
                 {
@@ -70,8 +70,7 @@ namespace Cocorico.Server.Domain.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasName("UserNameIndex");
 
                     b.HasIndex("Id", "Name");
 
@@ -81,19 +80,14 @@ namespace Cocorico.Server.Domain.Migrations
             modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.Ingredient", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int?>("SandwichId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SandwichId");
 
                     b.HasIndex("Id", "Name");
 
@@ -103,8 +97,7 @@ namespace Cocorico.Server.Domain.Migrations
             modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("CustomerId")
                         .IsRequired();
@@ -127,25 +120,46 @@ namespace Cocorico.Server.Domain.Migrations
             modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.Sandwich", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int?>("OrderId");
-
                     b.Property<int>("Price");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("Id", "Name");
 
                     b.ToTable("Sandwiches");
+                });
+
+            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.SandwichIngredient", b =>
+                {
+                    b.Property<int>("SandwichId");
+
+                    b.Property<int>("IngredientId");
+
+                    b.HasKey("SandwichId", "IngredientId");
+
+                    b.HasIndex("IngredientId");
+
+                    b.ToTable("SandwichIngredient");
+                });
+
+            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.SandwichOrder", b =>
+                {
+                    b.Property<int>("SandwichId");
+
+                    b.Property<int>("OrderId");
+
+                    b.HasKey("SandwichId", "OrderId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("SandwichOrder");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -165,8 +179,7 @@ namespace Cocorico.Server.Domain.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -174,8 +187,7 @@ namespace Cocorico.Server.Domain.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType");
 
@@ -194,8 +206,7 @@ namespace Cocorico.Server.Domain.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType");
 
@@ -257,13 +268,6 @@ namespace Cocorico.Server.Domain.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.Ingredient", b =>
-                {
-                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Sandwich", null)
-                        .WithMany("Ingredients")
-                        .HasForeignKey("SandwichId");
-                });
-
             modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.Order", b =>
                 {
                     b.HasOne("Cocorico.Server.Domain.Models.Entities.CocoricoUser", "Customer")
@@ -273,11 +277,34 @@ namespace Cocorico.Server.Domain.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.Sandwich", b =>
+            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.SandwichIngredient", b =>
                 {
-                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Order", null)
-                        .WithMany("Sandwiches")
-                        .HasForeignKey("OrderId");
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Ingredient", "Ingredient")
+                        .WithMany("SandwichLinks")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Sandwich", "Sandwich")
+                        .WithMany("IngredientLinks")
+                        .HasForeignKey("SandwichId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cocorico.Server.Domain.Models.Entities.SandwichOrder", b =>
+                {
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Order", "Order")
+                        .WithMany("SandwichLinks")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cocorico.Server.Domain.Models.Entities.Sandwich", "Sandwich")
+                        .WithMany("OrderLinks")
+                        .HasForeignKey("SandwichId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

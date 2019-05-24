@@ -43,7 +43,8 @@ namespace Cocorico.Server.Restful
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CocoricoDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Postgres")));
             services
                 .AddIdentity<CocoricoUser, IdentityRole>(identityOptions => identityOptions.User.RequireUniqueEmail = true)
                 .AddEntityFrameworkStores<CocoricoDbContext>()

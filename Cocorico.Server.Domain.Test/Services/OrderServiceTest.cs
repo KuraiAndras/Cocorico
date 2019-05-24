@@ -28,7 +28,7 @@ namespace Cocorico.Server.Domain.Test.Services
                 var expected = orderDto.MapTo(s => new Order
                 {
                     Id = 1,
-                    Price = 300,
+                    Price = 150,
                 });
 
                 Assert.AreEqual(expected.Price, actual.Price);

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cocorico.Server.Domain.Models.Entities;
 
 namespace Cocorico.Server.Domain.Services.Ingredient
 {
@@ -29,7 +30,7 @@ namespace Cocorico.Server.Domain.Services.Ingredient
             await AddAsync(ingredientAddDto.MapTo<IngredientAddDto, Models.Entities.Ingredient>());
 
         public async Task UpdateAsync(IngredientDto ingredientDto) =>
-            await UpdateAsync(ingredientDto.MapTo<IngredientDto, Models.Entities.Ingredient>());
+            await UpdateAsync(ingredientDto.ToIngredient());
 
         public async Task DeleteAsync(int id) =>
             await DeleteByIdAsync(id);

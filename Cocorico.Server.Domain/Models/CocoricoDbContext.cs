@@ -12,6 +12,7 @@ namespace Cocorico.Server.Domain.Models
 
         public DbSet<Sandwich> Sandwiches { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -21,6 +22,12 @@ namespace Cocorico.Server.Domain.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<SandwichIngredient>()
+                .HasKey(s => new { s.SandwichId, s.IngredientId });
+
+            builder.Entity<SandwichOrder>()
+                .HasKey(s => new { s.SandwichId, s.OrderId });
 
             builder
                 .Entity<CocoricoUser>()
@@ -41,6 +48,11 @@ namespace Cocorico.Server.Domain.Models
                 .Entity<Order>()
                 .Property(o => o.State)
                 .HasConversion<int>();
+
+            builder
+                .Entity<Ingredient>()
+                .HasQueryFilter(i => !i.IsDeleted)
+                .HasIndex(i => new { i.Id, i.Name });
         }
     }
 }

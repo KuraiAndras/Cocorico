@@ -1,8 +1,6 @@
 ﻿using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Services.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cocorico.Shared.Helpers;
 
 namespace Cocorico.Shared.Services
 {

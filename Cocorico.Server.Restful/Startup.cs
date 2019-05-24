@@ -24,6 +24,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Security.Claims;
+using Cocorico.Server.Domain.Services.Ingredient;
 
 namespace Cocorico.Server.Restful
 {
@@ -77,6 +78,7 @@ namespace Cocorico.Server.Restful
             services.AddScoped<IServerSandwichService, ServerSandwichService>();
             services.AddScoped<IServerUserService, ServerUserService>();
             services.AddScoped<IServerOrderService, ServerOrderService>();
+            services.AddScoped<IServerIngredientService, ServerIngredientService>();
 
             services.AddProblemDetails(options =>
             {

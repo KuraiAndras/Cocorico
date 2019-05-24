@@ -1,15 +1,29 @@
-﻿@page "/sandwiches/edit/{SandwichId:int}"
+﻿@page "/Sandwiches/{Id:int}"
 
 @using Cocorico.Client.Blazor.ComponentModels.Sandwich
 
 @inherits EditSandwichModel
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <input type="text" placeholder="Sandwich Name" class="form-control" bind="@Sandwich.Name" />
-            <input type="number" placeholder="Sandwich Price" class="form-control" bind="@Sandwich.Price" />
-            <button class="btn btn-primary" onclick="@Edit">Edit</button>
-        </div>
-    </div>
-</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Edit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr><td><input type="text" placeholder="Sandwich Name" class="form-control" bind="@Sandwich.Name" /></td></tr>
+    <tr><td><input type="number" placeholder="Sandwich Price" class="form-control" bind="@Sandwich.Price" /></td></tr>
+    @foreach (var ingredient in AvailableIngredients)
+    {
+        if (Sandwich.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
+        {
+            <tr><td><button class="btn btn-primary" onclick="@(() => AddIngredient(ingredient))">@ingredient.Name</button></td></tr>
+        }
+        else
+        {
+            <tr><td><button class="btn btn-danger" onclick="@(() => RemoveIngredient(ingredient))">@ingredient.Name</button></td></tr>
+        }
+    }
+    <tr><td><button class="btn btn-primary" onclick="@Edit">Edit</button></td></tr>
+    </tbody>
+</table>

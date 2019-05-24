@@ -1,4 +1,7 @@
-﻿using Cocorico.Server.Domain.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Cocorico.Server.Domain.Extensions;
 using Cocorico.Server.Domain.Models;
 using Cocorico.Shared.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +25,8 @@ namespace Cocorico.Server.Domain.Services.ServiceBase
 
         protected async Task AddAsync(T entity)
         {
+            if (!entity.Id.Equals(default(TKey))) throw new InvalidCommandException();
+
             var dbSet = Context.GetDbSet<T>();
 
             if (!(await dbSet.AsNoTracking().SingleOrDefaultAsync(e => e.Id.Equals(entity.Id)) is null)) throw new EntityAlreadyExistsException();
@@ -43,7 +48,7 @@ namespace Cocorico.Server.Domain.Services.ServiceBase
             await Context.SaveChangesAsync();
         }
 
-        protected async Task DeleteAsync(TKey key)
+        protected async Task DeleteByIdAsync(TKey key)
         {
             var dbSet = Context.GetDbSet<T>();
 

@@ -9,7 +9,7 @@ namespace Cocorico.Shared.Dtos.Order
         public int Id { get; set; }
 
         public string UserName { get; set; }
-        public IEnumerable<SandwichResultDto> Sandwiches { get; set; }
+        public IEnumerable<SandwichDto> Sandwiches { get; set; }
         public OrderState State { get; set; }
     }
 }

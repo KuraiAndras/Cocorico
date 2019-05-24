@@ -1,5 +1,4 @@
-﻿@page "/sandwiches"
-@using Cocorico.Shared.Helpers
+﻿@page "/Sandwiches"
 @using Cocorico.Client.Blazor.ComponentModels.Sandwich
 
 @inherits SandwichesModel
@@ -7,7 +6,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Price</th>
             @if (IsCustomer)
@@ -25,7 +23,6 @@
         @foreach (var sandwich in Sandwiches)
         {
             <tr>
-                <td>@sandwich.Id</td>
                 <td>@sandwich.Name</td>
                 <td>@sandwich.Price</td>
                 @if (IsCustomer)
@@ -38,6 +35,7 @@
                     <td><button class="btn btn-danger" onclick="@(() => DeleteAsync(sandwich.Id))">Delete</button></td>
                 }
             </tr>
+            @string.Join(", ",sandwich.Ingredients.Select(i => i.Name))
         }
     </tbody>
 </table>

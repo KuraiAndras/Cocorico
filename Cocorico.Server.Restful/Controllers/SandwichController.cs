@@ -20,36 +20,36 @@ namespace Cocorico.Server.Restful.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SandwichResultDto>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<SandwichDto>>> GetAllAsync()
         {
-            var serviceResult = await _serverSandwichService.GetAllSandwichResultAsync();
+            var serviceResult = await _serverSandwichService.GetAllAsync();
 
-            return new ActionResult<IEnumerable<SandwichResultDto>>(serviceResult);
+            return new ActionResult<IEnumerable<SandwichDto>>(serviceResult);
         }
 
         [AllowAnonymous]
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<SandwichResultDto>> GetAsync([FromRoute] int id)
+        public async Task<ActionResult<SandwichDto>> GetAsync([FromRoute] int id)
         {
-            var serviceResult = await _serverSandwichService.GetSandwichResultAsync(id);
+            var serviceResult = await _serverSandwichService.GetAsync(id);
 
-            return new ActionResult<SandwichResultDto>(serviceResult);
+            return new ActionResult<SandwichDto>(serviceResult);
         }
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpPatch]
-        public async Task<ActionResult> UpdateAsync([FromBody] NewSandwichDto sandwich)
+        public async Task<ActionResult> UpdateAsync([FromBody] SandwichDto sandwich)
         {
-            await _serverSandwichService.UpdateSandwichAsync(sandwich);
+            await _serverSandwichService.UpdateAsync(sandwich);
 
             return new OkResult();
         }
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpPost]
-        public async Task<ActionResult> AddAsync([FromBody] NewSandwichDto sandwich)
+        public async Task<ActionResult> AddAsync([FromBody] SandwichAddDto sandwich)
         {
-            await _serverSandwichService.AddSandwichAsync(sandwich);
+            await _serverSandwichService.AddAsync(sandwich);
 
             return new OkResult();
         }
@@ -58,7 +58,7 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteAsync([FromRoute] int id)
         {
-            await _serverSandwichService.DeleteSandwichAsync(id);
+            await _serverSandwichService.DeleteAsync(id);
 
             return new OkResult();
         }

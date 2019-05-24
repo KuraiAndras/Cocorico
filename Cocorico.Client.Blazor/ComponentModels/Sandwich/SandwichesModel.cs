@@ -29,7 +29,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 
         protected bool IsCustomer => AuthenticationService.Claims.Contains(Claims.Customer);
 
-        protected IReadOnlyList<SandwichResultDto> Sandwiches { get; private set; } = new List<SandwichResultDto>();
+        protected IReadOnlyList<SandwichDto> Sandwiches { get; private set; } = new List<SandwichDto>();
 
         protected override async Task OnInitAsync() => await LoadSandwichesAsync();
 
@@ -47,7 +47,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
             }
         }
 
-        protected void Edit(int sandwichId) => UriHelper.NavigateTo(Urls.Client.EditSandwich + $"/{sandwichId}");
+        protected void Edit(int sandwichId) => UriHelper.NavigateTo(Urls.Client.Sandwiches + $"/{sandwichId}");
 
         protected async Task DeleteAsync(int sandwichId)
         {
@@ -56,6 +56,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
                 var fileResponse = await SandwichHttpClient.DeleteAsync(sandwichId);
 
                 if (fileResponse.IsSuccessfulStatusCode()) await LoadSandwichesAsync();
+                //TODO: Handle fail
             }
             catch (SwaggerException)
             {
@@ -63,6 +64,6 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
             }
         }
 
-        protected void AddToBasket(SandwichResultDto sandwich) => BasketService.AddToBasket(sandwich);
+        protected void AddToBasket(SandwichDto sandwich) => BasketService.AddToBasket(sandwich);
     }
 }

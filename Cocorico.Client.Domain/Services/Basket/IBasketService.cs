@@ -5,9 +5,9 @@ namespace Cocorico.Client.Domain.Services.Basket
 {
     public interface IBasketService
     {
-        void AddToBasket(SandwichResultDto sandwich);
+        void AddToBasket(SandwichDto sandwich);
         void RemoveFromBasket(int index);
         void EmptyBasket();
-        List<SandwichResultDto> SandwichesInBasket { get; }
+        List<SandwichDto> SandwichesInBasket { get; }
     }
 }

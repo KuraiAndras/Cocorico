@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Cocorico.Shared.Dtos.Sandwich;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 // ReSharper disable NonReadonlyMemberInGetHashCode
 namespace Cocorico.Server.Domain.Models.Entities
 {
-    public class Sandwich : IDbEntity<int>, IEquatable<Sandwich>
+    public class Sandwich : IDbEntity<int>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,51 +16,33 @@ namespace Cocorico.Server.Domain.Models.Entities
         [Required]
         public string Name { get; set; }
 
+        public ICollection<SandwichIngredient> IngredientLinks { get; set; }
+        public ICollection<SandwichOrder> OrderLinks { get; set; }
+
         [Required]
         public int Price { get; set; }
 
         [Required]
         public bool IsDeleted { get; set; }
 
-        #region GeneratedEqualatyMembers
-
-        public bool Equals(Sandwich other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Id == other.Id && string.Equals(Name, other.Name) && Price == other.Price && IsDeleted == other.IsDeleted;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((Sandwich) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
+        public SandwichDto ToSandwichDto() =>
+            this.MapTo(s => new SandwichDto
             {
-                var hashCode = Id;
-                hashCode = (hashCode * 397) ^ (Name != null ? Name.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ Price;
-                hashCode = (hashCode * 397) ^ IsDeleted.GetHashCode();
-                return hashCode;
-            }
-        }
+                Ingredients = IngredientLinks.Select(il => il.Ingredient.ToIngredientDto()).ToList()
+            });
+    }
 
-        public static bool operator ==(Sandwich left, Sandwich right)
-        {
-            return Equals(left, right);
-        }
+    public static class SandwichExtensions
+    {
+        public static Sandwich ToSandwich(this SandwichAddDto sandwichAddDto) =>
+            sandwichAddDto.MapTo(s => new Sandwich
+            {
+                IngredientLinks = new List<SandwichIngredient>(),
+            });
 
-        public static bool operator !=(Sandwich left, Sandwich right)
-        {
-            return !Equals(left, right);
-        }
+        public static Sandwich ToSandwich(this SandwichDto sandwichDto) =>
+            sandwichDto.MapTo<SandwichDto, Sandwich>();
 
-        #endregion
+        public static IEnumerable<Ingredient> Ingredients(this Sandwich sandwich) => sandwich.IngredientLinks.Select(i => i.Ingredient);
     }
 }

@@ -68,18 +68,30 @@ namespace Cocorico.Server.Domain.Services.Sandwich
                 .AsNoTracking()
                 .Include(s => s.IngredientLinks)
                 .ThenInclude(il => il.Ingredient)
-                .SingleAsync();
+                .SingleAsync(s => s.Id == sandwichDto.Id);
 
-            var ingredientsToUpdate = sandwichDto
+            var ingredientsToAdd = sandwichDto
                 .Ingredients
-                .Where(i => original.Ingredients().Any(oi => oi.Id != i.Id))
+                .Except(original.Ingredients().Select(i => i.ToIngredientDto()))
                 .Select(i => new SandwichIngredient
                 {
                     SandwichId = sandwichDto.Id,
                     IngredientId = i.Id,
                 });
 
-            await Context.Set<SandwichIngredient>().AddRangeAsync(ingredientsToUpdate);
+            await Context.Set<SandwichIngredient>().AddRangeAsync(ingredientsToAdd);
+
+            var ingredientsToRemove = original
+                .Ingredients()
+                .Except(sandwichDto.Ingredients.Select(i => i.ToIngredient()))
+                .Select(i => new SandwichIngredient
+                {
+                    SandwichId = sandwichDto.Id,
+                    IngredientId = i.Id,
+                });
+
+            Context.Set<SandwichIngredient>().RemoveRange(ingredientsToRemove);
+
             await Context.SaveChangesAsync();
 
             await UpdateAsync(sandwichDto.ToSandwich());

@@ -36,18 +36,11 @@ namespace Cocorico.Server.Domain.Models.Entities
         public static Sandwich ToSandwich(this SandwichAddDto sandwichAddDto) =>
             sandwichAddDto.MapTo(s => new Sandwich
             {
-                Name = sandwichAddDto.Name,
-                Price = sandwichAddDto.Price,
                 IngredientLinks = new List<SandwichIngredient>(),
             });
 
         public static Sandwich ToSandwich(this SandwichDto sandwichDto) =>
-            sandwichDto.MapTo(s => new Sandwich
-            {
-                Name = sandwichDto.Name,
-                Price = sandwichDto.Price,
-                IngredientLinks = new List<SandwichIngredient>(),
-            });
+            sandwichDto.MapTo<SandwichDto, Sandwich>();
 
         public static IEnumerable<Ingredient> Ingredients(this Sandwich sandwich) => sandwich.IngredientLinks.Select(i => i.Ingredient);
     }

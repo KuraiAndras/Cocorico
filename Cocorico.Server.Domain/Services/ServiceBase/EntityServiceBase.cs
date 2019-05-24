@@ -40,7 +40,7 @@ namespace Cocorico.Server.Domain.Services.ServiceBase
         {
             var dbSet = Context.GetDbSet<T>();
 
-            var _ = await dbSet.SingleOrDefaultAsync(e => e.Id.Equals(entity.Id))
+            var _ = await dbSet.AsNoTracking().SingleOrDefaultAsync(e => e.Id.Equals(entity.Id))
                     ?? throw new EntityNotFoundException();
 
             dbSet.Update(entity);

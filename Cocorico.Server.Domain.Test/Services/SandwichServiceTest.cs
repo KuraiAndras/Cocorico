@@ -68,7 +68,7 @@ namespace Cocorico.Server.Domain.Test.Services
             var sandwichAddDto = new SandwichAddDto
             {
                 Name = "Initial",
-                Ingredients = ingredients.MapTo<Ingredient, IngredientDto>()
+                Ingredients = ingredients.MapTo<Ingredient, IngredientDto>().Take(1)
             };
 
             using (var context = NewDbContext)
@@ -82,7 +82,7 @@ namespace Cocorico.Server.Domain.Test.Services
                 var service = new ServerSandwichService(context);
 
                 sandwichAddDto.Name = "Updated";
-                sandwichAddDto.Ingredients = sandwichAddDto.Ingredients.Where(i => i.Id == 1 || i.Id == 2);
+                sandwichAddDto.Ingredients = ingredients.MapTo<Ingredient, IngredientDto>().Take(2);
 
                 var updated = sandwichAddDto.MapTo(s => new SandwichDto
                 {

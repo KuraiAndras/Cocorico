@@ -63,22 +63,26 @@ namespace Cocorico.Server.Domain.Services.Sandwich
 
         public async Task UpdateAsync(SandwichDto sandwichDto)
         {
-            var sandwich = sandwichDto.ToSandwich();
+            var original = await Context
+                .Sandwiches
+                .AsNoTracking()
+                .Include(s => s.IngredientLinks)
+                .ThenInclude(il => il.Ingredient)
+                .SingleAsync();
 
-            var ingredients = await Context
+            var ingredientsToUpdate = sandwichDto
                 .Ingredients
-                .ToListAsync();
-
-            sandwich.IngredientLinks = ingredients
-                .Where(i => sandwichDto.Ingredients.Any(iDto => iDto.Id == i.Id))
+                .Where(i => original.Ingredients().Any(oi => oi.Id != i.Id))
                 .Select(i => new SandwichIngredient
                 {
-                    Ingredient = i,
-                    Sandwich = sandwich,
-                })
-                .ToList();
+                    SandwichId = sandwichDto.Id,
+                    IngredientId = i.Id,
+                });
 
-            await UpdateAsync(sandwich);
+            await Context.Set<SandwichIngredient>().AddRangeAsync(ingredientsToUpdate);
+            await Context.SaveChangesAsync();
+
+            await UpdateAsync(sandwichDto.ToSandwich());
         }
 
         public async Task DeleteAsync(int id) =>

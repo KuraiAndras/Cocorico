@@ -25,7 +25,7 @@ else
             <tr>
                 <td>@order.Id</td>
                 <td>@order.State</td>
-                <td><button class="btn btn-primary" onclick="@(() => UpdateStateAsync(order.Id, OrderState.Delivered))">Delivered</button></td>
+                <td><button class="btn btn-primary" @onclick="@(() => UpdateStateAsync(order.Id, OrderState.Delivered))">Delivered</button></td>
             </tr>
             @foreach (var sandwich in order.Sandwiches)
              {

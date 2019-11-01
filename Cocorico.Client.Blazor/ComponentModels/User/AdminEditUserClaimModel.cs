@@ -10,17 +10,15 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
 {
     public class AdminEditUserClaimModel : ComponentBase
     {
-        // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Parameter] private string UserId { get; set; }
+        [Parameter] public string UserId { get; set; }
 
-        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private ICocoricoClientAuthenticationService AuthenticationService { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUserClient UserHttpClient { get; set; }
         protected UserForAdminPage UserForAdminPage { get; private set; }
 
-        protected override async Task OnInitAsync() => await LoadUserAsync();
+        protected override async Task OnInitializedAsync() => await LoadUserAsync();
 
         private async Task LoadUserAsync()
         {

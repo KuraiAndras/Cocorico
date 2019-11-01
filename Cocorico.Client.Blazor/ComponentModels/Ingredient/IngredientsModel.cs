@@ -13,11 +13,11 @@ namespace Cocorico.Client.Blazor.ComponentModels.Ingredient
     {
         [Inject] private IIngredientClient IngredientClient { get; set; }
 
-        [Inject] private IUriHelper UriHelper { get; set; }
+        [Inject] private NavigationManager UriHelper { get; set; }
 
         protected IReadOnlyList<IngredientDto> Ingredients { get; private set; } = new List<IngredientDto>();
 
-        protected override async Task OnInitAsync() => await LoadIngredientsAsync();
+        protected override async Task OnInitializedAsync() => await LoadIngredientsAsync();
 
         private async Task LoadIngredientsAsync()
         {

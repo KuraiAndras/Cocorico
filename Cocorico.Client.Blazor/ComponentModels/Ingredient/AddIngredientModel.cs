@@ -9,7 +9,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Ingredient
 {
     public class AddIngredientModel : ComponentBase
     {
-        [Inject] private IUriHelper UriHelper { get; set; }
+        [Inject] private NavigationManager UriHelper { get; set; }
 
         [Inject] private IIngredientClient IngredientClient { get; set; }
 

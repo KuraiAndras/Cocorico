@@ -17,13 +17,13 @@
         {
             if (NewSandwichDto.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
             {
-                <tr><td><button class="btn btn-primary" onclick="@(() => AddIngredient(ingredient))">@ingredient.Name</button></td></tr>
+                <tr><td><button class="btn btn-primary" @onclick="@(() => AddIngredient(ingredient))">@ingredient.Name</button></td></tr>
             }
             else
             {
-                <tr><td><button class="btn btn-danger" onclick="@(() => RemoveIngredient(ingredient))">@ingredient.Name</button></td></tr>
+                <tr><td><button class="btn btn-danger" @onclick="@(() => RemoveIngredient(ingredient))">@ingredient.Name</button></td></tr>
             }
         }
-        <tr><td><button class="btn btn-primary" onclick="@Add">Add</button></td></tr>
+        <tr><td><button class="btn btn-primary" @onclick="@Add">Add</button></td></tr>
     </tbody>
 </table>

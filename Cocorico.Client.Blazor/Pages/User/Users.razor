@@ -24,7 +24,7 @@ else
                 <tr>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
-                    <td><button class="btn btn-primary" onclick="@(() => GoToEdit(user.Id))">Edit</button></td>
+                    <td><button class="btn btn-primary" @onclick="@(() => GoToEdit(user.Id))">Edit</button></td>
                 </tr>
             }
         </tbody>

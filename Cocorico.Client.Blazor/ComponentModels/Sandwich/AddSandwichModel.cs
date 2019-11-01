@@ -12,7 +12,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
     public class AddSandwichModel : ComponentBase
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private IUriHelper UriHelper { get; set; }
+        [Inject] private NavigationManager UriHelper { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private ISandwichClient SandwichHttpClient { get; set; }
@@ -26,7 +26,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 
         private List<IngredientDto> AddedIngredients { get; } = new List<IngredientDto>();
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnInitializedAsync()
         {
             try
             {

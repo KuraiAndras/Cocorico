@@ -17,10 +17,10 @@ namespace Cocorico.Client.Blazor.ComponentModels.Order
 
         protected OrderAddDto OrderAddDto { get; } = new OrderAddDto();
 
-        protected override Task OnInitAsync()
+        protected override Task OnInitializedAsync()
         {
             OrderAddDto.Sandwiches = BasketService.SandwichesInBasket;
-            return base.OnInitAsync();
+            return base.OnInitializedAsync();
         }
 
         protected async Task Add()

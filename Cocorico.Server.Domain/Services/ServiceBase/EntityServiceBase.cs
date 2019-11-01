@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Cocorico.Server.Domain.Extensions;
+﻿using Cocorico.Server.Domain.Extensions;
 using Cocorico.Server.Domain.Models;
 using Cocorico.Shared.Exceptions;
 using Microsoft.EntityFrameworkCore;

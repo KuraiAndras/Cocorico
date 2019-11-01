@@ -11,7 +11,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Authentication
     public class LoginModel : ComponentBase
     {
         [Inject] private ICocoricoClientAuthenticationService CocoricoClientAuthenticationService { get; set; }
-        [Inject] private IUriHelper UriHelper { get; set; }
+        [Inject] private NavigationManager UriHelper { get; set; }
 
         protected LoginDetails LoginDetails { get; } = new LoginDetails();
         protected bool ShowLoginFailed { get; private set; }

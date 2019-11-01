@@ -16,7 +16,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Order
 
         protected IReadOnlyCollection<OrderWorkerViewDto> Orders { get; private set; } = new List<OrderWorkerViewDto>();
 
-        protected override async Task OnInitAsync() => await LoadOrdersAsync();
+        protected override async Task OnInitializedAsync() => await LoadOrdersAsync();
 
         protected async Task UpdateStateAsync(int orderId, OrderState newState)
         {

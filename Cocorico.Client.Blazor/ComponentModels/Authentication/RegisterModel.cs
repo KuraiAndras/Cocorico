@@ -9,7 +9,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Authentication
 {
     public class RegisterModel : ComponentBase
     {
-        [Inject] private IUriHelper UriHelper { get; set; }
+        [Inject] private NavigationManager UriHelper { get; set; }
         [Inject] private ICocoricoClientAuthenticationService CocoricoClientAuthenticationService { get; set; }
 
         protected RegisterDetails RegisterDetails { get; } = new RegisterDetails();

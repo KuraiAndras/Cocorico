@@ -27,12 +27,12 @@
                 <td>@sandwich.Price</td>
                 @if (IsCustomer)
                 {
-                    <td><button class="btn btn-primary" onclick="@(() => AddToBasket(sandwich))">Order</button></td>
+                    <td><button class="btn btn-primary" @onclick="@(() => AddToBasket(sandwich))">Order</button></td>
                 }
                 @if (IsAdmin)
                 {
-                    <td><button class="btn btn-secondary" onclick="@(() => Edit(sandwich.Id))">Edit</button></td>
-                    <td><button class="btn btn-danger" onclick="@(() => DeleteAsync(sandwich.Id))">Delete</button></td>
+                    <td><button class="btn btn-secondary" @onclick="@(() => Edit(sandwich.Id))">Edit</button></td>
+                    <td><button class="btn btn-danger" @onclick="@(() => DeleteAsync(sandwich.Id))">Delete</button></td>
                 }
             </tr>
             @string.Join(", ",sandwich.Ingredients.Select(i => i.Name))

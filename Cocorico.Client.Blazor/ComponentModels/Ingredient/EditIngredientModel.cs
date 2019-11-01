@@ -9,15 +9,15 @@ namespace Cocorico.Client.Blazor.ComponentModels.Ingredient
 {
     public class EditIngredientModel : ComponentBase
     {
-        [Parameter] private int Id { get; set; }
+        [Parameter] public int Id { get; set; }
 
-        [Inject] private IUriHelper UriHelper { get; set; }
+        [Inject] public NavigationManager UriHelper { get; set; }
 
-        [Inject] private IIngredientClient IngredientClient { get; set; }
+        [Inject] public IIngredientClient IngredientClient { get; set; }
 
         protected IngredientDto IngredientDto { get; private set; } = new IngredientDto();
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnInitializedAsync()
         {
             try
             {

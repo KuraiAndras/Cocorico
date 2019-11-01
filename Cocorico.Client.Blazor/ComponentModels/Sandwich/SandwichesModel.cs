@@ -17,7 +17,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
         [Inject] private ICocoricoClientAuthenticationService AuthenticationService { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private IUriHelper UriHelper { get; set; }
+        [Inject] private NavigationManager UriHelper { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private ISandwichClient SandwichHttpClient { get; set; }
@@ -31,7 +31,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.Sandwich
 
         protected IReadOnlyList<SandwichDto> Sandwiches { get; private set; } = new List<SandwichDto>();
 
-        protected override async Task OnInitAsync() => await LoadSandwichesAsync();
+        protected override async Task OnInitializedAsync() => await LoadSandwichesAsync();
 
         private async Task LoadSandwichesAsync()
         {

@@ -64,7 +64,7 @@ namespace Cocorico.Server.Domain.Test.Services
         [TestMethod]
         public async Task Update()
         {
-            var ingredients = SeedIngredients();
+            var ingredients = SeedIngredients().ToList();
             var sandwichAddDto = new SandwichAddDto
             {
                 Name = "Initial",

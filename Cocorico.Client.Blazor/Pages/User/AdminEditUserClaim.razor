@@ -25,11 +25,11 @@ else
 
                 @if (UserForAdminPage.Claims.SingleOrDefault(c => c.Equals(claim)) is null)
                 {
-                    <tr><td><button class="btn btn-danger" onclick="@(() => AddClaimToUserAsync(claim))">Add as @claim</button></td></tr>
+                    <tr><td><button class="btn btn-danger" @onclick="@(() => AddClaimToUserAsync(claim))">Add as @claim</button></td></tr>
                 }
                 else
                 {
-                    <tr><td><button class="btn btn-primary" onclick="@(() => RemoveClaimFromUserAsync(claim))">Remove from @claim</button></td></tr>
+                    <tr><td><button class="btn btn-primary" @onclick="@(() => RemoveClaimFromUserAsync(claim))">Remove from @claim</button></td></tr>
                 }
             }
         </tbody>

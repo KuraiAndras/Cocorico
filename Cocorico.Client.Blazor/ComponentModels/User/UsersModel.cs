@@ -15,10 +15,10 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
         [Inject] private IUserClient UserHttpClient { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private IUriHelper UriHelper { get; set; }
+        [Inject] private NavigationManager UriHelper { get; set; }
         protected IReadOnlyList<UserForAdminPage> Users { get; private set; } = new List<UserForAdminPage>();
 
-        protected override async Task OnInitAsync() => await LoadUsersAsync();
+        protected override async Task OnInitializedAsync() => await LoadUsersAsync();
 
         private async Task LoadUsersAsync()
         {

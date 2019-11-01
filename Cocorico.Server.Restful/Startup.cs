@@ -2,6 +2,7 @@ using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Models;
 using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Server.Domain.Services.Authentication;
+using Cocorico.Server.Domain.Services.Ingredient;
 using Cocorico.Server.Domain.Services.Order;
 using Cocorico.Server.Domain.Services.Sandwich;
 using Cocorico.Server.Domain.Services.User;
@@ -10,7 +11,6 @@ using Cocorico.Shared.Helpers;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -24,7 +24,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Security.Claims;
-using Cocorico.Server.Domain.Services.Ingredient;
 
 namespace Cocorico.Server.Restful
 {
@@ -43,7 +42,8 @@ namespace Cocorico.Server.Restful
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CocoricoDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Postgres")));
             services
                 .AddIdentity<CocoricoUser, IdentityRole>(identityOptions => identityOptions.User.RequireUniqueEmail = true)
                 .AddEntityFrameworkStores<CocoricoDbContext>()
@@ -101,7 +101,6 @@ namespace Cocorico.Server.Restful
             services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
             {
                 MediaTypeNames.Application.Octet,
-                WasmMediaTypeNames.Application.Wasm,
             }));
 
             services.AddSwaggerDocument();
@@ -118,23 +117,24 @@ namespace Cocorico.Server.Restful
                 app.UseDeveloperExceptionPage();
                 app.UseBlazorDebugging();
 
-                app.UseSwagger();
+                app.UseOpenApi();
                 app.UseSwaggerUi3();
             }
 
             app.UseProblemDetails();
 
-            //MVC
+            app.UseClientSideBlazorFiles<Client.Blazor.Startup>();
+
             app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapDefaultControllerRoute();
+                endpoints.MapDefaultControllerRoute();
+                endpoints.MapFallbackToClientSideBlazor<Client.Blazor.Startup>("index.html");
             });
-
-            app.UseBlazor<Client.Blazor.Startup>();
         }
     }
 }

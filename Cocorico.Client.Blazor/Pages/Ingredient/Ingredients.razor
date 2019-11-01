@@ -17,8 +17,8 @@
         {
             <tr>
                 <td>@ingredientDto.Name</td>
-                <td><button class="btn btn-secondary" onclick="@(() => Edit(ingredientDto.Id))">Edit</button></td>
-                <td><button class="btn btn-danger" onclick="@(() => DeleteAsync(ingredientDto.Id))">Delete</button></td>
+                <td><button class="btn btn-secondary" @onclick="@(() => Edit(ingredientDto.Id))">Edit</button></td>
+                <td><button class="btn btn-danger" @onclick="@(() => DeleteAsync(ingredientDto.Id))">Delete</button></td>
             </tr>
         }
     </tbody>

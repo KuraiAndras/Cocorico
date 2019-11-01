@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Cocorico.Server.Domain.Models.Entities
+﻿namespace Cocorico.Server.Domain.Models.Entities
 {
     public class SandwichOrder
     {

@@ -11,9 +11,9 @@ namespace Cocorico.Client.Blazor.ComponentModels.Ingredient
     {
         [Parameter] public int Id { get; set; }
 
-        [Inject] private NavigationManager UriHelper { get; set; }
+        [Inject] public NavigationManager UriHelper { get; set; }
 
-        [Inject] private IIngredientClient IngredientClient { get; set; }
+        [Inject] public IIngredientClient IngredientClient { get; set; }
 
         protected IngredientDto IngredientDto { get; private set; } = new IngredientDto();
 

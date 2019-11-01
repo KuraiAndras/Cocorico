@@ -12,7 +12,7 @@ namespace Cocorico.Client.Blazor.ComponentModels.User
     {
         [Parameter] public string UserId { get; set; }
 
-        [Inject] private ICocoricoClientAuthenticationService AuthenticationService { get; set; }
+        [Inject] public ICocoricoClientAuthenticationService AuthenticationService { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Inject] private IUserClient UserHttpClient { get; set; }

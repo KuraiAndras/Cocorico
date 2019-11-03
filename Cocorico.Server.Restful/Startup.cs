@@ -1,29 +1,13 @@
-using Cocorico.Server.Domain.Helpers;
-using Cocorico.Server.Domain.Models;
-using Cocorico.Server.Domain.Models.Entities;
-using Cocorico.Server.Domain.Services.Authentication;
-using Cocorico.Server.Domain.Services.Ingredient;
-using Cocorico.Server.Domain.Services.Order;
-using Cocorico.Server.Domain.Services.Sandwich;
-using Cocorico.Server.Domain.Services.User;
-using Cocorico.Shared.Exceptions;
-using Cocorico.Shared.Helpers;
+using Cocorico.Server.Restful.Extensions;
 using Hellang.Middleware.ProblemDetails;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Mime;
-using System.Security.Claims;
 
 namespace Cocorico.Server.Restful
 {
@@ -42,66 +26,17 @@ namespace Cocorico.Server.Restful
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<CocoricoDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Postgres")));
-            services
-                .AddIdentity<CocoricoUser, IdentityRole>(identityOptions => identityOptions.User.RequireUniqueEmail = true)
-                .AddEntityFrameworkStores<CocoricoDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddCocoricoDbContext(Configuration);
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 5;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-            });
+            services.AddCocoricoIdentityConfiguration();
 
-            //Instant logout
-            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.Zero);
+            services.AddCocoricoServices();
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(Policies.Administrator, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Admin));
-                options.AddPolicy(Policies.Customer, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Customer));
-                options.AddPolicy(Policies.User, policy => policy.RequireClaim(ClaimTypes.Role, Claims.User));
-                options.AddPolicy(Policies.Worker, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Worker));
-            });
+            services.AddCocoricoProblemDetails(WebHostingEnvironment);
 
-            services
-                .AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+            services.AddMvc().AddNewtonsoftJson();
 
-            //Services
-            services.AddScoped<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
-            services.AddScoped<IServerSandwichService, ServerSandwichService>();
-            services.AddScoped<IServerUserService, ServerUserService>();
-            services.AddScoped<IServerOrderService, ServerOrderService>();
-            services.AddScoped<IServerIngredientService, ServerIngredientService>();
-
-            services.AddProblemDetails(options =>
-            {
-                options.IncludeExceptionDetails = _ => WebHostingEnvironment.IsDevelopment();
-
-                options.Map<HttpRequestException>(exception => new ExceptionProblemDetails(exception, StatusCodes.Status503ServiceUnavailable));
-
-                options.Map<EntityNotFoundException>(exception => new ExceptionProblemDetails(exception, StatusCodes.Status404NotFound));
-                options.Map<UnexpectedException>(exception => new ExceptionProblemDetails(exception, StatusCodes.Status500InternalServerError));
-                options.Map<InvalidCredentialsException>(exception => new ExceptionProblemDetails(exception, StatusCodes.Status403Forbidden));
-                options.Map<InvalidCommandException>(exception => new ExceptionProblemDetails(exception, StatusCodes.Status400BadRequest));
-
-                options.Map<Exception>(ex => new ExceptionProblemDetails(ex, StatusCodes.Status500InternalServerError));
-            });
-
-            services
-                .AddMvc()
-                .AddNewtonsoftJson();
-
-            services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
-            {
-                MediaTypeNames.Application.Octet,
-            }));
+            services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { MediaTypeNames.Application.Octet, }));
 
             services.AddSwaggerDocument();
         }

@@ -1,4 +1,4 @@
-﻿using Blazored.LocalStorage;
+﻿using Blazor.Extensions.Storage;
 using Cocorico.Client.Domain.Exceptions;
 using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
@@ -14,7 +14,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
 {
     public class CocoricoClientAuthenticationService : ICocoricoClientAuthenticationService
     {
-        private readonly ILocalStorageService _localStorageService;
+        private readonly LocalStorage _localStorage;
         private readonly IAuthenticationClient _authenticationClient;
 
         private readonly List<string> _userClaims = new List<string>();
@@ -27,10 +27,10 @@ namespace Cocorico.Client.Domain.Services.Authentication
         public event Action UserLoggedOut;
 
         public CocoricoClientAuthenticationService(
-            ILocalStorageService localStorageService,
+            LocalStorage localStorage,
             IAuthenticationClient authenticationClient)
         {
-            _localStorageService = localStorageService;
+            _localStorage = localStorage;
             _authenticationClient = authenticationClient;
 
             ServiceStarted = async () => await UpdateAuthStateAsync();
@@ -48,7 +48,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
         {
             var result = await _authenticationClient.LoginAsync(loginDetails);
 
-            await _localStorageService.SetItemAsync(Verbs.Claims, result.Claims);
+            await _localStorage.SetItem(Verbs.Claims, result.Claims);
 
             await UpdateAuthStateAsync();
         }
@@ -59,7 +59,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
 
             if (!response.IsSuccessfulStatusCode()) throw new UnexpectedException();
 
-            await _localStorageService.RemoveItemAsync(Verbs.Claims);
+            await _localStorage.RemoveItem(Verbs.Claims);
 
             await UpdateAuthStateAsync();
         }
@@ -80,7 +80,7 @@ namespace Cocorico.Client.Domain.Services.Authentication
 
         private async Task UpdateAuthStateAsync()
         {
-            var claims = await _localStorageService.GetItemAsync<IEnumerable<string>>(Verbs.Claims);
+            var claims = await _localStorage.GetItem<IEnumerable<string>>(Verbs.Claims);
 
             if (claims is null)
             {

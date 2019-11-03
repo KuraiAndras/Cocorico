@@ -1,4 +1,4 @@
-using Blazored.LocalStorage;
+using Blazor.Extensions.Storage;
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Client.Domain.Services.Authentication;
 using Cocorico.Client.Domain.Services.Basket;
@@ -11,7 +11,7 @@ namespace Cocorico.Client.Blazor
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBlazoredLocalStorage();
+            services.AddStorage();
             services.AddSingleton<ICocoricoClientAuthenticationService, CocoricoClientAuthenticationService>();
             services.AddSingleton<IBasketService, InMemoryBasketService>();
 

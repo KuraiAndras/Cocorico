@@ -2,27 +2,29 @@
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Helpers;
-using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cocorico.Client.Blazor.ComponentModels.Order
+namespace Cocorico.Client.Domain.ViewModels.Order
 {
-    public class UpdateOrdersModel : ComponentBase
+    public class OrdersViewModel : IOrdersViewModel
     {
-        // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        [Inject] private IOrderClient OrderHttpClient { get; set; }
+        private readonly IOrderClient _orderClient;
 
-        protected IReadOnlyCollection<OrderWorkerViewDto> Orders { get; private set; } = new List<OrderWorkerViewDto>();
+        public IReadOnlyCollection<OrderWorkerViewDto> Orders { get; private set; }
 
-        protected override async Task OnInitializedAsync() => await LoadOrdersAsync();
+        public OrdersViewModel(IOrderClient orderClient)
+        {
+            _orderClient = orderClient;
+            Orders = new List<OrderWorkerViewDto>();
+        }
 
-        protected async Task UpdateStateAsync(int orderId, OrderState newState)
+        public async Task UpdateStateAsync(int orderId, OrderState newState)
         {
             try
             {
-                var fileResponse = await OrderHttpClient.UpdateOrderAsync(new UpdateOrderDto
+                var fileResponse = await _orderClient.UpdateOrderAsync(new UpdateOrderDto
                 {
                     OrderId = orderId,
                     State = newState,
@@ -37,11 +39,11 @@ namespace Cocorico.Client.Blazor.ComponentModels.Order
             }
         }
 
-        private async Task LoadOrdersAsync()
+        public async Task LoadOrdersAsync()
         {
             try
             {
-                var pendingOrders = await OrderHttpClient.GetPendingOrdersForWorkerAsync();
+                var pendingOrders = await _orderClient.GetPendingOrdersForWorkerAsync();
 
                 Orders = pendingOrders.ToList();
             }

@@ -1,11 +1,11 @@
 ﻿@page "/OrdersToDeliver"
 
-@using Cocorico.Client.Blazor.ComponentModels.Order
+@using Cocorico.Client.Domain.ViewModels.Order
 @using Cocorico.Shared.Helpers
 
-@inherits UpdateOrdersModel
+@inject IOrdersViewModel DeliverOrdersViewModel
 
-@if (Orders.Count == 0)
+@if (DeliverOrdersViewModel.Orders.Count == 0)
 {
     <p><em>Loading...</em></p>
 }
@@ -20,12 +20,12 @@ else
         </tr>
         </thead>
         <tbody>
-        @foreach (var order in Orders.Where(o => o.State == OrderState.ToBeDelivered))
+        @foreach (var order in DeliverOrdersViewModel.Orders.Where(o => o.State == OrderState.ToBeDelivered))
         {
             <tr>
                 <td>@order.Id</td>
                 <td>@order.State</td>
-                <td><button class="btn btn-primary" @onclick="@(() => UpdateStateAsync(order.Id, OrderState.Delivered))">Delivered</button></td>
+                <td><button class="btn btn-primary" @onclick="@(() => DeliverOrdersViewModel.UpdateStateAsync(order.Id, OrderState.Delivered))">Delivered</button></td>
             </tr>
             @foreach (var sandwich in order.Sandwiches)
              {
@@ -38,4 +38,9 @@ else
         }
         </tbody>
     </table>
+}
+
+@code
+{
+    protected override Task OnInitializedAsync() => DeliverOrdersViewModel.LoadOrdersAsync();
 }

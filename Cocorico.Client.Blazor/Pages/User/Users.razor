@@ -1,10 +1,13 @@
 ﻿@page "/users"
-@using Cocorico.Client.Blazor.ComponentModels.User
+
+@using Cocorico.Client.Domain.Helpers
 @using Cocorico.Shared.Dtos.User
+@using Cocorico.Shared.Helpers
 
-@inherits UsersModel
+@inject IUserClient UserHttpClient
+@inject NavigationManager UriHelper
 
-@if (Users.Count == 0)
+@if (UsersList.Count == 0)
 {
     <p><em>Loading...</em></p>
 }
@@ -19,7 +22,7 @@ else
         </tr>
         </thead>
         <tbody>
-            @foreach (var user in Users)
+            @foreach (var user in UsersList)
             {
                 <tr>
                     <td>@user.Name</td>
@@ -29,4 +32,27 @@ else
             }
         </tbody>
     </table>
+}
+
+@code
+{
+    private IReadOnlyList<UserForAdminPage> UsersList { get; set; } = new List<UserForAdminPage>();
+
+    protected override async Task OnInitializedAsync() => await LoadUsersAsync();
+
+    private async Task LoadUsersAsync()
+    {
+        try
+        {
+            var result = await UserHttpClient.GetAllForAdminAsync();
+
+            UsersList = result.ToList();
+        }
+        catch (Exception)
+        {
+            //TODO: Handle fail
+        }
+    }
+
+    protected void GoToEdit(string userId) => UriHelper.NavigateTo(Urls.Client.AdminEditUserClaim + $"/{userId}");
 }

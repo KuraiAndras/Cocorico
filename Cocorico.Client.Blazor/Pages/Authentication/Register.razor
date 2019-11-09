@@ -1,7 +1,13 @@
 ﻿@page "/register"
 
+@using Cocorico.Client.Domain.Services.Authentication
+@using Cocorico.Shared.Dtos.Authentication
+@using Cocorico.Shared.Helpers
+
 @layout MainLayout
-@inherits Cocorico.Client.Blazor.ComponentModels.Authentication.RegisterModel
+
+@inject NavigationManager UriHelper
+@inject ICocoricoClientAuthenticationService CocoricoClientAuthenticationService
 
 <div class="container">
     <div class="container">
@@ -13,11 +19,35 @@
                         Login attempt failed.
                     </div>
                 }
-                <input type="text" bind="@RegisterDetails.Name" placeholder="John Doe" class="form-control"/>
-                <input type="text" bind="@RegisterDetails.Email" placeholder="example@host.org" class="form-control"/>
-                <input type="password" bind="@RegisterDetails.Password" placeholder="Password" class="form-control"/>
-                <button class="btn btn-primary" @onclick="@Register">Register</button>
+                <input type="text" bind="@RegisterDetails.Name" placeholder="John Doe" class="form-control" />
+                <input type="text" bind="@RegisterDetails.Email" placeholder="example@host.org" class="form-control" />
+                <input type="password" bind="@RegisterDetails.Password" placeholder="Password" class="form-control" />
+                <button class="btn btn-primary" @onclick="@RegisterUser">Register</button>
             </div>
         </div>
     </div>
 </div>
+
+@code
+{
+
+    private RegisterDetails RegisterDetails { get; } = new RegisterDetails();
+
+    private bool ShowRegisterFailed { get; set; }
+
+    private async void RegisterUser()
+    {
+        try
+        {
+            await CocoricoClientAuthenticationService.RegisterAsync(RegisterDetails);
+
+            UriHelper.NavigateTo(Urls.Client.Login);
+        }
+        catch (Exception)
+        {
+            ShowRegisterFailed = true;
+            StateHasChanged();
+        }
+    }
+
+}

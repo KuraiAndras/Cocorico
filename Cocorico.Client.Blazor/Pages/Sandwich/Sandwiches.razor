@@ -1,7 +1,16 @@
 ﻿@page "/Sandwiches"
-@using Cocorico.Client.Blazor.ComponentModels.Sandwich
 
-@inherits SandwichesModel
+@using Cocorico.Client.Domain.Extensions
+@using Cocorico.Client.Domain.Helpers
+@using Cocorico.Client.Domain.Services.Authentication
+@using Cocorico.Client.Domain.Services.Basket
+@using Cocorico.Shared.Dtos.Sandwich
+@using Cocorico.Shared.Helpers
+
+@inject ICocoricoClientAuthenticationService AuthenticationService
+@inject NavigationManager UriHelper
+@inject ISandwichClient SandwichHttpClient
+@inject IBasketService BasketService
 
 <table class="table">
     <thead>
@@ -20,7 +29,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var sandwich in Sandwiches)
+        @foreach (var sandwich in SandwichesList)
         {
             <tr>
                 <td>@sandwich.Name</td>
@@ -35,7 +44,51 @@
                     <td><button class="btn btn-danger" @onclick="@(() => DeleteAsync(sandwich.Id))">Delete</button></td>
                 }
             </tr>
-            @string.Join(", ",sandwich.Ingredients.Select(i => i.Name))
+            @string.Join(", ", sandwich.Ingredients.Select(i => i.Name))
         }
     </tbody>
 </table>
+
+@code
+{
+    private bool IsAdmin => AuthenticationService.Claims.Contains(Claims.Admin);
+
+    private bool IsCustomer => AuthenticationService.Claims.Contains(Claims.Customer);
+
+    private IReadOnlyList<SandwichDto> SandwichesList { get; set; } = new List<SandwichDto>();
+
+    protected override async Task OnInitializedAsync() => await LoadSandwichesAsync();
+
+    private async Task LoadSandwichesAsync()
+    {
+        try
+        {
+            var sandwiches = await SandwichHttpClient.GetAllAsync();
+
+            SandwichesList = sandwiches.ToList();
+        }
+        catch (SwaggerException)
+        {
+            //TODO: Handle fail
+        }
+    }
+
+    private void Edit(int sandwichId) => UriHelper.NavigateTo(Urls.Client.Sandwiches + $"/{sandwichId}");
+
+    private async Task DeleteAsync(int sandwichId)
+    {
+        try
+        {
+            var fileResponse = await SandwichHttpClient.DeleteAsync(sandwichId);
+
+            if (fileResponse.IsSuccessfulStatusCode()) await LoadSandwichesAsync();
+            //TODO: Handle fail
+        }
+        catch (SwaggerException)
+        {
+            //TODO: Handle fail
+        }
+    }
+
+    private void AddToBasket(SandwichDto sandwich) => BasketService.AddToBasket(sandwich);
+}

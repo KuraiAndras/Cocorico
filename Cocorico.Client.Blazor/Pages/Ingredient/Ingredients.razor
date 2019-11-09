@@ -1,8 +1,12 @@
 ﻿@page "/Ingredients"
 
-@using Cocorico.Client.Blazor.ComponentModels.Ingredient
+@using Cocorico.Client.Domain.Extensions
+@using Cocorico.Client.Domain.Helpers
+@using Cocorico.Shared.Dtos.Ingredient
+@using Cocorico.Shared.Helpers
 
-@inherits IngredientsModel
+@inject IIngredientClient IngredientClient
+@inject NavigationManager UriHelper
 
 <table class="table">
     <thead>
@@ -13,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var ingredientDto in Ingredients)
+        @foreach (var ingredientDto in IngredientsList)
         {
             <tr>
                 <td>@ingredientDto.Name</td>
@@ -23,3 +27,42 @@
         }
     </tbody>
 </table>
+
+@code
+{
+    private IReadOnlyList<IngredientDto> IngredientsList { get; set; } = new List<IngredientDto>();
+
+    protected override async Task OnInitializedAsync() => await LoadIngredientsAsync();
+
+    private async Task LoadIngredientsAsync()
+    {
+        try
+        {
+            var ingredients = await IngredientClient.GetAllAsync();
+
+            IngredientsList = ingredients.ToList();
+        }
+        catch (SwaggerException)
+        {
+            //TODO: Handle fail
+        }
+    }
+
+    protected void Edit(int id) => UriHelper.NavigateTo(Urls.Client.Ingredients + $"/{id}");
+
+    protected async Task DeleteAsync(int id)
+    {
+        try
+        {
+            var fileResponse = await IngredientClient.DeleteAsync(id);
+
+            if (fileResponse.IsSuccessfulStatusCode()) await LoadIngredientsAsync();
+            //TODO: Handle fail
+        }
+        catch (SwaggerException)
+        {
+            //TODO: Handle fail
+        }
+    }
+
+}

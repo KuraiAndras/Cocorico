@@ -1,6 +1,8 @@
-﻿@using Cocorico.Shared.Helpers
+﻿@using Cocorico.Client.Domain.Services.Authentication
+@using Cocorico.Shared.Helpers
 
-@inherits Cocorico.Client.Blazor.ComponentModels.Navigation.NavMenuModel
+@inject ICocoricoClientAuthenticationService CocoricoClientAuthenticationService
+@inject NavigationManager UriHelper
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Cocorico</a>
@@ -105,5 +107,41 @@
     void ToggleNavMenu()
     {
         _collapseNavMenu = !_collapseNavMenu;
+    }
+}
+
+@code
+{
+    private bool IsCustomer => CocoricoClientAuthenticationService.Claims.Contains(Claims.Customer);
+
+    private bool IsLoggedIn { get; set; }
+
+    private bool IsAdmin => CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin);
+
+    private bool IsWorker => CocoricoClientAuthenticationService.Claims.Contains(Claims.Worker);
+
+    private async Task Logout()
+    {
+        await CocoricoClientAuthenticationService.LogoutAsync();
+
+        UriHelper.NavigateTo("/");
+    }
+
+    protected override void OnInitialized()
+    {
+        CocoricoClientAuthenticationService.UserLoggedIn += UserLoggedIn;
+        CocoricoClientAuthenticationService.UserLoggedOut += UserLoggedOut;
+    }
+
+    private void UserLoggedOut()
+    {
+        IsLoggedIn = false;
+        StateHasChanged();
+    }
+
+    private void UserLoggedIn()
+    {
+        IsLoggedIn = true;
+        StateHasChanged();
     }
 }

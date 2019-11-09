@@ -1,9 +1,13 @@
 ﻿@page "/adminEditUserClaim/{UserId}"
 
-@using Cocorico.Client.Blazor.ComponentModels.User
+@using Cocorico.Client.Domain.Helpers
+@using Cocorico.Client.Domain.Services.Authentication
+@using Cocorico.Shared.Dtos.Authentication
+@using Cocorico.Shared.Dtos.User
 @using Cocorico.Shared.Helpers
 
-@inherits AdminEditUserClaimModel
+@inject ICocoricoClientAuthenticationService AuthenticationService
+@inject IUserClient UserHttpClient
 
 @if (UserForAdminPage is null)
 {
@@ -34,4 +38,63 @@ else
             }
         </tbody>
     </table>
+}
+
+@code
+{
+    [Parameter] public string UserId { get; set; }
+
+    private UserForAdminPage UserForAdminPage { get; set; }
+
+    protected override async Task OnInitializedAsync() => await LoadUserAsync();
+
+    private async Task LoadUserAsync()
+    {
+        try
+        {
+            var result = await UserHttpClient.GetUserForAdminPageAsync(UserId);
+
+            UserForAdminPage = result;
+        }
+        catch (Exception)
+        {
+            //TODO: Handle fail
+        }
+    }
+
+    private async Task AddClaimToUserAsync(string claimValue)
+    {
+        try
+        {
+            await AuthenticationService.AddClaimToUserAsync(new UserClaimRequest
+            {
+                UserId = UserId,
+                CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
+            });
+
+            await LoadUserAsync();
+        }
+        catch (Exception)
+        {
+            //TODO: Handle fail
+        }
+    }
+
+    private async Task RemoveClaimFromUserAsync(string claimValue)
+    {
+        try
+        {
+            await AuthenticationService.RemoveClaimFromUserAsync(new UserClaimRequest
+            {
+                UserId = UserId,
+                CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
+            });
+
+            await LoadUserAsync();
+        }
+        catch (Exception)
+        {
+            //TODO: Handle fail
+        }
+    }
 }

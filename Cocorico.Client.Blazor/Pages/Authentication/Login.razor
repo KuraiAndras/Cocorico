@@ -1,20 +1,47 @@
 ﻿@page "/login"
 
 @layout MainLayout
-@inherits Cocorico.Client.Blazor.ComponentModels.Authentication.LoginModel
+@using Cocorico.Client.Domain.Services.Authentication
+@using Cocorico.Shared.Dtos.Authentication
+@using Cocorico.Shared.Helpers
+
+@inject ICocoricoClientAuthenticationService CocoricoClientAuthenticationService
+@inject NavigationManager UriHelper
 
 <div class="container">
     <div class="row">
         <div class="col-md-4 offset-md-4">
-                @if (ShowLoginFailed)
-                {
-                    <div class="alert alert-danger">
-                        Login attempt failed.
-                    </div>
-                }
-                <input type="text" bind=@LoginDetails.Email placeholder="example@host.org" class="form-control" />
-                <input type="password" bind=@LoginDetails.Password placeholder="Password" class="form-control" />
-                <button class="btn btn-primary" onclick="@Login()">Login</button>
+            @if (ShowLoginFailed)
+            {
+                <div class="alert alert-danger">
+                    Login attempt failed.
+                </div>
+            }
+            <input type="text" bind=@LoginDetails.Email placeholder="example@host.org" class="form-control" />
+            <input type="password" bind=@LoginDetails.Password placeholder="Password" class="form-control" />
+            <button class="btn btn-primary" onclick="@LoginUser()">Login</button>
         </div>
     </div>
 </div>
+
+@code
+{
+
+    private LoginDetails LoginDetails { get; } = new LoginDetails();
+    private bool ShowLoginFailed { get; set; }
+
+    private async Task LoginUser()
+    {
+        try
+        {
+            await CocoricoClientAuthenticationService.LoginAsync(LoginDetails);
+
+            UriHelper.NavigateTo(Urls.Client.Home);
+        }
+        catch (Exception)
+        {
+            ShowLoginFailed = true;
+        }
+    }
+
+}

@@ -28,11 +28,11 @@ else
                     <td>@order.State</td>
                     @if (order.State == OrderState.OrderPlaced)
                     {
-                        <td><button class="btn btn-primary" @onclick="@(() => MakeOrdersViewModel.UpdateStateAsync(order.Id, OrderState.InTheOven))">To Oven</button></td>
+                        <td><button class="btn btn-primary" @onclick="@(async () => await MakeOrdersViewModel.UpdateStateAsync(order.Id, OrderState.InTheOven))">To Oven</button></td>
                     }
                     @if (order.State == OrderState.InTheOven)
                     {
-                        <td><button class="btn btn-primary" @onclick="@(() => MakeOrdersViewModel.UpdateStateAsync(order.Id, OrderState.ToBeDelivered))">To Delivery</button></td>
+                        <td><button class="btn btn-primary" @onclick="@(async () => await MakeOrdersViewModel.UpdateStateAsync(order.Id, OrderState.ToBeDelivered))">To Delivery</button></td>
                     }
                 </tr>
                 @foreach (var sandwich in order.Sandwiches)
@@ -51,7 +51,5 @@ else
 
 @code
 {
-
     protected override Task OnInitializedAsync() => MakeOrdersViewModel.LoadOrdersAsync();
-
 }

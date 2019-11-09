@@ -1,18 +1,14 @@
 ﻿@page "/Ingredients/{Id:int}"
 
-@using Cocorico.Client.Domain.Extensions
-@using Cocorico.Client.Domain.Helpers
-@using Cocorico.Shared.Dtos.Ingredient
-@using Cocorico.Shared.Helpers
+@using Cocorico.Client.Domain.ViewModels.Ingredient
 
-@inject NavigationManager UriHelper
-@inject IIngredientClient IngredientClient
+@inject IEditIngredientViewModel ViewModel
 
 <div class="container">
     <div class="row">
         <div class="col-md-4 offset-md-4">
-            <input type="text" placeholder="Ingredient Name" class="form-control" bind="@IngredientDto.Name" />
-            <button class="btn btn-primary" onclick="@Edit()">Edit</button>
+            <input type="text" placeholder="Ingredient Name" class="form-control" @bind="@ViewModel.IngredientDto.Name" />
+            <button class="btn btn-primary" @onclick="@ViewModel.EditIngredientAsync">Edit</button>
         </div>
     </div>
 </div>
@@ -21,36 +17,5 @@
 {
     [Parameter] public int Id { get; set; }
 
-    private IngredientDto IngredientDto { get; set; } = new IngredientDto();
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            var ingredientDto = await IngredientClient.GetAsync(Id);
-
-            IngredientDto = ingredientDto;
-        }
-        catch (SwaggerException)
-        {
-            //TODO: Handle fail
-        }
-    }
-
-    protected async Task Edit()
-    {
-        try
-        {
-            var fileResponse = await IngredientClient.UpdateAsync(IngredientDto);
-
-            //TODO: Handle fail
-            if (!fileResponse.IsSuccessfulStatusCode()) return;
-
-            UriHelper.NavigateTo(Urls.Client.Ingredients);
-        }
-        catch (SwaggerException)
-        {
-            //TODO: Handle fail
-        }
-    }
+    protected override Task OnInitializedAsync() => ViewModel.LoadIngredientAsync(Id);
 }

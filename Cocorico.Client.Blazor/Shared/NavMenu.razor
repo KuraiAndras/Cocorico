@@ -1,17 +1,16 @@
-﻿@using Cocorico.Client.Domain.Services.Authentication
+﻿@using Cocorico.Client.Domain.ViewModels.NavMenu
 @using Cocorico.Shared.Helpers
 
-@inject ICocoricoClientAuthenticationService CocoricoClientAuthenticationService
-@inject NavigationManager UriHelper
+@inject INavMenuViewModel ViewModel
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Cocorico</a>
-    <button class="navbar-toggler" @onclick="@ToggleNavMenu">
+    <button class="navbar-toggler" @onclick="@ViewModel.ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="@ToggleNavMenu">
+<div class="@ViewModel.NavMenuCssClass" @onclick="@ViewModel.ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -24,9 +23,9 @@
             </NavLink>
         </li>
 
-        @if (IsLoggedIn)
+        @if (ViewModel.IsLoggedIn)
         {
-            @if (IsCustomer)
+            @if (ViewModel.IsCustomer)
             {
                 <li class="nav-item px-3">
                     <NavLink class="nav-link" href="@Urls.Client.AddCustomerOrder">
@@ -35,7 +34,7 @@
                 </li>
             }
 
-            @if (IsWorker)
+            @if (ViewModel.IsWorker)
             {
                 <li class="nav-item px-3">
                     <NavLink class="nav-link" href="@Urls.Client.OrdersToMake">
@@ -49,7 +48,7 @@
                 </li>
             }
 
-            @if (IsAdmin)
+            @if (ViewModel.IsAdmin)
             {
                 <li class="nav-item px-3">
                     <NavLink class="nav-link" href="@Urls.Client.AddSandwich">
@@ -74,7 +73,7 @@
             }
         }
 
-        @if (!IsLoggedIn)
+        @if (!ViewModel.IsLoggedIn)
         {
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="@Urls.Client.Login">
@@ -90,7 +89,7 @@
         else
         {
             <li class="nav-item px-3">
-                <button class="btn btn-outline-light text-left" style="width:100%" @onclick="@Logout">
+                <button class="btn btn-outline-light text-left" style="width:100%" @onclick="@ViewModel.LogoutAsync">
                     <i class="oi oi-account-logout" style="vertical-align: middle"></i>
                     <span>Log Out</span>
                 </button>
@@ -99,49 +98,7 @@
     </ul>
 </div>
 
-@functions {
-    bool _collapseNavMenu = true;
-
-    string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
-
-    void ToggleNavMenu()
-    {
-        _collapseNavMenu = !_collapseNavMenu;
-    }
-}
-
 @code
 {
-    private bool IsCustomer => CocoricoClientAuthenticationService.Claims.Contains(Claims.Customer);
-
-    private bool IsLoggedIn { get; set; }
-
-    private bool IsAdmin => CocoricoClientAuthenticationService.Claims.Contains(Claims.Admin);
-
-    private bool IsWorker => CocoricoClientAuthenticationService.Claims.Contains(Claims.Worker);
-
-    private async Task Logout()
-    {
-        await CocoricoClientAuthenticationService.LogoutAsync();
-
-        UriHelper.NavigateTo("/");
-    }
-
-    protected override void OnInitialized()
-    {
-        CocoricoClientAuthenticationService.UserLoggedIn += UserLoggedIn;
-        CocoricoClientAuthenticationService.UserLoggedOut += UserLoggedOut;
-    }
-
-    private void UserLoggedOut()
-    {
-        IsLoggedIn = false;
-        StateHasChanged();
-    }
-
-    private void UserLoggedIn()
-    {
-        IsLoggedIn = true;
-        StateHasChanged();
-    }
+    protected override void OnInitialized() => ViewModel.Initialize();
 }

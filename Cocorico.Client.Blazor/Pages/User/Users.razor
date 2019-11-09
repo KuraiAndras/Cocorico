@@ -1,13 +1,11 @@
 ﻿@page "/users"
 
-@using Cocorico.Client.Domain.Helpers
+@using Cocorico.Client.Domain.ViewModels.User
 @using Cocorico.Shared.Dtos.User
-@using Cocorico.Shared.Helpers
 
-@inject IUserClient UserHttpClient
-@inject NavigationManager UriHelper
+@inject IUsersViewModel ViewModel
 
-@if (UsersList.Count == 0)
+@if (ViewModel.UsersList.Count == 0)
 {
     <p><em>Loading...</em></p>
 }
@@ -15,19 +13,19 @@ else
 {
     <table class="table">
         <thead>
-        <tr>
-            <th>@nameof(UserForAdminPage.Name)</th>
-            <th>@nameof(UserForAdminPage.Email)</th>
-            <th></th>
-        </tr>
+            <tr>
+                <th>@nameof(UserForAdminPage.Name)</th>
+                <th>@nameof(UserForAdminPage.Email)</th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
-            @foreach (var user in UsersList)
+            @foreach (var user in ViewModel.UsersList)
             {
                 <tr>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
-                    <td><button class="btn btn-primary" @onclick="@(() => GoToEdit(user.Id))">Edit</button></td>
+                    <td><button class="btn btn-primary" @onclick="@(() => ViewModel.GoToEdit(user.Id))">Edit</button></td>
                 </tr>
             }
         </tbody>
@@ -36,23 +34,5 @@ else
 
 @code
 {
-    private IReadOnlyList<UserForAdminPage> UsersList { get; set; } = new List<UserForAdminPage>();
-
-    protected override async Task OnInitializedAsync() => await LoadUsersAsync();
-
-    private async Task LoadUsersAsync()
-    {
-        try
-        {
-            var result = await UserHttpClient.GetAllForAdminAsync();
-
-            UsersList = result.ToList();
-        }
-        catch (Exception)
-        {
-            //TODO: Handle fail
-        }
-    }
-
-    protected void GoToEdit(string userId) => UriHelper.NavigateTo(Urls.Client.AdminEditUserClaim + $"/{userId}");
+    protected override Task OnInitializedAsync() => ViewModel.LoadUsersAsync();
 }

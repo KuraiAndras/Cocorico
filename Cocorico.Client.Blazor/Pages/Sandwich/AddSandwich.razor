@@ -1,14 +1,8 @@
 ﻿@page "/AddSandwich"
 
-@using Cocorico.Client.Domain.Extensions
-@using Cocorico.Client.Domain.Helpers
-@using Cocorico.Shared.Dtos.Ingredient
-@using Cocorico.Shared.Dtos.Sandwich
-@using Cocorico.Shared.Helpers
+@using Cocorico.Client.Domain.ViewModels.Sandwich
 
-@inject NavigationManager UriHelper
-@inject ISandwichClient SandwichHttpClient
-@inject IIngredientClient IngredientClient
+@inject IAddSandwichViewModel ViewModel
 
 <table class="table">
     <thead>
@@ -17,73 +11,24 @@
         </tr>
     </thead>
     <tbody>
-        <tr><td><input type="text" placeholder="Sandwich Name" class="form-control" bind="@NewSandwichDto.Name" /></td></tr>
-        <tr><td><input type="number" placeholder="Sandwich Price" class="form-control" bind="@NewSandwichDto.Price" /></td></tr>
-        @foreach (var ingredient in AvailableIngredients)
+        <tr><td><input type="text" placeholder="Sandwich Name" class="form-control" bind="@ViewModel.NewSandwichDto.Name" /></td></tr>
+        <tr><td><input type="number" placeholder="Sandwich Price" class="form-control" bind="@ViewModel.NewSandwichDto.Price" /></td></tr>
+        @foreach (var ingredient in ViewModel.AvailableIngredients)
         {
-            if (NewSandwichDto.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
+            if (ViewModel.NewSandwichDto.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
             {
-                <tr><td><button class="btn btn-primary" @onclick="@(() => AddIngredient(ingredient))">@ingredient.Name</button></td></tr>
+                <tr><td><button class="btn btn-primary" @onclick="@(() => ViewModel.AddIngredient(ingredient))">@ingredient.Name</button></td></tr>
             }
             else
             {
-                <tr><td><button class="btn btn-danger" @onclick="@(() => RemoveIngredient(ingredient))">@ingredient.Name</button></td></tr>
+                <tr><td><button class="btn btn-danger" @onclick="@(() => ViewModel.RemoveIngredient(ingredient))">@ingredient.Name</button></td></tr>
             }
         }
-        <tr><td><button class="btn btn-primary" @onclick="@Add">Add</button></td></tr>
+        <tr><td><button class="btn btn-primary" @onclick="@ViewModel.AddAsync">Add</button></td></tr>
     </tbody>
 </table>
 
 @code
 {
-
-    private SandwichAddDto NewSandwichDto { get; } = new SandwichAddDto { Ingredients = new List<IngredientDto>() };
-
-    private List<IngredientDto> AvailableIngredients { get; set; } = new List<IngredientDto>();
-
-    private List<IngredientDto> AddedIngredients { get; } = new List<IngredientDto>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            var ingredients = await IngredientClient.GetAllAsync();
-
-            AvailableIngredients.AddRange(ingredients);
-        }
-        catch (SwaggerException)
-        {
-            //TODO: Handle fail
-        }
-    }
-
-
-    private void AddIngredient(IngredientDto ingredient)
-    {
-        AddedIngredients.Add(ingredient);
-        NewSandwichDto.Ingredients = AddedIngredients;
-    }
-
-    private void RemoveIngredient(IngredientDto ingredient)
-    {
-        AddedIngredients.Remove(ingredient);
-        NewSandwichDto.Ingredients = AddedIngredients;
-    }
-
-    private async Task Add()
-    {
-        try
-        {
-            NewSandwichDto.Ingredients = AddedIngredients;
-
-            var result = await SandwichHttpClient.AddAsync(NewSandwichDto);
-
-            if (result.IsSuccessfulStatusCode()) UriHelper.NavigateTo(Urls.Client.Sandwiches);
-            //TODO: Handle fail
-        }
-        catch (SwaggerException)
-        {
-            //TODO: Handle fail
-        }
-    }
+    protected override Task OnInitializedAsync() => ViewModel.LoadAvailableIngredientsAsync();
 }

@@ -1,27 +1,18 @@
 ﻿@page "/Sandwiches"
+@using Cocorico.Client.Domain.ViewModels.Sandwich
 
-@using Cocorico.Client.Domain.Extensions
-@using Cocorico.Client.Domain.Helpers
-@using Cocorico.Client.Domain.Services.Authentication
-@using Cocorico.Client.Domain.Services.Basket
-@using Cocorico.Shared.Dtos.Sandwich
-@using Cocorico.Shared.Helpers
-
-@inject ICocoricoClientAuthenticationService AuthenticationService
-@inject NavigationManager UriHelper
-@inject ISandwichClient SandwichHttpClient
-@inject IBasketService BasketService
+@inject ISandwichesViewModel ViewModel
 
 <table class="table">
     <thead>
         <tr>
             <th>Name</th>
             <th>Price</th>
-            @if (IsCustomer)
+            @if (ViewModel.IsCustomer)
             {
                 <th> </th>
             }
-            @if (IsAdmin)
+            @if (ViewModel.IsAdmin)
             {
                 <th> </th>
                 <th> </th>
@@ -29,19 +20,19 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var sandwich in SandwichesList)
+        @foreach (var sandwich in ViewModel.SandwichesList)
         {
             <tr>
                 <td>@sandwich.Name</td>
                 <td>@sandwich.Price</td>
-                @if (IsCustomer)
+                @if (ViewModel.IsCustomer)
                 {
-                    <td><button class="btn btn-primary" @onclick="@(() => AddToBasket(sandwich))">Order</button></td>
+                    <td><button class="btn btn-primary" @onclick="@(() => ViewModel.AddToBasket(sandwich))">Order</button></td>
                 }
-                @if (IsAdmin)
+                @if (ViewModel.IsAdmin)
                 {
-                    <td><button class="btn btn-secondary" @onclick="@(() => Edit(sandwich.Id))">Edit</button></td>
-                    <td><button class="btn btn-danger" @onclick="@(() => DeleteAsync(sandwich.Id))">Delete</button></td>
+                    <td><button class="btn btn-secondary" @onclick="@(() => ViewModel.Edit(sandwich.Id))">Edit</button></td>
+                    <td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.DeleteAsync(sandwich.Id))">Delete</button></td>
                 }
             </tr>
             @string.Join(", ", sandwich.Ingredients.Select(i => i.Name))
@@ -51,44 +42,5 @@
 
 @code
 {
-    private bool IsAdmin => AuthenticationService.Claims.Contains(Claims.Admin);
-
-    private bool IsCustomer => AuthenticationService.Claims.Contains(Claims.Customer);
-
-    private IReadOnlyList<SandwichDto> SandwichesList { get; set; } = new List<SandwichDto>();
-
-    protected override async Task OnInitializedAsync() => await LoadSandwichesAsync();
-
-    private async Task LoadSandwichesAsync()
-    {
-        try
-        {
-            var sandwiches = await SandwichHttpClient.GetAllAsync();
-
-            SandwichesList = sandwiches.ToList();
-        }
-        catch (SwaggerException)
-        {
-            //TODO: Handle fail
-        }
-    }
-
-    private void Edit(int sandwichId) => UriHelper.NavigateTo(Urls.Client.Sandwiches + $"/{sandwichId}");
-
-    private async Task DeleteAsync(int sandwichId)
-    {
-        try
-        {
-            var fileResponse = await SandwichHttpClient.DeleteAsync(sandwichId);
-
-            if (fileResponse.IsSuccessfulStatusCode()) await LoadSandwichesAsync();
-            //TODO: Handle fail
-        }
-        catch (SwaggerException)
-        {
-            //TODO: Handle fail
-        }
-    }
-
-    private void AddToBasket(SandwichDto sandwich) => BasketService.AddToBasket(sandwich);
+    protected override Task OnInitializedAsync() => ViewModel.LoadSandwichesAsync();
 }

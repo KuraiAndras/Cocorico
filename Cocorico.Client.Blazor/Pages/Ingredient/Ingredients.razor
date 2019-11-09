@@ -1,12 +1,8 @@
 ﻿@page "/Ingredients"
 
-@using Cocorico.Client.Domain.Extensions
-@using Cocorico.Client.Domain.Helpers
-@using Cocorico.Shared.Dtos.Ingredient
-@using Cocorico.Shared.Helpers
+@using Cocorico.Client.Domain.ViewModels.Ingredient
 
-@inject IIngredientClient IngredientClient
-@inject NavigationManager UriHelper
+@inject IIngredientsViewModel ViewModel
 
 <table class="table">
     <thead>
@@ -17,12 +13,12 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var ingredientDto in IngredientsList)
+        @foreach (var ingredientDto in ViewModel.IngredientsList)
         {
             <tr>
                 <td>@ingredientDto.Name</td>
-                <td><button class="btn btn-secondary" @onclick="@(() => Edit(ingredientDto.Id))">Edit</button></td>
-                <td><button class="btn btn-danger" @onclick="@(() => DeleteAsync(ingredientDto.Id))">Delete</button></td>
+                <td><button class="btn btn-secondary" @onclick="@(() => ViewModel.GoToEdit(ingredientDto.Id))">Edit</button></td>
+                <td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.DeleteAsync(ingredientDto.Id))">Delete</button></td>
             </tr>
         }
     </tbody>
@@ -30,39 +26,5 @@
 
 @code
 {
-    private IReadOnlyList<IngredientDto> IngredientsList { get; set; } = new List<IngredientDto>();
-
-    protected override async Task OnInitializedAsync() => await LoadIngredientsAsync();
-
-    private async Task LoadIngredientsAsync()
-    {
-        try
-        {
-            var ingredients = await IngredientClient.GetAllAsync();
-
-            IngredientsList = ingredients.ToList();
-        }
-        catch (SwaggerException)
-        {
-            //TODO: Handle fail
-        }
-    }
-
-    protected void Edit(int id) => UriHelper.NavigateTo(Urls.Client.Ingredients + $"/{id}");
-
-    protected async Task DeleteAsync(int id)
-    {
-        try
-        {
-            var fileResponse = await IngredientClient.DeleteAsync(id);
-
-            if (fileResponse.IsSuccessfulStatusCode()) await LoadIngredientsAsync();
-            //TODO: Handle fail
-        }
-        catch (SwaggerException)
-        {
-            //TODO: Handle fail
-        }
-    }
-
+    protected override async Task OnInitializedAsync() => await ViewModel.LoadIngredientsAsync();
 }

@@ -1,12 +1,7 @@
 ﻿@page "/AddCustomerOrder"
+@using Cocorico.Client.Domain.ViewModels.Order
 
-@using Cocorico.Client.Domain.Extensions
-@using Cocorico.Client.Domain.Helpers
-@using Cocorico.Client.Domain.Services.Basket
-@using Cocorico.Shared.Dtos.Order
-
-@inject IBasketService BasketService
-@inject IOrderClient OrderHttpClient
+@inject IAddCustomerOrderViewModel ViewModel
 
 <table class="table">
     <thead>
@@ -17,48 +12,17 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var sandwich in OrderAddDto.Sandwiches)
+        @foreach (var sandwich in ViewModel.OrderAddDto.Sandwiches)
         {
             <tr>
                 <td>@sandwich.Name</td>
                 <td>@sandwich.Price JMF</td>
-                <td><button class="btn btn-danger" @onclick="@(() => DeleteSandwich(OrderAddDto.Sandwiches.IndexOf(sandwich)))">Delete</button></td>
+                <td><button class="btn btn-danger" @onclick="@(() => ViewModel.DeleteSandwich(ViewModel.OrderAddDto.Sandwiches.IndexOf(sandwich)))">Delete</button></td>
             </tr>
-}
+        }
         <tr>
-            <td>Sum: @OrderAddDto.Sandwiches.Sum(s => s.Price) JMF</td>
-            <td><button class="btn btn-primary" @onclick="@Add">Add</button></td>
+            <td>Sum: @ViewModel.OrderAddDto.Sandwiches.Sum(s => s.Price) JMF</td>
+            <td><button class="btn btn-primary" @onclick="@ViewModel.AddAsync">Add</button></td>
         </tr>
     </tbody>
 </table>
-
-@code
-{
-    private OrderAddDto OrderAddDto { get; } = new OrderAddDto();
-
-    protected override Task OnInitializedAsync()
-    {
-        OrderAddDto.Sandwiches = BasketService.SandwichesInBasket;
-        return base.OnInitializedAsync();
-    }
-
-    private async Task Add()
-    {
-        try
-        {
-            var result = await OrderHttpClient.AddOrderAsync(OrderAddDto);
-
-            //TODO: Go to orders
-            if (result.IsSuccessfulStatusCode())
-            {
-                BasketService.EmptyBasket();
-            }
-        }
-        catch (SwaggerException)
-        {
-            //TODO: Handle fail
-        }
-    }
-
-    private void DeleteSandwich(int id) => BasketService.RemoveFromBasket(id);
-}

@@ -1,53 +1,26 @@
 ﻿@page "/register"
 
-@using Cocorico.Client.Domain.Services.Authentication
-@using Cocorico.Shared.Dtos.Authentication
-@using Cocorico.Shared.Helpers
+@using Cocorico.Client.Domain.ViewModels.Authentication
 
 @layout MainLayout
 
-@inject NavigationManager UriHelper
-@inject ICocoricoClientAuthenticationService CocoricoClientAuthenticationService
+@inject IRegisterViewModel UserRegisterViewModel
 
 <div class="container">
     <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4">
-                @if (ShowRegisterFailed)
+                @if (UserRegisterViewModel.ShowRegisterFailed)
                 {
                     <div class="alert alert-danger">
                         Login attempt failed.
                     </div>
                 }
-                <input type="text" bind="@RegisterDetails.Name" placeholder="John Doe" class="form-control" />
-                <input type="text" bind="@RegisterDetails.Email" placeholder="example@host.org" class="form-control" />
-                <input type="password" bind="@RegisterDetails.Password" placeholder="Password" class="form-control" />
-                <button class="btn btn-primary" @onclick="@RegisterUser">Register</button>
+                <input type="text" @bind="@UserRegisterViewModel.UserRegisterDetails.Name" placeholder="John Doe" class="form-control" />
+                <input type="text" @bind="@UserRegisterViewModel.UserRegisterDetails.Email" placeholder="example@host.org" class="form-control" />
+                <input type="password" @bind="@UserRegisterViewModel.UserRegisterDetails.Password" placeholder="Password" class="form-control" />
+                <button class="btn btn-primary" @onclick="@UserRegisterViewModel.RegisterUserAsync">Register</button>
             </div>
         </div>
     </div>
 </div>
-
-@code
-{
-
-    private RegisterDetails RegisterDetails { get; } = new RegisterDetails();
-
-    private bool ShowRegisterFailed { get; set; }
-
-    private async void RegisterUser()
-    {
-        try
-        {
-            await CocoricoClientAuthenticationService.RegisterAsync(RegisterDetails);
-
-            UriHelper.NavigateTo(Urls.Client.Login);
-        }
-        catch (Exception)
-        {
-            ShowRegisterFailed = true;
-            StateHasChanged();
-        }
-    }
-
-}

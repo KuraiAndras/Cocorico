@@ -1,32 +1,14 @@
 ﻿@page "/AddIngredient"
 
-@using Cocorico.Client.Domain.Extensions
-@using Cocorico.Client.Domain.Helpers
-@using Cocorico.Shared.Dtos.Ingredient
-@using Cocorico.Shared.Helpers
+@using Cocorico.Client.Domain.ViewModels.Ingredient
 
-@inject NavigationManager UriHelper
-@inject IIngredientClient IngredientClient
+@inject IAddIngredientViewModel ViewModel
 
 <div class="container">
     <div class="row">
         <div class="col-md-4 offset-md-4">
-            <input type="text" placeholder="Ingredient Name" class="form-control" bind="@IngredientAddDto.Name" />
-            <button class="btn btn-primary" onclick="@Add()">Add</button>
+            <input type="text" placeholder="Ingredient Name" class="form-control" @bind="@ViewModel.IngredientAddDto.Name" />
+            <button class="btn btn-primary" @onclick="@ViewModel.AddAsync">Add</button>
         </div>
     </div>
 </div>
-
-@code
-{
-
-    protected IngredientAddDto IngredientAddDto { get; set; } = new IngredientAddDto();
-
-    protected async Task Add()
-    {
-        var result = await IngredientClient.AddAsync(IngredientAddDto);
-
-        if (result.IsSuccessfulStatusCode()) UriHelper.NavigateTo(Urls.Client.Ingredients);
-    }
-
-}

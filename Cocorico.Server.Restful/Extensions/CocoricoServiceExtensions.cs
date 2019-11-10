@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Security.Claims;
-using Cocorico.Server.Domain.Helpers;
+﻿using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Models;
 using Cocorico.Server.Domain.Models.Entities;
 using Cocorico.Server.Domain.Services.Authentication;
@@ -20,6 +17,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Net.Http;
+using System.Security.Claims;
 
 namespace Cocorico.Server.Restful.Extensions
 {
@@ -27,8 +27,8 @@ namespace Cocorico.Server.Restful.Extensions
     {
         public static void AddCocoricoDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<CocoricoDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("Postgres")));
+            services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<CocoricoDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("Postgres")));
         }
 
         public static void AddCocoricoIdentityConfiguration(this IServiceCollection services)

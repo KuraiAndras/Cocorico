@@ -4,19 +4,19 @@ using Microsoft.Extensions.Configuration;
 
 namespace Cocorico.Server.Restful
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
             BuildWebHost(args).Run();
-        }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseConfiguration(new ConfigurationBuilder()
-                    .AddCommandLine(args)
-                    .Build())
-                .UseStartup<Startup>()
-                .Build();
+            static IWebHost BuildWebHost(string[] arguments) =>
+                WebHost.CreateDefaultBuilder(arguments)
+                    .UseConfiguration(new ConfigurationBuilder()
+                        .AddCommandLine(arguments)
+                        .Build())
+                    .UseStartup<Startup>()
+                    .Build();
+        }
     }
 }

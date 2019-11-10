@@ -1,5 +1,5 @@
 using Blazor.Extensions.Storage;
-using Cocorico.Client.Domain.Helpers;
+using Cocorico.Client.Blazor.Extensions;
 using Cocorico.Client.Domain.Services.Authentication;
 using Cocorico.Client.Domain.Services.Basket;
 using Microsoft.AspNetCore.Components.Builder;
@@ -15,11 +15,9 @@ namespace Cocorico.Client.Blazor
             services.AddSingleton<ICocoricoClientAuthenticationService, CocoricoClientAuthenticationService>();
             services.AddSingleton<IBasketService, InMemoryBasketService>();
 
-            services.AddTransient<ISandwichClient, SandwichClient>();
-            services.AddTransient<IUserClient, UserClient>();
-            services.AddTransient<IOrderClient, OrderClient>();
-            services.AddTransient<IAuthenticationClient, AuthenticationClient>();
-            services.AddTransient<IIngredientClient, IngredientClient>();
+            services.AddHttpClients();
+
+            services.AddViewModels();
         }
 
         // ReSharper disable once UnusedMember.Global

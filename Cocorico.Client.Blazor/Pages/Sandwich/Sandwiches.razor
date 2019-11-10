@@ -1,18 +1,18 @@
 ﻿@page "/Sandwiches"
-@using Cocorico.Client.Blazor.ComponentModels.Sandwich
+@using Cocorico.Client.Domain.ViewModels.Sandwich
 
-@inherits SandwichesModel
+@inject ISandwichesViewModel ViewModel
 
 <table class="table">
     <thead>
         <tr>
             <th>Name</th>
             <th>Price</th>
-            @if (IsCustomer)
+            @if (ViewModel.IsCustomer)
             {
                 <th> </th>
             }
-            @if (IsAdmin)
+            @if (ViewModel.IsAdmin)
             {
                 <th> </th>
                 <th> </th>
@@ -20,22 +20,27 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var sandwich in Sandwiches)
+        @foreach (var sandwich in ViewModel.SandwichesList)
         {
             <tr>
                 <td>@sandwich.Name</td>
                 <td>@sandwich.Price</td>
-                @if (IsCustomer)
+                @if (ViewModel.IsCustomer)
                 {
-                    <td><button class="btn btn-primary" @onclick="@(() => AddToBasket(sandwich))">Order</button></td>
+                    <td><button class="btn btn-primary" @onclick="@(() => ViewModel.AddToBasket(sandwich))">Order</button></td>
                 }
-                @if (IsAdmin)
+                @if (ViewModel.IsAdmin)
                 {
-                    <td><button class="btn btn-secondary" @onclick="@(() => Edit(sandwich.Id))">Edit</button></td>
-                    <td><button class="btn btn-danger" @onclick="@(() => DeleteAsync(sandwich.Id))">Delete</button></td>
+                    <td><button class="btn btn-secondary" @onclick="@(() => ViewModel.Edit(sandwich.Id))">Edit</button></td>
+                    <td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.DeleteAsync(sandwich.Id))">Delete</button></td>
                 }
             </tr>
-            @string.Join(", ",sandwich.Ingredients.Select(i => i.Name))
+            @string.Join(", ", sandwich.Ingredients.Select(i => i.Name))
         }
     </tbody>
 </table>
+
+@code
+{
+    protected override Task OnInitializedAsync() => ViewModel.LoadSandwichesAsync();
+}

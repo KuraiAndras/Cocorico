@@ -1,8 +1,8 @@
 ﻿@page "/AddSandwich"
 
-@using Cocorico.Client.Blazor.ComponentModels.Sandwich
+@using Cocorico.Client.Domain.ViewModels.Sandwich
 
-@inherits AddSandwichModel
+@inject IAddSandwichViewModel ViewModel
 
 <table class="table">
     <thead>
@@ -11,19 +11,24 @@
         </tr>
     </thead>
     <tbody>
-        <tr><td><input type="text" placeholder="Sandwich Name" class="form-control" bind="@NewSandwichDto.Name" /></td></tr>
-        <tr><td><input type="number" placeholder="Sandwich Price" class="form-control" bind="@NewSandwichDto.Price" /></td></tr>
-        @foreach (var ingredient in AvailableIngredients)
+        <tr><td><input type="text" placeholder="Sandwich Name" class="form-control" bind="@ViewModel.NewSandwichDto.Name" /></td></tr>
+        <tr><td><input type="number" placeholder="Sandwich Price" class="form-control" bind="@ViewModel.NewSandwichDto.Price" /></td></tr>
+        @foreach (var ingredient in ViewModel.AvailableIngredients)
         {
-            if (NewSandwichDto.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
+            if (ViewModel.NewSandwichDto.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
             {
-                <tr><td><button class="btn btn-primary" @onclick="@(() => AddIngredient(ingredient))">@ingredient.Name</button></td></tr>
+                <tr><td><button class="btn btn-primary" @onclick="@(() => ViewModel.AddIngredient(ingredient))">@ingredient.Name</button></td></tr>
             }
             else
             {
-                <tr><td><button class="btn btn-danger" @onclick="@(() => RemoveIngredient(ingredient))">@ingredient.Name</button></td></tr>
+                <tr><td><button class="btn btn-danger" @onclick="@(() => ViewModel.RemoveIngredient(ingredient))">@ingredient.Name</button></td></tr>
             }
         }
-        <tr><td><button class="btn btn-primary" @onclick="@Add">Add</button></td></tr>
+        <tr><td><button class="btn btn-primary" @onclick="@ViewModel.AddAsync">Add</button></td></tr>
     </tbody>
 </table>
+
+@code
+{
+    protected override Task OnInitializedAsync() => ViewModel.LoadAvailableIngredientsAsync();
+}

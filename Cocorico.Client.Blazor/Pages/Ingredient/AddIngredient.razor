@@ -1,14 +1,14 @@
 ﻿@page "/AddIngredient"
 
-@using Cocorico.Client.Blazor.ComponentModels.Ingredient
+@using Cocorico.Client.Domain.ViewModels.Ingredient
 
-@inherits AddIngredientModel
+@inject IAddIngredientViewModel ViewModel
 
 <div class="container">
     <div class="row">
         <div class="col-md-4 offset-md-4">
-            <input type="text" placeholder="Ingredient Name" class="form-control" bind="@IngredientAddDto.Name" />
-            <button class="btn btn-primary" onclick="@Add()">Add</button>
+            <input type="text" placeholder="Ingredient Name" class="form-control" @bind="@ViewModel.IngredientAddDto.Name" />
+            <button class="btn btn-primary" @onclick="@ViewModel.AddAsync">Add</button>
         </div>
     </div>
 </div>

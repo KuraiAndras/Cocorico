@@ -1,8 +1,8 @@
 ﻿@page "/Ingredients"
 
-@using Cocorico.Client.Blazor.ComponentModels.Ingredient
+@using Cocorico.Client.Domain.ViewModels.Ingredient
 
-@inherits IngredientsModel
+@inject IIngredientsViewModel ViewModel
 
 <table class="table">
     <thead>
@@ -13,13 +13,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var ingredientDto in Ingredients)
+        @foreach (var ingredientDto in ViewModel.IngredientsList)
         {
             <tr>
                 <td>@ingredientDto.Name</td>
-                <td><button class="btn btn-secondary" @onclick="@(() => Edit(ingredientDto.Id))">Edit</button></td>
-                <td><button class="btn btn-danger" @onclick="@(() => DeleteAsync(ingredientDto.Id))">Delete</button></td>
+                <td><button class="btn btn-secondary" @onclick="@(() => ViewModel.GoToEdit(ingredientDto.Id))">Edit</button></td>
+                <td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.DeleteAsync(ingredientDto.Id))">Delete</button></td>
             </tr>
         }
     </tbody>
 </table>
+
+@code
+{
+    protected override async Task OnInitializedAsync() => await ViewModel.LoadIngredientsAsync();
+}

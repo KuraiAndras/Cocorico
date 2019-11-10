@@ -1,8 +1,7 @@
 ﻿@page "/AddCustomerOrder"
+@using Cocorico.Client.Domain.ViewModels.Order
 
-@using Cocorico.Client.Blazor.ComponentModels.Order
-
-@inherits AddOrderModel
+@inject IAddCustomerOrderViewModel ViewModel
 
 <table class="table">
     <thead>
@@ -13,17 +12,17 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var sandwich in OrderAddDto.Sandwiches)
+        @foreach (var sandwich in ViewModel.OrderAddDto.Sandwiches)
         {
             <tr>
                 <td>@sandwich.Name</td>
                 <td>@sandwich.Price JMF</td>
-                <td><button class="btn btn-danger" @onclick="@(() => DeleteSandwich(OrderAddDto.Sandwiches.IndexOf(sandwich)))">Delete</button></td>
+                <td><button class="btn btn-danger" @onclick="@(() => ViewModel.DeleteSandwich(ViewModel.OrderAddDto.Sandwiches.IndexOf(sandwich)))">Delete</button></td>
             </tr>
         }
-    <tr>
-        <td>Sum: @OrderAddDto.Sandwiches.Sum(s => s.Price) JMF</td>
-        <td><button class="btn btn-primary" @onclick="@Add">Add</button></td>
-    </tr>
+        <tr>
+            <td>Sum: @ViewModel.OrderAddDto.Sandwiches.Sum(s => s.Price) JMF</td>
+            <td><button class="btn btn-primary" @onclick="@ViewModel.AddAsync">Add</button></td>
+        </tr>
     </tbody>
 </table>

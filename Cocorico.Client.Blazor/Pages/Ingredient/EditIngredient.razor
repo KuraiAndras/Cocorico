@@ -1,14 +1,21 @@
 ﻿@page "/Ingredients/{Id:int}"
 
-@using Cocorico.Client.Blazor.ComponentModels.Ingredient
+@using Cocorico.Client.Domain.ViewModels.Ingredient
 
-@inherits EditIngredientModel
+@inject IEditIngredientViewModel ViewModel
 
 <div class="container">
     <div class="row">
         <div class="col-md-4 offset-md-4">
-            <input type="text" placeholder="Ingredient Name" class="form-control" bind="@IngredientDto.Name" />
-            <button class="btn btn-primary" onclick="@Edit()">Edit</button>
+            <input type="text" placeholder="Ingredient Name" class="form-control" @bind="@ViewModel.IngredientDto.Name" />
+            <button class="btn btn-primary" @onclick="@ViewModel.EditIngredientAsync">Edit</button>
         </div>
     </div>
 </div>
+
+@code
+{
+    [Parameter] public int Id { get; set; }
+
+    protected override Task OnInitializedAsync() => ViewModel.LoadIngredientAsync(Id);
+}

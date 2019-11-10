@@ -1,11 +1,11 @@
 ﻿@page "/adminEditUserClaim/{UserId}"
 
-@using Cocorico.Client.Blazor.ComponentModels.User
+@using Cocorico.Client.Domain.ViewModels.User
 @using Cocorico.Shared.Helpers
 
-@inherits AdminEditUserClaimModel
+@inject IEditUserClaimViewModel ViewModel
 
-@if (UserForAdminPage is null)
+@if (ViewModel.UserForAdminPage is null)
 {
     <label>Loading...</label>
 }
@@ -18,20 +18,27 @@ else
             </tr>
         </thead>
         <tbody>
-            <tr><td>@UserForAdminPage.Email</td></tr>
-            <tr><td>@UserForAdminPage.Name</td></tr>
+            <tr><td>@ViewModel.UserForAdminPage.Email</td></tr>
+            <tr><td>@ViewModel.UserForAdminPage.Name</td></tr>
             @foreach (var claim in Claims.ClaimsCollection.Where(c => !c.Equals(Claims.User)))
             {
 
-                @if (UserForAdminPage.Claims.SingleOrDefault(c => c.Equals(claim)) is null)
+                @if (ViewModel.UserForAdminPage.Claims.SingleOrDefault(c => c.Equals(claim)) is null)
                 {
-                    <tr><td><button class="btn btn-danger" @onclick="@(() => AddClaimToUserAsync(claim))">Add as @claim</button></td></tr>
+                    <tr><td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.AddClaimToUserAsync(claim, UserId))">Add as @claim</button></td></tr>
                 }
                 else
                 {
-                    <tr><td><button class="btn btn-primary" @onclick="@(() => RemoveClaimFromUserAsync(claim))">Remove from @claim</button></td></tr>
+                    <tr><td><button class="btn btn-primary" @onclick="@(async () => await ViewModel.RemoveClaimFromUserAsync(claim, UserId))">Remove from @claim</button></td></tr>
                 }
             }
         </tbody>
     </table>
+}
+
+@code
+{
+    [Parameter] public string UserId { get; set; } = string.Empty;
+
+    protected override Task OnInitializedAsync() => ViewModel.LoadUserAsync(UserId);
 }

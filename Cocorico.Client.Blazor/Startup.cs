@@ -1,7 +1,9 @@
-using Blazored.LocalStorage;
-using Cocorico.Client.Domain.Helpers;
+using Blazor.Extensions.Storage;
+using Cocorico.Client.Blazor.Extensions;
+using Cocorico.Client.Blazor.Services.Authentication;
 using Cocorico.Client.Domain.Services.Authentication;
 using Cocorico.Client.Domain.Services.Basket;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,15 +13,17 @@ namespace Cocorico.Client.Blazor
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBlazoredLocalStorage();
-            services.AddSingleton<ICocoricoClientAuthenticationService, CocoricoClientAuthenticationService>();
+            services.AddStorage();
+
+            services.AddAuthorizationCore();
+            services.AddScoped<ICocoricoAuthenticationStateProvider, CocoricoAuthenticationStateProvider>();
+            services.AddScoped<AuthenticationStateProvider>(s => (CocoricoAuthenticationStateProvider)s.GetRequiredService<ICocoricoAuthenticationStateProvider>());
+
             services.AddSingleton<IBasketService, InMemoryBasketService>();
 
-            services.AddTransient<ISandwichClient, SandwichClient>();
-            services.AddTransient<IUserClient, UserClient>();
-            services.AddTransient<IOrderClient, OrderClient>();
-            services.AddTransient<IAuthenticationClient, AuthenticationClient>();
-            services.AddTransient<IIngredientClient, IngredientClient>();
+            services.AddHttpClients();
+
+            services.AddViewModels();
         }
 
         // ReSharper disable once UnusedMember.Global

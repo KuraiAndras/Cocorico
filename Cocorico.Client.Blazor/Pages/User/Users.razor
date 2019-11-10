@@ -1,10 +1,11 @@
 ﻿@page "/users"
-@using Cocorico.Client.Blazor.ComponentModels.User
+
+@using Cocorico.Client.Domain.ViewModels.User
 @using Cocorico.Shared.Dtos.User
 
-@inherits UsersModel
+@inject IUsersViewModel ViewModel
 
-@if (Users.Count == 0)
+@if (ViewModel.UsersList.Count == 0)
 {
     <p><em>Loading...</em></p>
 }
@@ -12,21 +13,26 @@ else
 {
     <table class="table">
         <thead>
-        <tr>
-            <th>@nameof(UserForAdminPage.Name)</th>
-            <th>@nameof(UserForAdminPage.Email)</th>
-            <th></th>
-        </tr>
+            <tr>
+                <th>@nameof(UserForAdminPage.Name)</th>
+                <th>@nameof(UserForAdminPage.Email)</th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
-            @foreach (var user in Users)
+            @foreach (var user in ViewModel.UsersList)
             {
                 <tr>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
-                    <td><button class="btn btn-primary" @onclick="@(() => GoToEdit(user.Id))">Edit</button></td>
+                    <td><button class="btn btn-primary" @onclick="@(() => ViewModel.GoToEdit(user.Id))">Edit</button></td>
                 </tr>
             }
         </tbody>
     </table>
+}
+
+@code
+{
+    protected override Task OnInitializedAsync() => ViewModel.LoadUsersAsync();
 }

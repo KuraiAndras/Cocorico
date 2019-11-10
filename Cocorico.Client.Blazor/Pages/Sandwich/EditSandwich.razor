@@ -11,8 +11,8 @@
         </tr>
     </thead>
     <tbody>
-        <tr><td><input type="text" placeholder="Sandwich Name" class="form-control" bind="@ViewModel.Sandwich.Name" /></td></tr>
-        <tr><td><input type="number" placeholder="Sandwich Price" class="form-control" bind="@ViewModel.Sandwich.Price" /></td></tr>
+        <tr><td><input type="text" placeholder="Sandwich Name" class="form-control" @bind="@ViewModel.Sandwich.Name" /></td></tr>
+        <tr><td><input type="number" placeholder="Sandwich Price" class="form-control" @bind="@ViewModel.Sandwich.Price" /></td></tr>
         @foreach (var ingredient in ViewModel.AvailableIngredients)
         {
             if (ViewModel.Sandwich.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)

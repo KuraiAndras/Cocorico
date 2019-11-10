@@ -1,6 +1,7 @@
 ﻿using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.User;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Domain.ViewModels.User
@@ -17,7 +18,7 @@ namespace Cocorico.Client.Domain.ViewModels.User
         {
             _authenticationClient = authenticationClient;
             _userClient = userClient;
-            UserForAdminPage = new UserForAdminPage();
+            UserForAdminPage = new UserForAdminPage { Claims = new List<string>() };
         }
 
         public UserForAdminPage UserForAdminPage { get; private set; }

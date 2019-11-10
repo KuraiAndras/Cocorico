@@ -16,8 +16,7 @@
         <tr><td>@ViewModel.UserForAdminPage.Name</td></tr>
         @foreach (var claim in Claims.ClaimsCollection.Where(c => !c.Equals(Claims.User)))
         {
-
-            @if (ViewModel.UserForAdminPage.Claims.SingleOrDefault(c => c.Equals(claim)) is null)
+            @if (ViewModel.UserForAdminPage.Claims.SingleOrDefault(c => string.Equals(c, claim)) is null)
             {
                 <tr><td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.AddClaimToUserAsync(claim, UserId))">Add as @claim</button></td></tr>
             }

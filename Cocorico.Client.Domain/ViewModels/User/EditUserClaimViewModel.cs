@@ -1,22 +1,21 @@
-﻿using System.Threading.Tasks;
-using Cocorico.Client.Domain.Helpers;
+﻿using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.User;
-using Cocorico.Shared.Services;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Domain.ViewModels.User
 {
     public class EditUserClaimViewModel : IEditUserClaimViewModel
     {
-        private readonly ICocoricoAuthenticationService _authenticationService;
+        private readonly IAuthenticationClient _authenticationClient;
 
         private readonly IUserClient _userClient;
 
         public EditUserClaimViewModel(
-            ICocoricoAuthenticationService authenticationService,
+            IAuthenticationClient authenticationClient,
             IUserClient userClient)
         {
-            _authenticationService = authenticationService;
+            _authenticationClient = authenticationClient;
             _userClient = userClient;
             UserForAdminPage = new UserForAdminPage();
         }
@@ -39,7 +38,7 @@ namespace Cocorico.Client.Domain.ViewModels.User
         {
             try
             {
-                await _authenticationService.AddClaimToUserAsync(new UserClaimRequest
+                await _authenticationClient.AddClaimToUserAsync(new UserClaimRequest
                 {
                     UserId = userId,
                     CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
@@ -57,7 +56,7 @@ namespace Cocorico.Client.Domain.ViewModels.User
         {
             try
             {
-                await _authenticationService.RemoveClaimFromUserAsync(new UserClaimRequest
+                await _authenticationClient.RemoveClaimFromUserAsync(new UserClaimRequest
                 {
                     UserId = userId,
                     CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }

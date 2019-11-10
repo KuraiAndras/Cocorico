@@ -1,5 +1,8 @@
 ﻿@page "/Sandwiches"
 @using Cocorico.Client.Domain.ViewModels.Sandwich
+@using Cocorico.Shared.Helpers
+@* ReSharper disable once RedundantUsingDirective *@
+@using Microsoft.AspNetCore.Components.Authorization
 
 @inject ISandwichesViewModel ViewModel
 
@@ -8,15 +11,13 @@
         <tr>
             <th>Name</th>
             <th>Price</th>
-            @if (ViewModel.IsCustomer)
-            {
+            <AuthorizeView Roles="@Claims.Customer">
                 <th> </th>
-            }
-            @if (ViewModel.IsAdmin)
-            {
+            </AuthorizeView>
+            <AuthorizeView Roles="@Claims.Admin">
                 <th> </th>
                 <th> </th>
-            }
+            </AuthorizeView>
         </tr>
     </thead>
     <tbody>
@@ -25,15 +26,13 @@
             <tr>
                 <td>@sandwich.Name</td>
                 <td>@sandwich.Price</td>
-                @if (ViewModel.IsCustomer)
-                {
+                <AuthorizeView Roles="@Claims.Customer">
                     <td><button class="btn btn-primary" @onclick="@(() => ViewModel.AddToBasket(sandwich))">Order</button></td>
-                }
-                @if (ViewModel.IsAdmin)
-                {
+                </AuthorizeView>
+                <AuthorizeView Roles="@Claims.Admin">
                     <td><button class="btn btn-secondary" @onclick="@(() => ViewModel.Edit(sandwich.Id))">Edit</button></td>
                     <td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.DeleteAsync(sandwich.Id))">Delete</button></td>
-                }
+                </AuthorizeView>
             </tr>
             @string.Join(", ", sandwich.Ingredients.Select(i => i.Name))
         }

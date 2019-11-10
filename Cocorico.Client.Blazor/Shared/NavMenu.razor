@@ -1,5 +1,7 @@
 ﻿@using Cocorico.Client.Domain.ViewModels.NavMenu
 @using Cocorico.Shared.Helpers
+@* ReSharper disable once RedundantUsingDirective *@
+@using Microsoft.AspNetCore.Components.Authorization
 
 @inject INavMenuViewModel ViewModel
 
@@ -22,83 +24,78 @@
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Sandwiches
             </NavLink>
         </li>
-
-        @if (ViewModel.IsLoggedIn)
-        {
-            @if (ViewModel.IsCustomer)
-            {
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="@Urls.Client.AddCustomerOrder">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Add Order
-                    </NavLink>
-                </li>
-            }
-
-            @if (ViewModel.IsWorker)
-            {
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="@Urls.Client.OrdersToMake">
-                        <span class="oi oi-list" aria-hidden="true"></span> Orders To Make
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="@Urls.Client.OrdersToDeliver">
-                        <span class="oi oi-list" aria-hidden="true"></span> Orders To Deliver
-                    </NavLink>
-                </li>
-            }
-
-            @if (ViewModel.IsAdmin)
-            {
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="@Urls.Client.AddSandwich">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Add Sandwich
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="@Urls.Client.Ingredients">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Ingredients
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="@Urls.Client.AddIngredient">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Add Ingredient
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="@Urls.Client.Users">
-                        <span class="oi oi-list" aria-hidden="true"></span> Manage Users
-                    </NavLink>
-                </li>
-            }
-        }
-
-        @if (!ViewModel.IsLoggedIn)
-        {
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="@Urls.Client.Login">
-                    <span class="oi oi-account-login" aria-hidden="true"></span> Log In
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="@Urls.Client.Register">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Register
-                </NavLink>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item px-3">
-                <button class="btn btn-outline-light text-left" style="width:100%" @onclick="@ViewModel.LogoutAsync">
-                    <i class="oi oi-account-logout" style="vertical-align: middle"></i>
-                    <span>Log Out</span>
-                </button>
-            </li>
-        }
     </ul>
+    <AuthorizeView Roles="@Claims.Customer">
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.AddCustomerOrder">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Add Order
+                </NavLink>
+            </li>
+        </ul>
+    </AuthorizeView>
+    <AuthorizeView Roles="@Claims.Worker">
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.OrdersToMake">
+                    <span class="oi oi-list" aria-hidden="true"></span> Orders To Make
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.OrdersToDeliver">
+                    <span class="oi oi-list" aria-hidden="true"></span> Orders To Deliver
+                </NavLink>
+            </li>
+        </ul>
+    </AuthorizeView>
+    <AuthorizeView Roles="@Claims.Admin">
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.AddSandwich">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Add Sandwich
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.Ingredients">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Ingredients
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.AddIngredient">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Add Ingredient
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@Urls.Client.Users">
+                    <span class="oi oi-list" aria-hidden="true"></span> Manage Users
+                </NavLink>
+            </li>
+        </ul>
+    </AuthorizeView>
+    <AuthorizeView>
+        <Authorized>
+            <ul class="nav flex-column">
+                <li class="nav-item px-3">
+                    <button class="btn btn-outline-light text-left" style="width:100%" @onclick="@ViewModel.LogoutAsync">
+                        <i class="oi oi-account-logout" style="vertical-align: middle"></i>
+                        <span>Log Out</span>
+                    </button>
+                </li>
+            </ul>
+        </Authorized>
+        <NotAuthorized>
+            <ul class="nav flex-column">
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="@Urls.Client.Login">
+                        <span class="oi oi-account-login" aria-hidden="true"></span> Log In
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="@Urls.Client.Register">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Register
+                    </NavLink>
+                </li>
+            </ul>
+        </NotAuthorized>
+    </AuthorizeView>
 </div>
-
-@code
-{
-    protected override void OnInitialized() => ViewModel.Initialize();
-}

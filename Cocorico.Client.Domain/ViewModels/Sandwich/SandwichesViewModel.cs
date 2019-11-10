@@ -1,6 +1,5 @@
 ﻿using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
-using Cocorico.Client.Domain.Services.Authentication;
 using Cocorico.Client.Domain.Services.Basket;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
@@ -13,27 +12,20 @@ namespace Cocorico.Client.Domain.ViewModels.Sandwich
 {
     public class SandwichesViewModel : ISandwichesViewModel
     {
-        private readonly ICocoricoClientAuthenticationService _authenticationService;
         private readonly IBasketService _basketService;
         private readonly NavigationManager _navigationManager;
         private readonly ISandwichClient _sandwichClient;
 
         public SandwichesViewModel(
-            ICocoricoClientAuthenticationService authenticationService,
             IBasketService basketService,
             NavigationManager navigationManager,
             ISandwichClient sandwichClient)
         {
-            _authenticationService = authenticationService;
             _basketService = basketService;
             _navigationManager = navigationManager;
             _sandwichClient = sandwichClient;
             SandwichesList = new List<SandwichDto>();
         }
-
-        public bool IsAdmin => _authenticationService.Claims.Contains(Claims.Admin);
-
-        public bool IsCustomer => _authenticationService.Claims.Contains(Claims.Customer);
 
         public IReadOnlyList<SandwichDto> SandwichesList { get; private set; }
 

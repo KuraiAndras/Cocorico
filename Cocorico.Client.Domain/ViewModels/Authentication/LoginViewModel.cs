@@ -10,15 +10,15 @@ namespace Cocorico.Client.Domain.ViewModels.Authentication
     public class LoginViewModel : ILoginViewModel
     {
         private readonly NavigationManager _uriHelper;
-        private readonly CocoricoClientAuthenticationService _authClient;
+        private readonly ICocoricoAuthenticationStateProvider _authStateProvider;
 
         public bool ShowLoginFailed { get; private set; }
         public LoginDetails UserLoginDetails { get; }
 
-        public LoginViewModel(NavigationManager navigationManager, CocoricoClientAuthenticationService authClient)
+        public LoginViewModel(NavigationManager navigationManager, ICocoricoAuthenticationStateProvider authStateProvider)
         {
             _uriHelper = navigationManager;
-            _authClient = authClient;
+            _authStateProvider = authStateProvider;
             UserLoginDetails = new LoginDetails();
         }
 
@@ -26,7 +26,7 @@ namespace Cocorico.Client.Domain.ViewModels.Authentication
         {
             try
             {
-                await _authClient.LoginAsync(UserLoginDetails);
+                await _authStateProvider.LoginAsync(UserLoginDetails);
 
                 _uriHelper.NavigateTo(Urls.Client.Home);
             }

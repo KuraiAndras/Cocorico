@@ -6,8 +6,6 @@ namespace Cocorico.Client.Domain.ViewModels.Sandwich
 {
     public interface ISandwichesViewModel
     {
-        bool IsAdmin { get; }
-        bool IsCustomer { get; }
         IReadOnlyList<SandwichDto> SandwichesList { get; }
 
         void AddToBasket(SandwichDto sandwich);

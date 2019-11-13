@@ -67,17 +67,24 @@ namespace Cocorico.Server.Domain.Services.Order
 
         public async Task AddOrderAsync(OrderAddDto orderAddDto)
         {
-            var user = await Context.Users.SingleOrDefaultAsync(u => u.Id == orderAddDto.UserId)
+            var user = await Context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id == orderAddDto.UserId)
                        ?? throw new EntityNotFoundException($"User not found with id:{orderAddDto.UserId}");
 
             //TODO: This might change
-            var allSandwich = await Context
+            var sandwichesInDb = await Context
                 .Sandwiches
+                .AsNoTracking()
                 .Include(s => s.IngredientLinks)
                 .ThenInclude(il => il.Ingredient)
+                .AsNoTracking()
                 .ToListAsync();
 
-            var sandwiches = allSandwich.Where(s => !(orderAddDto.Sandwiches.SingleOrDefault(os => os.Id == s.Id) is null)).ToList();
+            var sandwiches = orderAddDto.Sandwiches
+                .Select(sandwichDto => sandwichesInDb.SingleOrDefault(s => s.Id == sandwichDto.Id))
+                .Where(s => s != null)
+                .ToList();
+
+            if (sandwiches.Count == 0) throw new EntityNotFoundException();
 
             var newOrder = new Models.Entities.Order
             {

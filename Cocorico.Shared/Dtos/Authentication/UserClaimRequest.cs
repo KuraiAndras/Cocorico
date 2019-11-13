@@ -2,7 +2,7 @@
 {
     public class UserClaimRequest
     {
-        public string UserId { get; set; }
-        public CocoricoClaim CocoricoClaim { get; set; }
+        public string UserId { get; set; } = string.Empty;
+        public CocoricoClaim CocoricoClaim { get; set; } = new CocoricoClaim();
     }
 }

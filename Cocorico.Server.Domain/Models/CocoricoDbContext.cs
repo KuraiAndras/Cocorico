@@ -10,9 +10,9 @@ namespace Cocorico.Server.Domain.Models
         {
         }
 
-        public DbSet<Sandwich> Sandwiches { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<Sandwich> Sandwiches { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<Ingredient> Ingredients { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

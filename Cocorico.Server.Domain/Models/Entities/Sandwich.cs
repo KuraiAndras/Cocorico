@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-// ReSharper disable NonReadonlyMemberInGetHashCode
 namespace Cocorico.Server.Domain.Models.Entities
 {
     public class Sandwich : IDbEntity<int>
@@ -14,10 +13,10 @@ namespace Cocorico.Server.Domain.Models.Entities
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public ICollection<SandwichIngredient> IngredientLinks { get; set; }
-        public ICollection<SandwichOrder> OrderLinks { get; set; }
+        public ICollection<SandwichIngredient> IngredientLinks { get; set; } = null!;
+        public ICollection<SandwichOrder> OrderLinks { get; set; } = null!;
 
         [Required]
         public int Price { get; set; }

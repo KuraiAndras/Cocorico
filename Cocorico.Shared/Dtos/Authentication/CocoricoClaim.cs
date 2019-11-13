@@ -2,6 +2,6 @@
 {
     public class CocoricoClaim
     {
-        public string ClaimValue { get; set; }
+        public string ClaimValue { get; set; } = string.Empty;
     }
 }

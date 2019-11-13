@@ -8,8 +8,8 @@ namespace Cocorico.Shared.Dtos.Order
     {
         public int Id { get; set; }
 
-        public string UserName { get; set; }
-        public IEnumerable<SandwichDto> Sandwiches { get; set; }
+        public string UserName { get; set; } = string.Empty;
+        public IEnumerable<SandwichDto> Sandwiches { get; set; } = new List<SandwichDto>();
         public OrderState State { get; set; }
     }
 }

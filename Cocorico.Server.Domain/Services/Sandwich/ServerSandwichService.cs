@@ -36,9 +36,7 @@ namespace Cocorico.Server.Domain.Services.Sandwich
                 .ThenInclude(il => il.Ingredient)
                 .ToListAsync();
 
-            var sandwichResultList = sandwiches.Select(s => s.ToSandwichDto());
-
-            return sandwichResultList;
+            return sandwiches.Select(s => s.ToSandwichDto());
         }
 
         public async Task AddAsync(SandwichAddDto sandwichAddDto)

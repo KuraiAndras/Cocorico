@@ -4,9 +4,9 @@ namespace Cocorico.Shared.Dtos.User
 {
     public class UserForAdminPage
     {
-        public string Id { get; set; }
-        public string Email { get; set; }
-        public string Name { get; set; }
-        public IEnumerable<string> Claims { get; set; }
+        public string Id { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public IEnumerable<string> Claims { get; set; } = new List<string>();
     }
 }

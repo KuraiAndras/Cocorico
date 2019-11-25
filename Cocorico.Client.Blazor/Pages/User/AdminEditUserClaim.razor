@@ -5,36 +5,29 @@
 
 @inject IEditUserClaimViewModel ViewModel
 
-@if (ViewModel.UserForAdminPage is null)
-{
-    <label>Loading...</label>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>User</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>@ViewModel.UserForAdminPage.Email</td></tr>
-            <tr><td>@ViewModel.UserForAdminPage.Name</td></tr>
-            @foreach (var claim in Claims.ClaimsCollection.Where(c => !c.Equals(Claims.User)))
+<table class="table">
+    <thead>
+        <tr>
+            <th>User</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>@ViewModel.UserForAdminPage.Email</td></tr>
+        <tr><td>@ViewModel.UserForAdminPage.Name</td></tr>
+        @foreach (var claim in Claims.ClaimsCollection.Where(c => !c.Equals(Claims.User)))
+        {
+            @if (ViewModel.UserForAdminPage.Claims.SingleOrDefault(c => string.Equals(c, claim)) is null)
             {
-
-                @if (ViewModel.UserForAdminPage.Claims.SingleOrDefault(c => c.Equals(claim)) is null)
-                {
-                    <tr><td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.AddClaimToUserAsync(claim, UserId))">Add as @claim</button></td></tr>
-                }
-                else
-                {
-                    <tr><td><button class="btn btn-primary" @onclick="@(async () => await ViewModel.RemoveClaimFromUserAsync(claim, UserId))">Remove from @claim</button></td></tr>
-                }
+                <tr><td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.AddClaimToUserAsync(claim, UserId))">Add as @claim</button></td></tr>
             }
-        </tbody>
-    </table>
-}
+            else
+            {
+                <tr><td><button class="btn btn-primary" @onclick="@(async () => await ViewModel.RemoveClaimFromUserAsync(claim, UserId))">Remove from @claim</button></td></tr>
+            }
+        }
+    </tbody>
+</table>
+
 
 @code
 {

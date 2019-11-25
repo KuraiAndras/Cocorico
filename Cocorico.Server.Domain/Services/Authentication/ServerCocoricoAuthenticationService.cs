@@ -1,12 +1,12 @@
-﻿using Cocorico.Server.Domain.Models;
-using Cocorico.Server.Domain.Models.Entities;
-using Cocorico.Shared.Dtos.Authentication;
+﻿using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Cocorico.DAL.Models;
+using Cocorico.DAL.Models.Entities;
 
 namespace Cocorico.Server.Domain.Services.Authentication
 {

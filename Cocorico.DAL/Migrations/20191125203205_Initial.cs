@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cocorico.Server.Domain.Migrations
+namespace Cocorico.DAL.Migrations
 {
     public partial class Initial : Migration
     {
@@ -189,7 +189,7 @@ namespace Cocorico.Server.Domain.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerId = table.Column<string>(nullable: false),
+                    CocoricoUserId = table.Column<string>(nullable: false),
                     Price = table.Column<int>(nullable: false),
                     State = table.Column<int>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false)
@@ -198,8 +198,8 @@ namespace Cocorico.Server.Domain.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "FK_Orders_AspNetUsers_CocoricoUserId",
+                        column: x => x.CocoricoUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -210,11 +210,12 @@ namespace Cocorico.Server.Domain.Migrations
                 columns: table => new
                 {
                     SandwichId = table.Column<int>(nullable: false),
-                    IngredientId = table.Column<int>(nullable: false)
+                    IngredientId = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SandwichIngredient", x => new { x.SandwichId, x.IngredientId });
+                    table.PrimaryKey("PK_SandwichIngredient", x => new { x.IngredientId, x.SandwichId });
                     table.ForeignKey(
                         name: "FK_SandwichIngredient_Ingredients_IngredientId",
                         column: x => x.IngredientId,
@@ -234,7 +235,8 @@ namespace Cocorico.Server.Domain.Migrations
                 columns: table => new
                 {
                     SandwichId = table.Column<int>(nullable: false),
-                    OrderId = table.Column<int>(nullable: false)
+                    OrderId = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -293,34 +295,14 @@ namespace Cocorico.Server.Domain.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_Id_Name",
-                table: "AspNetUsers",
-                columns: new[] { "Id", "Name" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ingredients_Id_Name",
-                table: "Ingredients",
-                columns: new[] { "Id", "Name" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_CustomerId",
+                name: "IX_Orders_CocoricoUserId",
                 table: "Orders",
-                column: "CustomerId");
+                column: "CocoricoUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_Id_CustomerId",
-                table: "Orders",
-                columns: new[] { "Id", "CustomerId" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sandwiches_Id_Name",
-                table: "Sandwiches",
-                columns: new[] { "Id", "Name" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SandwichIngredient_IngredientId",
+                name: "IX_SandwichIngredient_SandwichId",
                 table: "SandwichIngredient",
-                column: "IngredientId");
+                column: "SandwichId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SandwichOrder_OrderId",

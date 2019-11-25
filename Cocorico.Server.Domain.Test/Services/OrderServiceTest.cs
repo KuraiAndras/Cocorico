@@ -31,7 +31,7 @@ namespace Cocorico.Server.Domain.Test.Services
                 {
                     Id = 1,
                     Price = 150,
-                    SandwichLinks = new List<SandwichOrder>(),
+                    SandwichLinks = new List<UserSandwichOrder>(),
                 });
 
                 var dbSandwiches = await context
@@ -40,7 +40,7 @@ namespace Cocorico.Server.Domain.Test.Services
 
                 expected.SandwichLinks = dbSandwiches
                     .Where(s => orderDto.Sandwiches.Any(iDto => iDto.Id == s.Id))
-                    .Select(s => new SandwichOrder()
+                    .Select(s => new UserSandwichOrder()
                     {
                         Order = expected,
                         Sandwich = s,

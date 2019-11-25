@@ -96,7 +96,7 @@ namespace Cocorico.Server.Domain.Services.Order
             };
 
             newOrder.SandwichLinks = sandwiches
-                .Select(s => new SandwichOrder
+                .Select(s => new UserSandwichOrder
                 {
                     Order = newOrder,
                     Sandwich = s,

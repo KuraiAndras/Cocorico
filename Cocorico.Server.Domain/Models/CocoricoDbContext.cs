@@ -23,36 +23,27 @@ namespace Cocorico.Server.Domain.Models
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Ingredient>()
+                .HasQueryFilter(i => !i.IsDeleted);
+
             builder.Entity<SandwichIngredient>()
-                .HasKey(s => new { s.SandwichId, s.IngredientId });
+                .HasQueryFilter(si => !si.IsDeleted);
 
-            builder.Entity<SandwichOrder>()
-                .HasKey(s => new { s.SandwichId, s.OrderId });
+            builder.Entity<UserSandwichOrder>()
+                .HasQueryFilter(so => !so.IsDeleted);
 
-            builder
-                .Entity<CocoricoUser>()
-                .HasQueryFilter(u => !u.IsDeleted)
-                .HasIndex(u => new { u.Id, u.Name });
+            builder.Entity<CocoricoUser>()
+                .HasQueryFilter(cu => !cu.IsDeleted);
 
-            builder
-                .Entity<Sandwich>()
-                .HasQueryFilter(s => !s.IsDeleted)
-                .HasIndex(s => new { s.Id, s.Name });
+            builder.Entity<Sandwich>()
+                .HasQueryFilter(s => !s.IsDeleted);
 
-            builder
-                .Entity<Order>()
-                .HasQueryFilter(o => !o.IsDeleted)
-                .HasIndex(o => new { o.Id, o.CustomerId });
+            builder.Entity<Order>()
+                .HasQueryFilter(o => !o.IsDeleted);
 
-            builder
-                .Entity<Order>()
+            builder.Entity<Order>()
                 .Property(o => o.State)
                 .HasConversion<int>();
-
-            builder
-                .Entity<Ingredient>()
-                .HasQueryFilter(i => !i.IsDeleted)
-                .HasIndex(i => new { i.Id, i.Name });
         }
     }
 }

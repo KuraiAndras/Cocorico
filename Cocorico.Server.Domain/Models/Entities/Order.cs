@@ -2,34 +2,18 @@
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace Cocorico.Server.Domain.Models.Entities
 {
     public class Order : IDbEntity<int>
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [Required]
         public string CustomerId { get; set; } = null!;
-
-        [Required]
-        [ForeignKey(nameof(CustomerId))]
         public CocoricoUser Customer { get; set; } = null!;
-
-        public ICollection<SandwichOrder> SandwichLinks { get; set; } = null!;
-
-        [Required]
+        public ICollection<UserSandwichOrder> SandwichLinks { get; set; } = null!;
         public int Price { get; set; }
-
-        [Required]
         public OrderState State { get; set; }
-
-        [Required]
         public bool IsDeleted { get; set; }
 
         public OrderWorkerViewDto ToOrderWorkerViewDto() =>

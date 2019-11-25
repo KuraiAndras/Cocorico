@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using System.Net.Mime;
+using Cocorico.Server.Restful.Hubs;
 
 namespace Cocorico.Server.Restful
 {
@@ -39,6 +40,7 @@ namespace Cocorico.Server.Restful
             services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { MediaTypeNames.Application.Octet, }));
 
             services.AddSwaggerDocument();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +70,7 @@ namespace Cocorico.Server.Restful
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapHub<OrderHub>("/OrderHub");
                 endpoints.MapFallbackToClientSideBlazor<Client.Blazor.Startup>("index.html");
             });
         }

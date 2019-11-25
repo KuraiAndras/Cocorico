@@ -8,14 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cocorico.Server.Domain.Services.SystemNotifications;
 
 namespace Cocorico.Server.Domain.Services.OrderService
 {
     public class ServerOrderService : EntityServiceBase<Order>, IServerOrderService
     {
-        public ServerOrderService(CocoricoDbContext context) : base(context)
-        {
-        }
+        private readonly ISystemNotifier<Order> _notifier;
+
+        public ServerOrderService(CocoricoDbContext context, ISystemNotifier<Order> notifier) : base(context) =>
+            _notifier = notifier;
 
         public async Task<IEnumerable<OrderCustomerViewDto>> GetAllOrderForCustomerAsync(string customerId)
         {
@@ -95,6 +97,8 @@ namespace Cocorico.Server.Domain.Services.OrderService
             };
 
             await AddAsync(newOrder);
+
+            _notifier.NotifyOrderAdded(newOrder);
         }
 
         public async Task DeleteOrderAsync(int orderId) => await DeleteByIdAsync(orderId);

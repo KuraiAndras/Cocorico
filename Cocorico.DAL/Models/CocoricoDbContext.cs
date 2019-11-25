@@ -87,10 +87,6 @@ namespace Cocorico.DAL.Models
                 .WithMany(cu => cu.Orders)
                 .HasForeignKey(o => o.CocoricoUserId);
             builder.Entity<Order>()
-                .HasMany(o => o.SandwichOrders)
-                .WithOne(so => so.Order)
-                .HasForeignKey(so => so.Order);
-            builder.Entity<Order>()
                 .HasQueryFilter(o => !o.IsDeleted);
             builder.Entity<Order>()
                 .Property(o => o.State)

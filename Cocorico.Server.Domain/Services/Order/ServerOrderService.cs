@@ -90,18 +90,9 @@ namespace Cocorico.Server.Domain.Services.Order
             {
                 Id = 0,
                 CocoricoUserId = user.Id,
-                CocoricoUser = user,
                 Price = sandwiches.Select(s => s.Price).Aggregate((sum, price) => sum + price),
                 State = OrderState.OrderPlaced,
             };
-
-            newOrder.SandwichOrders = sandwiches
-                .Select(s => new SandwichOrder
-                {
-                    Order = newOrder,
-                    Sandwich = s,
-                })
-                .ToList();
 
             await AddAsync(newOrder);
         }

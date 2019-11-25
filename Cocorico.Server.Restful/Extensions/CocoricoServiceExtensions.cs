@@ -1,10 +1,10 @@
-﻿using Cocorico.DAL.Models;
+using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Authentication;
-using Cocorico.Server.Domain.Services.Ingredient;
-using Cocorico.Server.Domain.Services.Order;
-using Cocorico.Server.Domain.Services.Sandwich;
+using Cocorico.Server.Domain.Services.IngredientService;
+using Cocorico.Server.Domain.Services.OrderService;
+using Cocorico.Server.Domain.Services.SandwichService;
 using Cocorico.Server.Domain.Services.User;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Domain.Services.Sandwich
+namespace Cocorico.Server.Domain.Services.SandwichService
 {
     public interface IServerSandwichService
     {

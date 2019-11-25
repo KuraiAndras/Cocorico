@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Domain.Services.Ingredient
+namespace Cocorico.Server.Domain.Services.IngredientService
 {
     public interface IServerIngredientService
     {

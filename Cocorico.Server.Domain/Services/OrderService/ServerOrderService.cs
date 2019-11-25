@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Domain.Services.Order
+namespace Cocorico.Server.Domain.Services.OrderService
 {
-    public class ServerOrderService : EntityServiceBase<DAL.Models.Entities.Order>, IServerOrderService
+    public class ServerOrderService : EntityServiceBase<Order>, IServerOrderService
     {
         public ServerOrderService(CocoricoDbContext context) : base(context)
         {
@@ -86,7 +86,7 @@ namespace Cocorico.Server.Domain.Services.Order
 
             if (sandwiches.Count == 0) throw new EntityNotFoundException();
 
-            var newOrder = new DAL.Models.Entities.Order
+            var newOrder = new Order
             {
                 Id = 0,
                 CocoricoUserId = user.Id,

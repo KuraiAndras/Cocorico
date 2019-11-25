@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Domain.Services.Order
+namespace Cocorico.Server.Domain.Services.OrderService
 {
     public interface IServerOrderService
     {

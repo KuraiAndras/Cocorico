@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Domain.Services.Sandwich
+namespace Cocorico.Server.Domain.Services.SandwichService
 {
-    public class ServerSandwichService : EntityServiceBase<Cocorico.DAL.Models.Entities.Sandwich>, IServerSandwichService
+    public class ServerSandwichService : EntityServiceBase<Sandwich>, IServerSandwichService
     {
         public ServerSandwichService(CocoricoDbContext context) : base(context)
         {

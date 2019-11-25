@@ -1,12 +1,12 @@
-﻿using Cocorico.Server.Domain.Models;
-using Cocorico.Shared.Exceptions;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Cocorico.DAL.Models;
+using Cocorico.Shared.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
-namespace Cocorico.Server.Domain.Extensions
+namespace Cocorico.DAL.Extensions
 {
     public static class CocoricoDbContextExtension
     {

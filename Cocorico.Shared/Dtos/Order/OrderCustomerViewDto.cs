@@ -7,7 +7,7 @@ namespace Cocorico.Shared.Dtos.Order
     public class OrderCustomerViewDto
     {
         public int Id { get; set; }
-        public IEnumerable<SandwichDto> Sandwiches { get; set; }
+        public IEnumerable<SandwichDto> Sandwiches { get; set; } = new List<SandwichDto>();
         public int Price { get; set; }
         public OrderState State { get; set; }
     }

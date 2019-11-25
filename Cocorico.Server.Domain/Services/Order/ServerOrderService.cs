@@ -22,11 +22,11 @@ namespace Cocorico.Server.Domain.Services.Order
             if (string.IsNullOrEmpty(customerId)) throw new EntityNotFoundException($"Invalid customer Id:{customerId}");
 
             var ordersForCustomer = await Context.Orders
-                                        .Include(o => o.SandwichLinks)
+                                        .Include(o => o.SandwichOrders)
                                         .ThenInclude(sl => sl.Sandwich)
                                         .ThenInclude(s => s.SandwichIngredients)
                                         .ThenInclude(il => il.Ingredient)
-                                        .Where(o => o.CustomerId == customerId)
+                                        .Where(o => o.CocoricoUserId == customerId)
                                         .ToListAsync()
                                     ?? throw new UnexpectedException();
 
@@ -39,11 +39,11 @@ namespace Cocorico.Server.Domain.Services.Order
         public async Task<IEnumerable<OrderWorkerViewDto>> GetPendingOrdersForWorkerAsync()
         {
             var ordersForWorkerView = await Context.Orders
-                                          .Include(o => o.SandwichLinks)
+                                          .Include(o => o.SandwichOrders)
                                           .ThenInclude(sl => sl.Sandwich)
                                           .ThenInclude(s => s.SandwichIngredients)
                                           .ThenInclude(il => il.Ingredient)
-                                          .Include(o => o.Customer)
+                                          .Include(o => o.CocoricoUser)
                                           .Where(o => o.State != OrderState.Delivered)
                                           .ToListAsync() ?? throw new UnexpectedException();
 
@@ -53,7 +53,7 @@ namespace Cocorico.Server.Domain.Services.Order
         public async Task UpdateOrderAsync(UpdateOrderDto updateOrderDto)
         {
             var order = await Context.Orders
-                            .Include(o => o.SandwichLinks)
+                            .Include(o => o.SandwichOrders)
                             .ThenInclude(sl => sl.Sandwich)
                             .ThenInclude(s => s.SandwichIngredients)
                             .ThenInclude(il => il.Ingredient)
@@ -89,14 +89,14 @@ namespace Cocorico.Server.Domain.Services.Order
             var newOrder = new DAL.Models.Entities.Order
             {
                 Id = 0,
-                CustomerId = user.Id,
-                Customer = user,
+                CocoricoUserId = user.Id,
+                CocoricoUser = user,
                 Price = sandwiches.Select(s => s.Price).Aggregate((sum, price) => sum + price),
                 State = OrderState.OrderPlaced,
             };
 
-            newOrder.SandwichLinks = sandwiches
-                .Select(s => new UserSandwichOrder
+            newOrder.SandwichOrders = sandwiches
+                .Select(s => new SandwichOrder
                 {
                     Order = newOrder,
                     Sandwich = s,

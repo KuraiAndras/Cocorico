@@ -23,7 +23,7 @@ namespace Cocorico.Server.Domain.Test.Services
             using (var context = NewDbContext)
             {
                 var actual = await context.Orders
-                    .Include(o => o.SandwichLinks)
+                    .Include(o => o.SandwichOrders)
                     .ThenInclude(sl => sl.Sandwich)
                     .SingleAsync();
 
@@ -31,16 +31,16 @@ namespace Cocorico.Server.Domain.Test.Services
                 {
                     Id = 1,
                     Price = 150,
-                    SandwichLinks = new List<UserSandwichOrder>(),
+                    SandwichOrders = new List<SandwichOrder>(),
                 });
 
                 var dbSandwiches = await context
                     .Sandwiches
                     .ToListAsync();
 
-                expected.SandwichLinks = dbSandwiches
+                expected.SandwichOrders = dbSandwiches
                     .Where(s => orderDto.Sandwiches.Any(iDto => iDto.Id == s.Id))
-                    .Select(s => new UserSandwichOrder()
+                    .Select(s => new SandwichOrder()
                     {
                         Order = expected,
                         Sandwich = s,

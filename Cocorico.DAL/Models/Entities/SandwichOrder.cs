@@ -1,10 +1,7 @@
 ﻿namespace Cocorico.DAL.Models.Entities
 {
-    public class UserSandwichOrder : IDbEntity
+    public class SandwichOrder : IDbEntity
     {
-        public string UserId { get; set; } = null!;
-        public CocoricoUser User { get; } = null!;
-
         public int SandwichId { get; set; }
         public Sandwich Sandwich { get; set; } = null!;
 

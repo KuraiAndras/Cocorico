@@ -1,5 +1,5 @@
-﻿using Cocorico.Server.Domain.Models;
-using Cocorico.Server.Domain.Models.Entities;
+﻿using Cocorico.DAL.Models;
+using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Exceptions;

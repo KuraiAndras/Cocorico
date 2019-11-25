@@ -1,5 +1,5 @@
-﻿using Cocorico.Server.Domain.Models;
-using Cocorico.Server.Domain.Models.Entities;
+﻿using Cocorico.DAL.Models;
+using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.Sandwich;
 using Cocorico.Server.Domain.Test.Helpers;
 using Cocorico.Shared.Dtos.Ingredient;
@@ -35,7 +35,7 @@ namespace Cocorico.Server.Domain.Test.Services
             {
                 var actual = await context
                     .Sandwiches
-                    .Include(s => s.IngredientLinks)
+                    .Include(s => s.SandwichIngredients)
                     .SingleAsync();
 
                 var expected = sandwichDto.ToSandwich();
@@ -45,7 +45,7 @@ namespace Cocorico.Server.Domain.Test.Services
                     .Ingredients
                     .ToListAsync();
 
-                expected.IngredientLinks = dbIngredients
+                expected.SandwichIngredients = dbIngredients
                     .Where(i => sandwichDto.Ingredients.Any(iDto => iDto.Id == i.Id))
                     .Select(i => new SandwichIngredient
                     {

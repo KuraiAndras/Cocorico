@@ -1,5 +1,5 @@
-﻿using Cocorico.Server.Domain.Extensions;
-using Cocorico.Server.Domain.Models;
+﻿using Cocorico.DAL.Extensions;
+using Cocorico.DAL.Models;
 using Cocorico.Shared.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;

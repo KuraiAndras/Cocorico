@@ -1,5 +1,5 @@
-﻿using Cocorico.Server.Domain.Models;
-using Cocorico.Server.Domain.Models.Entities;
+﻿using Cocorico.DAL.Models;
+using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Server.Domain.Services.Sandwich
 {
-    public class ServerSandwichService : EntityServiceBase<Models.Entities.Sandwich>, IServerSandwichService
+    public class ServerSandwichService : EntityServiceBase<Cocorico.DAL.Models.Entities.Sandwich>, IServerSandwichService
     {
         public ServerSandwichService(CocoricoDbContext context) : base(context)
         {
@@ -20,7 +20,7 @@ namespace Cocorico.Server.Domain.Services.Sandwich
         {
             var sandwich = await Context
                                .Sandwiches
-                               .Include(s => s.IngredientLinks)
+                               .Include(s => s.SandwichIngredients)
                                .ThenInclude(il => il.Ingredient)
                                .SingleOrDefaultAsync(s => s.Id == id)
                            ?? throw new EntityNotFoundException($"Cant find sandwich with id:{id}");
@@ -32,7 +32,7 @@ namespace Cocorico.Server.Domain.Services.Sandwich
         {
             var sandwiches = await Context
                 .Sandwiches
-                .Include(s => s.IngredientLinks)
+                .Include(s => s.SandwichIngredients)
                 .ThenInclude(il => il.Ingredient)
                 .ToListAsync();
 
@@ -47,7 +47,7 @@ namespace Cocorico.Server.Domain.Services.Sandwich
                 .Ingredients
                 .ToListAsync();
 
-            sandwich.IngredientLinks = ingredients
+            sandwich.SandwichIngredients = ingredients
                 .Where(i => sandwichAddDto.Ingredients.Any(iDto => iDto.Id == i.Id))
                 .Select(i => new SandwichIngredient
                 {
@@ -64,7 +64,7 @@ namespace Cocorico.Server.Domain.Services.Sandwich
             var original = await Context
                 .Sandwiches
                 .AsNoTracking()
-                .Include(s => s.IngredientLinks)
+                .Include(s => s.SandwichIngredients)
                 .ThenInclude(il => il.Ingredient)
                 .SingleAsync(s => s.Id == sandwichDto.Id);
 

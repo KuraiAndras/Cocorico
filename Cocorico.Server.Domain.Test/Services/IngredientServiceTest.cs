@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Cocorico.Server.Domain.Models.Entities;
+﻿using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.Ingredient;
 using Cocorico.Server.Domain.Test.Helpers;
 using Cocorico.Shared.Dtos.Ingredient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cocorico.Server.Domain.Test.Services
 {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Cocorico.Server.Domain.Models.Entities;
+﻿using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.Order;
 using Cocorico.Server.Domain.Test.Helpers;
 using Cocorico.Shared.Dtos.Order;
@@ -7,6 +6,7 @@ using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 

@@ -1,5 +1,5 @@
-﻿using Cocorico.Server.Domain.Models;
-using Cocorico.Server.Domain.Models.Entities;
+﻿using Cocorico.DAL.Models;
+using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Exceptions;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Server.Domain.Services.Order
 {
-    public class ServerOrderService : EntityServiceBase<Models.Entities.Order>, IServerOrderService
+    public class ServerOrderService : EntityServiceBase<DAL.Models.Entities.Order>, IServerOrderService
     {
         public ServerOrderService(CocoricoDbContext context) : base(context)
         {
@@ -24,7 +24,7 @@ namespace Cocorico.Server.Domain.Services.Order
             var ordersForCustomer = await Context.Orders
                                         .Include(o => o.SandwichLinks)
                                         .ThenInclude(sl => sl.Sandwich)
-                                        .ThenInclude(s => s.IngredientLinks)
+                                        .ThenInclude(s => s.SandwichIngredients)
                                         .ThenInclude(il => il.Ingredient)
                                         .Where(o => o.CustomerId == customerId)
                                         .ToListAsync()
@@ -41,7 +41,7 @@ namespace Cocorico.Server.Domain.Services.Order
             var ordersForWorkerView = await Context.Orders
                                           .Include(o => o.SandwichLinks)
                                           .ThenInclude(sl => sl.Sandwich)
-                                          .ThenInclude(s => s.IngredientLinks)
+                                          .ThenInclude(s => s.SandwichIngredients)
                                           .ThenInclude(il => il.Ingredient)
                                           .Include(o => o.Customer)
                                           .Where(o => o.State != OrderState.Delivered)
@@ -55,7 +55,7 @@ namespace Cocorico.Server.Domain.Services.Order
             var order = await Context.Orders
                             .Include(o => o.SandwichLinks)
                             .ThenInclude(sl => sl.Sandwich)
-                            .ThenInclude(s => s.IngredientLinks)
+                            .ThenInclude(s => s.SandwichIngredients)
                             .ThenInclude(il => il.Ingredient)
                             .SingleOrDefaultAsync(o => o.Id == updateOrderDto.OrderId)
                         ?? throw new EntityNotFoundException($"Order not found with id:{updateOrderDto.OrderId}");
@@ -74,7 +74,7 @@ namespace Cocorico.Server.Domain.Services.Order
             var sandwichesInDb = await Context
                 .Sandwiches
                 .AsNoTracking()
-                .Include(s => s.IngredientLinks)
+                .Include(s => s.SandwichIngredients)
                 .ThenInclude(il => il.Ingredient)
                 .AsNoTracking()
                 .ToListAsync();
@@ -86,7 +86,7 @@ namespace Cocorico.Server.Domain.Services.Order
 
             if (sandwiches.Count == 0) throw new EntityNotFoundException();
 
-            var newOrder = new Models.Entities.Order
+            var newOrder = new DAL.Models.Entities.Order
             {
                 Id = 0,
                 CustomerId = user.Id,

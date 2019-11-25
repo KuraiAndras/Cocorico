@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace Cocorico.Server.Domain.Models.Entities
+﻿namespace Cocorico.DAL.Models.Entities
 {
-    public class UserSandwichOrder : IDbEntity<Guid>
+    public class UserSandwichOrder : IDbEntity
     {
-        public Guid Id { get; set; }
-
         public string UserId { get; set; } = null!;
         public CocoricoUser User { get; } = null!;
 

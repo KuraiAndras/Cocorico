@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace Cocorico.Server.Domain.Models
+namespace Cocorico.DAL.Models
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<CocoricoDbContext>
     {

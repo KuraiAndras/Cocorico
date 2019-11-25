@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Cocorico.Server.Domain.Models;
-using Cocorico.Server.Domain.Models.Entities;
+﻿using Cocorico.DAL.Models;
+using Cocorico.DAL.Models.Entities;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Cocorico.Server.Domain.Test.Helpers
@@ -70,7 +70,7 @@ namespace Cocorico.Server.Domain.Test.Helpers
                     Price = 40,
                 };
 
-                sandwich1.IngredientLinks = context.Ingredients.Where(i =>
+                sandwich1.SandwichIngredients = context.Ingredients.Where(i =>
                         i.Id == 1)
                     .Select(i => new SandwichIngredient
                     {
@@ -85,7 +85,7 @@ namespace Cocorico.Server.Domain.Test.Helpers
                     Price = 50,
                 };
 
-                sandwich2.IngredientLinks = context.Ingredients.Where(i =>
+                sandwich2.SandwichIngredients = context.Ingredients.Where(i =>
                         i.Id == 1
                         || i.Id == 2)
                     .Select(i => new SandwichIngredient
@@ -101,7 +101,7 @@ namespace Cocorico.Server.Domain.Test.Helpers
                     Price = 60,
                 };
 
-                sandwich3.IngredientLinks = context.Ingredients.Where(i =>
+                sandwich3.SandwichIngredients = context.Ingredients.Where(i =>
                         i.Id == 1
                         || i.Id == 2
                         || i.Id == 3)

@@ -1,10 +1,10 @@
-﻿using Cocorico.Shared.Dtos.Order;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Cocorico.Server.Domain.Models.Entities
+namespace Cocorico.DAL.Models.Entities
 {
     public class Order : IDbEntity<int>
     {
@@ -22,7 +22,7 @@ namespace Cocorico.Server.Domain.Models.Entities
                 UserName = o.Customer.Name,
                 Sandwiches = o.Sandwiches().Select(s => s.MapTo(sa => new SandwichDto
                 {
-                    Ingredients = sa.IngredientLinks.Select(i => i.Ingredient.ToIngredientDto()).ToList()
+                    Ingredients = sa.SandwichIngredients.Select(i => i.Ingredient.ToIngredientDto()).ToList()
                 }))
             });
     }

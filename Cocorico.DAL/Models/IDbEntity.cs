@@ -1,4 +1,4 @@
-﻿namespace Cocorico.Server.Domain.Models
+﻿namespace Cocorico.DAL.Models
 {
     public interface IDbEntity<T> : IDbEntity
     {

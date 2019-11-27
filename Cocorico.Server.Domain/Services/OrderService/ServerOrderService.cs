@@ -1,9 +1,7 @@
 ﻿using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.ServiceBase;
-using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Microsoft.EntityFrameworkCore;

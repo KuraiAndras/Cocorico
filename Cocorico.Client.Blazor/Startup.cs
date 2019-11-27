@@ -1,4 +1,3 @@
-using Blazor.Extensions;
 using Blazor.Extensions.Storage;
 using Cocorico.Client.Blazor.Extensions;
 using Cocorico.Client.Blazor.Services.Authentication;
@@ -26,7 +25,7 @@ namespace Cocorico.Client.Blazor
 
             services.AddViewModels();
 
-            services.AddTransient<HubConnectionBuilder>();
+            services.AddSignalrClients();
         }
 
         public void Configure(IComponentsApplicationBuilder app) => app.AddComponent<App>("app");

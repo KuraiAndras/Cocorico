@@ -1,6 +1,6 @@
-﻿using Blazor.Extensions;
-using Cocorico.Client.Domain.Extensions;
+﻿using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
+using Cocorico.Client.Domain.SignalrClient.WorkerOrders;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Helpers;
 using System;
@@ -12,32 +12,16 @@ namespace Cocorico.Client.Domain.ViewModels.Order
     public class OrdersViewModel : IOrdersViewModel
     {
         private readonly IOrderClient _orderClient;
-        private readonly HubConnection _connection;
+        private readonly IWorkerOrdersHubClient _hubClient;
 
-        public OrdersViewModel(IOrderClient orderClient, HubConnectionBuilder hubConnectionBuilder)
+        public OrdersViewModel(IOrderClient orderClient, IWorkerOrdersHubClient hubClient)
         {
             _orderClient = orderClient;
+            _hubClient = hubClient;
 
             Orders = new List<WorkerOrderViewDto>();
 
-            _connection = hubConnectionBuilder
-                .WithUrl(HubNames.WorkerViewOrderHubNames.Name, options =>
-                {
-                    options.LogLevel = SignalRLogLevel.Trace;
-                    options.Transport = HttpTransportType.WebSockets;
-                })
-                .Build();
-
-            _connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderAddedAsync, OnOrdersModifiedAsync);
-
-            Task OnOrdersModifiedAsync(WorkerOrderViewDto order)
-            {
-                Orders.Add(order);
-
-                OrdersChanged?.Invoke();
-
-                return Task.CompletedTask;
-            }
+            _hubClient.OrderAdded += o => Orders.Add(o);
         }
 
         public List<WorkerOrderViewDto> Orders { get; }
@@ -46,7 +30,7 @@ namespace Cocorico.Client.Domain.ViewModels.Order
         {
             try
             {
-                await _connection.StartAsync();
+                await _hubClient.InitializeConnectionAsync();
 
                 var orders = await _orderClient.GetPendingOrdersForWorkerAsync();
 

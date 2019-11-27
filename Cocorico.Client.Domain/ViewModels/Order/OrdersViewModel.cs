@@ -21,7 +21,11 @@ namespace Cocorico.Client.Domain.ViewModels.Order
 
             Orders = new List<WorkerOrderViewDto>();
 
-            _hubClient.OrderAdded += o => Orders.Add(o);
+            _hubClient.OrderAdded += o =>
+            {
+                Orders.Add(o);
+                OrdersChanged?.Invoke();
+            };
         }
 
         public List<WorkerOrderViewDto> Orders { get; }

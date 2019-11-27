@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cocorico.DAL.Migrations
 {
     [DbContext(typeof(CocoricoDbContext))]
-    [Migration("20191127085943_FixSandwichOrder")]
-    partial class FixSandwichOrder
+    [Migration("20191127134521_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

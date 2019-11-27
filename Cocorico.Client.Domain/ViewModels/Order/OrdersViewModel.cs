@@ -1,7 +1,10 @@
 ﻿using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
+using Cocorico.Client.Domain.SignalrClient.WorkerOrders;
 using Cocorico.Shared.Dtos.Order;
+using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,13 +14,60 @@ namespace Cocorico.Client.Domain.ViewModels.Order
     public class OrdersViewModel : IOrdersViewModel
     {
         private readonly IOrderClient _orderClient;
+        private readonly IWorkerOrdersHubClient _hubClient;
 
-        public IReadOnlyCollection<OrderWorkerViewDto> Orders { get; private set; }
-
-        public OrdersViewModel(IOrderClient orderClient)
+        public OrdersViewModel(IOrderClient orderClient, IWorkerOrdersHubClient hubClient)
         {
             _orderClient = orderClient;
-            Orders = new List<OrderWorkerViewDto>();
+            _hubClient = hubClient;
+
+            Orders = new List<WorkerOrderViewDto>();
+
+            _hubClient.OrderAdded += order =>
+            {
+                Orders.Add(order);
+                OrdersChanged?.Invoke();
+            };
+
+            _hubClient.OrderModified += order =>
+            {
+                var instance = Orders.SingleOrDefault(o => o.Id == order.Id);
+
+                if (instance is null) throw new UnexpectedException();
+
+                Orders.RemoveAll(o => o.Id == instance.Id);
+                Orders.Add(order);
+                Orders.Sort((o1, o2) => o1.Id - o2.Id);
+
+                OrdersChanged?.Invoke();
+            };
+
+            _hubClient.OrderDeleted += orderId =>
+            {
+                Orders.RemoveAll(o => o.Id == orderId);
+
+                OrdersChanged?.Invoke();
+            };
+        }
+
+        public List<WorkerOrderViewDto> Orders { get; }
+
+        public async Task InitializeAsync()
+        {
+            try
+            {
+                await _hubClient.InitializeConnectionAsync();
+
+                var orders = await _orderClient.GetPendingOrdersForWorkerAsync();
+
+                Orders.Clear();
+                Orders.AddRange(orders);
+            }
+            catch (Exception e)
+            {
+                // TODO: Handle exception
+                Console.WriteLine(e);
+            }
         }
 
         public async Task UpdateStateAsync(int orderId, OrderState newState)
@@ -30,27 +80,15 @@ namespace Cocorico.Client.Domain.ViewModels.Order
                     State = newState,
                 });
 
-                //TODO: Handle fail
-                if (fileResponse.IsSuccessfulStatusCode()) await LoadOrdersAsync();
+                if (!fileResponse.IsSuccessfulStatusCode()) throw new InvalidOperationException();
             }
-            catch (SwaggerException)
+            catch (SwaggerException e)
             {
                 //TODO: Handle fail
+                Console.WriteLine(e);
             }
         }
 
-        public async Task LoadOrdersAsync()
-        {
-            try
-            {
-                var pendingOrders = await _orderClient.GetPendingOrdersForWorkerAsync();
-
-                Orders = pendingOrders.ToList();
-            }
-            catch (SwaggerException)
-            {
-                //TODO: Handle fail
-            }
-        }
+        public event Action? OrdersChanged;
     }
 }

@@ -3,9 +3,9 @@
 @using Cocorico.Client.Domain.ViewModels.Order
 @using Cocorico.Shared.Helpers
 
-@inject IOrdersViewModel DeliverOrdersViewModel
+@inject IOrdersViewModel ViewModel
 
-@if (DeliverOrdersViewModel.Orders.Count == 0)
+@if (ViewModel.Orders.Count == 0)
 {
     <p><em>Loading...</em></p>
 }
@@ -13,34 +13,39 @@ else
 {
     <table class="table">
         <thead>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var order in DeliverOrdersViewModel.Orders.Where(o => o.State == OrderState.ToBeDelivered))
-        {
-            <tr>
-                <td>@order.Id</td>
-                <td>@order.State</td>
-                <td><button class="btn btn-primary" @onclick="@(async () => await DeliverOrdersViewModel.UpdateStateAsync(order.Id, OrderState.Delivered))">Delivered</button></td>
-            </tr>
-            @foreach (var sandwich in order.Sandwiches)
-             {
-                 <tr>
-                     <td></td>
-                     <td>@sandwich.Name</td>
-                     <td></td>
-                 </tr>
-             }
-        }
+            @foreach (var order in ViewModel.Orders.Where(o => o.State == OrderState.ToBeDelivered))
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.State</td>
+                    <td><button class="btn btn-primary" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.Delivered))">Deliver</button></td>
+                </tr>
+                @foreach (var sandwich in order.Sandwiches)
+                {
+                    <tr>
+                        <td></td>
+                        <td>@sandwich.Name</td>
+                        <td></td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 }
 
 @code
 {
-    protected override Task OnInitializedAsync() => DeliverOrdersViewModel.LoadOrdersAsync();
+    protected override Task OnInitializedAsync()
+    {
+        ViewModel.OrdersChanged += StateHasChanged;
+        return ViewModel.InitializeAsync();
+    }
+
 }

@@ -11,20 +11,20 @@ namespace Cocorico.Client.Domain.ViewModels.Order
         private readonly IBasketService _basketService;
         private readonly IOrderClient _orderClient;
 
-        public OrderAddDto OrderAddDto { get; }
+        public AddOrderDto AddOrderDto { get; }
 
         public AddCustomerOrderViewModel(IBasketService basketService, IOrderClient orderClient)
         {
             _basketService = basketService;
             _orderClient = orderClient;
-            OrderAddDto = new OrderAddDto { Sandwiches = _basketService.SandwichesInBasket };
+            AddOrderDto = new AddOrderDto { Sandwiches = _basketService.SandwichesInBasket };
         }
 
         public async Task AddAsync()
         {
             try
             {
-                var result = await _orderClient.AddOrderAsync(OrderAddDto);
+                var result = await _orderClient.AddOrderAsync(AddOrderDto);
 
                 //TODO: Go to orders
                 if (result.IsSuccessfulStatusCode())

@@ -1,4 +1,6 @@
-﻿using Cocorico.Client.Domain.Helpers;
+﻿using Blazor.Extensions;
+using Cocorico.Client.Domain.Helpers;
+using Cocorico.Client.Domain.SignalrClient.WorkerOrders;
 using Cocorico.Client.Domain.ViewModels.Authentication;
 using Cocorico.Client.Domain.ViewModels.Ingredient;
 using Cocorico.Client.Domain.ViewModels.NavMenu;
@@ -35,6 +37,13 @@ namespace Cocorico.Client.Blazor.Extensions
             services.AddTransient<IOrderClient, OrderClient>();
             services.AddTransient<IAuthenticationClient, AuthenticationClient>();
             services.AddTransient<IIngredientClient, IngredientClient>();
+        }
+
+        public static void AddSignalrClients(this IServiceCollection services)
+        {
+            services.AddTransient<HubConnectionBuilder>();
+
+            services.AddTransient<IWorkerOrdersHubClient, WorkerOrdersHubClient>();
         }
     }
 }

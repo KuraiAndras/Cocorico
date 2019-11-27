@@ -14,19 +14,14 @@ namespace Cocorico.Shared.Helpers
     {
         public static string ToString(this OrderState orderState)
         {
-            switch (orderState)
+            return orderState switch
             {
-                case OrderState.OrderPlaced:
-                    return "Order Placed";
-                case OrderState.InTheOven:
-                    return "In The Oven";
-                case OrderState.ToBeDelivered:
-                    return "To Be Delivered";
-                case OrderState.Delivered:
-                    return "Delivered";
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(orderState), orderState, null);
-            }
+                OrderState.OrderPlaced => "Order Placed",
+                OrderState.InTheOven => "In The Oven",
+                OrderState.ToBeDelivered => "To Be Delivered",
+                OrderState.Delivered => "Delivered",
+                _ => throw new ArgumentOutOfRangeException(nameof(orderState), orderState, null)
+            };
         }
     }
 }

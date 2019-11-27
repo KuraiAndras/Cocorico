@@ -24,9 +24,10 @@ namespace Cocorico.Client.Blazor
             services.AddHttpClients();
 
             services.AddViewModels();
+
+            services.AddSignalrClients();
         }
 
-        // ReSharper disable once UnusedMember.Global
         public void Configure(IComponentsApplicationBuilder app) => app.AddComponent<App>("app");
     }
 }

@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Domain.Services.Sandwich
+namespace Cocorico.Server.Domain.Services.SandwichService
 {
-    public class ServerSandwichService : EntityServiceBase<Cocorico.DAL.Models.Entities.Sandwich>, IServerSandwichService
+    public class ServerSandwichService : EntityServiceBase<Sandwich>, IServerSandwichService
     {
         public ServerSandwichService(CocoricoDbContext context) : base(context)
         {
@@ -28,7 +28,7 @@ namespace Cocorico.Server.Domain.Services.Sandwich
             return sandwich.ToSandwichDto();
         }
 
-        public async Task<IEnumerable<SandwichDto>> GetAllAsync()
+        public async Task<ICollection<SandwichDto>> GetAllAsync()
         {
             var sandwiches = await Context
                 .Sandwiches
@@ -36,7 +36,7 @@ namespace Cocorico.Server.Domain.Services.Sandwich
                 .ThenInclude(il => il.Ingredient)
                 .ToListAsync();
 
-            return sandwiches.Select(s => s.ToSandwichDto());
+            return sandwiches.Select(s => s.ToSandwichDto()).ToList();
         }
 
         public async Task AddAsync(SandwichAddDto sandwichAddDto)

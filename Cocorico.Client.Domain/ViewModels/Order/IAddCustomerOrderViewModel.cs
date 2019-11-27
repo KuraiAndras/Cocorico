@@ -5,7 +5,7 @@ namespace Cocorico.Client.Domain.ViewModels.Order
 {
     public interface IAddCustomerOrderViewModel
     {
-        OrderAddDto OrderAddDto { get; }
+        AddOrderDto AddOrderDto { get; }
 
         Task AddAsync();
         void DeleteSandwich(int id);

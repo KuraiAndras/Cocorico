@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Domain.Services.Ingredient
+namespace Cocorico.Server.Domain.Services.IngredientService
 {
     public interface IServerIngredientService
     {
-        Task<IEnumerable<IngredientDto>> GetAllAsync();
+        Task<ICollection<IngredientDto>> GetAllAsync();
         Task<IngredientDto> GetAsync(int id);
         Task AddAsync(IngredientAddDto ingredientAddDto);
         Task UpdateAsync(IngredientDto ingredientDto);

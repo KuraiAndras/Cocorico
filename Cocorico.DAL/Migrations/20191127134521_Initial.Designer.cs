@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cocorico.DAL.Migrations
 {
     [DbContext(typeof(CocoricoDbContext))]
-    [Migration("20191125203205_Initial")]
+    [Migration("20191127134521_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -181,18 +181,25 @@ namespace Cocorico.DAL.Migrations
 
             modelBuilder.Entity("Cocorico.DAL.Models.Entities.SandwichOrder", b =>
                 {
-                    b.Property<int>("SandwichId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.HasKey("SandwichId", "OrderId");
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SandwichId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("SandwichId");
 
                     b.ToTable("SandwichOrder");
                 });

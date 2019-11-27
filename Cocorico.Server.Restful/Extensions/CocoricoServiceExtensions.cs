@@ -2,9 +2,9 @@
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Authentication;
-using Cocorico.Server.Domain.Services.Ingredient;
-using Cocorico.Server.Domain.Services.Order;
-using Cocorico.Server.Domain.Services.Sandwich;
+using Cocorico.Server.Domain.Services.IngredientService;
+using Cocorico.Server.Domain.Services.OrderService;
+using Cocorico.Server.Domain.Services.SandwichService;
 using Cocorico.Server.Domain.Services.User;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
@@ -27,7 +27,7 @@ namespace Cocorico.Server.Restful.Extensions
     {
         public static void AddCocoricoDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CocoricoDbContext>(options => options.EnableSensitiveDataLogging().UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             //services.AddDbContext<CocoricoDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("Postgres")));
         }
 

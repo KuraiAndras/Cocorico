@@ -1,12 +1,12 @@
-﻿using Cocorico.Shared.Dtos.Authentication;
+﻿using Cocorico.DAL.Models;
+using Cocorico.DAL.Models.Entities;
+using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Cocorico.DAL.Models;
-using Cocorico.DAL.Models.Entities;
 
 namespace Cocorico.Server.Domain.Services.Authentication
 {
@@ -61,7 +61,7 @@ namespace Cocorico.Server.Domain.Services.Authentication
 
             var claims = await _userManager.GetClaimsAsync(user) ?? throw new UnexpectedException();
 
-            return new LoginResult { Claims = claims.Select(c => c.Value) };
+            return new LoginResult { Claims = claims.Select(c => c.Value).ToList() };
         }
 
         public async Task LogoutAsync() => await _signInManager.SignOutAsync();

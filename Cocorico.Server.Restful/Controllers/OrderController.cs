@@ -67,9 +67,10 @@ namespace Cocorico.Server.Restful.Controllers
 
             var result = await _serverOrderService.AddOrderAsync(addOrderDto);
 
-            var orderView = (await _serverOrderService.GetPendingOrdersForWorkerAsync()).SingleOrDefault(o => o.Id == result);
+            var orderView = (await _serverOrderService.GetPendingOrdersForWorkerAsync())
+                .SingleOrDefault(o => o.Id == result);
 
-            await _workerViewHub.Clients.All.ReceiveOrderAddedAsync(orderView);
+            await _workerViewHub.ReceiveOrderAddedImplementationAsync(orderView);
 
             return new OkResult();
         }

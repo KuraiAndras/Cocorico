@@ -81,6 +81,8 @@ namespace Cocorico.Server.Restful.Controllers
         {
             await _serverOrderService.DeleteOrderAsync(orderId);
 
+            await _workerViewHub.ReceiveOrderDeletedImplementationAsync(orderId);
+
             return new OkResult();
         }
 
@@ -89,6 +91,11 @@ namespace Cocorico.Server.Restful.Controllers
         public async Task<ActionResult> UpdateOrderAsync([FromBody] UpdateOrderDto updateOrderDto)
         {
             await _serverOrderService.UpdateOrderAsync(updateOrderDto);
+
+            var updatedOrder = (await _serverOrderService.GetPendingOrdersForWorkerAsync())
+                .SingleOrDefault(o => o.Id == updateOrderDto.OrderId);
+
+            await _workerViewHub.ReceiveOrderModifiedImplementationAsync(updatedOrder);
 
             return new OkResult();
         }

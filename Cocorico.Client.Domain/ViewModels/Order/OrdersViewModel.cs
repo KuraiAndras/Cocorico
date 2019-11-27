@@ -1,12 +1,10 @@
-﻿using Cocorico.Client.Domain.Extensions;
+﻿using Blazor.Extensions;
+using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Helpers;
-using Microsoft.AspNetCore.Http.Connections;
-using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Domain.ViewModels.Order
@@ -16,14 +14,18 @@ namespace Cocorico.Client.Domain.ViewModels.Order
         private readonly IOrderClient _orderClient;
         private readonly HubConnection _connection;
 
-        public OrdersViewModel(IOrderClient orderClient)
+        public OrdersViewModel(IOrderClient orderClient, HubConnectionBuilder hubConnectionBuilder)
         {
             _orderClient = orderClient;
 
             Orders = new List<WorkerOrderViewDto>();
 
-            _connection = new HubConnectionBuilder()
-                .WithUrl(HubNames.WorkerViewOrderHubNames.Name, opt => opt.Transports = HttpTransportType.WebSockets)
+            _connection = hubConnectionBuilder
+                .WithUrl(HubNames.WorkerViewOrderHubNames.Name, options =>
+                {
+                    options.LogLevel = SignalRLogLevel.Trace;
+                    options.Transport = HttpTransportType.WebSockets;
+                })
                 .Build();
 
             _connection.On<WorkerOrderViewDto[]>(HubNames.WorkerViewOrderHubNames.ReceiveOrdersAsync, OnOrdersModifiedAsync);
@@ -32,10 +34,6 @@ namespace Cocorico.Client.Domain.ViewModels.Order
             {
                 Orders.Clear();
                 Orders.AddRange(orders);
-
-                Console.WriteLine(orders.First().Id);
-                Console.WriteLine(orders.Skip(1).First().Id);
-                Console.WriteLine(orders.Skip(2).First().Id);
 
                 OrdersChanged?.Invoke();
 

@@ -26,7 +26,7 @@ namespace Cocorico.Client.Blazor
 
             services.AddViewModels();
 
-            //services.AddTransient<HubConnectionBuilder>();
+            services.AddTransient<HubConnectionBuilder>();
         }
 
         public void Configure(IComponentsApplicationBuilder app) => app.AddComponent<App>("app");

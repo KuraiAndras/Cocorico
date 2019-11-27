@@ -24,7 +24,7 @@ namespace Cocorico.DAL.Models
             base.OnModelCreating(builder);
 
             builder.Entity<SandwichOrder>()
-                .HasKey(so => new { so.SandwichId, so.OrderId });
+                .HasKey(so => so.Id);
             builder.Entity<SandwichOrder>()
                 .HasOne(so => so.Sandwich)
                 .WithMany(s => s.SandwichOrders)
@@ -86,6 +86,10 @@ namespace Cocorico.DAL.Models
                 .HasOne(o => o.CocoricoUser)
                 .WithMany(cu => cu.Orders)
                 .HasForeignKey(o => o.CocoricoUserId);
+            builder.Entity<Order>()
+                .HasMany(o => o.SandwichOrders)
+                .WithOne(so => so.Order)
+                .HasForeignKey(so => so.OrderId);
             builder.Entity<Order>()
                 .HasQueryFilter(o => !o.IsDeleted);
             builder.Entity<Order>()

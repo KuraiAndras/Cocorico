@@ -61,13 +61,15 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrderAsync([FromBody] AddOrderDto addOrderDto)
         {
-            //TODO: Might change
-            addOrderDto.UserId = _userManager.GetUserId(HttpContext.User) ?? throw new InvalidCommandException();
+            var userId = _userManager.GetUserId(HttpContext.User) ?? throw new InvalidCommandException();
+            addOrderDto.UserId = userId;
+            addOrderDto.CustomerId = userId;
 
-            await _serverOrderService.AddOrderAsync(addOrderDto);
+            var result = await _serverOrderService.AddOrderAsync(addOrderDto);
 
-            var orders = (await _serverOrderService.GetPendingOrdersForWorkerAsync()).ToArray();
-            await _workerViewHub.Clients.All.ReceiveOrdersAsync(orders);
+            var orderView = (await _serverOrderService.GetPendingOrdersForWorkerAsync()).SingleOrDefault(o => o.Id == result);
+
+            await _workerViewHub.Clients.All.ReceiveOrderAddedAsync(orderView);
 
             return new OkResult();
         }

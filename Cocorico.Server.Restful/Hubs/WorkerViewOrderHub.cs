@@ -13,6 +13,6 @@ namespace Cocorico.Server.Restful.Hubs
 
     public interface IWorkerViewOrderClient
     {
-        Task ReceiveOrdersAsync(WorkerOrderViewDto[] orders);
+        Task ReceiveOrderAddedAsync(WorkerOrderViewDto orders);
     }
 }

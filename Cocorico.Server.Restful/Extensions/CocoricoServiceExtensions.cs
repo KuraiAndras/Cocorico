@@ -27,7 +27,7 @@ namespace Cocorico.Server.Restful.Extensions
     {
         public static void AddCocoricoDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CocoricoDbContext>(options => options.EnableSensitiveDataLogging().UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             //services.AddDbContext<CocoricoDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("Postgres")));
         }
 

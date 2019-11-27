@@ -1,7 +1,9 @@
 ﻿using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.ServiceBase;
+using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Order;
+using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -65,18 +67,10 @@ namespace Cocorico.Server.Domain.Services.OrderService
             await UpdateAsync(order);
         }
 
-        public async Task AddOrderAsync(AddOrderDto addOrderDto)
+        public async Task<int> AddOrderAsync(AddOrderDto addOrderDto)
         {
-            var user = await Context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id == addOrderDto.UserId)
-                       ?? throw new EntityNotFoundException($"User not found with id:{addOrderDto.UserId}");
-
-            //TODO: This might change
             var sandwichesInDb = await Context
                 .Sandwiches
-                .AsNoTracking()
-                .Include(s => s.SandwichIngredients)
-                .ThenInclude(il => il.Ingredient)
-                .AsNoTracking()
                 .ToListAsync();
 
             var sandwiches = addOrderDto.Sandwiches
@@ -88,13 +82,26 @@ namespace Cocorico.Server.Domain.Services.OrderService
 
             var newOrder = new Order
             {
-                Id = 0,
-                CocoricoUserId = user.Id,
+                CocoricoUserId = addOrderDto.CustomerId,
                 Price = sandwiches.Select(s => s.Price).Aggregate((sum, price) => sum + price),
                 State = OrderState.OrderPlaced,
+                SandwichOrders = new List<SandwichOrder>(),
             };
 
-            await AddAsync(newOrder);
+            foreach (var sandwich in sandwiches)
+            {
+                newOrder.SandwichOrders.Add(new SandwichOrder
+                {
+                    Order = newOrder,
+                    Sandwich = sandwich,
+                });
+            }
+
+            await Context.Orders.AddAsync(newOrder);
+
+            await Context.SaveChangesAsync();
+
+            return newOrder.Id;
         }
 
         public async Task DeleteOrderAsync(int orderId) => await DeleteByIdAsync(orderId);

@@ -5,7 +5,7 @@
         public static class WorkerViewOrderHubNames
         {
             public const string Name = "/WorkerViewOrderHub";
-            public const string ReceiveOrdersAsync = nameof(ReceiveOrdersAsync);
+            public const string ReceiveOrderAddedAsync = nameof(ReceiveOrderAddedAsync);
         }
     }
 }

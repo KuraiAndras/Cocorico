@@ -28,12 +28,11 @@ namespace Cocorico.Client.Domain.ViewModels.Order
                 })
                 .Build();
 
-            _connection.On<WorkerOrderViewDto[]>(HubNames.WorkerViewOrderHubNames.ReceiveOrdersAsync, OnOrdersModifiedAsync);
+            _connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderAddedAsync, OnOrdersModifiedAsync);
 
-            Task OnOrdersModifiedAsync(WorkerOrderViewDto[] orders)
+            Task OnOrdersModifiedAsync(WorkerOrderViewDto order)
             {
-                Orders.Clear();
-                Orders.AddRange(orders);
+                Orders.Add(order);
 
                 OrdersChanged?.Invoke();
 

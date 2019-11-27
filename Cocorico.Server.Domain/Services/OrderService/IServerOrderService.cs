@@ -9,7 +9,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
         Task<ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId);
         Task<ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync();
         Task UpdateOrderAsync(UpdateOrderDto updateOrderDto);
-        Task AddOrderAsync(AddOrderDto addOrderDto);
+        Task<int> AddOrderAsync(AddOrderDto addOrderDto);
         Task DeleteOrderAsync(int orderId);
     }
 }

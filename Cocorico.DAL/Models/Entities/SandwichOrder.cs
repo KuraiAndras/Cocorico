@@ -1,7 +1,9 @@
 ﻿namespace Cocorico.DAL.Models.Entities
 {
-    public class SandwichOrder : IDbEntity
+    public class SandwichOrder : IDbEntity<int>
     {
+        public int Id { get; set; }
+
         public int SandwichId { get; set; }
         public Sandwich Sandwich { get; set; } = null!;
 

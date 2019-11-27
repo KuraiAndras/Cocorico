@@ -2,9 +2,11 @@
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Client.Domain.SignalrClient.WorkerOrders;
 using Cocorico.Shared.Dtos.Order;
+using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Domain.ViewModels.Order
@@ -21,9 +23,29 @@ namespace Cocorico.Client.Domain.ViewModels.Order
 
             Orders = new List<WorkerOrderViewDto>();
 
-            _hubClient.OrderAdded += o =>
+            _hubClient.OrderAdded += order =>
             {
-                Orders.Add(o);
+                Orders.Add(order);
+                OrdersChanged?.Invoke();
+            };
+
+            _hubClient.OrderModified += order =>
+            {
+                var instance = Orders.SingleOrDefault(o => o.Id == order.Id);
+
+                if (instance is null) throw new UnexpectedException();
+
+                Orders.RemoveAll(o => o.Id == instance.Id);
+                Orders.Add(order);
+                Orders.Sort((o1, o2) => o1.Id - o2.Id);
+
+                OrdersChanged?.Invoke();
+            };
+
+            _hubClient.OrderDeleted += orderId =>
+            {
+                Orders.RemoveAll(o => o.Id == orderId);
+
                 OrdersChanged?.Invoke();
             };
         }

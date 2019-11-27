@@ -92,10 +92,17 @@ namespace Cocorico.Server.Restful.Controllers
         {
             await _serverOrderService.UpdateOrderAsync(updateOrderDto);
 
-            var updatedOrder = (await _serverOrderService.GetPendingOrdersForWorkerAsync())
+            var updatedPendingOrder = (await _serverOrderService.GetPendingOrdersForWorkerAsync())
                 .SingleOrDefault(o => o.Id == updateOrderDto.OrderId);
 
-            await _workerViewHub.ReceiveOrderModifiedImplementationAsync(updatedOrder);
+            if (updatedPendingOrder is null)
+            {
+                await _workerViewHub.ReceiveOrderDeletedImplementationAsync(updateOrderDto.OrderId);
+            }
+            else
+            {
+                await _workerViewHub.ReceiveOrderModifiedImplementationAsync(updatedPendingOrder);
+            }
 
             return new OkResult();
         }

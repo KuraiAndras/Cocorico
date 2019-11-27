@@ -17,8 +17,24 @@ namespace Cocorico.Client.Domain.SignalrClient.WorkerOrders
 
                 return Task.CompletedTask;
             });
+
+            _connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderModifiedAsync, o =>
+            {
+                OrderModified?.Invoke(o);
+
+                return Task.CompletedTask;
+            });
+
+            _connection.On<int>(HubNames.WorkerViewOrderHubNames.ReceiveOrderDeletedAsync, o =>
+            {
+                OrderDeleted?.Invoke(o);
+
+                return Task.CompletedTask;
+            });
         }
 
         public event Action<WorkerOrderViewDto>? OrderAdded;
+        public event Action<WorkerOrderViewDto>? OrderModified;
+        public event Action<int>? OrderDeleted;
     }
 }

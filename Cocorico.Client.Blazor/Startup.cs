@@ -1,3 +1,4 @@
+using Blazor.Extensions;
 using Blazor.Extensions.Storage;
 using Cocorico.Client.Blazor.Extensions;
 using Cocorico.Client.Blazor.Services.Authentication;
@@ -24,9 +25,10 @@ namespace Cocorico.Client.Blazor
             services.AddHttpClients();
 
             services.AddViewModels();
+
+            //services.AddTransient<HubConnectionBuilder>();
         }
 
-        // ReSharper disable once UnusedMember.Global
         public void Configure(IComponentsApplicationBuilder app) => app.AddComponent<App>("app");
     }
 }

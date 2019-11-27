@@ -16,10 +16,11 @@ namespace Cocorico.Server.Domain.Services.IngredientService
         {
         }
 
-        public async Task<IEnumerable<IngredientDto>> GetAllAsync() =>
+        public async Task<ICollection<IngredientDto>> GetAllAsync() =>
             (await Context.Ingredients.ToListAsync()
              ?? throw new UnexpectedException())
-            .Select(i => i.MapTo<Ingredient, IngredientDto>());
+            .Select(i => i.MapTo<Ingredient, IngredientDto>())
+            .ToList();
 
         public async Task<IngredientDto> GetAsync(int id) =>
             (await Context.Ingredients.SingleOrDefaultAsync(i => i.Id == id)

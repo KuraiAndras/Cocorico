@@ -5,7 +5,6 @@ using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Domain.Services.IngredientService;
 using Cocorico.Server.Domain.Services.OrderService;
 using Cocorico.Server.Domain.Services.SandwichService;
-using Cocorico.Server.Domain.Services.SystemNotifications;
 using Cocorico.Server.Domain.Services.User;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
@@ -71,8 +70,6 @@ namespace Cocorico.Server.Restful.Extensions
             services.AddScoped<IServerUserService, ServerUserService>();
             services.AddScoped<IServerOrderService, ServerOrderService>();
             services.AddScoped<IServerIngredientService, ServerIngredientService>();
-
-            services.AddSingleton<ISystemNotifier<Order>, SystemNotifier<Order>>();
         }
 
         public static void AddCocoricoProblemDetails(this IServiceCollection services, IWebHostEnvironment webHostingEnvironment)

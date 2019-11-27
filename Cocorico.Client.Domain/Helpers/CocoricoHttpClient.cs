@@ -1043,25 +1043,25 @@ namespace Cocorico.Client.Domain.Helpers
     public partial interface IOrderClient
     {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrderCustomerViewDto>> GetAllOrderForCustomerAsync(string customerId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrderCustomerViewDto>> GetAllOrderForCustomerAsync(string customerId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId, System.Threading.CancellationToken cancellationToken);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrderWorkerViewDto>> GetPendingOrdersForWorkerAsync();
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrderWorkerViewDto>> GetPendingOrdersForWorkerAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> AddOrderAsync(OrderAddDto orderAddDto);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync();
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> AddOrderAsync(OrderAddDto orderAddDto, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync(System.Threading.CancellationToken cancellationToken);
+    
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrderDto addOrderDto);
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrderDto addOrderDto, System.Threading.CancellationToken cancellationToken);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DeleteOrderAsync(int orderId);
@@ -1111,14 +1111,14 @@ namespace Cocorico.Client.Domain.Helpers
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrderCustomerViewDto>> GetAllOrderForCustomerAsync(string customerId)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId)
         {
             return GetAllOrderForCustomerAsync(customerId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrderCustomerViewDto>> GetAllOrderForCustomerAsync(string customerId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/customer/{customerId}");
@@ -1152,7 +1152,7 @@ namespace Cocorico.Client.Domain.Helpers
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<OrderCustomerViewDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<CustomerViewOrderDto>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -1162,7 +1162,7 @@ namespace Cocorico.Client.Domain.Helpers
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(System.Collections.Generic.ICollection<OrderCustomerViewDto>);
+                        return default(System.Collections.Generic.ICollection<CustomerViewOrderDto>);
                     }
                     finally
                     {
@@ -1177,14 +1177,14 @@ namespace Cocorico.Client.Domain.Helpers
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrderWorkerViewDto>> GetPendingOrdersForWorkerAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync()
         {
             return GetPendingOrdersForWorkerAsync(System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrderWorkerViewDto>> GetPendingOrdersForWorkerAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/GetPendingOrdersForWorkerAsync");
@@ -1217,7 +1217,7 @@ namespace Cocorico.Client.Domain.Helpers
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<OrderWorkerViewDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<WorkerOrderViewDto>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -1227,7 +1227,7 @@ namespace Cocorico.Client.Domain.Helpers
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(System.Collections.Generic.ICollection<OrderWorkerViewDto>);
+                        return default(System.Collections.Generic.ICollection<WorkerOrderViewDto>);
                     }
                     finally
                     {
@@ -1242,14 +1242,14 @@ namespace Cocorico.Client.Domain.Helpers
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> AddOrderAsync(OrderAddDto orderAddDto)
+        public System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrderDto addOrderDto)
         {
-            return AddOrderAsync(orderAddDto, System.Threading.CancellationToken.None);
+            return AddOrderAsync(addOrderDto, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> AddOrderAsync(OrderAddDto orderAddDto, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrderDto addOrderDto, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order");
@@ -1259,7 +1259,7 @@ namespace Cocorico.Client.Domain.Helpers
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(orderAddDto, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(addOrderDto, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");

@@ -1,4 +1,6 @@
 using Cocorico.Server.Restful.Extensions;
+using Cocorico.Server.Restful.Hubs;
+using Cocorico.Shared.Helpers;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using System.Net.Mime;
-using Cocorico.Server.Restful.Hubs;
 
 namespace Cocorico.Server.Restful
 {
@@ -70,7 +71,7 @@ namespace Cocorico.Server.Restful
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-                endpoints.MapHub<OrderHub>("/OrderHub");
+                endpoints.MapHub<WorkerViewOrderHub>(HubNames.WorkerViewOrderHubNames.Name);
                 endpoints.MapFallbackToClientSideBlazor<Client.Blazor.Startup>("index.html");
             });
         }

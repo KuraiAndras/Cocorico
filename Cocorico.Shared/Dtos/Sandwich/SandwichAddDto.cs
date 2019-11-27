@@ -8,6 +8,6 @@ namespace Cocorico.Shared.Dtos.Sandwich
         public string Name { get; set; } = string.Empty;
         public int Price { get; set; }
 
-        public IEnumerable<IngredientDto> Ingredients { get; set; } = new List<IngredientDto>();
+        public ICollection<IngredientDto> Ingredients { get; set; } = new List<IngredientDto>();
     }
 }

@@ -6,10 +6,10 @@ namespace Cocorico.Server.Domain.Services.OrderService
 {
     public interface IServerOrderService
     {
-        Task<IEnumerable<OrderCustomerViewDto>> GetAllOrderForCustomerAsync(string customerId);
-        Task<IEnumerable<OrderWorkerViewDto>> GetPendingOrdersForWorkerAsync();
+        Task<ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId);
+        Task<ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync();
         Task UpdateOrderAsync(UpdateOrderDto updateOrderDto);
-        Task AddOrderAsync(OrderAddDto orderAddDto);
+        Task AddOrderAsync(AddOrderDto addOrderDto);
         Task DeleteOrderAsync(int orderId);
     }
 }

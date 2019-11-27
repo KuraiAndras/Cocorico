@@ -23,10 +23,10 @@ namespace Cocorico.Server.Domain.Services.User
 
             var userClaims = await _userManager.GetClaimsAsync(user);
 
-            return user.MapTo(u => new UserForAdminPage { Claims = userClaims.Select(c => c.Value) });
+            return user.MapTo(_ => new UserForAdminPage { Claims = userClaims.Select(c => c.Value).ToList() });
         }
 
-        public async Task<IEnumerable<UserForAdminPage>> GetAllUsersForAdminPageAsync()
+        public async Task<ICollection<UserForAdminPage>> GetAllUsersForAdminPageAsync()
         {
             var users = await Context.Users.ToListAsync() ?? throw new UnexpectedException();
 
@@ -35,7 +35,7 @@ namespace Cocorico.Server.Domain.Services.User
             {
                 var claims = (await _userManager.GetClaimsAsync(cocoricoUser)).Select(c => c.Value);
 
-                usersForAdminPage.Add(cocoricoUser.MapTo(u => new UserForAdminPage { Claims = claims }));
+                usersForAdminPage.Add(cocoricoUser.MapTo(_ => new UserForAdminPage { Claims = claims.ToList() }));
             }
 
             return usersForAdminPage;

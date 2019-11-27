@@ -4,6 +4,6 @@ namespace Cocorico.Shared.Dtos.Authentication
 {
     public class LoginResult
     {
-        public IEnumerable<string> Claims { get; set; } = new List<string>();
+        public ICollection<string> Claims { get; set; } = new List<string>();
     }
 }

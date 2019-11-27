@@ -7,6 +7,6 @@ namespace Cocorico.Server.Domain.Services.User
     public interface IServerUserService
     {
         Task<UserForAdminPage> GetUserForAdminPageAsync(string userId);
-        Task<IEnumerable<UserForAdminPage>> GetAllUsersForAdminPageAsync();
+        Task<ICollection<UserForAdminPage>> GetAllUsersForAdminPageAsync();
     }
 }

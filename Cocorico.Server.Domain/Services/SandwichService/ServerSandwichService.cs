@@ -28,7 +28,7 @@ namespace Cocorico.Server.Domain.Services.SandwichService
             return sandwich.ToSandwichDto();
         }
 
-        public async Task<IEnumerable<SandwichDto>> GetAllAsync()
+        public async Task<ICollection<SandwichDto>> GetAllAsync()
         {
             var sandwiches = await Context
                 .Sandwiches
@@ -36,7 +36,7 @@ namespace Cocorico.Server.Domain.Services.SandwichService
                 .ThenInclude(il => il.Ingredient)
                 .ToListAsync();
 
-            return sandwiches.Select(s => s.ToSandwichDto());
+            return sandwiches.Select(s => s.ToSandwichDto()).ToList();
         }
 
         public async Task AddAsync(SandwichAddDto sandwichAddDto)

@@ -61,7 +61,7 @@ namespace Cocorico.Server.Domain.Services.Authentication
 
             var claims = await _userManager.GetClaimsAsync(user) ?? throw new UnexpectedException();
 
-            return new LoginResult { Claims = claims.Select(c => c.Value) };
+            return new LoginResult { Claims = claims.Select(c => c.Value).ToList() };
         }
 
         public async Task LogoutAsync() => await _signInManager.SignOutAsync();

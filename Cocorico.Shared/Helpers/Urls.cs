@@ -16,6 +16,7 @@
             public const string OrdersToMake = nameof(OrdersToMake);
             public const string Ingredients = nameof(Ingredients);
             public const string AddIngredient = nameof(AddIngredient);
+            public const string Settings = nameof(Settings);
         }
     }
 }

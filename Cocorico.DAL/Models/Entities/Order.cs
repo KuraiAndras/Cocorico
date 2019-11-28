@@ -1,6 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Dtos.Sandwich;
-using Cocorico.Shared.Helpers;
+﻿using Cocorico.Shared.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,22 +12,15 @@ namespace Cocorico.DAL.Models.Entities
         public ICollection<SandwichOrder> SandwichOrders { get; set; } = null!;
         public int Price { get; set; }
         public OrderState State { get; set; }
+
+        public int RotatingId { get; set; }
+
         public bool IsDeleted { get; set; }
     }
 
     public static class OrderExtension
     {
-        public static IEnumerable<Sandwich> Sandwiches(this Order order) =>
-            order.SandwichOrders.Select(sl => sl.Sandwich);
-
-        public static WorkerOrderViewDto ToOrderWorkerViewDto(this Order order) =>
-            order.MapTo(o => new WorkerOrderViewDto
-            {
-                UserName = o.CocoricoUser.Name,
-                Sandwiches = o.Sandwiches().Select(s => s.MapTo(sa => new SandwichDto
-                {
-                    Ingredients = sa.SandwichIngredients.Select(i => i.Ingredient.ToIngredientDto()).ToList()
-                })).ToList()
-            });
+        public static ICollection<Sandwich> Sandwiches(this Order order) =>
+            order.SandwichOrders.Select(sl => sl.Sandwich).ToList();
     }
 }

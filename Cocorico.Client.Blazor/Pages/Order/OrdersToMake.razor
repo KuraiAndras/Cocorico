@@ -24,7 +24,7 @@ else
             @foreach (var order in ViewModel.Orders.Where(o => o.State == OrderState.OrderPlaced || o.State == OrderState.InTheOven))
             {
             <tr>
-                <td>@order.Id</td>
+                <td>@order.RotatingId</td>
                 <td>@order.State</td>
                 @if (order.State == OrderState.OrderPlaced)
                 {

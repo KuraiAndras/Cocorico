@@ -16,6 +16,9 @@ namespace Cocorico.Shared.Dtos.Order
         [JsonPropertyName("sandwiches")]
         public ICollection<SandwichDto> Sandwiches { get; set; } = new List<SandwichDto>();
 
+        [JsonPropertyName("rotatingId")]
+        public int RotatingId { get; set; }
+
         [JsonPropertyName("state")]
         public OrderState State { get; set; }
     }

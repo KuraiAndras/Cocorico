@@ -1,6 +1,8 @@
-﻿using Cocorico.DAL.Models;
+﻿using AutoMapper;
+using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.ServiceBase;
+using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +14,10 @@ namespace Cocorico.Server.Domain.Services.SandwichService
 {
     public class ServerSandwichService : EntityServiceBase<Sandwich>, IServerSandwichService
     {
-        public ServerSandwichService(CocoricoDbContext context) : base(context)
-        {
-        }
+        private readonly IMapper _mapper;
+
+        public ServerSandwichService(CocoricoDbContext context, IMapper mapper) : base(context) =>
+            _mapper = mapper;
 
         public async Task<SandwichDto> GetAsync(int id)
         {
@@ -25,7 +28,7 @@ namespace Cocorico.Server.Domain.Services.SandwichService
                                .SingleOrDefaultAsync(s => s.Id == id)
                            ?? throw new EntityNotFoundException($"Cant find sandwich with id:{id}");
 
-            return sandwich.ToSandwichDto();
+            return _mapper.Map<SandwichDto>(sandwich);
         }
 
         public async Task<ICollection<SandwichDto>> GetAllAsync()
@@ -36,12 +39,12 @@ namespace Cocorico.Server.Domain.Services.SandwichService
                 .ThenInclude(il => il.Ingredient)
                 .ToListAsync();
 
-            return sandwiches.Select(s => s.ToSandwichDto()).ToList();
+            return sandwiches.Select(s => _mapper.Map<SandwichDto>(s)).ToList();
         }
 
         public async Task AddAsync(SandwichAddDto sandwichAddDto)
         {
-            var sandwich = sandwichAddDto.ToSandwich();
+            var sandwich = _mapper.Map<Sandwich>(sandwichAddDto);
 
             var ingredients = await Context
                 .Ingredients
@@ -70,7 +73,7 @@ namespace Cocorico.Server.Domain.Services.SandwichService
 
             var ingredientsToAdd = sandwichDto
                 .Ingredients
-                .Except(original.Ingredients().Select(i => i.ToIngredientDto()))
+                .Except(original.Ingredients().Select(i => _mapper.Map<IngredientDto>(i)))
                 .Select(i => new SandwichIngredient
                 {
                     SandwichId = sandwichDto.Id,
@@ -81,7 +84,7 @@ namespace Cocorico.Server.Domain.Services.SandwichService
 
             var ingredientsToRemove = original
                 .Ingredients()
-                .Except(sandwichDto.Ingredients.Select(i => i.ToIngredient()))
+                .Except(sandwichDto.Ingredients.Select(i => _mapper.Map<Ingredient>(i)))
                 .Select(i => new SandwichIngredient
                 {
                     SandwichId = sandwichDto.Id,
@@ -92,7 +95,7 @@ namespace Cocorico.Server.Domain.Services.SandwichService
 
             await Context.SaveChangesAsync();
 
-            await UpdateAsync(sandwichDto.ToSandwich());
+            await UpdateAsync(_mapper.Map<Sandwich>(sandwichDto));
         }
 
         public async Task DeleteAsync(int id) =>

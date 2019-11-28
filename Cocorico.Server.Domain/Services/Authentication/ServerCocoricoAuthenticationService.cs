@@ -1,4 +1,5 @@
-﻿using Cocorico.DAL.Models;
+﻿using AutoMapper;
+using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Exceptions;
@@ -15,20 +16,23 @@ namespace Cocorico.Server.Domain.Services.Authentication
         private readonly CocoricoDbContext _cocoricoDbContext;
         private readonly UserManager<CocoricoUser> _userManager;
         private readonly SignInManager<CocoricoUser> _signInManager;
+        private readonly IMapper _mapper;
 
         public ServerCocoricoAuthenticationService(
             UserManager<CocoricoUser> userManager,
             CocoricoDbContext cocoricoDbContext,
-            SignInManager<CocoricoUser> signInManager)
+            SignInManager<CocoricoUser> signInManager,
+            IMapper mapper)
         {
             _userManager = userManager;
             _cocoricoDbContext = cocoricoDbContext;
             _signInManager = signInManager;
+            _mapper = mapper;
         }
 
         public async Task RegisterAsync(RegisterDetails model)
         {
-            var userIdentity = model.MapTo(m => new CocoricoUser { UserName = m.Email });
+            var userIdentity = _mapper.Map<CocoricoUser>(model);
 
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
 

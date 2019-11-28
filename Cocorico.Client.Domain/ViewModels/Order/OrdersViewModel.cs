@@ -26,6 +26,8 @@ namespace Cocorico.Client.Domain.ViewModels.Order
             _hubClient.OrderAdded += order =>
             {
                 Orders.Add(order);
+                Orders.Sort(RotatingIdComparator);
+
                 OrdersChanged?.Invoke();
             };
 
@@ -37,7 +39,7 @@ namespace Cocorico.Client.Domain.ViewModels.Order
 
                 Orders.RemoveAll(o => o.Id == instance.Id);
                 Orders.Add(order);
-                Orders.Sort((o1, o2) => o1.Id - o2.Id);
+                Orders.Sort(RotatingIdComparator);
 
                 OrdersChanged?.Invoke();
             };
@@ -45,6 +47,7 @@ namespace Cocorico.Client.Domain.ViewModels.Order
             _hubClient.OrderDeleted += orderId =>
             {
                 Orders.RemoveAll(o => o.Id == orderId);
+                Orders.Sort(RotatingIdComparator);
 
                 OrdersChanged?.Invoke();
             };
@@ -62,6 +65,7 @@ namespace Cocorico.Client.Domain.ViewModels.Order
 
                 Orders.Clear();
                 Orders.AddRange(orders);
+                Orders.Sort(RotatingIdComparator);
             }
             catch (Exception e)
             {
@@ -90,5 +94,7 @@ namespace Cocorico.Client.Domain.ViewModels.Order
         }
 
         public event Action? OrdersChanged;
+
+        private static int RotatingIdComparator(WorkerOrderViewDto o1, WorkerOrderViewDto o2) => o1.RotatingId - o2.RotatingId;
     }
 }

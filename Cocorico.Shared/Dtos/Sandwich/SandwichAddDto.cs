@@ -9,12 +9,15 @@ namespace Cocorico.Shared.Dtos.Sandwich
     {
         [JsonPropertyName("name")]
         [StringLength(50, MinimumLength = 3)]
+        [Required(AllowEmptyStrings = false)]
         public string Name { get; set; } = string.Empty;
 
         [JsonPropertyName("price")]
+        [Required]
         public int Price { get; set; }
 
         [JsonPropertyName("ingredients")]
+        [Required]
         public ICollection<IngredientDto> Ingredients { get; set; } = new List<IngredientDto>();
     }
 }

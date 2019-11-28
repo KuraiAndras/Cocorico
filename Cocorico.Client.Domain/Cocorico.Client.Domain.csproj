@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Storage" Version="1.0.0" />
     <PackageReference Include="Blazor.Extensions.SignalR" Version="1.0.0" />
+    <PackageReference Include="IndexRange" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Roslynator.Analyzers" Version="2.2.0">
       <PrivateAssets>all</PrivateAssets>

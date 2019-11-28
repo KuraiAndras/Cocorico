@@ -1,0 +1,23 @@
+﻿@page "/Settings"
+
+@using Cocorico.Client.Domain.ViewModels.Settings
+
+@inject ISettingsViewModel ViewModel
+
+<h3>Set Rotating Id</h3>
+<EditForm OnValidSubmit="@ViewModel.SetNewRangeAsync" Model="@ViewModel.IdRange">
+    <InputNumber type="integer" @bind-Value="@ViewModel.IdRange.Start">Start</InputNumber>
+    <InputNumber type="integer" @bind-Value="@ViewModel.IdRange.End">End</InputNumber>
+    <MatButton type="submit">Set Rotating ID Range</MatButton>
+</EditForm>
+
+@code
+{
+
+    protected override async Task OnInitializedAsync()
+    {
+        ViewModel.IdRangeChanged += StateHasChanged;
+        await ViewModel.InitializeAsync();
+    }
+
+}

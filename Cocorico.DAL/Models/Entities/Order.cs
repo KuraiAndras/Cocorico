@@ -2,6 +2,7 @@
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Cocorico.DAL.Models.Entities
@@ -14,6 +15,10 @@ namespace Cocorico.DAL.Models.Entities
         public ICollection<SandwichOrder> SandwichOrders { get; set; } = null!;
         public int Price { get; set; }
         public OrderState State { get; set; }
+
+        [Range(0, 31)]
+        public int RotatingId { get; set; }
+
         public bool IsDeleted { get; set; }
     }
 

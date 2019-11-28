@@ -1,6 +1,7 @@
 ﻿using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Cocorico.Shared.Dtos.Order
@@ -15,6 +16,9 @@ namespace Cocorico.Shared.Dtos.Order
 
         [JsonPropertyName("sandwiches")]
         public ICollection<SandwichDto> Sandwiches { get; set; } = new List<SandwichDto>();
+
+        [Range(0, 31)]
+        public int RotatingId { get; set; }
 
         [JsonPropertyName("state")]
         public OrderState State { get; set; }

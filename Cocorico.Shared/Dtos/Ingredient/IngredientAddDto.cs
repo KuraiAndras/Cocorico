@@ -7,6 +7,7 @@ namespace Cocorico.Shared.Dtos.Ingredient
     {
         [JsonPropertyName("name")]
         [StringLength(50, MinimumLength = 3)]
+        [Required(AllowEmptyStrings = false)]
         public string Name { get; set; } = string.Empty;
     }
 }

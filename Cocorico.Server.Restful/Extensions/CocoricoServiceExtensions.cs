@@ -1,4 +1,5 @@
-﻿using Cocorico.DAL.Models;
+﻿using AutoMapper;
+using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Authentication;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace Cocorico.Server.Restful.Extensions
@@ -70,6 +72,8 @@ namespace Cocorico.Server.Restful.Extensions
             services.AddScoped<IServerUserService, ServerUserService>();
             services.AddScoped<IServerOrderService, ServerOrderService>();
             services.AddScoped<IServerIngredientService, ServerIngredientService>();
+
+            services.AddAutoMapper(Assembly.Load($"{nameof(Cocorico)}.{nameof(Mappings)}"));
         }
 
         public static void AddCocoricoProblemDetails(this IServiceCollection services, IWebHostEnvironment webHostingEnvironment)

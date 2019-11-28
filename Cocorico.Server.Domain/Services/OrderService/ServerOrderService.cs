@@ -1,4 +1,5 @@
-﻿using Cocorico.DAL.Models;
+﻿using AutoMapper;
+using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Order;
@@ -13,9 +14,10 @@ namespace Cocorico.Server.Domain.Services.OrderService
 {
     public class ServerOrderService : EntityServiceBase<Order>, IServerOrderService
     {
-        public ServerOrderService(CocoricoDbContext context) : base(context)
-        {
-        }
+        private readonly IMapper _mapper;
+
+        public ServerOrderService(CocoricoDbContext context, IMapper mapper) : base(context) =>
+            _mapper = mapper;
 
         public async Task<ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId)
         {
@@ -30,10 +32,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
                                         .ToListAsync()
                                     ?? throw new UnexpectedException();
 
-            return ordersForCustomer.Select(order => order.MapTo(o => new CustomerViewOrderDto
-            {
-                Sandwiches = o.Sandwiches().Select(s => s.ToSandwichDto()).ToList(),
-            })).ToList();
+            return ordersForCustomer.Select(order => _mapper.Map<CustomerViewOrderDto>(order)).ToList();
         }
 
         public async Task<ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync()
@@ -47,7 +46,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
                                           .Where(o => o.State != OrderState.Delivered && o.State != OrderState.Rejected)
                                           .ToListAsync() ?? throw new UnexpectedException();
 
-            return ordersForWorkerView.Select(order => order.ToOrderWorkerViewDto()).ToList();
+            return ordersForWorkerView.Select(order => _mapper.Map<WorkerOrderViewDto>(order)).ToList();
         }
 
         public async Task UpdateOrderAsync(UpdateOrderDto updateOrderDto)

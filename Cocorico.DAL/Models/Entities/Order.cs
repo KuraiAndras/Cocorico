@@ -22,7 +22,7 @@ namespace Cocorico.DAL.Models.Entities
 
     public static class OrderExtension
     {
-        public static IEnumerable<Sandwich> Sandwiches(this Order order) =>
-            order.SandwichOrders.Select(sl => sl.Sandwich);
+        public static ICollection<Sandwich> Sandwiches(this Order order) =>
+            order.SandwichOrders.Select(sl => sl.Sandwich).ToList();
     }
 }

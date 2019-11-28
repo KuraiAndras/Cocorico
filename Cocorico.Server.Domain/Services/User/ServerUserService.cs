@@ -1,4 +1,5 @@
-﻿using Cocorico.DAL.Models;
+﻿using AutoMapper;
+using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.User;
@@ -14,8 +15,17 @@ namespace Cocorico.Server.Domain.Services.User
     public class ServerUserService : EntityServiceBase<CocoricoUser, string>, IServerUserService
     {
         private readonly UserManager<CocoricoUser> _userManager;
+        private readonly IMapper _mapper;
 
-        public ServerUserService(CocoricoDbContext context, UserManager<CocoricoUser> userManager) : base(context) => _userManager = userManager;
+        public ServerUserService(
+            CocoricoDbContext context,
+            UserManager<CocoricoUser> userManager,
+            IMapper mapper)
+            : base(context)
+        {
+            _userManager = userManager;
+            _mapper = mapper;
+        }
 
         public async Task<UserForAdminPage> GetUserForAdminPageAsync(string userId)
         {
@@ -23,7 +33,10 @@ namespace Cocorico.Server.Domain.Services.User
 
             var userClaims = await _userManager.GetClaimsAsync(user);
 
-            return user.MapTo(_ => new UserForAdminPage { Claims = userClaims.Select(c => c.Value).ToList() });
+            var userForAdminPage = _mapper.Map<UserForAdminPage>(user);
+            userForAdminPage.Claims = userClaims.Select(c => c.Value).ToList();
+
+            return userForAdminPage;
         }
 
         public async Task<ICollection<UserForAdminPage>> GetAllUsersForAdminPageAsync()
@@ -33,9 +46,12 @@ namespace Cocorico.Server.Domain.Services.User
             var usersForAdminPage = new List<UserForAdminPage>();
             foreach (var cocoricoUser in users)
             {
-                var claims = (await _userManager.GetClaimsAsync(cocoricoUser)).Select(c => c.Value);
+                var claims = (await _userManager.GetClaimsAsync(cocoricoUser)).Select(c => c.Value).ToList();
 
-                usersForAdminPage.Add(cocoricoUser.MapTo(_ => new UserForAdminPage { Claims = claims.ToList() }));
+                var userForAdminPage = _mapper.Map<UserForAdminPage>(cocoricoUser);
+                userForAdminPage.Claims = claims;
+
+                usersForAdminPage.Add(userForAdminPage);
             }
 
             return usersForAdminPage;

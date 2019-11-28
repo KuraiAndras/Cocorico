@@ -15,7 +15,7 @@ namespace Cocorico.DAL.Models.Entities
 
     public static class SandwichExtensions
     {
-        public static IEnumerable<Ingredient> Ingredients(this Sandwich sandwich) =>
-            sandwich.SandwichIngredients.Select(i => i.Ingredient);
+        public static ICollection<Ingredient> Ingredients(this Sandwich sandwich) =>
+            sandwich.SandwichIngredients.Select(i => i.Ingredient).ToList();
     }
 }

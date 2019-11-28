@@ -23,7 +23,7 @@ else
             @foreach (var order in ViewModel.Orders.Where(o => o.State == OrderState.ToBeDelivered))
             {
                 <tr>
-                    <td>@order.Id</td>
+                    <td>@order.RotatingId</td>
                     <td>@order.State</td>
                     <td><button class="btn btn-primary" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.Delivered))">Deliver</button></td>
                 </tr>

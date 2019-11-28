@@ -1,6 +1,5 @@
 ﻿using Cocorico.Shared.Helpers;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Cocorico.DAL.Models.Entities
@@ -14,7 +13,6 @@ namespace Cocorico.DAL.Models.Entities
         public int Price { get; set; }
         public OrderState State { get; set; }
 
-        [Range(0, 31)]
         public int RotatingId { get; set; }
 
         public bool IsDeleted { get; set; }

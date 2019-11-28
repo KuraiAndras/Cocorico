@@ -72,9 +72,11 @@ namespace Cocorico.Server.Restful.Extensions
             services.AddScoped<IServerUserService, ServerUserService>();
             services.AddScoped<IServerOrderService, ServerOrderService>();
             services.AddScoped<IServerIngredientService, ServerIngredientService>();
-
-            services.AddAutoMapper(Assembly.Load($"{nameof(Cocorico)}.{nameof(Mappings)}"));
+            services.AddScoped<IOrderRotatingIdService, MemoryOrderRotatingIdService>();
         }
+
+        public static void AddCocoricoMappings(this IServiceCollection services) =>
+            services.AddAutoMapper(Assembly.Load($"{nameof(Cocorico)}.{nameof(Mappings)}"));
 
         public static void AddCocoricoProblemDetails(this IServiceCollection services, IWebHostEnvironment webHostingEnvironment)
         {

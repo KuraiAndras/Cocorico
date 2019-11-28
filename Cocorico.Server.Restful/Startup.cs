@@ -34,6 +34,8 @@ namespace Cocorico.Server.Restful
 
             services.AddCocoricoServices();
 
+            services.AddCocoricoMappings();
+
             services.AddCocoricoProblemDetails(WebHostingEnvironment);
 
             services.AddMvc().AddNewtonsoftJson();

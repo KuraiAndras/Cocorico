@@ -3,26 +3,33 @@
 
 @inject IAddCustomerOrderViewModel ViewModel
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var sandwich in ViewModel.AddOrderDto.Sandwiches)
-        {
+@if (ViewModel.AddOrderDto.Sandwiches.Count != 0)
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>@sandwich.Name</td>
-                <td>@sandwich.Price JMF</td>
-                <td><button class="btn btn-danger" @onclick="@(() => ViewModel.DeleteSandwich(ViewModel.AddOrderDto.Sandwiches.IndexOf(sandwich)))">Delete</button></td>
+                <th>Name</th>
+                <th>Price</th>
+                <th></th>
             </tr>
-        }
-        <tr>
-            <td>Sum: @ViewModel.AddOrderDto.Sandwiches.Sum(s => s.Price) JMF</td>
-            <td><button class="btn btn-primary" @onclick="@ViewModel.AddAsync">Add</button></td>
-        </tr>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var sandwich in ViewModel.AddOrderDto.Sandwiches)
+            {
+                <tr>
+                    <td>@sandwich.Name</td>
+                    <td>@sandwich.Price JMF</td>
+                    <td><button class="btn btn-danger" @onclick="@(() => ViewModel.DeleteSandwich(ViewModel.AddOrderDto.Sandwiches.IndexOf(sandwich)))">Delete</button></td>
+                </tr>
+            }
+            <tr>
+                <td>Sum: @ViewModel.AddOrderDto.Sandwiches.Sum(s => s.Price) JMF</td>
+                <td><button class="btn btn-primary" @onclick="@ViewModel.AddAsync">Add</button></td>
+            </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Your cart is currently empty</p>
+}

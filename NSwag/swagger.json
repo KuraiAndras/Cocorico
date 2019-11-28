@@ -682,7 +682,8 @@
         },
         "password": {
           "type": "string",
-          "minLength": 1
+          "maxLength": 40,
+          "minLength": 5
         }
       }
     },
@@ -832,13 +833,15 @@
         "OrderPlaced",
         "InTheOven",
         "ToBeDelivered",
-        "Delivered"
+        "Delivered",
+        "Rejected"
       ],
       "enum": [
         0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     "WorkerOrderViewDto": {

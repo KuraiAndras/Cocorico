@@ -44,7 +44,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
                                           .ThenInclude(s => s.SandwichIngredients)
                                           .ThenInclude(il => il.Ingredient)
                                           .Include(o => o.CocoricoUser)
-                                          .Where(o => o.State != OrderState.Delivered)
+                                          .Where(o => o.State != OrderState.Delivered && o.State != OrderState.Rejected)
                                           .ToListAsync() ?? throw new UnexpectedException();
 
             return ordersForWorkerView.Select(order => order.ToOrderWorkerViewDto()).ToList();
@@ -73,7 +73,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
 
             var sandwiches = addOrderDto.Sandwiches
                 .Select(sandwichDto => sandwichesInDb.SingleOrDefault(s => s.Id == sandwichDto.Id))
-                .Where(s => s != null)
+                .Where(s => !(s is null))
                 .ToList();
 
             if (sandwiches.Count == 0) throw new EntityNotFoundException();

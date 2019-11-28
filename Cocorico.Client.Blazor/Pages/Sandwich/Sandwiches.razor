@@ -3,7 +3,10 @@
 @using Cocorico.Shared.Helpers
 @* ReSharper disable once RedundantUsingDirective *@
 @using Microsoft.AspNetCore.Components.Authorization
+@using Cocorico.Client.Domain.ViewModels.Order
 
+@inject NavigationManager urihelper;
+@inject IAddCustomerOrderViewModel OrderViewModel
 @inject ISandwichesViewModel ViewModel
 
 <table class="table">
@@ -36,10 +39,20 @@
             </tr>
             @string.Join(", ", sandwich.Ingredients.Select(i => i.Name))
         }
+        <tr>
+            <td>Number of sandwich(es): @OrderViewModel.AddOrderDto.Sandwiches.Count</td>
+            <td><button class="btn btn-primary" @onclick="@Redirect">Go to cart</button></td>
+        </tr>
     </tbody>
 </table>
+
+
 
 @code
 {
     protected override Task OnInitializedAsync() => ViewModel.LoadSandwichesAsync();
+    private void Redirect()
+    {
+        urihelper.NavigateTo(Urls.Client.AddCustomerOrder);
+    }
 }

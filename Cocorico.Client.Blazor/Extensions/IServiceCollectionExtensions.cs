@@ -1,18 +1,31 @@
 ﻿using Blazor.Extensions;
+using Cocorico.Client.Blazor.Services.Authentication;
 using Cocorico.Client.Domain.Helpers;
+using Cocorico.Client.Domain.Services.Authentication;
+using Cocorico.Client.Domain.Services.Basket;
 using Cocorico.Client.Domain.SignalrClient.WorkerOrders;
 using Cocorico.Client.Domain.ViewModels.Authentication;
 using Cocorico.Client.Domain.ViewModels.Ingredient;
 using Cocorico.Client.Domain.ViewModels.NavMenu;
 using Cocorico.Client.Domain.ViewModels.Order;
 using Cocorico.Client.Domain.ViewModels.Sandwich;
+using Cocorico.Client.Domain.ViewModels.Settings;
 using Cocorico.Client.Domain.ViewModels.User;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cocorico.Client.Blazor.Extensions
 {
     public static class IServiceCollectionExtensions
     {
+        public static void AddCocoricoClientServices(this IServiceCollection services)
+        {
+            services.AddScoped<ICocoricoAuthenticationStateProvider, CocoricoAuthenticationStateProvider>();
+            services.AddScoped<AuthenticationStateProvider>(s => (CocoricoAuthenticationStateProvider)s.GetRequiredService<ICocoricoAuthenticationStateProvider>());
+
+            services.AddSingleton<IBasketService, InMemoryBasketService>();
+        }
+
         public static void AddViewModels(this IServiceCollection services)
         {
             services.AddTransient<ILoginViewModel, LoginViewModel>();
@@ -28,6 +41,7 @@ namespace Cocorico.Client.Blazor.Extensions
             services.AddTransient<IEditUserClaimViewModel, EditUserClaimViewModel>();
             services.AddTransient<IUsersViewModel, UsersViewModel>();
             services.AddTransient<INavMenuViewModel, NavMenuViewModel>();
+            services.AddTransient<ISettingsViewModel, SettingsViewModel>();
         }
 
         public static void AddHttpClients(this IServiceCollection services)
@@ -37,6 +51,7 @@ namespace Cocorico.Client.Blazor.Extensions
             services.AddTransient<IOrderClient, OrderClient>();
             services.AddTransient<IAuthenticationClient, AuthenticationClient>();
             services.AddTransient<IIngredientClient, IngredientClient>();
+            services.AddTransient<ISettingsClient, SettingsClient>();
         }
 
         public static void AddSignalrClients(this IServiceCollection services)

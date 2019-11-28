@@ -18,6 +18,14 @@ namespace Cocorico.Server.Domain.Services.OrderService
             }
         }
 
+        public Range GetRange()
+        {
+            lock (_idAndRangeLock)
+            {
+                return _idRange;
+            }
+        }
+
         public int GetNextId()
         {
             lock (_idAndRangeLock)

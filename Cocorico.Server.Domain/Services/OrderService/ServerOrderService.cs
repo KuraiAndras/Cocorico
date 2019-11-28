@@ -15,9 +15,16 @@ namespace Cocorico.Server.Domain.Services.OrderService
     public class ServerOrderService : EntityServiceBase<Order>, IServerOrderService
     {
         private readonly IMapper _mapper;
+        private readonly IOrderRotatingIdService _idService;
 
-        public ServerOrderService(CocoricoDbContext context, IMapper mapper) : base(context) =>
+        public ServerOrderService(
+            CocoricoDbContext context,
+            IMapper mapper,
+            IOrderRotatingIdService idService) : base(context)
+        {
             _mapper = mapper;
+            _idService = idService;
+        }
 
         public async Task<ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId)
         {
@@ -83,6 +90,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
                 Price = sandwiches.Select(s => s.Price).Aggregate((sum, price) => sum + price),
                 State = OrderState.OrderPlaced,
                 SandwichOrders = new List<SandwichOrder>(),
+                RotatingId = _idService.GetNextId(),
             };
 
             foreach (var sandwich in sandwiches)

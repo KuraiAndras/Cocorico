@@ -6,5 +6,6 @@ namespace Cocorico.Server.Domain.Services.OrderService
     {
         void SetRange(Range range);
         int GetNextId();
+        Range GetRange();
     }
 }

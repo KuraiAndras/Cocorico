@@ -600,6 +600,58 @@
         }
       }
     },
+    "/api/Settings": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "operationId": "Settings_CurrentRange",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Range"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Settings"
+        ],
+        "operationId": "Settings_SetCurrentRange",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "newRange",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Range"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
     "/api/User/GetAllForAdminAsync": {
       "get": {
         "tags": [
@@ -850,6 +902,7 @@
         "id",
         "userName",
         "sandwiches",
+        "rotatingId",
         "state"
       ],
       "properties": {
@@ -865,6 +918,10 @@
           "items": {
             "$ref": "#/definitions/SandwichDto"
           }
+        },
+        "rotatingId": {
+          "type": "integer",
+          "format": "int32"
         },
         "state": {
           "$ref": "#/definitions/OrderState"
@@ -931,6 +988,37 @@
           "items": {
             "$ref": "#/definitions/IngredientDto"
           }
+        }
+      }
+    },
+    "Range": {
+      "type": "object",
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "start": {
+          "$ref": "#/definitions/Index"
+        },
+        "end": {
+          "$ref": "#/definitions/Index"
+        }
+      }
+    },
+    "Index": {
+      "type": "object",
+      "required": [
+        "value",
+        "isFromEnd"
+      ],
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isFromEnd": {
+          "type": "boolean"
         }
       }
     },

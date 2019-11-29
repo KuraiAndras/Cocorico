@@ -71,10 +71,18 @@ namespace Cocorico.Server.Restful.Controllers
             return new OkResult();
         }
 
-        [HttpPost(nameof(UpdateOpening))]
-        public async Task<ActionResult> UpdateOpening([FromBody] OpeningDto openingDto)
+        [HttpPost(nameof(UpdateOpeningAsync))]
+        public async Task<ActionResult> UpdateOpeningAsync([FromBody] OpeningDto openingDto)
         {
             await _openingService.UpdateOpening(openingDto);
+
+            return new OkResult();
+        }
+
+        [HttpDelete(nameof(DeleteOpeningAsync))]
+        public async Task<ActionResult> DeleteOpeningAsync([FromBody] int openingId)
+        {
+            await _openingService.DeleteOpening(openingId);
 
             return new OkResult();
         }

@@ -34,7 +34,7 @@ namespace Cocorico.Server.Restful.Controllers
             _workerViewHub = workerViewHub;
         }
 
-        [Authorize(Policy = Policies.User)]
+        [Authorize(Policy = Policies.Customer)]
         [HttpGet("customer/{customerId}")]
         public async Task<ActionResult<IEnumerable<CustomerViewOrderDto>>> GetAllOrderForCustomerAsync([FromRoute] string customerId)
         {

@@ -13,7 +13,9 @@ namespace Cocorico.Mappings
     {
         public CocoricoProfile()
         {
-            CreateMap<RegisterDetails, CocoricoUser>();
+            CreateMap<RegisterDetails, CocoricoUser>()
+                .ForMember(d => d.UserName,
+                    o => o.MapFrom(s => s.Name));
             CreateMap<CocoricoUser, UserForAdminPage>();
 
             CreateMap<Ingredient, IngredientDto>();

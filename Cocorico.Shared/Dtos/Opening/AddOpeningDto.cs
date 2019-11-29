@@ -3,11 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace Cocorico.Shared.Dtos.Opening
 {
-    public class OpeningDto
+    public class AddOpeningDto
     {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
-
         [JsonPropertyName("start")]
         public DateTime Start { get; set; }
 

@@ -4,6 +4,7 @@ using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Domain.Services.IngredientService;
+using Cocorico.Server.Domain.Services.Opening;
 using Cocorico.Server.Domain.Services.OrderService;
 using Cocorico.Server.Domain.Services.SandwichService;
 using Cocorico.Server.Domain.Services.User;
@@ -73,6 +74,7 @@ namespace Cocorico.Server.Restful.Extensions
             services.AddScoped<IServerOrderService, ServerOrderService>();
             services.AddScoped<IServerIngredientService, ServerIngredientService>();
             services.AddScoped<IOrderRotatingIdService, MemoryOrderRotatingIdService>();
+            services.AddScoped<IOpeningService, OpeningService>();
         }
 
         public static void AddCocoricoMappings(this IServiceCollection services) =>

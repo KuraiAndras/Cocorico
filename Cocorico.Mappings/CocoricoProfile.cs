@@ -40,6 +40,7 @@ namespace Cocorico.Mappings
 
             CreateMap<Opening, OpeningDto>();
             CreateMap<OpeningDto, Opening>();
+            CreateMap<AddOpeningDto, Opening>();
         }
     }
 }

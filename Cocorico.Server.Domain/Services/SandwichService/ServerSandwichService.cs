@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
+using Cocorico.Server.Domain.Services.Opening;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +16,16 @@ namespace Cocorico.Server.Domain.Services.SandwichService
     public class ServerSandwichService : EntityServiceBase<Sandwich>, IServerSandwichService
     {
         private readonly IMapper _mapper;
+        private readonly IOpeningService _openingService;
 
-        public ServerSandwichService(CocoricoDbContext context, IMapper mapper) : base(context) =>
+        public ServerSandwichService(
+            CocoricoDbContext context,
+            IMapper mapper,
+            IOpeningService openingService) : base(context)
+        {
             _mapper = mapper;
+            _openingService = openingService;
+        }
 
         public async Task<SandwichDto> GetAsync(int id)
         {
@@ -63,6 +72,10 @@ namespace Cocorico.Server.Domain.Services.SandwichService
 
         public async Task UpdateAsync(SandwichDto sandwichDto)
         {
+            var dateAdded = DateTime.Now;
+            if (!await _openingService.CanAddOrderAsync(dateAdded)) 
+                throw new StoreClosedException();
+
             var updatedSandwich = _mapper.Map<Sandwich>(sandwichDto);
 
             var originalSandwich = await Context.Sandwiches

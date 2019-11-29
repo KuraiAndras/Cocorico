@@ -4,32 +4,31 @@
 
 @inject IEditSandwichViewModel ViewModel
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Edit</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr><td><input type="text" placeholder="Sandwich Name" class="form-control" @bind="@ViewModel.Sandwich.Name" /></td></tr>
-        <tr><td><input type="number" placeholder="Sandwich Price" class="form-control" @bind="@ViewModel.Sandwich.Price" /></td></tr>
-        @foreach (var ingredient in ViewModel.AvailableIngredients)
-        {
-            if (ViewModel.Sandwich.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><input type="text" placeholder="Sandwich Name" class="form-control" @bind="@ViewModel.Sandwich.Name" /></td></tr>
+            <tr><td><input type="number" placeholder="Sandwich Price" class="form-control" @bind="@ViewModel.Sandwich.Price" /></td></tr>
+            @foreach (var ingredient in ViewModel.AvailableIngredients)
             {
-                <tr><td><button class="btn btn-primary" @onclick="@(() => ViewModel.AddIngredient(ingredient))">@ingredient.Name</button></td></tr>
+                if (ViewModel.Sandwich.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
+                {
+                    <tr><td><button class="btn btn-primary" @onclick="@(() => ViewModel.AddIngredient(ingredient))">@ingredient.Name</button></td></tr>
+                }
+                else
+                {
+                    <tr><td><button class="btn btn-danger" @onclick="@(() => ViewModel.RemoveIngredient(ingredient))">@ingredient.Name</button></td></tr>
+                }
             }
-            else
-            {
-                <tr><td><button class="btn btn-danger" @onclick="@(() => ViewModel.RemoveIngredient(ingredient))">@ingredient.Name</button></td></tr>
-            }
-        }
-        <tr><td><button class="btn btn-primary" @onclick="@ViewModel.EditAsync">Edit</button></td></tr>
-    </tbody>
-</table>
-
-@code
+            <tr><td><button class="btn btn-primary" @onclick="@ViewModel.EditAsync">Edit</button></td></tr>
+        </tbody>
+    </table>
+    @code
 {
-    [Parameter] public int Id { get; set; }
+[Parameter] public int Id { get; set; }
     protected override Task OnInitializedAsync() => ViewModel.LoadIngredientsAsync(Id);
-}
+    }

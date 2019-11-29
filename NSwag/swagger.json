@@ -600,7 +600,7 @@
         }
       }
     },
-    "/api/Settings": {
+    "/api/Settings/CurrentRangeAsync": {
       "get": {
         "tags": [
           "Settings"
@@ -614,11 +614,13 @@
             "x-nullable": false,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/Range"
+              "$ref": "#/definitions/MutableRange"
             }
           }
         }
-      },
+      }
+    },
+    "/api/Settings/SetCurrentRange": {
       "post": {
         "tags": [
           "Settings"
@@ -636,7 +638,118 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Range"
+              "$ref": "#/definitions/MutableRange"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/Settings/GetAllOpeningsAsync": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "operationId": "Settings_GetAllOpenings",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OpeningDto"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Settings/IsStoreOpenAsync": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "operationId": "Settings_IsStoreOpen",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "/api/Settings/AddOpening": {
+      "post": {
+        "tags": [
+          "Settings"
+        ],
+        "operationId": "Settings_AddOpening",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "addOpeningDto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddOpeningDto"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/Settings/UpdateOpening": {
+      "post": {
+        "tags": [
+          "Settings"
+        ],
+        "operationId": "Settings_UpdateOpening",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "openingDto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OpeningDto"
             },
             "x-nullable": false
           }
@@ -828,6 +941,7 @@
         "id",
         "sandwiches",
         "price",
+        "time",
         "state"
       ],
       "properties": {
@@ -844,6 +958,10 @@
         "price": {
           "type": "integer",
           "format": "int32"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
         },
         "state": {
           "$ref": "#/definitions/OrderState"
@@ -903,6 +1021,7 @@
         "userName",
         "sandwiches",
         "rotatingId",
+        "time",
         "state"
       ],
       "properties": {
@@ -922,6 +1041,10 @@
         "rotatingId": {
           "type": "integer",
           "format": "int32"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
         },
         "state": {
           "$ref": "#/definitions/OrderState"
@@ -991,7 +1114,7 @@
         }
       }
     },
-    "Range": {
+    "MutableRange": {
       "type": "object",
       "required": [
         "start",
@@ -999,26 +1122,51 @@
       ],
       "properties": {
         "start": {
-          "$ref": "#/definitions/Index"
-        },
-        "end": {
-          "$ref": "#/definitions/Index"
-        }
-      }
-    },
-    "Index": {
-      "type": "object",
-      "required": [
-        "value",
-        "isFromEnd"
-      ],
-      "properties": {
-        "value": {
           "type": "integer",
           "format": "int32"
         },
-        "isFromEnd": {
-          "type": "boolean"
+        "end": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "OpeningDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "start",
+        "end"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "AddOpeningDto": {
+      "type": "object",
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },

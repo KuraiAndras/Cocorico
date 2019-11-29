@@ -2,7 +2,6 @@
 using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.ServiceBase;
-using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -64,38 +63,34 @@ namespace Cocorico.Server.Domain.Services.SandwichService
 
         public async Task UpdateAsync(SandwichDto sandwichDto)
         {
-            var original = await Context
-                .Sandwiches
+            var updatedSandwich = _mapper.Map<Sandwich>(sandwichDto);
+
+            var originalSandwich = await Context.Sandwiches
                 .AsNoTracking()
                 .Include(s => s.SandwichIngredients)
-                .ThenInclude(il => il.Ingredient)
-                .SingleAsync(s => s.Id == sandwichDto.Id);
+                .SingleOrDefaultAsync(s => s.Id == sandwichDto.Id);
 
-            var ingredientsToAdd = sandwichDto
-                .Ingredients
-                .Except(original.Ingredients().Select(i => _mapper.Map<IngredientDto>(i)))
-                .Select(i => new SandwichIngredient
+            if (originalSandwich is null) throw new EntityNotFoundException();
+
+            updatedSandwich.SandwichIngredients = originalSandwich.SandwichIngredients
+                .Where(si => sandwichDto.Ingredients.Any(i => si.SandwichId == i.Id))
+                .ToList();
+
+            var ingredientsInDb = await Context.Ingredients.ToListAsync();
+
+            foreach (var ingredientDto in sandwichDto.Ingredients
+                .Where(ingredientDto => updatedSandwich.SandwichIngredients.All(si => si.IngredientId != ingredientDto.Id)))
+            {
+                updatedSandwich.SandwichIngredients.Add(new SandwichIngredient
                 {
-                    SandwichId = sandwichDto.Id,
-                    IngredientId = i.Id,
+                    Sandwich = updatedSandwich,
+                    Ingredient = ingredientsInDb.Single(i => i.Id == ingredientDto.Id),
                 });
+            }
 
-            await Context.Set<SandwichIngredient>().AddRangeAsync(ingredientsToAdd);
-
-            var ingredientsToRemove = original
-                .Ingredients()
-                .Except(sandwichDto.Ingredients.Select(i => _mapper.Map<Ingredient>(i)))
-                .Select(i => new SandwichIngredient
-                {
-                    SandwichId = sandwichDto.Id,
-                    IngredientId = i.Id,
-                });
-
-            Context.Set<SandwichIngredient>().RemoveRange(ingredientsToRemove);
+            Context.Sandwiches.Update(updatedSandwich);
 
             await Context.SaveChangesAsync();
-
-            await UpdateAsync(_mapper.Map<Sandwich>(sandwichDto));
         }
 
         public async Task DeleteAsync(int id) =>

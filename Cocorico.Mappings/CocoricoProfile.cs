@@ -2,6 +2,7 @@
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.Ingredient;
+using Cocorico.Shared.Dtos.Opening;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Dtos.User;
@@ -38,6 +39,10 @@ namespace Cocorico.Mappings
                     o => o.MapFrom(s => s.Ingredients()));
             CreateMap<SandwichAddDto, Sandwich>();
             CreateMap<SandwichDto, Sandwich>();
+
+            CreateMap<Opening, OpeningDto>();
+            CreateMap<OpeningDto, Opening>();
+            CreateMap<AddOpeningDto, Opening>();
         }
     }
 }

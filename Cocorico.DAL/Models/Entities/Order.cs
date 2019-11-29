@@ -1,4 +1,5 @@
 ﻿using Cocorico.Shared.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,9 +13,8 @@ namespace Cocorico.DAL.Models.Entities
         public ICollection<SandwichOrder> SandwichOrders { get; set; } = null!;
         public int Price { get; set; }
         public OrderState State { get; set; }
-
+        public DateTime Time { get; set; }
         public int RotatingId { get; set; }
-
         public bool IsDeleted { get; set; }
     }
 

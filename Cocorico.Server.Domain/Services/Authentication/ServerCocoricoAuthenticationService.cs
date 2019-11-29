@@ -34,6 +34,9 @@ namespace Cocorico.Server.Domain.Services.Authentication
         {
             var userIdentity = _mapper.Map<CocoricoUser>(model);
 
+            // TODO: Fix this
+            userIdentity.UserName = userIdentity.Email;
+
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
 
             //TODO: Better exception

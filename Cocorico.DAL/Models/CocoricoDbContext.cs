@@ -13,6 +13,7 @@ namespace Cocorico.DAL.Models
         public DbSet<Sandwich> Sandwiches { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<Ingredient> Ingredients { get; set; } = null!;
+        public DbSet<Opening> Openings { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -91,10 +92,15 @@ namespace Cocorico.DAL.Models
                 .WithOne(so => so.Order)
                 .HasForeignKey(so => so.OrderId);
             builder.Entity<Order>()
-                .HasQueryFilter(o => !o.IsDeleted);
-            builder.Entity<Order>()
                 .Property(o => o.State)
                 .HasConversion<int>();
+            builder.Entity<Order>()
+                .HasQueryFilter(o => !o.IsDeleted);
+
+            builder.Entity<Opening>()
+                .HasKey(o => o.Id);
+            builder.Entity<Opening>()
+                .HasQueryFilter(o => !o.IsDeleted);
         }
     }
 }

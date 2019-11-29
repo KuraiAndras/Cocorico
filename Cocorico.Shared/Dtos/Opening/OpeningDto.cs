@@ -9,9 +9,9 @@ namespace Cocorico.Shared.Dtos.Opening
         public int Id { get; set; }
 
         [JsonPropertyName("start")]
-        public DateTime Start { get; set; }
+        public DateTime? Start { get; set; }
 
         [JsonPropertyName("end")]
-        public DateTime End { get; set; }
+        public DateTime? End { get; set; }
     }
 }

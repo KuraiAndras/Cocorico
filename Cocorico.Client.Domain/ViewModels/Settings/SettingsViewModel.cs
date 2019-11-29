@@ -3,8 +3,9 @@ using Cocorico.Client.Domain.Helpers;
 using Cocorico.Shared.Dtos.Opening;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
-using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Domain.ViewModels.Settings
@@ -38,7 +39,8 @@ namespace Cocorico.Client.Domain.ViewModels.Settings
 
             Openings = openingsTask.Result;
 
-            IdRangeChanged?.Invoke();
+            OnPropertyChanged(nameof(IdRange));
+            OnPropertyChanged(nameof(Openings));
         }
 
         public async Task SetNewRangeAsync()
@@ -64,6 +66,10 @@ namespace Cocorico.Client.Domain.ViewModels.Settings
                 if (!response.IsSuccessfulStatusCode()) throw new UnexpectedException();
 
                 OpeningToAdd = new AddOpeningDto();
+
+                OnPropertyChanged(nameof(OpeningToAdd));
+
+                await InitializeAsync();
             }
             catch (SwaggerException)
             {
@@ -89,8 +95,23 @@ namespace Cocorico.Client.Domain.ViewModels.Settings
 
         public async Task DeleteOpeningAsync(int openingId)
         {
+            try
+            {
+                var response = await _settingsClient.DeleteOpeningAsync(openingId);
+
+                if (!response.IsSuccessfulStatusCode()) throw new UnexpectedException();
+
+                await InitializeAsync();
+            }
+            catch (SwaggerException)
+            {
+                // TODO: Handle Fail
+            }
         }
 
-        public event Action? IdRangeChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

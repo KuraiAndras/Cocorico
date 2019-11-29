@@ -1,12 +1,12 @@
 ﻿using Cocorico.Shared.Dtos.Opening;
 using Cocorico.Shared.Helpers;
-using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Domain.ViewModels.Settings
 {
-    public interface ISettingsViewModel
+    public interface ISettingsViewModel : INotifyPropertyChanged
     {
         MutableRange IdRange { get; set; }
         ICollection<OpeningDto> Openings { get; }
@@ -15,9 +15,7 @@ namespace Cocorico.Client.Domain.ViewModels.Settings
         Task InitializeAsync();
         Task SetNewRangeAsync();
         Task AddOpeningAsync();
-        Task EditOpeningAsync(Shared.Dtos.Opening.OpeningDto opening);
+        Task EditOpeningAsync(OpeningDto opening);
         Task DeleteOpeningAsync(int openingId);
-
-        event Action IdRangeChanged;
     }
 }

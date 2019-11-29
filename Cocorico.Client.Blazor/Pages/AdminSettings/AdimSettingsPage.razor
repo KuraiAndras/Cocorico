@@ -12,11 +12,11 @@
 </EditForm>
 
 <h3>Add Opening</h3>
-<EditForm OnValidSubmit="@ViewModel.AddOpeningAsync" Model="@ViewModel.OpeningToAdd">
-    <MatDatePicker EnableTime="true" @bind-Value="@ViewModel.OpeningToAdd.Start" />
-    <MatDatePicker EnableTime="true" @bind-Value="@ViewModel.OpeningToAdd.End" />
-    <MatButton type="submit">Add</MatButton>
-</EditForm>
+<div>
+    <MatDatePicker EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@ViewModel.OpeningToAdd.Start" />
+    <MatDatePicker EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@ViewModel.OpeningToAdd.End" />
+    <MatButton OnClick="@(async _ => await ViewModel.AddOpeningAsync())">Add</MatButton>
+</div>
 
 <h3>Openings</h3>
 <table class="table">
@@ -31,8 +31,8 @@
         @foreach (var opening in ViewModel.Openings.OrderByDescending(o => o.End))
         {
             <tr>
-                <td><MatDatePicker @bind-Value="@opening.Start" /></td>
-                <td><MatDatePicker @bind-Value="@opening.End" /></td>
+                <td><MatDatePicker EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@opening.Start" /></td>
+                <td><MatDatePicker EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@opening.End" /></td>
                 <td><MatButton OnClick="@(async _ => await ViewModel.EditOpeningAsync(opening))">Edit</MatButton></td>
                 <td><MatButton OnClick="@(async _ => await ViewModel.DeleteOpeningAsync(opening.Id))">Delete</MatButton></td>
             </tr>
@@ -42,10 +42,9 @@
 
 @code
 {
-
     protected override async Task OnInitializedAsync()
     {
-        ViewModel.IdRangeChanged += StateHasChanged;
+        ViewModel.PropertyChanged += (_, __) => StateHasChanged();
         await ViewModel.InitializeAsync();
     }
 

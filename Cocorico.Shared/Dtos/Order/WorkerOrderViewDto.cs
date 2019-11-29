@@ -1,5 +1,6 @@
 ﻿using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -18,6 +19,9 @@ namespace Cocorico.Shared.Dtos.Order
 
         [JsonPropertyName("rotatingId")]
         public int RotatingId { get; set; }
+
+        [JsonPropertyName("time")]
+        public DateTime Time { get; set; }
 
         [JsonPropertyName("state")]
         public OrderState State { get; set; }

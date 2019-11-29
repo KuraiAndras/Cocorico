@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
+using Cocorico.Server.Domain.Services.Opening;
 using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,14 +18,17 @@ namespace Cocorico.Server.Domain.Services.OrderService
     {
         private readonly IMapper _mapper;
         private readonly IOrderRotatingIdService _idService;
+        private readonly IOpeningService _openingService;
 
         public ServerOrderService(
             CocoricoDbContext context,
             IMapper mapper,
-            IOrderRotatingIdService idService) : base(context)
+            IOrderRotatingIdService idService,
+            IOpeningService openingService) : base(context)
         {
             _mapper = mapper;
             _idService = idService;
+            _openingService = openingService;
         }
 
         public async Task<ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId)
@@ -73,6 +78,9 @@ namespace Cocorico.Server.Domain.Services.OrderService
 
         public async Task<int> AddOrderAsync(AddOrderDto addOrderDto)
         {
+            var dateAdded = DateTime.Now;
+            if (!await _openingService.CanAddOrderAsync(dateAdded)) throw new StoreClosedException();
+
             var sandwichesInDb = await Context
                 .Sandwiches
                 .ToListAsync();
@@ -91,6 +99,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
                 State = OrderState.OrderPlaced,
                 SandwichOrders = new List<SandwichOrder>(),
                 RotatingId = _idService.GetNextId(),
+                Time = dateAdded,
             };
 
             foreach (var sandwich in sandwiches)

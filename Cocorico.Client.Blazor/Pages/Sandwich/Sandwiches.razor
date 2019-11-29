@@ -5,7 +5,7 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using Cocorico.Client.Domain.ViewModels.Order
 
-@inject NavigationManager urihelper;
+@inject NavigationManager urihelper
 @inject IAddCustomerOrderViewModel OrderViewModel
 @inject ISandwichesViewModel ViewModel
 
@@ -30,19 +30,27 @@
                 <td>@sandwich.Name</td>
                 <td>@sandwich.Price</td>
                 <AuthorizeView Roles="@Claims.Customer">
-                    <td><button class="btn btn-primary" @onclick="@(() => ViewModel.AddToBasket(sandwich))">Order</button></td>
+                    <td><MatButton Raised="true" Icon="add_shopping_cart" @onclick="@(() => ViewModel.AddToBasket(sandwich))">Order</MatButton></td>
                 </AuthorizeView>
                 <AuthorizeView Roles="@Claims.Admin">
-                    <td><button class="btn btn-secondary" @onclick="@(() => ViewModel.Edit(sandwich.Id))">Edit</button></td>
-                    <td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.DeleteAsync(sandwich.Id))">Delete</button></td>
+                    <td><MatButton Icon="edit" Raised="true" @onclick="@(() => ViewModel.Edit(sandwich.Id))">Edit</MatButton></td>
+                    <td><MatButton Icon="delete_forever" Outlined="true" @onclick="@(async () => await ViewModel.DeleteAsync(sandwich.Id))">Delete</MatButton></td>
                 </AuthorizeView>
             </tr>
             @string.Join(", ", sandwich.Ingredients.Select(i => i.Name))
         }
-        <tr>
+    <tr>
+        @if (@OrderViewModel.AddOrderDto.Sandwiches.Count != 0)
+        {
             <td>Number of sandwich(es): @OrderViewModel.AddOrderDto.Sandwiches.Count</td>
-            <td><button class="btn btn-primary" @onclick="@Redirect">Go to cart</button></td>
-        </tr>
+            <td><MatButton Raised="true" Icon="shopping_cart" @onclick="@Redirect">Go to cart</MatButton></td>
+        }
+        else
+        {
+            <td>Currenty your cart is empty.</td>
+            <td><MatButton Outlined="true" Icon="shopping_cart" @onclick="@Redirect">Visit my cart anyway</MatButton></td>
+        }
+    </tr>
     </tbody>
 </table>
 

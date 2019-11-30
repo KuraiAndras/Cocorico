@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Services.Opening;
@@ -40,6 +40,9 @@ namespace Cocorico.Server.Domain.Services.OrderService
                                         .ThenInclude(sl => sl.Sandwich)
                                         .ThenInclude(s => s.SandwichIngredients)
                                         .ThenInclude(il => il.Ingredient)
+                                        .Include(o => o.SandwichOrders)
+                                        .ThenInclude(so => so.IngredientModifications)
+                                        .ThenInclude(im => im.Ingredient)
                                         .Where(o => o.CocoricoUserId == customerId)
                                         .ToListAsync()
                                     ?? throw new UnexpectedException();
@@ -54,6 +57,9 @@ namespace Cocorico.Server.Domain.Services.OrderService
                                           .ThenInclude(sl => sl.Sandwich)
                                           .ThenInclude(s => s.SandwichIngredients)
                                           .ThenInclude(il => il.Ingredient)
+                                          .Include(o => o.SandwichOrders)
+                                          .ThenInclude(so => so.IngredientModifications)
+                                          .ThenInclude(im => im.Ingredient)
                                           .Include(o => o.CocoricoUser)
                                           .Where(o => o.State != OrderState.Delivered && o.State != OrderState.Rejected)
                                           .ToListAsync() ?? throw new UnexpectedException();
@@ -64,10 +70,6 @@ namespace Cocorico.Server.Domain.Services.OrderService
         public async Task UpdateOrderAsync(UpdateOrderDto updateOrderDto)
         {
             var order = await Context.Orders
-                            .Include(o => o.SandwichOrders)
-                            .ThenInclude(sl => sl.Sandwich)
-                            .ThenInclude(s => s.SandwichIngredients)
-                            .ThenInclude(il => il.Ingredient)
                             .SingleOrDefaultAsync(o => o.Id == updateOrderDto.OrderId)
                         ?? throw new EntityNotFoundException($"Order not found with id:{updateOrderDto.OrderId}");
 

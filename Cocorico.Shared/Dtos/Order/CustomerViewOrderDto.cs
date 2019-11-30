@@ -1,4 +1,5 @@
-﻿using Cocorico.Shared.Dtos.Sandwich;
+﻿using Cocorico.Shared.Dtos.Ingredient;
+using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,8 @@ namespace Cocorico.Shared.Dtos.Order
 
         [JsonPropertyName("state")]
         public OrderState State { get; set; }
+
+        [JsonPropertyName("sandwichModifications")]
+        public IDictionary<SandwichDto, ICollection<IngredientModificationDto>> SandwichModifications { get; set; } = new Dictionary<SandwichDto, ICollection<IngredientModificationDto>>();
     }
 }

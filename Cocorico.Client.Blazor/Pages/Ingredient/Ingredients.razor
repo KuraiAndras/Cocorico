@@ -15,11 +15,11 @@
     <tbody>
         @foreach (var ingredientDto in ViewModel.IngredientsList)
         {
-            <tr>
-                <td>@ingredientDto.Name</td>
-                <td><button class="btn btn-secondary" @onclick="@(() => ViewModel.GoToEdit(ingredientDto.Id))">Edit</button></td>
-                <td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.DeleteAsync(ingredientDto.Id))">Delete</button></td>
-            </tr>
+        <tr>
+            <td>@ingredientDto.Name</td>
+            <td><MatButton Icon="edit" Raised="true" @onclick="@(() => ViewModel.GoToEdit(ingredientDto.Id))">Edit</MatButton></td>
+            <td><MatButton Icon="delete_forever" Outlined="true" @onclick="@(async () => await ViewModel.DeleteAsync(ingredientDto.Id))">Delete</MatButton></td>
+        </tr>
         }
     </tbody>
 </table>

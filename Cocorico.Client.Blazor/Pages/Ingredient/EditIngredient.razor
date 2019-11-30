@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-4 offset-md-4">
             <input type="text" placeholder="Ingredient Name" class="form-control" @bind="@ViewModel.IngredientDto.Name" />
-            <button class="btn btn-primary" @onclick="@ViewModel.EditIngredientAsync">Edit</button>
+            <MatButton Icon="edit" Raised="true" @onclick="@ViewModel.EditIngredientAsync">Edit</MatButton>
         </div>
     </div>
 </div>

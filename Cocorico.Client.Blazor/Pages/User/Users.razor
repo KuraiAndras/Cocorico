@@ -25,7 +25,7 @@ else
                 <tr>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
-                    <td><button class="btn btn-primary" @onclick="@(() => ViewModel.GoToEdit(user.Id))">Edit</button></td>
+                    <td><MatButton Icon="edit" Raised="true" @onclick="@(() => ViewModel.GoToEdit(user.Id))">Edit</MatButton></td>
                 </tr>
             }
         </tbody>

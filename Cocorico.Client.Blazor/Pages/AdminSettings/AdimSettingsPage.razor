@@ -4,32 +4,32 @@
 
 @inject ISettingsViewModel ViewModel
 
-<h3>Set potating id</h3>
+<h3>Set rotating id</h3>
 <p>
     <MatNumericUpDownField Label="Start"
                            Type="integer"
                            DecimalPlaces=0
                            Dense="true"
-                           @bind-Value=@start
+                           @bind-Value="@RotatingIdStart"
                            Outlined="true"
                            Minimum=0 Maximum=null>
     </MatNumericUpDownField>
     <MatNumericUpDownField Label="End"
                            DecimalPlaces=0
                            Dense="true"
-                           @bind-Value=@end
+                           @bind-Value="@RotatingIdEnd"
                            Outlined="true"
                            Minimum=0 Maximum=null>
     </MatNumericUpDownField>
 </p>
 <p>
-    <MatButton Outlined="true" @onclick="@(async_ => onAdd())">Set Rotating ID Range</MatButton>
+    <MatButton Outlined="true" @onclick="@(async_ => OnAddAsync())">Set Rotating ID Range</MatButton>
 </p>
 <h3>Add opening time</h3>
 <div>
     <p>
-    <MatDatePicker Outlined="true" Label="Start date" EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@ViewModel.OpeningToAdd.Start" />
-    <MatDatePicker Outlined="true" Label="End date" EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@ViewModel.OpeningToAdd.End" />
+        <MatDatePicker Outlined="true" Label="Start date" EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@ViewModel.OpeningToAdd.Start" />
+        <MatDatePicker Outlined="true" Label="End date" EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@ViewModel.OpeningToAdd.End" />
     </p>
     <p>
         <MatButton Outlined="true" OnClick="@(async _ => await ViewModel.AddOpeningAsync())">Add</MatButton>
@@ -37,61 +37,47 @@
 </div>
 
 <h3>Openings</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Start</th>
-                    <th>End</th>
-                    <th />
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var opening in ViewModel.Openings.OrderByDescending(o => o.End))
-                {
-                    <tr>
-                        <td><MatDatePicker Outlined="true" Label="Start date" EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@opening.Start" /></td>
-                        <td><MatDatePicker Outlined="true" Label="End date" EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@opening.End" /></td>
-                        <td><MatButton Icon="edit" Raised="true" OnClick="@(async _ => await ViewModel.EditOpeningAsync(opening))">Save changes</MatButton></td>
-                        <td><MatButton Icon="delete_forever" Outlined="true" OnClick="@(async _ => await ViewModel.DeleteOpeningAsync(opening.Id))">Delete</MatButton></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        @code
+<table class="table">
+    <thead>
+        <tr>
+            <th>Start</th>
+            <th>End</th>
+            <th />
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var opening in ViewModel.Openings.OrderByDescending(o => o.End))
         {
-            protected override async Task OnInitializedAsync()
-            {
-                ViewModel.PropertyChanged += (_, __) => StateHasChanged();
-                await ViewModel.InitializeAsync();
-            }
-
-
-            decimal? start = null;
-            decimal? end = null;
-
-
-            private async void onAdd()
-            {
-                if(start != null)
-                {
-                    ViewModel.IdRange.Start = (int) start;
-                } else
-                {
-    
-                    ViewModel.IdRange.Start = 0;
-                }
-
-                if(end != null)
-                {
-                    ViewModel.IdRange.End = (int) end;
-                } else
-                {
-    
-                    ViewModel.IdRange.End = 0;
-                }
-
-                await ViewModel.SetNewRangeAsync();
-            }
-
+            <tr>
+                <td><MatDatePicker Outlined="true" Label="Start date" EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@opening.Start" /></td>
+                <td><MatDatePicker Outlined="true" Label="End date" EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@opening.End" /></td>
+                <td><MatButton Icon="edit" Raised="true" OnClick="@(async _ => await ViewModel.EditOpeningAsync(opening))">Save changes</MatButton></td>
+                <td><MatButton Icon="delete_forever" Outlined="true" OnClick="@(async _ => await ViewModel.DeleteOpeningAsync(opening.Id))">Delete</MatButton></td>
+            </tr>
         }
+    </tbody>
+</table>
+
+@code
+{
+
+    protected override async Task OnInitializedAsync()
+    {
+        ViewModel.PropertyChanged += (_, __) => StateHasChanged();
+        await ViewModel.InitializeAsync();
+    }
+
+
+    private decimal? RotatingIdStart { get; set; } = 0m;
+    private decimal? RotatingIdEnd { get; set; } = 0m;
+
+
+    private async Task OnAddAsync()
+    {
+        ViewModel.IdRange.Start = (int)(RotatingIdStart ?? 0);
+        ViewModel.IdRange.End = (int)(RotatingIdEnd ?? 0);
+
+        await ViewModel.SetNewRangeAsync();
+    }
+
+}

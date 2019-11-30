@@ -37,6 +37,22 @@ namespace Cocorico.DAL.Models
             builder.Entity<SandwichOrder>()
                 .HasQueryFilter(so => !so.IsDeleted);
 
+            builder.Entity<IngredientModification>()
+                .HasKey(im => im.Id);
+            builder.Entity<IngredientModification>()
+                .HasOne(im => im.Ingredient)
+                .WithMany(i => i.IngredientModifications)
+                .HasForeignKey(im => im.IngredientId);
+            builder.Entity<IngredientModification>()
+                .HasOne(im => im.SandwichOrder)
+                .WithMany(so => so.IngredientModifications)
+                .HasForeignKey(im => im.SandwichOrderId);
+            builder.Entity<IngredientModification>()
+                .Property(im => im.Modification)
+                .HasConversion<int>();
+            builder.Entity<IngredientModification>()
+                .HasQueryFilter(im => !im.IsDeleted);
+
             builder.Entity<SandwichIngredient>()
                 .HasKey(si => new { si.IngredientId, si.SandwichId });
             builder.Entity<SandwichIngredient>()

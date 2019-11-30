@@ -1,4 +1,6 @@
-﻿namespace Cocorico.DAL.Models.Entities
+﻿using System.Collections.Generic;
+
+namespace Cocorico.DAL.Models.Entities
 {
     public class SandwichOrder : IDbEntity<int>
     {
@@ -9,6 +11,8 @@
 
         public int OrderId { get; set; }
         public Order Order { get; set; } = null!;
+
+        public ICollection<IngredientModification> IngredientModifications { get; set; } = null!;
 
         public bool IsDeleted { get; set; }
     }

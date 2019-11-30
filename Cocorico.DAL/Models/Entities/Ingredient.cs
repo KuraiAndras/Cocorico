@@ -7,6 +7,7 @@ namespace Cocorico.DAL.Models.Entities
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public ICollection<SandwichIngredient> SandwichIngredients { get; set; } = null!;
+        public ICollection<IngredientModification> IngredientModifications { get; set; } = null!;
         public bool IsDeleted { get; set; }
     }
 }

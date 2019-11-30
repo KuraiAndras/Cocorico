@@ -17,5 +17,8 @@ namespace Cocorico.DAL.Models.Entities
     {
         public static ICollection<Ingredient> Ingredients(this Sandwich sandwich) =>
             sandwich.SandwichIngredients.Select(i => i.Ingredient).ToList();
+
+        public static ICollection<Order> Orders(this Sandwich sandwich) =>
+            sandwich.SandwichOrders.Select(so => so.Order).ToList();
     }
 }

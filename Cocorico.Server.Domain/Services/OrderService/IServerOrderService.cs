@@ -11,5 +11,6 @@ namespace Cocorico.Server.Domain.Services.OrderService
         Task UpdateOrderAsync(UpdateOrderDto updateOrderDto);
         Task<int> AddOrderAsync(AddOrderDto addOrderDto);
         Task DeleteOrderAsync(int orderId);
+        Task<int> CalculatePriceAsync(AddOrderDto addOrderDto);
     }
 }

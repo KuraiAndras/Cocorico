@@ -11,6 +11,7 @@ using Cocorico.Client.Domain.ViewModels.Order;
 using Cocorico.Client.Domain.ViewModels.Sandwich;
 using Cocorico.Client.Domain.ViewModels.Settings;
 using Cocorico.Client.Domain.ViewModels.User;
+using Cocorico.Shared.Services.Price;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +23,8 @@ namespace Cocorico.Client.Blazor.Extensions
         {
             services.AddScoped<ICocoricoAuthenticationStateProvider, CocoricoAuthenticationStateProvider>();
             services.AddScoped<AuthenticationStateProvider>(s => (CocoricoAuthenticationStateProvider)s.GetRequiredService<ICocoricoAuthenticationStateProvider>());
+
+            services.AddTransient<IPriceCalculator, PriceCalculator>();
 
             services.AddSingleton<IBasketService, InMemoryBasketService>();
         }

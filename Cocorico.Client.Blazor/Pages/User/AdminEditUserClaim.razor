@@ -18,11 +18,11 @@
         {
             @if (ViewModel.UserForAdminPage.Claims.SingleOrDefault(c => string.Equals(c, claim)) is null)
             {
-                <tr><td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.AddClaimToUserAsync(claim, UserId))">Add as @claim</button></td></tr>
+                <tr><td><MatButton Outlined="true" @onclick="@(async () => await ViewModel.AddClaimToUserAsync(claim, UserId))">Add as @claim</MatButton></td></tr>
             }
             else
             {
-                <tr><td><button class="btn btn-primary" @onclick="@(async () => await ViewModel.RemoveClaimFromUserAsync(claim, UserId))">Remove from @claim</button></td></tr>
+                <tr><td><MatButton Raised="true" @onclick="@(async () => await ViewModel.RemoveClaimFromUserAsync(claim, UserId))">Remove from @claim</MatButton></td></tr>
             }
         }
     </tbody>

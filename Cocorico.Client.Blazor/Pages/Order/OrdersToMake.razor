@@ -28,12 +28,12 @@ else
                 <td>@order.State</td>
                 @if (order.State == OrderState.OrderPlaced)
                 {
-                    <td><button class="btn btn-primary" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.InTheOven))">To Oven</button></td>
-                    <td><button class="btn btn-danger" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.Rejected))">Reject</button></td>
+                    <td><MatButton Outlined="true" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.InTheOven))">To Oven</MatButton></td>
+                    <td><MatButton Icon="delete_forever" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.Rejected))">Reject</MatButton></td>
                 }
                 @if (order.State == OrderState.InTheOven)
                 {
-                    <td><button class="btn btn-primary" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.ToBeDelivered))">To Delivery</button></td>
+                    <td><MatButton Raised="true" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.ToBeDelivered))">To Delivery</MatButton></td>
                 }
             </tr>
                 @foreach (var sandwich in order.Sandwiches)

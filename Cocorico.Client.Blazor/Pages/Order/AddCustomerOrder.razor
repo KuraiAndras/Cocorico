@@ -1,7 +1,9 @@
 ﻿@page "/AddCustomerOrder"
 @using Cocorico.Client.Domain.ViewModels.Order
+@using Cocorico.Shared.Helpers
 
 @inject IAddCustomerOrderViewModel ViewModel
+@inject NavigationManager urihelper
 
 @if (ViewModel.AddOrderDto.Sandwiches.Count != 0)
 {
@@ -19,12 +21,12 @@
                 <tr>
                     <td>@sandwich.Name</td>
                     <td>@sandwich.Price JMF</td>
-                    <td><button class="btn btn-danger" @onclick="@(() => ViewModel.DeleteSandwich(ViewModel.AddOrderDto.Sandwiches.IndexOf(sandwich)))">Delete</button></td>
+                    <td><MatButton Icon="remove_shopping_cart" Outlined="true" @onclick="@(() => ViewModel.DeleteSandwich(ViewModel.AddOrderDto.Sandwiches.IndexOf(sandwich)))">Delete</MatButton></td>
                 </tr>
             }
             <tr>
                 <td>Sum: @ViewModel.AddOrderDto.Sandwiches.Sum(s => s.Price) JMF</td>
-                <td><button class="btn btn-primary" @onclick="@ViewModel.AddAsync">Add</button></td>
+                <td><MatButton Raised="true" @onclick="@ViewModel.AddAsync">Order</MatButton></td>
             </tr>
         </tbody>
     </table>
@@ -32,4 +34,14 @@
 else
 {
     <p>Your cart is currently empty</p>
+    <td><MatButton Raised="true" Icon="shopping_cart" @onclick="@Redirect">Go sandwiches</MatButton></td>
+}
+
+
+@code
+{
+    private void Redirect()
+    {
+        urihelper.NavigateTo(Urls.Client.Sandwiches);
+    }
 }

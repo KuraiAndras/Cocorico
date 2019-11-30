@@ -11,24 +11,56 @@
         </tr>
     </thead>
     <tbody>
-        <tr><td><input type="text" placeholder="Sandwich Name" class="form-control" @bind="@ViewModel.NewSandwichDto.Name" /></td></tr>
-        <tr><td><input type="number" placeholder="Sandwich Price" class="form-control" @bind="@ViewModel.NewSandwichDto.Price" /></td></tr>
+
+        <tr>
+            <td>
+                <MatTextField @bind-Value="@ViewModel.NewSandwichDto.Name" Standard="true" Label="Sandwich name" Outlined="true"></MatTextField>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <MatNumericUpDownField Label="Sandwich Price"
+                                       DecimalPlaces=0
+                                       Dense="true"
+                                       @bind-Value=@resultPrice
+                                       Outlined="true"
+                                       Minimum=0 Maximum=null>
+                </MatNumericUpDownField>
+            </td>
+        </tr>
+
+
         @foreach (var ingredient in ViewModel.AvailableIngredients)
         {
             if (ViewModel.NewSandwichDto.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
             {
-                <tr><td><button class="btn btn-primary" @onclick="@(() => ViewModel.AddIngredient(ingredient))">@ingredient.Name</button></td></tr>
+                <tr><td><MatButton Outlined="true" @onclick="@(() => ViewModel.AddIngredient(ingredient))">@ingredient.Name</MatButton></td></tr>
             }
             else
             {
-                <tr><td><button class="btn btn-danger" @onclick="@(() => ViewModel.RemoveIngredient(ingredient))">@ingredient.Name</button></td></tr>
+                <tr><td><MatButton Raised="true" @onclick="@(() => ViewModel.RemoveIngredient(ingredient))">@ingredient.Name</MatButton></td></tr>
             }
         }
-        <tr><td><button class="btn btn-primary" @onclick="@ViewModel.AddAsync">Add</button></td></tr>
+        <tr><td><MatButton Icon="save" @onclick="@(async_ => onAdd())">Create</MatButton></td></tr>
     </tbody>
 </table>
 
 @code
 {
     protected override Task OnInitializedAsync() => ViewModel.LoadAvailableIngredientsAsync();
+
+    decimal? resultPrice = null;
+
+    private async void onAdd()
+    {
+        if(resultPrice != null)
+        {
+            ViewModel.NewSandwichDto.Price = (int) resultPrice;
+        } else
+        {
+            
+            ViewModel.NewSandwichDto.Price = 0;
+        }
+        await ViewModel.AddAsync();
+    }
 }

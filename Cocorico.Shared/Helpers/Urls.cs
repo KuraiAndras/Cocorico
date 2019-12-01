@@ -1,4 +1,4 @@
-﻿namespace Cocorico.Shared.Helpers
+namespace Cocorico.Shared.Helpers
 {
     public static class Urls
     {

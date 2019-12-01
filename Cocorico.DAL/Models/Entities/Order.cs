@@ -14,6 +14,8 @@ namespace Cocorico.DAL.Models.Entities
         public int Price { get; set; }
         public OrderState State { get; set; }
         public DateTime Time { get; set; }
+        public int OpeningId { get; set; }
+        public Opening Opening { get; set; } = null!;
         public int RotatingId { get; set; }
         public bool IsDeleted { get; set; }
     }

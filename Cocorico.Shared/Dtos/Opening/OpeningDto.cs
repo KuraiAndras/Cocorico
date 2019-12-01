@@ -13,5 +13,8 @@ namespace Cocorico.Shared.Dtos.Opening
 
         [JsonPropertyName("end")]
         public DateTime? End { get; set; }
+
+        [JsonPropertyName("numberOfOrders")]
+        public int NumberOfOrders { get; set; }
     }
 }

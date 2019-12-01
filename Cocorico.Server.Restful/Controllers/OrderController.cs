@@ -75,6 +75,15 @@ namespace Cocorico.Server.Restful.Controllers
             return new OkResult();
         }
 
+        [Authorize]
+        [HttpPost(nameof(CalculateOrderPriceAsync))]
+        public async Task<ActionResult<int>> CalculateOrderPriceAsync([FromBody] AddOrderDto addOrderDto)
+        {
+            var result = await _serverOrderService.CalculatePriceAsync(addOrderDto);
+
+            return new ActionResult<int>(result);
+        }
+
         [Authorize(Policy = Policies.Worker)]
         [HttpDelete("{orderId:int}")]
         public async Task<ActionResult> DeleteOrderAsync([FromRoute] int orderId)

@@ -731,7 +731,7 @@
         }
       }
     },
-    "/api/Settings/UpdateOpening": {
+    "/api/Settings/UpdateOpeningAsync": {
       "post": {
         "tags": [
           "Settings"
@@ -750,6 +750,41 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/OpeningDto"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/Settings/DeleteOpeningAsync": {
+      "delete": {
+        "tags": [
+          "Settings"
+        ],
+        "operationId": "Settings_DeleteOpening",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "openingId",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             },
             "x-nullable": false
           }
@@ -942,7 +977,8 @@
         "sandwiches",
         "price",
         "time",
-        "state"
+        "state",
+        "sandwichModifications"
       ],
       "properties": {
         "id": {
@@ -965,6 +1001,15 @@
         },
         "state": {
           "$ref": "#/definitions/OrderState"
+        },
+        "sandwichModifications": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/IngredientModificationDto"
+            }
+          }
         }
       }
     },
@@ -1014,6 +1059,39 @@
         4
       ]
     },
+    "IngredientModificationDto": {
+      "type": "object",
+      "required": [
+        "ingredientId",
+        "sandwichId",
+        "modification"
+      ],
+      "properties": {
+        "ingredientId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sandwichId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "modification": {
+          "$ref": "#/definitions/Modifier"
+        }
+      }
+    },
+    "Modifier": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Add",
+        "Remove"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
     "WorkerOrderViewDto": {
       "type": "object",
       "required": [
@@ -1022,7 +1100,8 @@
         "sandwiches",
         "rotatingId",
         "time",
-        "state"
+        "state",
+        "sandwichModifications"
       ],
       "properties": {
         "id": {
@@ -1048,6 +1127,15 @@
         },
         "state": {
           "$ref": "#/definitions/OrderState"
+        },
+        "sandwichModifications": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/IngredientModificationDto"
+            }
+          }
         }
       }
     },
@@ -1056,7 +1144,8 @@
       "required": [
         "userId",
         "sandwiches",
-        "customerId"
+        "customerId",
+        "sandwichModifications"
       ],
       "properties": {
         "userId": {
@@ -1070,6 +1159,15 @@
         },
         "customerId": {
           "type": "string"
+        },
+        "sandwichModifications": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/IngredientModificationDto"
+            }
+          }
         }
       }
     },
@@ -1134,9 +1232,7 @@
     "OpeningDto": {
       "type": "object",
       "required": [
-        "id",
-        "start",
-        "end"
+        "id"
       ],
       "properties": {
         "id": {
@@ -1155,10 +1251,6 @@
     },
     "AddOpeningDto": {
       "type": "object",
-      "required": [
-        "start",
-        "end"
-      ],
       "properties": {
         "start": {
           "type": "string",

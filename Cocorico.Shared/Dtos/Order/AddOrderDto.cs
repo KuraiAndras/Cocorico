@@ -1,4 +1,5 @@
-﻿using Cocorico.Shared.Dtos.Sandwich;
+﻿using Cocorico.Shared.Dtos.Ingredient;
+using Cocorico.Shared.Dtos.Sandwich;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -14,5 +15,8 @@ namespace Cocorico.Shared.Dtos.Order
 
         [JsonPropertyName("customerId")]
         public string CustomerId { get; set; } = string.Empty;
+
+        [JsonPropertyName("sandwichModifications")]
+        public IDictionary<SandwichDto, ICollection<IngredientModificationDto>> SandwichModifications { get; set; } = new Dictionary<SandwichDto, ICollection<IngredientModificationDto>>();
     }
 }

@@ -22,5 +22,18 @@ namespace Cocorico.DAL.Models.Entities
     {
         public static ICollection<Sandwich> Sandwiches(this Order order) =>
             order.SandwichOrders.Select(sl => sl.Sandwich).ToList();
+
+        public static IDictionary<Sandwich, ICollection<IngredientModification>> SandwichModifications(this Order order)
+        {
+            var sandwichDictionary = new Dictionary<Sandwich, ICollection<IngredientModification>>();
+
+            foreach (var sandwichOrder in order.SandwichOrders)
+            {
+                var modifications = sandwichOrder.IngredientModifications;
+                sandwichDictionary.Add(sandwichOrder.Sandwich, modifications);
+            }
+
+            return sandwichDictionary;
+        }
     }
 }

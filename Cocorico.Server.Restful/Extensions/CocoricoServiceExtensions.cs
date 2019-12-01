@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Helpers;
@@ -10,6 +11,7 @@ using Cocorico.Server.Domain.Services.SandwichService;
 using Cocorico.Server.Domain.Services.User;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Services.Price;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
@@ -68,13 +70,15 @@ namespace Cocorico.Server.Restful.Extensions
 
         public static void AddCocoricoServices(this IServiceCollection services)
         {
-            services.AddScoped<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
-            services.AddScoped<IServerSandwichService, ServerSandwichService>();
-            services.AddScoped<IServerUserService, ServerUserService>();
-            services.AddScoped<IServerOrderService, ServerOrderService>();
-            services.AddScoped<IServerIngredientService, ServerIngredientService>();
-            services.AddScoped<IOrderRotatingIdService, MemoryOrderRotatingIdService>();
-            services.AddScoped<IOpeningService, OpeningService>();
+            services.AddTransient<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
+            services.AddTransient<IServerSandwichService, ServerSandwichService>();
+            services.AddTransient<IServerUserService, ServerUserService>();
+            services.AddTransient<IServerOrderService, ServerOrderService>();
+            services.AddTransient<IServerIngredientService, ServerIngredientService>();
+            services.AddTransient<IOrderRotatingIdService, MemoryOrderRotatingIdService>();
+            services.AddTransient<IOpeningService, OpeningService>();
+
+            services.AddTransient<IPriceCalculator, PriceCalculator>();
         }
 
         public static void AddCocoricoMappings(this IServiceCollection services) =>

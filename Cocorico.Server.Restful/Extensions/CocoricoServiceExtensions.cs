@@ -1,13 +1,17 @@
-﻿using Cocorico.DAL.Models;
+﻿
+using AutoMapper;
+using Cocorico.DAL.Models;
 using Cocorico.DAL.Models.Entities;
 using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Authentication;
-using Cocorico.Server.Domain.Services.Ingredient;
-using Cocorico.Server.Domain.Services.Order;
-using Cocorico.Server.Domain.Services.Sandwich;
+using Cocorico.Server.Domain.Services.IngredientService;
+using Cocorico.Server.Domain.Services.Opening;
+using Cocorico.Server.Domain.Services.OrderService;
+using Cocorico.Server.Domain.Services.SandwichService;
 using Cocorico.Server.Domain.Services.User;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Services.Price;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace Cocorico.Server.Restful.Extensions
@@ -27,7 +32,7 @@ namespace Cocorico.Server.Restful.Extensions
     {
         public static void AddCocoricoDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<CocoricoDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CocoricoDbContext>(options => options.EnableSensitiveDataLogging().UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             //services.AddDbContext<CocoricoDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("Postgres")));
         }
 
@@ -65,12 +70,19 @@ namespace Cocorico.Server.Restful.Extensions
 
         public static void AddCocoricoServices(this IServiceCollection services)
         {
-            services.AddScoped<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
-            services.AddScoped<IServerSandwichService, ServerSandwichService>();
-            services.AddScoped<IServerUserService, ServerUserService>();
-            services.AddScoped<IServerOrderService, ServerOrderService>();
-            services.AddScoped<IServerIngredientService, ServerIngredientService>();
+            services.AddTransient<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
+            services.AddTransient<IServerSandwichService, ServerSandwichService>();
+            services.AddTransient<IServerUserService, ServerUserService>();
+            services.AddTransient<IServerOrderService, ServerOrderService>();
+            services.AddTransient<IServerIngredientService, ServerIngredientService>();
+            services.AddTransient<IOrderRotatingIdService, MemoryOrderRotatingIdService>();
+            services.AddTransient<IOpeningService, OpeningService>();
+
+            services.AddTransient<IPriceCalculator, PriceCalculator>();
         }
+
+        public static void AddCocoricoMappings(this IServiceCollection services) =>
+            services.AddAutoMapper(Assembly.Load($"{nameof(Cocorico)}.{nameof(Mappings)}"));
 
         public static void AddCocoricoProblemDetails(this IServiceCollection services, IWebHostEnvironment webHostingEnvironment)
         {

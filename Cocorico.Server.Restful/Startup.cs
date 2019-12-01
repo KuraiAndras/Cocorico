@@ -1,4 +1,6 @@
 using Cocorico.Server.Restful.Extensions;
+using Cocorico.Server.Restful.Hubs;
+using Cocorico.Shared.Helpers;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +34,8 @@ namespace Cocorico.Server.Restful
 
             services.AddCocoricoServices();
 
+            services.AddCocoricoMappings();
+
             services.AddCocoricoProblemDetails(WebHostingEnvironment);
 
             services.AddMvc().AddNewtonsoftJson();
@@ -39,6 +43,7 @@ namespace Cocorico.Server.Restful
             services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { MediaTypeNames.Application.Octet, }));
 
             services.AddSwaggerDocument();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +73,7 @@ namespace Cocorico.Server.Restful
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapHub<WorkerViewOrderHub>(HubNames.WorkerViewOrderHubNames.Name);
                 endpoints.MapFallbackToClientSideBlazor<Client.Blazor.Startup>("index.html");
             });
         }

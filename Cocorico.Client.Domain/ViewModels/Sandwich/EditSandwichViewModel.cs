@@ -5,6 +5,7 @@ using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Domain.ViewModels.Sandwich
@@ -62,7 +63,8 @@ namespace Cocorico.Client.Domain.ViewModels.Sandwich
 
         public void RemoveIngredient(IngredientDto ingredient)
         {
-            _addedIngredients.Remove(ingredient);
+            var ingredientToRemove = _addedIngredients.Single(i => i.Id == ingredient.Id);
+            _addedIngredients.Remove(ingredientToRemove);
             Sandwich.Ingredients = _addedIngredients;
         }
 

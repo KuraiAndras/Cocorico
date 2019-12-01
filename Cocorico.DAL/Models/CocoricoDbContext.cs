@@ -13,6 +13,7 @@ namespace Cocorico.DAL.Models
         public DbSet<Sandwich> Sandwiches { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<Ingredient> Ingredients { get; set; } = null!;
+        public DbSet<Opening> Openings { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,7 +25,7 @@ namespace Cocorico.DAL.Models
             base.OnModelCreating(builder);
 
             builder.Entity<SandwichOrder>()
-                .HasKey(so => new { so.SandwichId, so.OrderId });
+                .HasKey(so => so.Id);
             builder.Entity<SandwichOrder>()
                 .HasOne(so => so.Sandwich)
                 .WithMany(s => s.SandwichOrders)
@@ -35,6 +36,22 @@ namespace Cocorico.DAL.Models
                 .HasForeignKey(so => so.OrderId);
             builder.Entity<SandwichOrder>()
                 .HasQueryFilter(so => !so.IsDeleted);
+
+            builder.Entity<IngredientModification>()
+                .HasKey(im => im.Id);
+            builder.Entity<IngredientModification>()
+                .HasOne(im => im.Ingredient)
+                .WithMany(i => i.IngredientModifications)
+                .HasForeignKey(im => im.IngredientId);
+            builder.Entity<IngredientModification>()
+                .HasOne(im => im.SandwichOrder)
+                .WithMany(so => so.IngredientModifications)
+                .HasForeignKey(im => im.SandwichOrderId);
+            builder.Entity<IngredientModification>()
+                .Property(im => im.Modification)
+                .HasConversion<int>();
+            builder.Entity<IngredientModification>()
+                .HasQueryFilter(im => !im.IsDeleted);
 
             builder.Entity<SandwichIngredient>()
                 .HasKey(si => new { si.IngredientId, si.SandwichId });
@@ -87,10 +104,23 @@ namespace Cocorico.DAL.Models
                 .WithMany(cu => cu.Orders)
                 .HasForeignKey(o => o.CocoricoUserId);
             builder.Entity<Order>()
-                .HasQueryFilter(o => !o.IsDeleted);
+                .HasMany(o => o.SandwichOrders)
+                .WithOne(so => so.Order)
+                .HasForeignKey(so => so.OrderId);
             builder.Entity<Order>()
                 .Property(o => o.State)
                 .HasConversion<int>();
+            builder.Entity<Order>()
+                .HasQueryFilter(o => !o.IsDeleted);
+
+            builder.Entity<Opening>()
+                .HasKey(o => o.Id);
+            builder.Entity<Opening>()
+                .HasMany(o => o.Orders)
+                .WithOne(or => or.Opening)
+                .HasForeignKey(or => or.OpeningId);
+            builder.Entity<Opening>()
+                .HasQueryFilter(o => !o.IsDeleted);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Cocorico.Server.Domain.Helpers;
-using Cocorico.Server.Domain.Services.Ingredient;
+using Cocorico.Server.Domain.Services.IngredientService;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Authorization;

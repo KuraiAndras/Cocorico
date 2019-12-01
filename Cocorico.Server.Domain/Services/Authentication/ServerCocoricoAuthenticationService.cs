@@ -1,12 +1,13 @@
-﻿using Cocorico.Shared.Dtos.Authentication;
+﻿using AutoMapper;
+using Cocorico.DAL.Models;
+using Cocorico.DAL.Models.Entities;
+using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Cocorico.DAL.Models;
-using Cocorico.DAL.Models.Entities;
 
 namespace Cocorico.Server.Domain.Services.Authentication
 {
@@ -15,20 +16,26 @@ namespace Cocorico.Server.Domain.Services.Authentication
         private readonly CocoricoDbContext _cocoricoDbContext;
         private readonly UserManager<CocoricoUser> _userManager;
         private readonly SignInManager<CocoricoUser> _signInManager;
+        private readonly IMapper _mapper;
 
         public ServerCocoricoAuthenticationService(
             UserManager<CocoricoUser> userManager,
             CocoricoDbContext cocoricoDbContext,
-            SignInManager<CocoricoUser> signInManager)
+            SignInManager<CocoricoUser> signInManager,
+            IMapper mapper)
         {
             _userManager = userManager;
             _cocoricoDbContext = cocoricoDbContext;
             _signInManager = signInManager;
+            _mapper = mapper;
         }
 
         public async Task RegisterAsync(RegisterDetails model)
         {
-            var userIdentity = model.MapTo(m => new CocoricoUser { UserName = m.Email });
+            var userIdentity = _mapper.Map<CocoricoUser>(model);
+
+            // TODO: Fix this
+            userIdentity.UserName = userIdentity.Email;
 
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
 
@@ -61,7 +68,7 @@ namespace Cocorico.Server.Domain.Services.Authentication
 
             var claims = await _userManager.GetClaimsAsync(user) ?? throw new UnexpectedException();
 
-            return new LoginResult { Claims = claims.Select(c => c.Value) };
+            return new LoginResult { Claims = claims.Select(c => c.Value).ToList() };
         }
 
         public async Task LogoutAsync() => await _signInManager.SignOutAsync();

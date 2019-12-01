@@ -25,9 +25,7 @@ namespace Cocorico.Client.Domain.ViewModels.Ingredient
         {
             try
             {
-                var ingredientDto = await _ingredientClient.GetAsync(id);
-
-                IngredientDto = ingredientDto;
+                IngredientDto = await _ingredientClient.GetAsync(id);
             }
             catch (SwaggerException)
             {

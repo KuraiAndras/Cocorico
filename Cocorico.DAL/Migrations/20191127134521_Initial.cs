@@ -234,13 +234,15 @@ namespace Cocorico.DAL.Migrations
                 name: "SandwichOrder",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SandwichId = table.Column<int>(nullable: false),
                     OrderId = table.Column<int>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SandwichOrder", x => new { x.SandwichId, x.OrderId });
+                    table.PrimaryKey("PK_SandwichOrder", x => x.Id);
                     table.ForeignKey(
                         name: "FK_SandwichOrder_Orders_OrderId",
                         column: x => x.OrderId,
@@ -308,6 +310,11 @@ namespace Cocorico.DAL.Migrations
                 name: "IX_SandwichOrder_OrderId",
                 table: "SandwichOrder",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SandwichOrder_SandwichId",
+                table: "SandwichOrder",
+                column: "SandwichId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

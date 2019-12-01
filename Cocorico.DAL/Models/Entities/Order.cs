@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Cocorico.Shared.Helpers;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Dtos.Sandwich;
-using Cocorico.Shared.Helpers;
 
 namespace Cocorico.DAL.Models.Entities
 {
@@ -14,22 +13,29 @@ namespace Cocorico.DAL.Models.Entities
         public ICollection<SandwichOrder> SandwichOrders { get; set; } = null!;
         public int Price { get; set; }
         public OrderState State { get; set; }
+        public DateTime Time { get; set; }
+        public int OpeningId { get; set; }
+        public Opening Opening { get; set; } = null!;
+        public int RotatingId { get; set; }
         public bool IsDeleted { get; set; }
-
-        public OrderWorkerViewDto ToOrderWorkerViewDto() =>
-            this.MapTo(o => new OrderWorkerViewDto
-            {
-                UserName = o.CocoricoUser.Name,
-                Sandwiches = o.Sandwiches().Select(s => s.MapTo(sa => new SandwichDto
-                {
-                    Ingredients = sa.SandwichIngredients.Select(i => i.Ingredient.ToIngredientDto()).ToList()
-                }))
-            });
     }
 
     public static class OrderExtension
     {
-        public static IEnumerable<Sandwich> Sandwiches(this Order order) =>
-            order.SandwichOrders.Select(sl => sl.Sandwich);
+        public static ICollection<Sandwich> Sandwiches(this Order order) =>
+            order.SandwichOrders.Select(sl => sl.Sandwich).ToList();
+
+        public static IDictionary<Sandwich, ICollection<IngredientModification>> SandwichModifications(this Order order)
+        {
+            var sandwichDictionary = new Dictionary<Sandwich, ICollection<IngredientModification>>();
+
+            foreach (var sandwichOrder in order.SandwichOrders)
+            {
+                var modifications = sandwichOrder.IngredientModifications;
+                sandwichDictionary.Add(sandwichOrder.Sandwich, modifications);
+            }
+
+            return sandwichDictionary;
+        }
     }
 }

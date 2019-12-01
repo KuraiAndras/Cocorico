@@ -1,14 +1,21 @@
-﻿@page "/AddIngredient"
+@page "/AddIngredient"
 
 @using Cocorico.Client.Domain.ViewModels.Ingredient
 
 @inject IAddIngredientViewModel ViewModel
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <input type="text" placeholder="Ingredient Name" class="form-control" @bind="@ViewModel.IngredientAddDto.Name" />
-            <button class="btn btn-primary" @onclick="@ViewModel.AddAsync">Add</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                
+                    <p>
+                        <MatTextField @bind-Value="@ViewModel.IngredientAddDto.Name" Dense="true" Label="Ingredient name " Outlined="true"></MatTextField>
+                    </p>
+                    <p>
+                        <MatButton Icon="save" Raised="true" @onclick="@ViewModel.AddAsync">Create</MatButton>
+                    </p>
+            </div>
         </div>
     </div>
 </div>

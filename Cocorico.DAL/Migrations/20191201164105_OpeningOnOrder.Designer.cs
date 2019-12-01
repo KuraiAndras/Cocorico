@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cocorico.DAL.Migrations
 {
     [DbContext(typeof(CocoricoDbContext))]
-    [Migration("20191125203205_Initial")]
-    partial class Initial
+    [Migration("20191201164105_OpeningOnOrder")]
+    partial class OpeningOnOrder
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -112,6 +112,55 @@ namespace Cocorico.DAL.Migrations
                     b.ToTable("Ingredients");
                 });
 
+            modelBuilder.Entity("Cocorico.DAL.Models.Entities.IngredientModification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Modification")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SandwichOrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IngredientId");
+
+                    b.HasIndex("SandwichOrderId");
+
+                    b.ToTable("IngredientModification");
+                });
+
+            modelBuilder.Entity("Cocorico.DAL.Models.Entities.Opening", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Openings");
+                });
+
             modelBuilder.Entity("Cocorico.DAL.Models.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -126,15 +175,26 @@ namespace Cocorico.DAL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int>("OpeningId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RotatingId")
                         .HasColumnType("int");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CocoricoUserId");
+
+                    b.HasIndex("OpeningId");
 
                     b.ToTable("Orders");
                 });
@@ -181,18 +241,25 @@ namespace Cocorico.DAL.Migrations
 
             modelBuilder.Entity("Cocorico.DAL.Models.Entities.SandwichOrder", b =>
                 {
-                    b.Property<int>("SandwichId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.HasKey("SandwichId", "OrderId");
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SandwichId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("SandwichId");
 
                     b.ToTable("SandwichOrder");
                 });
@@ -328,11 +395,32 @@ namespace Cocorico.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Cocorico.DAL.Models.Entities.IngredientModification", b =>
+                {
+                    b.HasOne("Cocorico.DAL.Models.Entities.Ingredient", "Ingredient")
+                        .WithMany("IngredientModifications")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cocorico.DAL.Models.Entities.SandwichOrder", "SandwichOrder")
+                        .WithMany("IngredientModifications")
+                        .HasForeignKey("SandwichOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Cocorico.DAL.Models.Entities.Order", b =>
                 {
                     b.HasOne("Cocorico.DAL.Models.Entities.CocoricoUser", "CocoricoUser")
                         .WithMany("Orders")
                         .HasForeignKey("CocoricoUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cocorico.DAL.Models.Entities.Opening", "Opening")
+                        .WithMany("Orders")
+                        .HasForeignKey("OpeningId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

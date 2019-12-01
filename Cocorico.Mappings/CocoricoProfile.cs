@@ -40,7 +40,9 @@ namespace Cocorico.Mappings
             CreateMap<SandwichAddDto, Sandwich>();
             CreateMap<SandwichDto, Sandwich>();
 
-            CreateMap<Opening, OpeningDto>();
+            CreateMap<Opening, OpeningDto>()
+                .ForMember(d => d.NumberOfOrders,
+                    o => o.MapFrom(s => s.Orders.Count));
             CreateMap<OpeningDto, Opening>();
             CreateMap<AddOpeningDto, Opening>();
 

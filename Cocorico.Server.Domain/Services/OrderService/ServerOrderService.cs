@@ -99,8 +99,9 @@ namespace Cocorico.Server.Domain.Services.OrderService
 
             if (sandwichesFromOrderInDb.Count == 0) throw new EntityNotFoundException();
 
-            // TODO: move this to a service
             var orderPrice = await CalculatePriceAsync(addOrderDto);
+
+            var currentOpening = await Context.Openings.FirstAsync(o => o.Start <= dateAdded && o.End > dateAdded);
 
             var newOrder = new Order
             {
@@ -110,6 +111,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
                 SandwichOrders = new List<SandwichOrder>(),
                 RotatingId = _idService.GetNextId(),
                 Time = dateAdded,
+                Opening = currentOpening,
             };
 
             foreach (var sandwich in sandwichesFromOrderInDb)

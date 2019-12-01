@@ -42,6 +42,7 @@
         <tr>
             <th>Start</th>
             <th>End</th>
+            <th>Number of orders</th>
             <th />
         </tr>
     </thead>
@@ -51,6 +52,7 @@
             <tr>
                 <td><MatDatePicker Outlined="true" Label="Start date" EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@opening.Start" /></td>
                 <td><MatDatePicker Outlined="true" Label="End date" EnableTime="true" Enable24hours="true" DateFormat="Y-m-d H:i" @bind-Value="@opening.End" /></td>
+                <td>@opening.NumberOfOrders</td>
                 <td><MatButton Icon="edit" Raised="true" OnClick="@(async _ => await ViewModel.EditOpeningAsync(opening))">Save changes</MatButton></td>
                 <td><MatButton Icon="delete_forever" Outlined="true" OnClick="@(async _ => await ViewModel.DeleteOpeningAsync(opening.Id))">Delete</MatButton></td>
             </tr>

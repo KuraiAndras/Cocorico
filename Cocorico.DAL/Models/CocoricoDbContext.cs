@@ -116,6 +116,10 @@ namespace Cocorico.DAL.Models
             builder.Entity<Opening>()
                 .HasKey(o => o.Id);
             builder.Entity<Opening>()
+                .HasMany(o => o.Orders)
+                .WithOne(or => or.Opening)
+                .HasForeignKey(or => or.OpeningId);
+            builder.Entity<Opening>()
                 .HasQueryFilter(o => !o.IsDeleted);
         }
     }

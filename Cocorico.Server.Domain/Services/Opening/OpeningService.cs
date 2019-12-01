@@ -28,6 +28,8 @@ namespace Cocorico.Server.Domain.Services.Opening
         {
             var openingsInDb = await _context.Openings
                 .AsNoTracking()
+                .Include(o => o.Orders)
+                .AsNoTracking()
                 .ToListAsync();
 
             return _mapper.Map<ICollection<OpeningDto>>(openingsInDb);

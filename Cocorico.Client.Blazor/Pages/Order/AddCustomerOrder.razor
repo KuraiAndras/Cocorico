@@ -56,7 +56,7 @@
                         <tr><td><MatButton Raised="true" @onclick="@(() =>  Modify(ingredient.Id, Modifier.Remove))">@ingredient.Name</MatButton></td></tr>
                     }
                 }
-                <tr><td><MatButton Raised="true" Icon="save" @onclick="(() => { ViewModel.AddOrderDto.SandwichModifications.Add(SelectedSandwich, modificationList); ViewModel.AddAsync(); SelectedSandwich = null; })">Save</MatButton></td></tr>
+                <tr><td><MatButton Raised="true" Icon="save" @onclick="@(() => { ViewModel.AddOrderDto.SandwichModifications.Add(SelectedSandwich, modificationList); ViewModel.AddAsync(); SelectedSandwich = null; })">Save</MatButton></td></tr>
             </tbody>
         </table>
     }

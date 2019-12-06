@@ -4,8 +4,9 @@ using Cocorico.Client.Domain.Services.Basket;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Dtos.Sandwich;
-using System.Threading.Tasks;
+using Cocorico.Shared.Exceptions;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Domain.ViewModels.Order
 {
@@ -93,8 +94,8 @@ namespace Cocorico.Client.Domain.ViewModels.Order
                 var fileResponse = await _sandwichClient.UpdateAsync(sandwich);
 
                 //TODO: Handle fail
-                if (!fileResponse.IsSuccessfulStatusCode()) return;
-             }
+                if (!fileResponse.IsSuccessfulStatusCode()) throw new UnexpectedException();
+            }
             catch (SwaggerException)
             {
                 //TODO: Handle fail

@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.DAL", "Cocorico.DA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Mappings", "Cocorico.Mappings\Cocorico.Mappings.csproj", "{59459484-85CC-413E-8521-1234B8A024F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Domain", "Cocorico.Domain\Cocorico.Domain.csproj", "{8B9752A1-F318-470E-8844-EEFEB25B51F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Domain", "Cocorico.Domain\Cocorico.Domain.csproj", "{8B9752A1-F318-470E-8844-EEFEB25B51F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Persistence", "Cocorico.Persistence\Cocorico.Persistence.csproj", "{893DBB47-56E4-482C-A1A5-883849A9CCA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Persistence", "Cocorico.Persistence\Cocorico.Persistence.csproj", "{893DBB47-56E4-482C-A1A5-883849A9CCA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

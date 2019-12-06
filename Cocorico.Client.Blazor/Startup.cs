@@ -1,4 +1,4 @@
-using Blazor.Extensions.Storage;
+using Blazored.LocalStorage;
 using Cocorico.Client.Blazor.Extensions;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +9,7 @@ namespace Cocorico.Client.Blazor
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddStorage();
+            services.AddBlazoredLocalStorage();
 
             services.AddAuthorizationCore();
 

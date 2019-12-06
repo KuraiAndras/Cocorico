@@ -1,4 +1,4 @@
-﻿using Blazor.Extensions.Storage;
+﻿using Blazored.LocalStorage;
 using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Client.Domain.Services.Authentication;
@@ -15,11 +15,11 @@ namespace Cocorico.Client.Blazor.Services.Authentication
 {
     public class CocoricoAuthenticationStateProvider : AuthenticationStateProvider, ICocoricoAuthenticationStateProvider
     {
-        private readonly LocalStorage _localStorage;
+        private readonly ILocalStorageService _localStorage;
         private readonly IAuthenticationClient _authenticationClient;
 
         public CocoricoAuthenticationStateProvider(
-            LocalStorage localStorage,
+            ILocalStorageService localStorage,
             IAuthenticationClient authenticationClient)
         {
             _localStorage = localStorage;
@@ -30,7 +30,7 @@ namespace Cocorico.Client.Blazor.Services.Authentication
         {
             var result = await _authenticationClient.LoginAsync(loginDetails);
 
-            await _localStorage.SetItem(Verbs.Claims, result.Claims);
+            await _localStorage.SetItemAsync(Verbs.Claims, result.Claims);
 
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
@@ -41,14 +41,14 @@ namespace Cocorico.Client.Blazor.Services.Authentication
 
             if (!response.IsSuccessfulStatusCode()) throw new UnexpectedException();
 
-            await _localStorage.RemoveItem(Verbs.Claims);
+            await _localStorage.RemoveItemAsync(Verbs.Claims);
 
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var storedClaims = await _localStorage.GetItem<IEnumerable<string>>(Verbs.Claims);
+            var storedClaims = await _localStorage.GetItemAsync<IEnumerable<string>>(Verbs.Claims);
             if (storedClaims is null) return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
 
             var claims = storedClaims.ToList();

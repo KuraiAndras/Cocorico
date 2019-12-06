@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Shared", "Cocorico
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.DAL", "Cocorico.DAL\Cocorico.DAL.csproj", "{2307440D-C590-4607-B99C-2C5EC3A29DD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Mappings", "Cocorico.Mappings\Cocorico.Mappings.csproj", "{59459484-85CC-413E-8521-1234B8A024F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Mappings", "Cocorico.Mappings\Cocorico.Mappings.csproj", "{59459484-85CC-413E-8521-1234B8A024F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Domain", "Cocorico.Domain\Cocorico.Domain.csproj", "{8B9752A1-F318-470E-8844-EEFEB25B51F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{59459484-85CC-413E-8521-1234B8A024F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59459484-85CC-413E-8521-1234B8A024F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59459484-85CC-413E-8521-1234B8A024F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B9752A1-F318-470E-8844-EEFEB25B51F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B9752A1-F318-470E-8844-EEFEB25B51F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B9752A1-F318-470E-8844-EEFEB25B51F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B9752A1-F318-470E-8844-EEFEB25B51F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

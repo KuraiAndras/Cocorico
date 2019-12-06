@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Mappings", "Cocori
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Domain", "Cocorico.Domain\Cocorico.Domain.csproj", "{8B9752A1-F318-470E-8844-EEFEB25B51F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Persistence", "Cocorico.Persistence\Cocorico.Persistence.csproj", "{893DBB47-56E4-482C-A1A5-883849A9CCA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{8B9752A1-F318-470E-8844-EEFEB25B51F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B9752A1-F318-470E-8844-EEFEB25B51F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B9752A1-F318-470E-8844-EEFEB25B51F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{893DBB47-56E4-482C-A1A5-883849A9CCA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{893DBB47-56E4-482C-A1A5-883849A9CCA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{893DBB47-56E4-482C-A1A5-883849A9CCA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{893DBB47-56E4-482C-A1A5-883849A9CCA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

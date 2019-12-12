@@ -40,8 +40,7 @@ namespace Cocorico.Persistence.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,12 +53,25 @@ namespace Cocorico.Persistence.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ingredients", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Openings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Start = table.Column<DateTime>(nullable: false),
+                    End = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Openings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,8 +81,7 @@ namespace Cocorico.Persistence.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
-                    Price = table.Column<int>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false)
+                    Price = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -192,7 +203,9 @@ namespace Cocorico.Persistence.Migrations
                     CocoricoUserId = table.Column<string>(nullable: false),
                     Price = table.Column<int>(nullable: false),
                     State = table.Column<int>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false)
+                    Time = table.Column<DateTime>(nullable: false),
+                    OpeningId = table.Column<int>(nullable: false),
+                    RotatingId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -203,6 +216,12 @@ namespace Cocorico.Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Openings_OpeningId",
+                        column: x => x.OpeningId,
+                        principalTable: "Openings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -210,8 +229,7 @@ namespace Cocorico.Persistence.Migrations
                 columns: table => new
                 {
                     SandwichId = table.Column<int>(nullable: false),
-                    IngredientId = table.Column<int>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false)
+                    IngredientId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -237,8 +255,7 @@ namespace Cocorico.Persistence.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SandwichId = table.Column<int>(nullable: false),
-                    OrderId = table.Column<int>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false)
+                    OrderId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -253,6 +270,33 @@ namespace Cocorico.Persistence.Migrations
                         name: "FK_SandwichOrder_Sandwiches_SandwichId",
                         column: x => x.SandwichId,
                         principalTable: "Sandwiches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IngredientModification",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IngredientId = table.Column<int>(nullable: false),
+                    SandwichOrderId = table.Column<int>(nullable: false),
+                    Modification = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IngredientModification", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_IngredientModification_Ingredients_IngredientId",
+                        column: x => x.IngredientId,
+                        principalTable: "Ingredients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_IngredientModification_SandwichOrder_SandwichOrderId",
+                        column: x => x.SandwichOrderId,
+                        principalTable: "SandwichOrder",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -297,9 +341,24 @@ namespace Cocorico.Persistence.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_IngredientModification_IngredientId",
+                table: "IngredientModification",
+                column: "IngredientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IngredientModification_SandwichOrderId",
+                table: "IngredientModification",
+                column: "SandwichOrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_CocoricoUserId",
                 table: "Orders",
                 column: "CocoricoUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_OpeningId",
+                table: "Orders",
+                column: "OpeningId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SandwichIngredient_SandwichId",
@@ -335,13 +394,16 @@ namespace Cocorico.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "IngredientModification");
+
+            migrationBuilder.DropTable(
                 name: "SandwichIngredient");
 
             migrationBuilder.DropTable(
-                name: "SandwichOrder");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "SandwichOrder");
 
             migrationBuilder.DropTable(
                 name: "Ingredients");
@@ -354,6 +416,9 @@ namespace Cocorico.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Openings");
         }
     }
 }

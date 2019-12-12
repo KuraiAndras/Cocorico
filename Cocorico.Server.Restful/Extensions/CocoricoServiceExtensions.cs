@@ -1,6 +1,5 @@
-﻿using AutoMapper;
-using Cocorico.DAL.Models;
-using Cocorico.DAL.Models.Entities;
+﻿using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
 using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Domain.Services.IngredientService;
@@ -16,25 +15,16 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
-using System.Reflection;
 using System.Security.Claims;
 
 namespace Cocorico.Server.Restful.Extensions
 {
     public static class CocoricoServiceExtensions
     {
-        public static void AddCocoricoDbContext(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<CocoricoDbContext>(options => options.EnableSensitiveDataLogging().UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDbContext<CocoricoDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("Postgres")));
-        }
-
         public static void AddCocoricoIdentityConfiguration(this IServiceCollection services)
         {
             services
@@ -79,9 +69,6 @@ namespace Cocorico.Server.Restful.Extensions
 
             services.AddTransient<IPriceCalculator, PriceCalculator>();
         }
-
-        public static void AddCocoricoMappings(this IServiceCollection services) =>
-            services.AddAutoMapper(Assembly.Load($"{nameof(Cocorico)}.{nameof(Mappings)}"));
 
         public static void AddCocoricoProblemDetails(this IServiceCollection services, IWebHostEnvironment webHostingEnvironment)
         {

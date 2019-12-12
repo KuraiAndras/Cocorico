@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cocorico.Persistence.Migrations
 {
     [DbContext(typeof(CocoricoDbContext))]
-    [Migration("20191129112439_Opening")]
-    partial class Opening
+    [Migration("20191129112439_Openings")]
+    partial class Openings
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

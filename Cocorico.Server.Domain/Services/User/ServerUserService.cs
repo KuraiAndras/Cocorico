@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Cocorico.DAL.Models;
-using Cocorico.DAL.Models.Entities;
-using Cocorico.Server.Domain.Services.ServiceBase;
+using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Exceptions;
 using Microsoft.AspNetCore.Identity;
@@ -12,8 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Server.Domain.Services.User
 {
-    public class ServerUserService : EntityServiceBase<CocoricoUser, string>, IServerUserService
+    public class ServerUserService : IServerUserService
     {
+        private readonly CocoricoDbContext _context;
         private readonly UserManager<CocoricoUser> _userManager;
         private readonly IMapper _mapper;
 
@@ -21,8 +21,8 @@ namespace Cocorico.Server.Domain.Services.User
             CocoricoDbContext context,
             UserManager<CocoricoUser> userManager,
             IMapper mapper)
-            : base(context)
         {
+            _context = context;
             _userManager = userManager;
             _mapper = mapper;
         }
@@ -41,7 +41,7 @@ namespace Cocorico.Server.Domain.Services.User
 
         public async Task<ICollection<UserForAdminPage>> GetAllUsersForAdminPageAsync()
         {
-            var users = await Context.Users.ToListAsync() ?? throw new UnexpectedException();
+            var users = await _context.Users.ToListAsync() ?? throw new UnexpectedException();
 
             var usersForAdminPage = new List<UserForAdminPage>();
             foreach (var cocoricoUser in users)

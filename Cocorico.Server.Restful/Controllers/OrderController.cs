@@ -1,4 +1,4 @@
-﻿using Cocorico.DAL.Models.Entities;
+﻿using Cocorico.Domain.Entities;
 using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.OrderService;
 using Cocorico.Server.Restful.Hubs;

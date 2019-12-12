@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Cocorico.Persistence.Migrations
 {
-    public partial class Opening : Migration
+    public partial class Openings : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

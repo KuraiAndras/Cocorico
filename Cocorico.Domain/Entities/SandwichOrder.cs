@@ -12,6 +12,6 @@ namespace Cocorico.Domain.Entities
         public int OrderId { get; set; }
         public Order Order { get; set; } = null!;
 
-        public ICollection<IngredientModification> IngredientModifications { get; } = new List<IngredientModification>();
+        public ICollection<IngredientModification> IngredientModifications { get; set; } = new List<IngredientModification>();
     }
 }

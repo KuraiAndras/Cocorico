@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cocorico.DAL.Models;
-using Cocorico.DAL.Models.Entities;
+using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;

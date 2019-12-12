@@ -1,9 +1,9 @@
 ﻿using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Client.Domain.SignalrClient.WorkerOrders;
+using Cocorico.Domain.Entities;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Exceptions;
-using Cocorico.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

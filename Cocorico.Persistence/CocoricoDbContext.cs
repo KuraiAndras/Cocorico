@@ -20,7 +20,11 @@ namespace Cocorico.Persistence
             if (!optionsBuilder.IsConfigured) optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=EFProviders.InMemory;Trusted_Connection=True;ConnectRetryCount=0");
         }
 
-        protected override void OnModelCreating(ModelBuilder builder) =>
-            builder.ApplyConfigurationsFromAssembly(typeof(CocoricoDbContext).Assembly);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CocoricoDbContext).Assembly);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

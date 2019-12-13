@@ -1,6 +1,6 @@
 ﻿using Cocorico.Domain.Entities;
+using Cocorico.Domain.Identity;
 using Cocorico.Persistence;
-using Cocorico.Server.Domain.Helpers;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Domain.Services.IngredientService;
 using Cocorico.Server.Domain.Services.Opening;
@@ -8,7 +8,6 @@ using Cocorico.Server.Domain.Services.OrderService;
 using Cocorico.Server.Domain.Services.SandwichService;
 using Cocorico.Server.Domain.Services.User;
 using Cocorico.Shared.Exceptions;
-using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Services.Price;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;

@@ -1,5 +1,5 @@
-﻿using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Helpers;
+﻿using Cocorico.Domain.Identity;
+using Cocorico.Shared.Dtos.Order;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;

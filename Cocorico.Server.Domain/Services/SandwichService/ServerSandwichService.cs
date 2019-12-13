@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using Cocorico.DAL.Models;
-using Cocorico.DAL.Models.Entities;
+using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
 using Cocorico.Server.Domain.Services.Opening;
-using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -13,23 +12,25 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Server.Domain.Services.SandwichService
 {
-    public class ServerSandwichService : EntityServiceBase<Sandwich>, IServerSandwichService
+    public class ServerSandwichService : IServerSandwichService
     {
+        private readonly CocoricoDbContext _context;
         private readonly IMapper _mapper;
         private readonly IOpeningService _openingService;
 
         public ServerSandwichService(
             CocoricoDbContext context,
             IMapper mapper,
-            IOpeningService openingService) : base(context)
+            IOpeningService openingService)
         {
+            _context = context;
             _mapper = mapper;
             _openingService = openingService;
         }
 
         public async Task<SandwichDto> GetAsync(int id)
         {
-            var sandwich = await Context
+            var sandwich = await _context
                                .Sandwiches
                                .Include(s => s.SandwichIngredients)
                                .ThenInclude(il => il.Ingredient)
@@ -41,7 +42,7 @@ namespace Cocorico.Server.Domain.Services.SandwichService
 
         public async Task<ICollection<SandwichDto>> GetAllAsync()
         {
-            var sandwiches = await Context
+            var sandwiches = await _context
                 .Sandwiches
                 .Include(s => s.SandwichIngredients)
                 .ThenInclude(il => il.Ingredient)
@@ -54,7 +55,7 @@ namespace Cocorico.Server.Domain.Services.SandwichService
         {
             var sandwich = _mapper.Map<Sandwich>(sandwichAddDto);
 
-            var ingredients = await Context
+            var ingredients = await _context
                 .Ingredients
                 .ToListAsync();
 
@@ -67,18 +68,20 @@ namespace Cocorico.Server.Domain.Services.SandwichService
                 })
                 .ToList();
 
-            await AddAsync(sandwich);
+            _context.Sandwiches.Add(sandwich);
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(SandwichDto sandwichDto)
         {
             var dateAdded = DateTime.Now;
-            if (!await _openingService.CanAddOrderAsync(dateAdded)) 
+            if (!await _openingService.CanAddOrderAsync(dateAdded))
                 throw new StoreClosedException();
 
             var updatedSandwich = _mapper.Map<Sandwich>(sandwichDto);
 
-            var originalSandwich = await Context.Sandwiches
+            var originalSandwich = await _context.Sandwiches
                 .AsNoTracking()
                 .Include(s => s.SandwichIngredients)
                 .SingleOrDefaultAsync(s => s.Id == sandwichDto.Id);
@@ -89,7 +92,7 @@ namespace Cocorico.Server.Domain.Services.SandwichService
                 .Where(si => sandwichDto.Ingredients.Any(i => si.SandwichId == i.Id))
                 .ToList();
 
-            var ingredientsInDb = await Context.Ingredients.ToListAsync();
+            var ingredientsInDb = await _context.Ingredients.ToListAsync();
 
             foreach (var ingredientDto in sandwichDto.Ingredients
                 .Where(ingredientDto => updatedSandwich.SandwichIngredients.All(si => si.IngredientId != ingredientDto.Id)))
@@ -101,12 +104,18 @@ namespace Cocorico.Server.Domain.Services.SandwichService
                 });
             }
 
-            Context.Sandwiches.Update(updatedSandwich);
+            _context.Sandwiches.Update(updatedSandwich);
 
-            await Context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id) =>
-            await DeleteByIdAsync(id);
+        public async Task DeleteAsync(int id)
+        {
+            var sandwichToDelete = await _context.Sandwiches.SingleOrDefaultAsync(s => s.Id.Equals(id));
+
+            _context.Remove(sandwichToDelete);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

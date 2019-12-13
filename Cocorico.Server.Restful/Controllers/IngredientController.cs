@@ -1,4 +1,4 @@
-﻿using Cocorico.Server.Domain.Helpers;
+﻿using Cocorico.Domain.Identity;
 using Cocorico.Server.Domain.Services.IngredientService;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Helpers;

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Cocorico.DAL.Models;
+using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Opening;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Extensions;
@@ -41,12 +41,12 @@ namespace Cocorico.Server.Domain.Services.Opening
             if (!addOpeningDto.End.HasValue) throw new ArgumentException(nameof(addOpeningDto));
             if (addOpeningDto.Start.Value.DateDifferenceTo(addOpeningDto.End.Value) != DateDifference.Sooner) throw new ArgumentException("Start is sooner than End", nameof(addOpeningDto));
 
-            var opening = _mapper.Map<DAL.Models.Entities.Opening>(addOpeningDto);
+            var opening = _mapper.Map<Cocorico.Domain.Entities.Opening>(addOpeningDto);
 
             var openingsInDb = await _context.Openings.AsNoTracking().ToListAsync();
 
             var lastOpening = openingsInDb.OrderByDescending(o => o.End).FirstOrDefault()
-                              ?? new DAL.Models.Entities.Opening { End = new DateTime(), Start = new DateTime() };
+                              ?? new Cocorico.Domain.Entities.Opening { End = new DateTime(), Start = new DateTime() };
 
             if (lastOpening.End.DateDifferenceTo(opening.Start) != DateDifference.Sooner) throw new ArgumentException("New start is sooner than last end", nameof(addOpeningDto));
 
@@ -61,7 +61,7 @@ namespace Cocorico.Server.Domain.Services.Opening
             if (!openingDto.End.HasValue) throw new ArgumentException(nameof(openingDto));
             if (openingDto.Start.Value.DateDifferenceTo(openingDto.End.Value) != DateDifference.Sooner) throw new ArgumentException(nameof(openingDto));
 
-            var opening = _mapper.Map<DAL.Models.Entities.Opening>(openingDto);
+            var opening = _mapper.Map<Cocorico.Domain.Entities.Opening>(openingDto);
 
             _context.Openings.Update(opening);
 

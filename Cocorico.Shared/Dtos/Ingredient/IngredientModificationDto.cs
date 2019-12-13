@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Helpers;
+﻿using Cocorico.Domain.Entities;
 using System.Text.Json.Serialization;
 
 namespace Cocorico.Shared.Dtos.Ingredient

@@ -1,5 +1,5 @@
-﻿using Cocorico.DAL.Models.Entities;
-using Cocorico.Server.Domain.Helpers;
+﻿using Cocorico.Domain.Entities;
+using Cocorico.Domain.Identity;
 using Cocorico.Server.Domain.Services.OrderService;
 using Cocorico.Server.Restful.Hubs;
 using Cocorico.Shared.Dtos.Order;

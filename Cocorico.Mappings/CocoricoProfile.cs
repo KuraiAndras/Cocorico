@@ -1,5 +1,6 @@
-﻿using AutoMapper;
-using Cocorico.DAL.Models.Entities;
+﻿using System.Linq;
+using AutoMapper;
+using Cocorico.Domain.Entities;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Opening;
@@ -28,15 +29,15 @@ namespace Cocorico.Mappings
                     o => o.MapFrom(s => s.CocoricoUser.Name))
                 .ForMember(
                     d => d.Sandwiches,
-                    o => o.MapFrom(s => s.Sandwiches()));
+                    o => o.MapFrom(s => s.SandwichOrders.Select(so => so.Sandwich)));
             CreateMap<Order, CustomerViewOrderDto>()
                 .ForMember(
                     d => d.Sandwiches,
-                    o => o.MapFrom(s => s.Sandwiches()));
+                    o => o.MapFrom(s => s.SandwichOrders.Select(so => so.Sandwich)));
 
             CreateMap<Sandwich, SandwichDto>()
                 .ForMember(d => d.Ingredients,
-                    o => o.MapFrom(s => s.Ingredients()));
+                    o => o.MapFrom(s => s.SandwichIngredients.Select(si => si.Ingredient)));
             CreateMap<SandwichAddDto, Sandwich>();
             CreateMap<SandwichDto, Sandwich>();
 

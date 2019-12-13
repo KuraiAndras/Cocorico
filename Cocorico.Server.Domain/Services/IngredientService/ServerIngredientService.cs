@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Cocorico.DAL.Models;
-using Cocorico.DAL.Models.Entities;
-using Cocorico.Server.Domain.Services.ServiceBase;
+using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -11,32 +10,58 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Server.Domain.Services.IngredientService
 {
-    public class ServerIngredientService : EntityServiceBase<Ingredient>, IServerIngredientService
+    public class ServerIngredientService : IServerIngredientService
     {
+        private readonly CocoricoDbContext _context;
         private readonly IMapper _mapper;
 
-        public ServerIngredientService(CocoricoDbContext context, IMapper mapper) : base(context) =>
+        public ServerIngredientService(
+            CocoricoDbContext context,
+            IMapper mapper)
+        {
+            _context = context;
             _mapper = mapper;
+        }
 
         public async Task<ICollection<IngredientDto>> GetAllAsync() =>
-            (await Context.Ingredients.ToListAsync()
+            (await _context.Ingredients.ToListAsync()
              ?? throw new UnexpectedException())
             .Select(i => _mapper.Map<IngredientDto>(i))
             .ToList();
 
         public async Task<IngredientDto> GetAsync(int id)
         {
-            var result = await Context.Ingredients.SingleOrDefaultAsync(i => i.Id == id) ?? throw new EntityNotFoundException();
+            var result = await _context.Ingredients.SingleOrDefaultAsync(i => i.Id == id) ?? throw new EntityNotFoundException();
             return _mapper.Map<IngredientDto>(result);
         }
 
-        public async Task AddAsync(IngredientAddDto ingredientAddDto) =>
-            await AddAsync(_mapper.Map<Ingredient>(ingredientAddDto));
+        public async Task AddAsync(IngredientAddDto ingredientAddDto)
+        {
+            var ingredientToAdd = _mapper.Map<Ingredient>(ingredientAddDto);
 
-        public async Task UpdateAsync(IngredientDto ingredientDto) =>
-            await UpdateAsync(_mapper.Map<Ingredient>(ingredientDto));
+            await _context.Ingredients.AddAsync(ingredientToAdd);
 
-        public async Task DeleteAsync(int id) =>
-            await DeleteByIdAsync(id);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(IngredientDto ingredientDto)
+        {
+            var ingredientToUpdate = _mapper.Map<Ingredient>(ingredientDto);
+
+            _context.Ingredients.Update(ingredientToUpdate);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var ingredientToRemove = await _context.Ingredients.SingleOrDefaultAsync(i => i.Id.Equals(id));
+
+            if (ingredientToRemove is null) throw new EntityNotFoundException();
+
+            _context.Ingredients.Remove(ingredientToRemove);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

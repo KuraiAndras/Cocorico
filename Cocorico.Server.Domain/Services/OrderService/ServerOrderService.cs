@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using Cocorico.DAL.Models;
-using Cocorico.DAL.Models.Entities;
+using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
 using Cocorico.Server.Domain.Services.Opening;
-using Cocorico.Server.Domain.Services.ServiceBase;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Exceptions;
-using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Services.Price;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,8 +14,9 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Server.Domain.Services.OrderService
 {
-    public class ServerOrderService : EntityServiceBase<Order>, IServerOrderService
+    public class ServerOrderService : IServerOrderService
     {
+        private readonly CocoricoDbContext _context;
         private readonly IMapper _mapper;
         private readonly IOrderRotatingIdService _idService;
         private readonly IOpeningService _openingService;
@@ -28,8 +27,9 @@ namespace Cocorico.Server.Domain.Services.OrderService
             IMapper mapper,
             IOrderRotatingIdService idService,
             IOpeningService openingService,
-            IPriceCalculator priceCalculator) : base(context)
+            IPriceCalculator priceCalculator)
         {
+            _context = context;
             _mapper = mapper;
             _idService = idService;
             _openingService = openingService;
@@ -40,7 +40,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
         {
             if (string.IsNullOrEmpty(customerId)) throw new EntityNotFoundException($"Invalid customer Id:{customerId}");
 
-            var ordersForCustomer = await Context.Orders
+            var ordersForCustomer = await _context.Orders
                                         .Include(o => o.SandwichOrders)
                                         .ThenInclude(sl => sl.Sandwich)
                                         .ThenInclude(s => s.SandwichIngredients)
@@ -57,7 +57,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
 
         public async Task<ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync()
         {
-            var ordersForWorkerView = await Context.Orders
+            var ordersForWorkerView = await _context.Orders
                                           .Include(o => o.SandwichOrders)
                                           .ThenInclude(sl => sl.Sandwich)
                                           .ThenInclude(s => s.SandwichIngredients)
@@ -74,13 +74,15 @@ namespace Cocorico.Server.Domain.Services.OrderService
 
         public async Task UpdateOrderAsync(UpdateOrderDto updateOrderDto)
         {
-            var order = await Context.Orders
+            var order = await _context.Orders
                             .SingleOrDefaultAsync(o => o.Id == updateOrderDto.OrderId)
                         ?? throw new EntityNotFoundException($"Order not found with id:{updateOrderDto.OrderId}");
 
             order.State = updateOrderDto.State;
 
-            await UpdateAsync(order);
+            _context.Update(order);
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<int> AddOrderAsync(AddOrderDto addOrderDto)
@@ -88,7 +90,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
             var dateAdded = DateTime.Now;
             if (!await _openingService.CanAddOrderAsync(dateAdded)) throw new StoreClosedException();
 
-            var sandwichesInDb = await Context
+            var sandwichesInDb = await _context
                 .Sandwiches
                 .ToListAsync();
 
@@ -101,14 +103,13 @@ namespace Cocorico.Server.Domain.Services.OrderService
 
             var orderPrice = await CalculatePriceAsync(addOrderDto);
 
-            var currentOpening = await Context.Openings.FirstAsync(o => o.Start <= dateAdded && o.End > dateAdded);
+            var currentOpening = await _context.Openings.FirstAsync(o => o.Start <= dateAdded && o.End > dateAdded);
 
             var newOrder = new Order
             {
                 CocoricoUserId = addOrderDto.CustomerId,
                 Price = orderPrice,
                 State = OrderState.OrderPlaced,
-                SandwichOrders = new List<SandwichOrder>(),
                 RotatingId = _idService.GetNextId(),
                 Time = dateAdded,
                 Opening = currentOpening,
@@ -126,16 +127,16 @@ namespace Cocorico.Server.Domain.Services.OrderService
                 });
             }
 
-            await Context.Orders.AddAsync(newOrder);
+            await _context.Orders.AddAsync(newOrder);
 
-            await Context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return newOrder.Id;
         }
 
         public async Task<int> CalculatePriceAsync(AddOrderDto addOrderDto)
         {
-            var sandwichesInDb = await Context
+            var sandwichesInDb = await _context
                 .Sandwiches
                 .AsNoTracking()
                 .Include(s => s.SandwichIngredients)
@@ -163,13 +164,13 @@ namespace Cocorico.Server.Domain.Services.OrderService
                     var currentSandwichFromDb = sandwichesFromOrderInDb.First(s => s.Id == currentSandwich.Id);
 
                     var removedIngredients = ingredientModificationDtos.Where(imd => imd.Modification == Modifier.Remove).ToList();
-                    if (!removedIngredients.All(ri => currentSandwichFromDb.Ingredients().Any(i => ri.IngredientId == i.Id)))
+                    if (!removedIngredients.All(ri => currentSandwichFromDb.SandwichIngredients.Select(si => si.Ingredient).Any(i => ri.IngredientId == i.Id)))
                     {
                         throw new InvalidOperationException($"Removed some ingredient from sandwich: {currentSandwichFromDb.Name} which is originally not on it");
                     }
 
                     var addedIngredients = ingredientModificationDtos.Where(imd => imd.Modification == Modifier.Add).ToList();
-                    if (!addedIngredients.All(ai => currentSandwichFromDb.Ingredients().Any(i => ai.IngredientId != i.Id)))
+                    if (!addedIngredients.All(ai => currentSandwichFromDb.SandwichIngredients.Select(si => si.Ingredient).Any(i => ai.IngredientId != i.Id)))
                     {
                         throw new InvalidOperationException($"Added some ingredient to sandwich: {currentSandwichFromDb.Name} which is already on it");
                     }
@@ -181,6 +182,15 @@ namespace Cocorico.Server.Domain.Services.OrderService
                 .Aggregate((sum, price) => sum + price);
         }
 
-        public async Task DeleteOrderAsync(int orderId) => await DeleteByIdAsync(orderId);
+        public async Task DeleteOrderAsync(int orderId)
+        {
+            var orderToDelete = await _context.Orders.SingleOrDefaultAsync(o => o.Id == orderId);
+
+            if (orderToDelete is null) throw new Cocorico.Domain.Exceptions.EntityNotFoundException();
+
+            _context.Orders.Remove(orderToDelete);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

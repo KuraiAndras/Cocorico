@@ -1,5 +1,5 @@
-﻿using System.Text.Json.Serialization;
-using Cocorico.Shared.Helpers;
+﻿using Cocorico.Domain.Entities;
+using System.Text.Json.Serialization;
 
 namespace Cocorico.Shared.Dtos.Order
 {

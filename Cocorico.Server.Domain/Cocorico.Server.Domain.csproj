@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cocorico.DAL\Cocorico.DAL.csproj" />
+    <ProjectReference Include="..\Cocorico.Persistence\Cocorico.Persistence.csproj" />
     <ProjectReference Include="..\Cocorico.Shared\Cocorico.Shared.csproj" />
   </ItemGroup>
 

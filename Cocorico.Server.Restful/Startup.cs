@@ -1,3 +1,5 @@
+using Cocorico.Mappings;
+using Cocorico.Persistence.DependencyInjection;
 using Cocorico.Server.Restful.Extensions;
 using Cocorico.Server.Restful.Hubs;
 using Cocorico.Shared.Helpers;
@@ -28,13 +30,13 @@ namespace Cocorico.Server.Restful
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCocoricoDbContext(Configuration);
+            services.AddPersistence(Configuration);
 
             services.AddCocoricoIdentityConfiguration();
 
             services.AddCocoricoServices();
 
-            services.AddCocoricoMappings();
+            services.AddMappings();
 
             services.AddCocoricoProblemDetails(WebHostingEnvironment);
 

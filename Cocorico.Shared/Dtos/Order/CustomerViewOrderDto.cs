@@ -1,6 +1,6 @@
-﻿using Cocorico.Shared.Dtos.Ingredient;
+﻿using Cocorico.Domain.Entities;
+using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Sandwich;
-using Cocorico.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;

@@ -45,7 +45,8 @@ namespace Cocorico.Server.Restful
             services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { MediaTypeNames.Application.Octet, }));
 
             services.AddSwaggerDocument();
-            services.AddSignalR();
+            services.AddSignalR()
+                .AddJsonProtocol(options => options.PayloadSerializerOptions.PropertyNamingPolicy = null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

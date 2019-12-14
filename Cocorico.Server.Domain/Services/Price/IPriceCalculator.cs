@@ -1,4 +1,4 @@
-﻿namespace Cocorico.Shared.Services.Price
+﻿namespace Cocorico.Server.Domain.Services.Price
 {
     public interface IPriceCalculator
     {

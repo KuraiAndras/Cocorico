@@ -8,7 +8,6 @@ using Cocorico.Server.Domain.Services.Opening;
 using Cocorico.Server.Domain.Services.OrderService;
 using Cocorico.Server.Domain.Services.SandwichService;
 using Cocorico.Server.Domain.Services.User;
-using Cocorico.Shared.Services.Price;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
 using System.Security.Claims;
+using Cocorico.Server.Domain.Services.Price;
 
 namespace Cocorico.Server.Restful.Extensions
 {
@@ -26,6 +26,7 @@ namespace Cocorico.Server.Restful.Extensions
     {
         public static void AddCocoricoIdentityConfiguration(this IServiceCollection services)
         {
+            // TODO: Move to infrastructure, use Identity server
             services
                 .AddIdentity<CocoricoUser, IdentityRole>(identityOptions => identityOptions.User.RequireUniqueEmail = true)
                 .AddEntityFrameworkStores<CocoricoDbContext>()

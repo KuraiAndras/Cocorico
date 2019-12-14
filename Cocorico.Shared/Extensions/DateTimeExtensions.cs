@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Exceptions;
+﻿using Cocorico.Domain.Exceptions;
 using System;
 
 namespace Cocorico.Shared.Extensions

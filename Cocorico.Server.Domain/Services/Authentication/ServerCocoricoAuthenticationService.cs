@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Cocorico.Domain.Entities;
+using Cocorico.Domain.Exceptions;
 using Cocorico.Domain.Identity;
 using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Authentication;
-using Cocorico.Shared.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Security.Claims;

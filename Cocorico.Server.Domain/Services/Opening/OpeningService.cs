@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Cocorico.Domain.Exceptions;
 using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Opening;
-using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;

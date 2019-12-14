@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Cocorico.Domain.Entities;
+using Cocorico.Domain.Exceptions;
 using Cocorico.Persistence;
 using Cocorico.Server.Domain.Services.Opening;
 using Cocorico.Shared.Dtos.Sandwich;
-using Cocorico.Shared.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

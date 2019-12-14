@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Cocorico.Domain.Entities;
+using Cocorico.Domain.Exceptions;
 using Cocorico.Persistence;
 using Cocorico.Server.Domain.Services.Opening;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Services.Price;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -186,7 +186,7 @@ namespace Cocorico.Server.Domain.Services.OrderService
         {
             var orderToDelete = await _context.Orders.SingleOrDefaultAsync(o => o.Id == orderId);
 
-            if (orderToDelete is null) throw new Cocorico.Domain.Exceptions.EntityNotFoundException();
+            if (orderToDelete is null) throw new EntityNotFoundException();
 
             _context.Orders.Remove(orderToDelete);
 

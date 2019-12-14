@@ -2,8 +2,8 @@
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Client.Domain.SignalrClient.WorkerOrders;
 using Cocorico.Domain.Entities;
+using Cocorico.Domain.Exceptions;
 using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

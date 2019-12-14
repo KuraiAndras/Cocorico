@@ -1,9 +1,9 @@
 ﻿using Cocorico.Domain.Entities;
+using Cocorico.Domain.Exceptions;
 using Cocorico.Domain.Identity;
 using Cocorico.Server.Domain.Services.OrderService;
 using Cocorico.Server.Restful.Hubs;
 using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

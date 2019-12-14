@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cocorico.Application\Cocorico.Application.csproj" />
     <ProjectReference Include="..\Cocorico.Domain\Cocorico.Domain.csproj" />
   </ItemGroup>
 

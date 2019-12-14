@@ -2,9 +2,9 @@
 {
     public static class Policies
     {
-        public const string User = "User";
-        public const string Administrator = "Administrator";
-        public const string Customer = "Customer";
-        public const string Worker = "Worker";
+        public const string User = nameof(User);
+        public const string Administrator = nameof(Administrator);
+        public const string Customer = nameof(Customer);
+        public const string Worker = nameof(Worker);
     }
 }

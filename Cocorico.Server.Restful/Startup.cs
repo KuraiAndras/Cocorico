@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using System.Net.Mime;
+using Cocorico.Application;
 
 namespace Cocorico.Server.Restful
 {
@@ -33,6 +34,8 @@ namespace Cocorico.Server.Restful
             services.AddPersistence(Configuration);
 
             services.AddCocoricoIdentityConfiguration();
+
+            services.AddApplication();
 
             services.AddCocoricoServices();
 

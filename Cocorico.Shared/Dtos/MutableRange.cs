@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Cocorico.Shared.Helpers
+namespace Cocorico.Shared.Dtos
 {
     public class MutableRange
     {

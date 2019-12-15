@@ -1,10 +1,16 @@
-﻿using Cocorico.Domain.Entities;
+﻿using Cocorico.Application.Orders.Commands.AddOrder;
+using Cocorico.Application.Orders.Commands.DeleteOrder;
+using Cocorico.Application.Orders.Commands.UpdateOrder;
+using Cocorico.Application.Orders.Queries.CalculatePrice;
+using Cocorico.Application.Orders.Queries.GetAllOrderForCustomer;
+using Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker;
+using Cocorico.Domain.Entities;
 using Cocorico.Domain.Exceptions;
 using Cocorico.Domain.Identity;
-using Cocorico.Server.Domain.Services.OrderService;
 using Cocorico.Server.Restful.Hubs;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Helpers;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,17 +26,17 @@ namespace Cocorico.Server.Restful.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
+        private readonly IMediator _mediator;
         private readonly UserManager<CocoricoUser> _userManager;
-        private readonly IServerOrderService _serverOrderService;
         private readonly IHubContext<WorkerViewOrderHub, IWorkerViewOrderClient> _workerViewHub;
 
         public OrderController(
+            IMediator mediator,
             UserManager<CocoricoUser> userManager,
-            IServerOrderService serverOrderService,
             IHubContext<WorkerViewOrderHub, IWorkerViewOrderClient> workerViewHub)
         {
+            _mediator = mediator;
             _userManager = userManager;
-            _serverOrderService = serverOrderService;
             _workerViewHub = workerViewHub;
         }
 
@@ -42,7 +48,7 @@ namespace Cocorico.Server.Restful.Controllers
 
             if (!userId.Equals(customerId)) throw new InvalidCommandException();
 
-            var serviceResult = await _serverOrderService.GetAllOrderForCustomerAsync(customerId);
+            var serviceResult = await _mediator.Send(new GetAllOrderForCustomerQuery(customerId));
 
             return new ActionResult<IEnumerable<CustomerViewOrderDto>>(serviceResult);
         }
@@ -51,7 +57,7 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpGet(nameof(GetPendingOrdersForWorkerAsync))]
         public async Task<ActionResult<IEnumerable<WorkerOrderViewDto>>> GetPendingOrdersForWorkerAsync()
         {
-            var serviceResult = await _serverOrderService.GetPendingOrdersForWorkerAsync();
+            var serviceResult = await _mediator.Send(new GetPendingOrdersForWorkerQuery());
 
             return new ActionResult<IEnumerable<WorkerOrderViewDto>>(serviceResult);
         }
@@ -65,10 +71,10 @@ namespace Cocorico.Server.Restful.Controllers
             addOrderDto.UserId = userId;
             addOrderDto.CustomerId = userId;
 
-            var result = await _serverOrderService.AddOrderAsync(addOrderDto);
+            await _mediator.Send(new AddOrderCommand(addOrderDto));
 
-            var orderView = (await _serverOrderService.GetPendingOrdersForWorkerAsync())
-                .SingleOrDefault(o => o.Id == result);
+            // TODO: pipeline it
+            var orderView = (await _mediator.Send(new GetPendingOrdersForWorkerQuery())).Last();
 
             await _workerViewHub.ReceiveOrderAddedImplementationAsync(orderView);
 
@@ -79,7 +85,7 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpPost(nameof(CalculateOrderPriceAsync))]
         public async Task<ActionResult<int>> CalculateOrderPriceAsync([FromBody] AddOrderDto addOrderDto)
         {
-            var result = await _serverOrderService.CalculatePriceAsync(addOrderDto);
+            var result = await _mediator.Send(new CalculatePriceQuery(addOrderDto));
 
             return new ActionResult<int>(result);
         }
@@ -88,7 +94,7 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpDelete("{orderId:int}")]
         public async Task<ActionResult> DeleteOrderAsync([FromRoute] int orderId)
         {
-            await _serverOrderService.DeleteOrderAsync(orderId);
+            await _mediator.Send(new DeleteOrderCommand(orderId));
 
             await _workerViewHub.ReceiveOrderDeletedImplementationAsync(orderId);
 
@@ -99,9 +105,10 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpPost(nameof(UpdateOrderAsync))]
         public async Task<ActionResult> UpdateOrderAsync([FromBody] UpdateOrderDto updateOrderDto)
         {
-            await _serverOrderService.UpdateOrderAsync(updateOrderDto);
+            await _mediator.Send(new UpdateOrderCommand(updateOrderDto));
 
-            var updatedPendingOrder = (await _serverOrderService.GetPendingOrdersForWorkerAsync())
+            // TODO: pipeline it
+            var updatedPendingOrder = (await _mediator.Send(new GetPendingOrdersForWorkerQuery()))
                 .SingleOrDefault(o => o.Id == updateOrderDto.OrderId);
 
             if (updatedPendingOrder is null)

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cocorico.Server.Domain.Services.OrderService
+namespace Cocorico.Application.Orders.Services.RotatingId
 {
     public class MemoryOrderRotatingIdService : IOrderRotatingIdService
     {

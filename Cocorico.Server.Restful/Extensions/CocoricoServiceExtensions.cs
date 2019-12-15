@@ -1,12 +1,13 @@
-﻿using Cocorico.Domain.Entities;
+﻿using Cocorico.Application.Common.Persistence;
+using Cocorico.Application.Orders.Services.Price;
+using Cocorico.Application.Orders.Services.RotatingId;
+using Cocorico.Domain.Entities;
 using Cocorico.Domain.Exceptions;
 using Cocorico.Domain.Identity;
 using Cocorico.Persistence;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Domain.Services.IngredientService;
 using Cocorico.Server.Domain.Services.Opening;
-using Cocorico.Server.Domain.Services.OrderService;
-using Cocorico.Server.Domain.Services.Price;
 using Cocorico.Server.Domain.Services.User;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -18,7 +19,6 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
 using System.Security.Claims;
-using Cocorico.Application.Common.Persistence;
 
 namespace Cocorico.Server.Restful.Extensions
 {
@@ -63,7 +63,6 @@ namespace Cocorico.Server.Restful.Extensions
         {
             services.AddTransient<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
             services.AddTransient<IServerUserService, ServerUserService>();
-            services.AddTransient<IServerOrderService, ServerOrderService>();
             services.AddTransient<IServerIngredientService, ServerIngredientService>();
             services.AddTransient<IOrderRotatingIdService, MemoryOrderRotatingIdService>();
             services.AddTransient<IOpeningService, OpeningService>();

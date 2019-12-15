@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
+using Cocorico.Application.Orders.Notifications.OrderAdded;
 using Cocorico.Application.Orders.Queries.CalculatePrice;
 using Cocorico.Application.Orders.Queries.CanAddOrder;
 using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Domain.Entities;
 using Cocorico.Domain.Exceptions;
 using Cocorico.Shared.Dtos.Ingredient;
+using Cocorico.Shared.Dtos.Order;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -84,8 +86,7 @@ namespace Cocorico.Application.Orders.Commands.AddOrder
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            // TODO: notify hub
-            //return newOrder.Id;
+            await _mediator.Publish(new OrderAddedEvent(_mapper.Map<WorkerOrderViewDto>(newOrder)), cancellationToken);
         }
     }
 }

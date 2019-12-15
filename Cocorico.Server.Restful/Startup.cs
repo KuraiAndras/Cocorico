@@ -1,9 +1,11 @@
+using Cocorico.Application;
 using Cocorico.Mappings;
 using Cocorico.Persistence.DependencyInjection;
 using Cocorico.Server.Restful.Extensions;
 using Cocorico.Server.Restful.Hubs;
 using Cocorico.Shared.Helpers;
 using Hellang.Middleware.ProblemDetails;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -12,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using System.Net.Mime;
-using Cocorico.Application;
+using System.Reflection;
 
 namespace Cocorico.Server.Restful
 {
@@ -38,6 +40,8 @@ namespace Cocorico.Server.Restful
             services.AddApplication();
 
             services.AddCocoricoServices();
+
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddMappings();
 

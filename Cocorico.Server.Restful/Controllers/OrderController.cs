@@ -7,16 +7,13 @@ using Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker;
 using Cocorico.Domain.Entities;
 using Cocorico.Domain.Exceptions;
 using Cocorico.Domain.Identity;
-using Cocorico.Server.Restful.Hubs;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cocorico.Server.Restful.Controllers
@@ -28,16 +25,13 @@ namespace Cocorico.Server.Restful.Controllers
     {
         private readonly IMediator _mediator;
         private readonly UserManager<CocoricoUser> _userManager;
-        private readonly IHubContext<WorkerViewOrderHub, IWorkerViewOrderClient> _workerViewHub;
 
         public OrderController(
             IMediator mediator,
-            UserManager<CocoricoUser> userManager,
-            IHubContext<WorkerViewOrderHub, IWorkerViewOrderClient> workerViewHub)
+            UserManager<CocoricoUser> userManager)
         {
             _mediator = mediator;
             _userManager = userManager;
-            _workerViewHub = workerViewHub;
         }
 
         [Authorize(Policy = Policies.Customer)]
@@ -73,11 +67,6 @@ namespace Cocorico.Server.Restful.Controllers
 
             await _mediator.Send(new AddOrderCommand(addOrderDto));
 
-            // TODO: pipeline it
-            var orderView = (await _mediator.Send(new GetPendingOrdersForWorkerQuery())).Last();
-
-            await _workerViewHub.ReceiveOrderAddedImplementationAsync(orderView);
-
             return new OkResult();
         }
 
@@ -96,8 +85,6 @@ namespace Cocorico.Server.Restful.Controllers
         {
             await _mediator.Send(new DeleteOrderCommand(orderId));
 
-            await _workerViewHub.ReceiveOrderDeletedImplementationAsync(orderId);
-
             return new OkResult();
         }
 
@@ -106,19 +93,6 @@ namespace Cocorico.Server.Restful.Controllers
         public async Task<ActionResult> UpdateOrderAsync([FromBody] UpdateOrderDto updateOrderDto)
         {
             await _mediator.Send(new UpdateOrderCommand(updateOrderDto));
-
-            // TODO: pipeline it
-            var updatedPendingOrder = (await _mediator.Send(new GetPendingOrdersForWorkerQuery()))
-                .SingleOrDefault(o => o.Id == updateOrderDto.OrderId);
-
-            if (updatedPendingOrder is null)
-            {
-                await _workerViewHub.ReceiveOrderDeletedImplementationAsync(updateOrderDto.OrderId);
-            }
-            else
-            {
-                await _workerViewHub.ReceiveOrderModifiedImplementationAsync(updatedPendingOrder);
-            }
 
             return new OkResult();
         }

@@ -10,35 +10,29 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Orders.Commands.UpdateOrder
 {
-    public sealed class UpdateOrderCommandHandler : AsyncRequestHandler<UpdateOrderCommand>
+    public sealed class UpdateOrderCommandHandler : CommandHandlerBase<UpdateOrderCommand>
     {
-        private readonly ICocoricoDbContext _context;
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-
         public UpdateOrderCommandHandler(
-            ICocoricoDbContext context,
             IMediator mediator,
-            IMapper mapper)
+            IMapper mapper,
+            ICocoricoDbContext context)
+            : base(mediator, mapper, context)
         {
-            _context = context;
-            _mediator = mediator;
-            _mapper = mapper;
         }
 
         protected override async Task Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _context.Orders
+            var order = await Context.Orders
                             .SingleOrDefaultAsync(o => o.Id == request.Dto.OrderId, cancellationToken)
                         ?? throw new EntityNotFoundException($"Order not found with id:{request.Dto.OrderId}");
 
             order.State = request.Dto.State;
 
-            _context.Orders.Update(order);
+            Context.Orders.Update(order);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken);
 
-            await _mediator.Publish(new OrderModifiedEvent(_mapper.Map<WorkerOrderViewDto>(order)), cancellationToken);
+            await Mediator.Publish(new OrderModifiedEvent(Mapper.Map<WorkerOrderViewDto>(order)), cancellationToken);
         }
     }
 }

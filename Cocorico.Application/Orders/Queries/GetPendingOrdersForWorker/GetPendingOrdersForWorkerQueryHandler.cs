@@ -12,20 +12,19 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker
 {
-    public sealed class GetPendingOrdersForWorkerQueryHandler : IRequestHandler<GetPendingOrdersForWorkerQuery, ICollection<WorkerOrderViewDto>>
+    public sealed class GetPendingOrdersForWorkerQueryHandler : QueryHandlerBase<GetPendingOrdersForWorkerQuery, ICollection<WorkerOrderViewDto>>
     {
-        private readonly ICocoricoDbContext _context;
-        private readonly IMapper _mapper;
-
-        public GetPendingOrdersForWorkerQueryHandler(ICocoricoDbContext context, IMapper mapper)
+        public GetPendingOrdersForWorkerQueryHandler(
+            IMediator mediator,
+            IMapper mapper,
+            ICocoricoDbContext context)
+            : base(mediator, mapper, context)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<ICollection<WorkerOrderViewDto>> Handle(GetPendingOrdersForWorkerQuery request, CancellationToken cancellationToken)
+        public override async Task<ICollection<WorkerOrderViewDto>> Handle(GetPendingOrdersForWorkerQuery request, CancellationToken cancellationToken)
         {
-            var ordersForWorkerView = await _context.Orders
+            var ordersForWorkerView = await Context.Orders
                                           .Where(o => o.State != OrderState.Delivered && o.State != OrderState.Rejected)
                                           .Include(o => o.SandwichOrders)
                                           .ThenInclude(sl => sl.Sandwich)
@@ -37,7 +36,7 @@ namespace Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker
                                           .Include(o => o.CocoricoUser)
                                           .ToListAsync(cancellationToken) ?? throw new UnexpectedException();
 
-            return _mapper.Map<ICollection<WorkerOrderViewDto>>(ordersForWorkerView);
+            return Mapper.Map<ICollection<WorkerOrderViewDto>>(ordersForWorkerView);
         }
     }
 }

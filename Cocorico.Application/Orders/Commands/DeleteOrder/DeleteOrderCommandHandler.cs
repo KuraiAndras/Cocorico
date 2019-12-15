@@ -1,4 +1,5 @@
-﻿using Cocorico.Application.Common.Persistence;
+﻿using AutoMapper;
+using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Notifications.OrderAdded;
 using Cocorico.Domain.Exceptions;
 using MediatR;
@@ -8,30 +9,27 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Orders.Commands.DeleteOrder
 {
-    public sealed class DeleteOrderCommandHandler : AsyncRequestHandler<DeleteOrderCommand>
+    public sealed class DeleteOrderCommandHandler : CommandHandlerBase<DeleteOrderCommand>
     {
-        private readonly ICocoricoDbContext _context;
-        private readonly IMediator _mediator;
-
         public DeleteOrderCommandHandler(
-            ICocoricoDbContext context,
-            IMediator mediator)
+            IMediator mediator,
+            IMapper mapper,
+            ICocoricoDbContext context)
+            : base(mediator, mapper, context)
         {
-            _context = context;
-            _mediator = mediator;
         }
 
         protected override async Task Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            var orderToDelete = await _context.Orders.SingleOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
+            var orderToDelete = await Context.Orders.SingleOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
 
             if (orderToDelete is null) throw new EntityNotFoundException();
 
-            _context.Orders.Remove(orderToDelete);
+            Context.Orders.Remove(orderToDelete);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken);
 
-            await _mediator.Publish(new OrderDeletedEvent(orderToDelete.Id), cancellationToken);
+            await Mediator.Publish(new OrderDeletedEvent(orderToDelete.Id), cancellationToken);
         }
     }
 }

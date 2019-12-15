@@ -12,33 +12,27 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Sandwiches.Commands.UpdateSandwich
 {
-    public sealed class UpdateSandwichCommandHandler : AsyncRequestHandler<UpdateSandwichCommand>
+    public sealed class UpdateSandwichCommandHandler : CommandHandlerBase<UpdateSandwichCommand>
     {
-        private readonly IMapper _mapper;
-        private readonly ICocoricoDbContext _context;
-        private readonly IMediator _mediator;
-
         public UpdateSandwichCommandHandler(
+            IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context,
-            IMediator mediator)
+            ICocoricoDbContext context)
+            : base(mediator, mapper, context)
         {
-            _mapper = mapper;
-            _context = context;
-            _mediator = mediator;
         }
 
         protected override async Task Handle(UpdateSandwichCommand request, CancellationToken cancellationToken)
         {
             var dateAdded = DateTime.Now;
 
-            var canAddOrder = await _mediator.Send(new CanAddOrderQuery(dateAdded), cancellationToken);
+            var canAddOrder = await Mediator.Send(new CanAddOrderQuery(dateAdded), cancellationToken);
 
             if (!canAddOrder) throw new StoreClosedException();
 
-            var updatedSandwich = _mapper.Map<Sandwich>(request.Dto);
+            var updatedSandwich = Mapper.Map<Sandwich>(request.Dto);
 
-            var originalSandwich = await _context.Sandwiches
+            var originalSandwich = await Context.Sandwiches
                 .AsNoTracking()
                 .Include(s => s.SandwichIngredients)
                 .SingleOrDefaultAsync(s => s.Id == request.Dto.Id, cancellationToken);
@@ -49,7 +43,7 @@ namespace Cocorico.Application.Sandwiches.Commands.UpdateSandwich
                 .Where(si => request.Dto.Ingredients.Any(i => si.SandwichId == i.Id))
                 .ToList();
 
-            var ingredientsInDb = await _context.Ingredients.ToListAsync(cancellationToken);
+            var ingredientsInDb = await Context.Ingredients.ToListAsync(cancellationToken);
 
             foreach (var ingredientDto in request.Dto.Ingredients
                 .Where(ingredientDto => updatedSandwich.SandwichIngredients.All(si => si.IngredientId != ingredientDto.Id)))
@@ -61,9 +55,9 @@ namespace Cocorico.Application.Sandwiches.Commands.UpdateSandwich
                 });
             }
 
-            _context.Sandwiches.Update(updatedSandwich);
+            Context.Sandwiches.Update(updatedSandwich);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken);
         }
     }
 }

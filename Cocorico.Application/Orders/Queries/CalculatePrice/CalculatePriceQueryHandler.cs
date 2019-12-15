@@ -7,25 +7,25 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Cocorico.Application.Orders.Queries.CalculatePrice
 {
-    public sealed class CalculatePriceQueryHandler : IRequestHandler<CalculatePriceQuery, int>
+    public sealed class CalculatePriceQueryHandler : QueryHandlerBase<CalculatePriceQuery, int>
     {
-        private readonly ICocoricoDbContext _context;
         private readonly IPriceCalculator _priceCalculator;
 
         public CalculatePriceQueryHandler(
+            IMediator mediator,
+            IMapper mapper,
             ICocoricoDbContext context,
             IPriceCalculator priceCalculator)
-        {
-            _context = context;
+            : base(mediator, mapper, context) =>
             _priceCalculator = priceCalculator;
-        }
 
-        public async Task<int> Handle(CalculatePriceQuery request, CancellationToken cancellationToken)
+        public override async Task<int> Handle(CalculatePriceQuery request, CancellationToken cancellationToken)
         {
-            var sandwichesInDb = await _context
+            var sandwichesInDb = await Context
                 .Sandwiches
                 .AsNoTracking()
                 .Include(s => s.SandwichIngredients)

@@ -1,6 +1,6 @@
-﻿using Cocorico.Domain.Identity;
+﻿using Cocorico.Application.Orders.Services.RotatingId;
+using Cocorico.Domain.Identity;
 using Cocorico.Server.Domain.Services.Opening;
-using Cocorico.Server.Domain.Services.OrderService;
 using Cocorico.Shared.Dtos;
 using Cocorico.Shared.Dtos.Opening;
 using Cocorico.Shared.Helpers;

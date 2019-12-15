@@ -1,9 +1,14 @@
-﻿using Cocorico.Application.Orders.Services.RotatingId;
+﻿using Cocorico.Application.Openings.Commands.AddOpening;
+using Cocorico.Application.Openings.Commands.DeleteOpening;
+using Cocorico.Application.Openings.Commands.UpdateOpening;
+using Cocorico.Application.Openings.Queries.GetAllOpenings;
+using Cocorico.Application.Orders.Queries.CanAddOrder;
+using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Domain.Identity;
-using Cocorico.Server.Domain.Services.Opening;
 using Cocorico.Shared.Dtos;
 using Cocorico.Shared.Dtos.Opening;
 using Cocorico.Shared.Helpers;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,14 +24,14 @@ namespace Cocorico.Server.Restful.Controllers
     public class SettingsController : ControllerBase
     {
         private readonly IOrderRotatingIdService _orderRotatingIdService;
-        private readonly IOpeningService _openingService;
+        private readonly IMediator _mediator;
 
         public SettingsController(
             IOrderRotatingIdService orderRotatingIdService,
-            IOpeningService openingService)
+            IMediator mediator)
         {
             _orderRotatingIdService = orderRotatingIdService;
-            _openingService = openingService;
+            _mediator = mediator;
         }
 
         [HttpGet(nameof(CurrentRangeAsync))]
@@ -51,7 +56,7 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpGet(nameof(GetAllOpeningsAsync))]
         public async Task<ActionResult<ICollection<OpeningDto>>> GetAllOpeningsAsync()
         {
-            var result = await _openingService.GetAllOpeningsAsync();
+            var result = await _mediator.Send(new GetAllOpeningsQuery());
 
             return new ActionResult<ICollection<OpeningDto>>(result);
         }
@@ -59,7 +64,8 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpGet(nameof(IsStoreOpenAsync))]
         public async Task<ActionResult<bool>> IsStoreOpenAsync()
         {
-            var result = await _openingService.CanAddOrderAsync(DateTime.Now);
+            // TODO: date time move to infrastructure
+            var result = await _mediator.Send(new CanAddOrderQuery(DateTime.Now));
 
             return new ActionResult<bool>(result);
         }
@@ -67,7 +73,7 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpPost(nameof(AddOpening))]
         public async Task<ActionResult> AddOpening([FromBody] AddOpeningDto addOpeningDto)
         {
-            await _openingService.AddOpening(addOpeningDto);
+            await _mediator.Send(new AddOpeningCommand(addOpeningDto));
 
             return new OkResult();
         }
@@ -75,7 +81,7 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpPost(nameof(UpdateOpeningAsync))]
         public async Task<ActionResult> UpdateOpeningAsync([FromBody] OpeningDto openingDto)
         {
-            await _openingService.UpdateOpening(openingDto);
+            await _mediator.Send(new UpdateOpeningCommand(openingDto));
 
             return new OkResult();
         }
@@ -83,7 +89,7 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpDelete(nameof(DeleteOpeningAsync))]
         public async Task<ActionResult> DeleteOpeningAsync([FromBody] int openingId)
         {
-            await _openingService.DeleteOpening(openingId);
+            await _mediator.Send(new DeleteOpeningCommand(openingId));
 
             return new OkResult();
         }

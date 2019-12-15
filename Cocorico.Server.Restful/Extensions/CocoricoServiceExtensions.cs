@@ -7,7 +7,6 @@ using Cocorico.Domain.Identity;
 using Cocorico.Persistence;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Domain.Services.IngredientService;
-using Cocorico.Server.Domain.Services.Opening;
 using Cocorico.Server.Domain.Services.User;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -65,7 +64,6 @@ namespace Cocorico.Server.Restful.Extensions
             services.AddTransient<IServerUserService, ServerUserService>();
             services.AddTransient<IServerIngredientService, ServerIngredientService>();
             services.AddTransient<IOrderRotatingIdService, MemoryOrderRotatingIdService>();
-            services.AddTransient<IOpeningService, OpeningService>();
 
             services.AddTransient<IPriceCalculator, PriceCalculator>();
         }

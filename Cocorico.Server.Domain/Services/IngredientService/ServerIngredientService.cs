@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Cocorico.Domain.Entities;
+using Cocorico.Domain.Exceptions;
 using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Ingredient;
-using Cocorico.Shared.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
+using Cocorico.Domain.Exceptions;
 using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Opening;
-using Cocorico.Shared.Exceptions;
-using Cocorico.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,9 +36,10 @@ namespace Cocorico.Server.Domain.Services.Opening
 
         public async Task AddOpening(AddOpeningDto addOpeningDto)
         {
+            // TODO: fluent validator
             if (!addOpeningDto.Start.HasValue) throw new ArgumentException(nameof(addOpeningDto));
             if (!addOpeningDto.End.HasValue) throw new ArgumentException(nameof(addOpeningDto));
-            if (addOpeningDto.Start.Value.DateDifferenceTo(addOpeningDto.End.Value) != DateDifference.Sooner) throw new ArgumentException("Start is sooner than End", nameof(addOpeningDto));
+            if (addOpeningDto.Start.Value > addOpeningDto.End.Value) throw new ArgumentException("Start is sooner than End", nameof(addOpeningDto));
 
             var opening = _mapper.Map<Cocorico.Domain.Entities.Opening>(addOpeningDto);
 
@@ -48,7 +48,7 @@ namespace Cocorico.Server.Domain.Services.Opening
             var lastOpening = openingsInDb.OrderByDescending(o => o.End).FirstOrDefault()
                               ?? new Cocorico.Domain.Entities.Opening { End = new DateTime(), Start = new DateTime() };
 
-            if (lastOpening.End.DateDifferenceTo(opening.Start) != DateDifference.Sooner) throw new ArgumentException("New start is sooner than last end", nameof(addOpeningDto));
+            if (lastOpening.End > opening.Start) throw new ArgumentException("New start is sooner than last end", nameof(addOpeningDto));
 
             await _context.Openings.AddAsync(opening);
 
@@ -57,9 +57,10 @@ namespace Cocorico.Server.Domain.Services.Opening
 
         public async Task UpdateOpening(OpeningDto openingDto)
         {
+            // TODO: fluent validator
             if (!openingDto.Start.HasValue) throw new ArgumentException(nameof(openingDto));
             if (!openingDto.End.HasValue) throw new ArgumentException(nameof(openingDto));
-            if (openingDto.Start.Value.DateDifferenceTo(openingDto.End.Value) != DateDifference.Sooner) throw new ArgumentException(nameof(openingDto));
+            if (openingDto.Start.Value > openingDto.End.Value) throw new ArgumentException(nameof(openingDto));
 
             var opening = _mapper.Map<Cocorico.Domain.Entities.Opening>(openingDto);
 
@@ -88,8 +89,7 @@ namespace Cocorico.Server.Domain.Services.Opening
 
             if (lastOpeningEnd is null) throw new UnexpectedException("No Opening in Database");
 
-            return addTime.DateDifferenceTo(lastOpeningEnd.End) == DateDifference.Sooner
-                   && addTime.DateDifferenceTo(lastOpeningEnd.Start) != DateDifference.Sooner;
+            return addTime < lastOpeningEnd.End && addTime > lastOpeningEnd.Start;
         }
     }
 }

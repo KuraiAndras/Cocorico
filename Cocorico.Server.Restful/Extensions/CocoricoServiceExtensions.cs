@@ -1,14 +1,13 @@
 ﻿using Cocorico.Domain.Entities;
+using Cocorico.Domain.Exceptions;
 using Cocorico.Domain.Identity;
 using Cocorico.Persistence;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Domain.Services.IngredientService;
 using Cocorico.Server.Domain.Services.Opening;
 using Cocorico.Server.Domain.Services.OrderService;
-using Cocorico.Server.Domain.Services.SandwichService;
+using Cocorico.Server.Domain.Services.Price;
 using Cocorico.Server.Domain.Services.User;
-using Cocorico.Shared.Exceptions;
-using Cocorico.Shared.Services.Price;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
 using System.Security.Claims;
+using Cocorico.Application.Common.Persistence;
 
 namespace Cocorico.Server.Restful.Extensions
 {
@@ -26,6 +26,7 @@ namespace Cocorico.Server.Restful.Extensions
     {
         public static void AddCocoricoIdentityConfiguration(this IServiceCollection services)
         {
+            // TODO: Move to infrastructure, use Identity server
             services
                 .AddIdentity<CocoricoUser, IdentityRole>(identityOptions => identityOptions.User.RequireUniqueEmail = true)
                 .AddEntityFrameworkStores<CocoricoDbContext>()
@@ -54,12 +55,13 @@ namespace Cocorico.Server.Restful.Extensions
             services
                 .AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
+
+            services.AddScoped<ICocoricoDbContext, CocoricoDbContext>();
         }
 
         public static void AddCocoricoServices(this IServiceCollection services)
         {
             services.AddTransient<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
-            services.AddTransient<IServerSandwichService, ServerSandwichService>();
             services.AddTransient<IServerUserService, ServerUserService>();
             services.AddTransient<IServerOrderService, ServerOrderService>();
             services.AddTransient<IServerIngredientService, ServerIngredientService>();

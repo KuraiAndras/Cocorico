@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using System.Net.Mime;
+using Cocorico.Application;
 
 namespace Cocorico.Server.Restful
 {
@@ -34,6 +35,8 @@ namespace Cocorico.Server.Restful
 
             services.AddCocoricoIdentityConfiguration();
 
+            services.AddApplication();
+
             services.AddCocoricoServices();
 
             services.AddMappings();
@@ -45,7 +48,8 @@ namespace Cocorico.Server.Restful
             services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { MediaTypeNames.Application.Octet, }));
 
             services.AddSwaggerDocument();
-            services.AddSignalR();
+            services.AddSignalR()
+                .AddJsonProtocol(options => options.PayloadSerializerOptions.PropertyNamingPolicy = null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

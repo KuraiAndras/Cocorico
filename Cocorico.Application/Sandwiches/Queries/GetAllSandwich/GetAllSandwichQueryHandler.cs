@@ -10,28 +10,25 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Sandwiches.Queries.GetAllSandwich
 {
-    public sealed class GetAllSandwichQueryHandler : IRequestHandler<GetAllSandwichQuery, ICollection<SandwichDto>>
+    public sealed class GetAllSandwichQueryHandler : QueryHandlerBase<GetAllSandwichQuery, ICollection<SandwichDto>>
     {
-        private readonly ICocoricoDbContext _context;
-        private readonly IMapper _mapper;
-
         public GetAllSandwichQueryHandler(
-            ICocoricoDbContext context,
-            IMapper mapper)
+            IMediator mediator,
+            IMapper mapper,
+            ICocoricoDbContext context)
+            : base(mediator, mapper, context)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<ICollection<SandwichDto>> Handle(GetAllSandwichQuery request, CancellationToken cancellationToken)
+        public override async Task<ICollection<SandwichDto>> Handle(GetAllSandwichQuery request, CancellationToken cancellationToken)
         {
-            var sandwiches = await _context
+            var sandwiches = await Context
                 .Sandwiches
                 .Include(s => s.SandwichIngredients)
                 .ThenInclude(il => il.Ingredient)
                 .ToListAsync(cancellationToken);
 
-            return sandwiches.Select(s => _mapper.Map<SandwichDto>(s)).ToList();
+            return sandwiches.Select(s => Mapper.Map<SandwichDto>(s)).ToList();
         }
     }
 }

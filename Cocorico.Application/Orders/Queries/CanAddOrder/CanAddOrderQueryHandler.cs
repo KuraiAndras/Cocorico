@@ -1,4 +1,5 @@
-﻿using Cocorico.Application.Common.Persistence;
+﻿using AutoMapper;
+using Cocorico.Application.Common.Persistence;
 using Cocorico.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,15 +9,19 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Orders.Queries.CanAddOrder
 {
-    public sealed class CanAddOrderQueryHandler : IRequestHandler<CanAddOrderQuery, bool>
+    public sealed class CanAddOrderQueryHandler : QueryHandlerBase<CanAddOrderQuery, bool>
     {
-        private readonly ICocoricoDbContext _context;
-
-        public CanAddOrderQueryHandler(ICocoricoDbContext context) => _context = context;
-
-        public async Task<bool> Handle(CanAddOrderQuery request, CancellationToken cancellationToken)
+        public CanAddOrderQueryHandler(
+            IMediator mediator,
+            IMapper mapper,
+            ICocoricoDbContext context)
+            : base(mediator, mapper, context)
         {
-            var lastOpeningEnd = await _context.Openings
+        }
+
+        public override async Task<bool> Handle(CanAddOrderQuery request, CancellationToken cancellationToken)
+        {
+            var lastOpeningEnd = await Context.Openings
                 .AsNoTracking()
                 .OrderByDescending(o => o.End)
                 .FirstOrDefaultAsync(cancellationToken);

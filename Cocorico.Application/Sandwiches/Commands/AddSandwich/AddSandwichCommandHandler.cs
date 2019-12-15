@@ -9,22 +9,21 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Sandwiches.Commands.AddSandwich
 {
-    public sealed class AddSandwichCommandHandler : AsyncRequestHandler<AddSandwichCommand>
+    public sealed class AddSandwichCommandHandler : CommandHandlerBase<AddSandwichCommand>
     {
-        private readonly IMapper _mapper;
-        private readonly ICocoricoDbContext _context;
-
-        public AddSandwichCommandHandler(IMapper mapper, ICocoricoDbContext context)
+        public AddSandwichCommandHandler(
+            IMediator mediator,
+            IMapper mapper,
+            ICocoricoDbContext context)
+            : base(mediator, mapper, context)
         {
-            _mapper = mapper;
-            _context = context;
         }
 
         protected override async Task Handle(AddSandwichCommand request, CancellationToken cancellationToken)
         {
-            var sandwich = _mapper.Map<Sandwich>(request.SandwichAddDto);
+            var sandwich = Mapper.Map<Sandwich>(request.SandwichAddDto);
 
-            var ingredients = await _context
+            var ingredients = await Context
                 .Ingredients
                 .ToListAsync(cancellationToken);
 
@@ -37,9 +36,9 @@ namespace Cocorico.Application.Sandwiches.Commands.AddSandwich
                 })
                 .ToList();
 
-            _context.Sandwiches.Add(sandwich);
+            Context.Sandwiches.Add(sandwich);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken);
         }
     }
 }

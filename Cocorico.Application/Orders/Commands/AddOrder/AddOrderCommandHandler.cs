@@ -18,11 +18,8 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Orders.Commands.AddOrder
 {
-    public sealed class AddOrderCommandHandler : AsyncRequestHandler<AddOrderCommand>
+    public sealed class AddOrderCommandHandler : CommandHandlerBase<AddOrderCommand>
     {
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-        private readonly ICocoricoDbContext _context;
         private readonly IOrderRotatingIdService _idService;
 
         public AddOrderCommandHandler(
@@ -30,21 +27,17 @@ namespace Cocorico.Application.Orders.Commands.AddOrder
             IMapper mapper,
             ICocoricoDbContext context,
             IOrderRotatingIdService idService)
-        {
-            _mediator = mediator;
-            _mapper = mapper;
-            _context = context;
+            : base(mediator, mapper, context) =>
             _idService = idService;
-        }
 
         protected override async Task Handle(AddOrderCommand request, CancellationToken cancellationToken)
         {
             // TODO: date service
             var dateAdded = DateTime.Now;
-            var canAdd = await _mediator.Send(new CanAddOrderQuery(dateAdded), cancellationToken);
+            var canAdd = await Mediator.Send(new CanAddOrderQuery(dateAdded), cancellationToken);
             if (!canAdd) throw new StoreClosedException();
 
-            var sandwichesInDb = await _context
+            var sandwichesInDb = await Context
                 .Sandwiches
                 .ToListAsync(cancellationToken);
 
@@ -55,9 +48,9 @@ namespace Cocorico.Application.Orders.Commands.AddOrder
 
             if (sandwichesFromOrderInDb.Count == 0) throw new EntityNotFoundException();
 
-            var orderPrice = await _mediator.Send(new CalculatePriceQuery(request.Dto), cancellationToken);
+            var orderPrice = await Mediator.Send(new CalculatePriceQuery(request.Dto), cancellationToken);
 
-            var currentOpening = await _context.Openings
+            var currentOpening = await Context.Openings
                 .FirstAsync(o => o.Start <= dateAdded && o.End > dateAdded, cancellationToken);
 
             var newOrder = new Order
@@ -76,17 +69,17 @@ namespace Cocorico.Application.Orders.Commands.AddOrder
                 {
                     Order = newOrder,
                     Sandwich = sandwich,
-                    IngredientModifications = _mapper.Map<ICollection<IngredientModification>>(
+                    IngredientModifications = Mapper.Map<ICollection<IngredientModification>>(
                         request.Dto.SandwichModifications.SingleOrDefault(kvp => kvp.Key.Id == sandwich.Id).Value
                         ?? new List<IngredientModificationDto>()),
                 });
             }
 
-            _context.Orders.Add(newOrder);
+            Context.Orders.Add(newOrder);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken);
 
-            await _mediator.Publish(new OrderAddedEvent(_mapper.Map<WorkerOrderViewDto>(newOrder)), cancellationToken);
+            await Mediator.Publish(new OrderAddedEvent(Mapper.Map<WorkerOrderViewDto>(newOrder)), cancellationToken);
         }
     }
 }

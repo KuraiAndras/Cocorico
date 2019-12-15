@@ -11,25 +11,22 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Orders.Queries.GetAllOrderForCustomer
 {
-    public sealed class GetAllOrderForCustomerQueryHandler : IRequestHandler<GetAllOrderForCustomerQuery, ICollection<CustomerViewOrderDto>>
+    public sealed class GetAllOrderForCustomerQueryHandler : QueryHandlerBase<GetAllOrderForCustomerQuery, ICollection<CustomerViewOrderDto>>
     {
-        private readonly ICocoricoDbContext _context;
-        private readonly IMapper _mapper;
-
         public GetAllOrderForCustomerQueryHandler(
+            IMediator mediator,
             IMapper mapper,
             ICocoricoDbContext context)
+            : base(mediator, mapper, context)
         {
-            _mapper = mapper;
-            _context = context;
         }
 
-        public async Task<ICollection<CustomerViewOrderDto>> Handle(GetAllOrderForCustomerQuery request, CancellationToken cancellationToken)
+        public override async Task<ICollection<CustomerViewOrderDto>> Handle(GetAllOrderForCustomerQuery request, CancellationToken cancellationToken)
         {
             // TODO: Fluent Validator
             if (string.IsNullOrEmpty(request.CustomerId)) throw new EntityNotFoundException($"Invalid customer Id:{request.CustomerId}");
 
-            var ordersForCustomer = await _context.Orders
+            var ordersForCustomer = await Context.Orders
                                         .Include(o => o.SandwichOrders)
                                         .ThenInclude(sl => sl.Sandwich)
                                         .ThenInclude(s => s.SandwichIngredients)
@@ -41,7 +38,7 @@ namespace Cocorico.Application.Orders.Queries.GetAllOrderForCustomer
                                         .ToListAsync(cancellationToken)
                                     ?? throw new UnexpectedException();
 
-            return _mapper.Map<ICollection<CustomerViewOrderDto>>(ordersForCustomer);
+            return Mapper.Map<ICollection<CustomerViewOrderDto>>(ordersForCustomer);
         }
     }
 }

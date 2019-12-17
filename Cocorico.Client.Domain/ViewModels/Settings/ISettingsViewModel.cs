@@ -1,5 +1,5 @@
-﻿using Cocorico.Shared.Dtos.Opening;
-using Cocorico.Shared.Helpers;
+﻿using Cocorico.Shared.Dtos;
+using Cocorico.Shared.Dtos.Opening;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;

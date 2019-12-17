@@ -14,3 +14,6 @@ dotnet_diagnostic.RCS1047.severity = warning
 
 # RCS1124: Inline local variable.
 dotnet_diagnostic.RCS1124.severity = warning
+
+# RCS1225: Make class sealed
+dotnet_diagnostic.RCS1225.severity = warning

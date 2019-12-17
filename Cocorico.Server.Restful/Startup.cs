@@ -1,7 +1,11 @@
+using Cocorico.Application;
+using Cocorico.Mappings;
+using Cocorico.Persistence.DependencyInjection;
 using Cocorico.Server.Restful.Extensions;
 using Cocorico.Server.Restful.Hubs;
 using Cocorico.Shared.Helpers;
 using Hellang.Middleware.ProblemDetails;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -10,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using System.Net.Mime;
+using System.Reflection;
 
 namespace Cocorico.Server.Restful
 {
@@ -28,13 +33,17 @@ namespace Cocorico.Server.Restful
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCocoricoDbContext(Configuration);
+            services.AddPersistence(Configuration);
 
             services.AddCocoricoIdentityConfiguration();
 
+            services.AddApplication();
+
             services.AddCocoricoServices();
 
-            services.AddCocoricoMappings();
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            services.AddMappings();
 
             services.AddCocoricoProblemDetails(WebHostingEnvironment);
 
@@ -43,7 +52,8 @@ namespace Cocorico.Server.Restful
             services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { MediaTypeNames.Application.Octet, }));
 
             services.AddSwaggerDocument();
-            services.AddSignalR();
+            services.AddSignalR()
+                .AddJsonProtocol(options => options.PayloadSerializerOptions.PropertyNamingPolicy = null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.SignalR" Version="1.1.0-preview3" />
-    <PackageReference Include="IndexRange" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Roslynator.Analyzers" Version="2.2.0">
       <PrivateAssets>all</PrivateAssets>
@@ -17,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cocorico.Domain\Cocorico.Domain.csproj" />
     <ProjectReference Include="..\Cocorico.Shared\Cocorico.Shared.csproj" />
   </ItemGroup>
 

@@ -2,8 +2,8 @@
 using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Client.Domain.Services.Authentication;
+using Cocorico.Domain.Exceptions;
 using Cocorico.Shared.Dtos.Authentication;
-using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Collections.Generic;

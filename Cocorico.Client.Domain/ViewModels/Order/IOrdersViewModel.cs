@@ -1,5 +1,5 @@
-﻿using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Helpers;
+﻿using Cocorico.Domain.Entities;
+using Cocorico.Shared.Dtos.Order;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

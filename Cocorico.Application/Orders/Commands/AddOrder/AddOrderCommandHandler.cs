@@ -5,7 +5,6 @@ using Cocorico.Application.Orders.Queries.CalculatePrice;
 using Cocorico.Application.Orders.Queries.CanAddOrder;
 using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Domain.Entities;
-using Cocorico.Domain.Exceptions;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Order;
 using MediatR;
@@ -15,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Orders.Commands.AddOrder
 {

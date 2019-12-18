@@ -3,7 +3,6 @@ using Cocorico.Application.Orders.Services.Price;
 using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Application.Users.Services;
 using Cocorico.Domain.Entities;
-using Cocorico.Domain.Exceptions;
 using Cocorico.Persistence;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Domain.Services.User;
@@ -18,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
 using System.Security.Claims;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Server.Restful.Extensions
 {

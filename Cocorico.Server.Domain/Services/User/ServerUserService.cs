@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Cocorico.Domain.Entities;
-using Cocorico.Domain.Exceptions;
 using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.User;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Server.Domain.Services.User
 {

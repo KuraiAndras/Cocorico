@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Users.Commands.LogoutUser;
 using Cocorico.Domain.Entities;
-using Cocorico.Domain.Exceptions;
 using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Identity;
@@ -11,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Server.Domain.Services.Authentication
 {

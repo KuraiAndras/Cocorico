@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Cocorico.Application.Common.Persistence;
 using Cocorico.Domain.Entities;
-using Cocorico.Domain.Exceptions;
+using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 

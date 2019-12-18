@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cocorico.Client.Domain\Cocorico.Client.Domain.csproj" />
-    <ProjectReference Include="..\Cocorico.Domain\Cocorico.Domain.csproj" />
     <ProjectReference Include="..\Cocorico.Shared\Cocorico.Shared.csproj" />
   </ItemGroup>
 

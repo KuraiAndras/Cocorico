@@ -1,12 +1,12 @@
 ﻿using Cocorico.Client.Domain.Extensions;
 using Cocorico.Client.Domain.Helpers;
-using Cocorico.Domain.Exceptions;
 using Cocorico.Shared.Dtos;
 using Cocorico.Shared.Dtos.Opening;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Client.Domain.ViewModels.Settings
 {

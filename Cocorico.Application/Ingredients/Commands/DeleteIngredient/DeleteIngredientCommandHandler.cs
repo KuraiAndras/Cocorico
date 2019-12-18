@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
-using Cocorico.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Ingredients.Commands.DeleteIngredient
 {

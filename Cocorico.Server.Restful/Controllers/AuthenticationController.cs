@@ -19,11 +19,11 @@ namespace Cocorico.Server.Restful.Controllers
 
         [AllowAnonymous]
         [HttpPost(nameof(LoginAsync))]
-        public async Task<ActionResult<LoginResult>> LoginAsync([FromBody] LoginDetails credentials)
+        public async Task<ActionResult<ClaimsDto>> LoginAsync([FromBody] LoginDetails credentials)
         {
             var result = await _serverCocoricoAuthenticationService.LoginAsync(credentials);
 
-            return new ActionResult<LoginResult>(result);
+            return new ActionResult<ClaimsDto>(result);
         }
 
         [AllowAnonymous]

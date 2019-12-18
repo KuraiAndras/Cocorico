@@ -55,7 +55,7 @@ namespace Cocorico.Server.Domain.Services.Authentication
             await _cocoricoDbContext.SaveChangesAsync();
         }
 
-        public async Task<LoginResult> LoginAsync(LoginDetails model)
+        public async Task<ClaimsDto> LoginAsync(LoginDetails model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email) ?? throw new EntityNotFoundException($"User not found with email: {model.Email}");
 
@@ -68,7 +68,7 @@ namespace Cocorico.Server.Domain.Services.Authentication
 
             var claims = await _userManager.GetClaimsAsync(user) ?? throw new UnexpectedException();
 
-            return new LoginResult { Claims = claims.Select(c => c.Value).ToList() };
+            return new ClaimsDto { Claims = claims.ToList() };
         }
 
         public async Task LogoutAsync() => await _signInManager.SignOutAsync();

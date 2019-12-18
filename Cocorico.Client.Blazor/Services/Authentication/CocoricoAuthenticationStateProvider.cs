@@ -6,8 +6,6 @@ using Cocorico.Domain.Exceptions;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components.Authorization;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -48,17 +46,17 @@ namespace Cocorico.Client.Blazor.Services.Authentication
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var storedClaims = await _localStorage.GetItemAsync<IEnumerable<string>>(Verbs.Claims);
-            if (storedClaims is null) return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            var storedClaims = await _localStorage.GetItemAsync<ClaimsDto>(Verbs.Claims);
 
-            var claims = storedClaims.ToList();
-            if (claims.Count == 0) return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            var authenticationState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
 
-            var identity = claims.Count != 0
-                ? new ClaimsIdentity(claims.Select(c => new Claim(ClaimTypes.Role, c)), "server authentication")
-                : new ClaimsIdentity();
+            if (storedClaims is null || storedClaims.Claims.Count == 0) return authenticationState;
 
-            return new AuthenticationState(new ClaimsPrincipal(identity));
+            var identity = new ClaimsIdentity(storedClaims.Claims);
+
+            authenticationState.User.AddIdentity(identity);
+
+            return authenticationState;
         }
     }
 }

@@ -38,6 +38,7 @@ steps:
     SonarCloud: 'SonarCloud'
     organization: 'kuraiandras'
     scannerMode: 'MSBuild'
+    projectKey: 'KuraiAndras_Cocorico'
 
 - task: SonarCloudAnalyze@1
 

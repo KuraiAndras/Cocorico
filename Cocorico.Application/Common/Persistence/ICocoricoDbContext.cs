@@ -11,6 +11,7 @@ namespace Cocorico.Application.Common.Persistence
         DbSet<Order> Orders { get; set; }
         DbSet<Ingredient> Ingredients { get; set; }
         DbSet<Opening> Openings { get; set; }
+        DbSet<CocoricoUser> Users { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

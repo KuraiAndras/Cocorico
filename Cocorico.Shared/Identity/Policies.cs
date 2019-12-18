@@ -1,4 +1,4 @@
-﻿namespace Cocorico.Domain.Identity
+﻿namespace Cocorico.Shared.Identity
 {
     public static class Policies
     {

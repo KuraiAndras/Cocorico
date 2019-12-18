@@ -1,8 +1,8 @@
 ﻿using Cocorico.Application.Users.Queries.GetClaims;
-using Cocorico.Domain.Identity;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

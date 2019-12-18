@@ -1,4 +1,4 @@
-﻿using Cocorico.Domain.Identity;
+﻿using Cocorico.Shared.Identity;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;

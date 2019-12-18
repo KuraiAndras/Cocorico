@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Notifications.OrderAdded;
-using Cocorico.Domain.Exceptions;
 using Cocorico.Shared.Dtos.Order;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Orders.Commands.UpdateOrder
 {

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
 using Cocorico.Domain.Entities;
-using Cocorico.Domain.Exceptions;
 using Cocorico.Shared.Dtos.Order;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker
 {

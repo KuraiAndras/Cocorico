@@ -5,16 +5,16 @@ using Cocorico.Application.Orders.Queries.CalculatePrice;
 using Cocorico.Application.Orders.Queries.GetAllOrderForCustomer;
 using Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker;
 using Cocorico.Domain.Entities;
-using Cocorico.Domain.Exceptions;
-using Cocorico.Domain.Identity;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Server.Restful.Controllers
 {

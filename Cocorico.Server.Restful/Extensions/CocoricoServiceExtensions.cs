@@ -1,12 +1,11 @@
 ﻿using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Services.Price;
 using Cocorico.Application.Orders.Services.RotatingId;
+using Cocorico.Application.Users.Services;
 using Cocorico.Domain.Entities;
-using Cocorico.Domain.Exceptions;
-using Cocorico.Domain.Identity;
 using Cocorico.Persistence;
-using Cocorico.Server.Domain.Services.Authentication;
-using Cocorico.Server.Domain.Services.User;
+using Cocorico.Shared.Exceptions;
+using Cocorico.Shared.Identity;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
@@ -44,6 +43,7 @@ namespace Cocorico.Server.Restful.Extensions
 
             services.AddAuthorization(options =>
             {
+                // TODO: deduplicate
                 options.AddPolicy(Policies.Administrator, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Admin));
                 options.AddPolicy(Policies.Customer, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Customer));
                 options.AddPolicy(Policies.User, policy => policy.RequireClaim(ClaimTypes.Role, Claims.User));
@@ -59,10 +59,8 @@ namespace Cocorico.Server.Restful.Extensions
 
         public static void AddCocoricoServices(this IServiceCollection services)
         {
-            services.AddTransient<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
-            services.AddTransient<IServerUserService, ServerUserService>();
             services.AddTransient<IOrderRotatingIdService, MemoryOrderRotatingIdService>();
-
+            services.AddTransient<IClaimService, ClaimService>();
             services.AddTransient<IPriceCalculator, PriceCalculator>();
         }
 

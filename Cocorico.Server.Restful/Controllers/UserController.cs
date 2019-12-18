@@ -1,7 +1,9 @@
-﻿using Cocorico.Domain.Identity;
-using Cocorico.Server.Domain.Services.User;
+﻿using Cocorico.Application.Users.Queries.GetUserForAdmin;
+using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -14,15 +16,15 @@ namespace Cocorico.Server.Restful.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IServerUserService _userService;
+        private readonly IMediator _mediator;
 
-        public UserController(IServerUserService userService) => _userService = userService;
+        public UserController(IMediator mediator) => _mediator = mediator;
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpGet(nameof(GetAllForAdminAsync))]
         public async Task<ActionResult<IEnumerable<UserForAdminPage>>> GetAllForAdminAsync()
         {
-            var serviceResult = await _userService.GetAllUsersForAdminPageAsync();
+            var serviceResult = await _mediator.Send(new GetAllUsersForAdminQuery());
 
             return new ActionResult<IEnumerable<UserForAdminPage>>(serviceResult);
         }
@@ -31,7 +33,7 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpGet(nameof(GetUserForAdminPageAsync) + "/{userId}")]
         public async Task<ActionResult<UserForAdminPage>> GetUserForAdminPageAsync([FromRoute] string userId)
         {
-            var serviceResult = await _userService.GetUserForAdminPageAsync(userId);
+            var serviceResult = await _mediator.Send(new GetUserForAdminQuery(new UserIdDto { UserId = userId }));
 
             return new ActionResult<UserForAdminPage>(serviceResult);
         }

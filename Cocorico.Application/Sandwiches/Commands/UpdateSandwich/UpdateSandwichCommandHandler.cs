@@ -2,13 +2,13 @@
 using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Queries.CanAddOrder;
 using Cocorico.Domain.Entities;
-using Cocorico.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Sandwiches.Commands.UpdateSandwich
 {

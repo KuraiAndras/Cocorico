@@ -2,12 +2,12 @@
 using Cocorico.Client.Domain.Helpers;
 using Cocorico.Client.Domain.SignalrClient.WorkerOrders;
 using Cocorico.Domain.Entities;
-using Cocorico.Domain.Exceptions;
 using Cocorico.Shared.Dtos.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Client.Domain.ViewModels.Order
 {

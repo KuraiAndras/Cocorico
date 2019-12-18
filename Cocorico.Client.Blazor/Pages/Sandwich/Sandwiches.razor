@@ -4,7 +4,7 @@
 @* ReSharper disable once RedundantUsingDirective *@
 @using Microsoft.AspNetCore.Components.Authorization
 @using Cocorico.Client.Domain.ViewModels.Order
-@using Cocorico.Domain.Identity
+@using Cocorico.Shared.Identity
 
 @inject NavigationManager urihelper
 @inject IAddCustomerOrderViewModel OrderViewModel
@@ -15,10 +15,10 @@
         <tr>
             <th>Name</th>
             <th>Price</th>
-            <AuthorizeView Roles="@Claims.Customer">
+            <AuthorizeView Policy="@Policies.Customer">
                 <th> </th>
             </AuthorizeView>
-            <AuthorizeView Roles="@Claims.Admin">
+            <AuthorizeView Policy="@Policies.Administrator">
                 <th> </th>
                 <th> </th>
             </AuthorizeView>
@@ -30,10 +30,10 @@
             <tr>
                 <td>@sandwich.Name</td>
                 <td>@sandwich.Price</td>
-                <AuthorizeView Roles="@Claims.Customer">
+                <AuthorizeView Policy="@Policies.Customer">
                     <td><MatButton Raised="true" Icon="add_shopping_cart" @onclick="@(() => ViewModel.AddToBasket(sandwich))">Order</MatButton></td>
                 </AuthorizeView>
-                <AuthorizeView Roles="@Claims.Admin">
+                <AuthorizeView Policy="@Policies.Administrator">
                     <td><MatButton Icon="edit" Raised="true" @onclick="@(() => ViewModel.Edit(sandwich.Id))">Edit</MatButton></td>
                     <td><MatButton Icon="delete_forever" Outlined="true" @onclick="@(async () => await ViewModel.DeleteAsync(sandwich.Id))">Delete</MatButton></td>
                 </AuthorizeView>

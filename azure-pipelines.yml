@@ -4,7 +4,13 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 trigger:
-- master
+  branches:
+    include:
+    - master
+    - develop
+    - release/*
+    - feature/*
+    - hotfix/*
 
 pool:
   vmImage: 'windows-latest'
@@ -16,6 +22,13 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@1
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'kuraiandras'
+    scannerMode: 'MSBuild'
+    projectKey: 'KuraiAndras_Cocorico'
 
 - task: NuGetCommand@2
   inputs:
@@ -32,13 +45,6 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'kuraiandras'
-    scannerMode: 'MSBuild'
-    projectKey: 'KuraiAndras_Cocorico'
 
 - task: SonarCloudAnalyze@1
 

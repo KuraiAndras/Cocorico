@@ -1,7 +1,8 @@
-using Blazored.LocalStorage;
 using Cocorico.Client.Blazor.Extensions;
+using Cocorico.Shared.Identity;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
 
 namespace Cocorico.Client.Blazor
 {
@@ -9,9 +10,14 @@ namespace Cocorico.Client.Blazor
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBlazoredLocalStorage();
-
-            services.AddAuthorizationCore();
+            services.AddAuthorizationCore(options =>
+            {
+                // TODO: deduplicate
+                options.AddPolicy(Policies.Administrator, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Admin));
+                options.AddPolicy(Policies.Customer, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Customer));
+                options.AddPolicy(Policies.User, policy => policy.RequireClaim(ClaimTypes.Role, Claims.User));
+                options.AddPolicy(Policies.Worker, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Worker));
+            });
 
             services.AddCocoricoClientServices();
 

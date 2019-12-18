@@ -41,7 +41,7 @@
             "x-nullable": false,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/LoginResult"
+              "$ref": "#/definitions/ClaimsDto"
             }
           }
         }
@@ -93,6 +93,26 @@
             "description": "",
             "schema": {
               "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/Authentication/GetCurrentUserClaims": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "Authentication_GetCurrentUserClaims",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ClaimsDto"
             }
           }
         }
@@ -392,6 +412,44 @@
             "description": "",
             "schema": {
               "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/Order/CalculateOrderPriceAsync": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "operationId": "Order_CalculateOrderPrice",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "addOrderDto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddOrderDto"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         }
@@ -854,7 +912,7 @@
     }
   },
   "definitions": {
-    "LoginResult": {
+    "ClaimsDto": {
       "type": "object",
       "required": [
         "claims"
@@ -863,8 +921,23 @@
         "claims": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/ClaimDto"
           }
+        }
+      }
+    },
+    "ClaimDto": {
+      "type": "object",
+      "required": [
+        "claimType",
+        "claimValue"
+      ],
+      "properties": {
+        "claimType": {
+          "type": "string"
+        },
+        "claimValue": {
+          "type": "string"
         }
       }
     },
@@ -876,14 +949,10 @@
       ],
       "properties": {
         "email": {
-          "type": "string",
-          "format": "email",
-          "minLength": 1
+          "type": "string"
         },
         "password": {
-          "type": "string",
-          "maxLength": 40,
-          "minLength": 5
+          "type": "string"
         }
       }
     },
@@ -897,21 +966,16 @@
       ],
       "properties": {
         "email": {
-          "type": "string",
-          "format": "email",
-          "minLength": 1
+          "type": "string"
         },
         "password": {
-          "type": "string",
-          "maxLength": 40,
-          "minLength": 5
+          "type": "string"
         },
         "passwordConfirm": {
           "type": "string"
         },
         "name": {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         }
       }
     },
@@ -964,9 +1028,7 @@
       ],
       "properties": {
         "name": {
-          "type": "string",
-          "maxLength": 50,
-          "minLength": 3
+          "type": "string"
         }
       }
     },
@@ -1196,9 +1258,7 @@
       ],
       "properties": {
         "name": {
-          "type": "string",
-          "maxLength": 50,
-          "minLength": 3
+          "type": "string"
         },
         "price": {
           "type": "integer",
@@ -1232,7 +1292,8 @@
     "OpeningDto": {
       "type": "object",
       "required": [
-        "id"
+        "id",
+        "numberOfOrders"
       ],
       "properties": {
         "id": {
@@ -1246,6 +1307,10 @@
         "end": {
           "type": "string",
           "format": "date-time"
+        },
+        "numberOfOrders": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },

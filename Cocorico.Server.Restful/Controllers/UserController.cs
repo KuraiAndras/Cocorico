@@ -1,7 +1,7 @@
-﻿using Cocorico.Domain.Identity;
-using Cocorico.Server.Domain.Services.User;
+﻿using Cocorico.Server.Domain.Services.User;
 using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

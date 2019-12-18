@@ -1,9 +1,12 @@
-﻿using Cocorico.Domain.Identity;
+﻿using Cocorico.Application.Users.Queries.GetClaims;
+using Cocorico.Domain.Identity;
 using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Helpers;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Cocorico.Server.Restful.Controllers
@@ -14,8 +17,15 @@ namespace Cocorico.Server.Restful.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IServerCocoricoAuthenticationService _serverCocoricoAuthenticationService;
+        private readonly IMediator _mediator;
 
-        public AuthenticationController(IServerCocoricoAuthenticationService serverCocoricoAuthenticationService) => _serverCocoricoAuthenticationService = serverCocoricoAuthenticationService;
+        public AuthenticationController(
+            IServerCocoricoAuthenticationService serverCocoricoAuthenticationService,
+            IMediator mediator)
+        {
+            _serverCocoricoAuthenticationService = serverCocoricoAuthenticationService;
+            _mediator = mediator;
+        }
 
         [AllowAnonymous]
         [HttpPost(nameof(LoginAsync))]
@@ -42,6 +52,17 @@ namespace Cocorico.Server.Restful.Controllers
             await _serverCocoricoAuthenticationService.LogoutAsync();
 
             return new OkResult();
+        }
+
+        [Authorize(Policy = Policies.User)]
+        [HttpGet(nameof(GetCurrentUserClaims))]
+        public async Task<ActionResult<ClaimsDto>> GetCurrentUserClaims()
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var claims = await _mediator.Send(new GetUserClaimsQuery(new UserIdDto { UserId = userId }));
+
+            return new ActionResult<ClaimsDto>(claims);
         }
 
         [Authorize(Policy = Policies.Administrator)]

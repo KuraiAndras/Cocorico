@@ -1,6 +1,7 @@
 ﻿using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Services.Price;
 using Cocorico.Application.Orders.Services.RotatingId;
+using Cocorico.Application.Users.Services;
 using Cocorico.Domain.Entities;
 using Cocorico.Domain.Exceptions;
 using Cocorico.Domain.Identity;
@@ -44,6 +45,7 @@ namespace Cocorico.Server.Restful.Extensions
 
             services.AddAuthorization(options =>
             {
+                // TODO: deduplicate
                 options.AddPolicy(Policies.Administrator, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Admin));
                 options.AddPolicy(Policies.Customer, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Customer));
                 options.AddPolicy(Policies.User, policy => policy.RequireClaim(ClaimTypes.Role, Claims.User));
@@ -62,6 +64,7 @@ namespace Cocorico.Server.Restful.Extensions
             services.AddTransient<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
             services.AddTransient<IServerUserService, ServerUserService>();
             services.AddTransient<IOrderRotatingIdService, MemoryOrderRotatingIdService>();
+            services.AddTransient<IClaimService, ClaimService>();
 
             services.AddTransient<IPriceCalculator, PriceCalculator>();
         }

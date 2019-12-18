@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Cocorico.Application.Users.Commands.LogoutUser;
 using Cocorico.Domain.Entities;
 using Cocorico.Domain.Exceptions;
 using Cocorico.Domain.Identity;
 using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Authentication;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -17,17 +20,20 @@ namespace Cocorico.Server.Domain.Services.Authentication
         private readonly UserManager<CocoricoUser> _userManager;
         private readonly SignInManager<CocoricoUser> _signInManager;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
         public ServerCocoricoAuthenticationService(
             UserManager<CocoricoUser> userManager,
             CocoricoDbContext cocoricoDbContext,
             SignInManager<CocoricoUser> signInManager,
-            IMapper mapper)
+            IMapper mapper,
+            IMediator mediator)
         {
             _userManager = userManager;
             _cocoricoDbContext = cocoricoDbContext;
             _signInManager = signInManager;
             _mapper = mapper;
+            _mediator = mediator;
         }
 
         public async Task RegisterAsync(RegisterDetails model)
@@ -68,10 +74,10 @@ namespace Cocorico.Server.Domain.Services.Authentication
 
             var claims = await _userManager.GetClaimsAsync(user) ?? throw new UnexpectedException();
 
-            return new ClaimsDto { Claims = claims.ToList() };
+            return new ClaimsDto { Claims = _mapper.Map<ICollection<ClaimDto>>(claims) };
         }
 
-        public async Task LogoutAsync() => await _signInManager.SignOutAsync();
+        public async Task LogoutAsync() => await _mediator.Send(new LogoutCommand());
 
         public async Task AddClaimToUserAsync(UserClaimRequest userClaimRequest)
         {

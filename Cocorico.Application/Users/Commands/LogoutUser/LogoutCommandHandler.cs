@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Cocorico.Application.Users.Commands.LogoutUser
 {
-    public sealed class LogoutCommandHandler : CommandHandlerBase<LogoutCommand>
+    public sealed class LogoutCommandHandler : CommandHandlerBase<LogoutCurrentUserCommand>
     {
         private readonly SignInManager<CocoricoUser> _signInManager;
 
@@ -20,6 +20,6 @@ namespace Cocorico.Application.Users.Commands.LogoutUser
             : base(mediator, mapper, context) =>
             _signInManager = signInManager;
 
-        protected override async Task Handle(LogoutCommand request, CancellationToken cancellationToken) => await _signInManager.SignOutAsync();
+        protected override async Task Handle(LogoutCurrentUserCommand request, CancellationToken cancellationToken) => await _signInManager.SignOutAsync();
     }
 }

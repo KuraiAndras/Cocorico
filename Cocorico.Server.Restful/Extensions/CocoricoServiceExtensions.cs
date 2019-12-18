@@ -4,8 +4,8 @@ using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Application.Users.Services;
 using Cocorico.Domain.Entities;
 using Cocorico.Persistence;
-using Cocorico.Server.Domain.Services.Authentication;
 using Cocorico.Server.Domain.Services.User;
+using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Identity;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -17,7 +17,6 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
 using System.Security.Claims;
-using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Server.Restful.Extensions
 {
@@ -61,7 +60,6 @@ namespace Cocorico.Server.Restful.Extensions
 
         public static void AddCocoricoServices(this IServiceCollection services)
         {
-            services.AddTransient<IServerCocoricoAuthenticationService, ServerCocoricoAuthenticationService>();
             services.AddTransient<IServerUserService, ServerUserService>();
             services.AddTransient<IOrderRotatingIdService, MemoryOrderRotatingIdService>();
             services.AddTransient<IClaimService, ClaimService>();

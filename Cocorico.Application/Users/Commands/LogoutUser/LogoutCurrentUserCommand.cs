@@ -2,7 +2,7 @@
 
 namespace Cocorico.Application.Users.Commands.LogoutUser
 {
-    public sealed class LogoutCommand : IRequest
+    public sealed class LogoutCurrentUserCommand : IRequest
     {
     }
 }

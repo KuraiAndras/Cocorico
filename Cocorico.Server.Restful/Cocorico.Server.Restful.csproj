@@ -37,9 +37,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cocorico.Application\Cocorico.Application.csproj" />
     <ProjectReference Include="..\Cocorico.Client.Blazor\Cocorico.Client.Blazor.csproj" />
     <ProjectReference Include="..\Cocorico.Mappings\Cocorico.Mappings.csproj" />
-    <ProjectReference Include="..\Cocorico.Server.Domain\Cocorico.Server.Domain.csproj" />
+    <ProjectReference Include="..\Cocorico.Persistence\Cocorico.Persistence.csproj" />
     <ProjectReference Include="..\Cocorico.Shared\Cocorico.Shared.csproj" />
   </ItemGroup>
 

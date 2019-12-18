@@ -30,10 +30,9 @@ namespace Cocorico.Server.Restful.Controllers
         {
             await _mediator.Send(new LoginUserCommand(credentials));
 
-            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var result = await _mediator.Send(new GetUserClaimsQuery(new UserIdDto
+            var result = await _mediator.Send(new GetUserClaimsByNameQuery(new UserNameDto()
             {
-                UserId = userId
+                UserName = credentials.Email,
             }));
 
             return new ActionResult<ClaimsDto>(result);

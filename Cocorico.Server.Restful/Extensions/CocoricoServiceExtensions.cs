@@ -4,7 +4,6 @@ using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Application.Users.Services;
 using Cocorico.Domain.Entities;
 using Cocorico.Persistence;
-using Cocorico.Server.Domain.Services.User;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Identity;
 using Hellang.Middleware.ProblemDetails;
@@ -60,10 +59,8 @@ namespace Cocorico.Server.Restful.Extensions
 
         public static void AddCocoricoServices(this IServiceCollection services)
         {
-            services.AddTransient<IServerUserService, ServerUserService>();
             services.AddTransient<IOrderRotatingIdService, MemoryOrderRotatingIdService>();
             services.AddTransient<IClaimService, ClaimService>();
-
             services.AddTransient<IPriceCalculator, PriceCalculator>();
         }
 

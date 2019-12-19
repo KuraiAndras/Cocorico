@@ -1,11 +1,11 @@
-﻿using Cocorico.Client.Domain.Exceptions;
-using Cocorico.Client.Domain.Extensions;
-using Cocorico.HttpClient;
+﻿using Cocorico.HttpClient;
 using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
+using Cocorico.HttpClient.Extensions;
 
 namespace Cocorico.Client.Domain.ViewModels.Authentication
 {

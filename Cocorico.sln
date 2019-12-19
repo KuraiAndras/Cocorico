@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Persistence", "Coc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Application", "Cocorico.Application\Cocorico.Application.csproj", "{C6E4FC58-C5EC-4434-B022-69D17FCBC059}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.HttpClient", "Cocorico.HttpClient\Cocorico.HttpClient.csproj", "{A6E25BBC-AA1B-4845-A439-0D316C05D24A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.HttpClient", "Cocorico.HttpClient\Cocorico.HttpClient.csproj", "{A6E25BBC-AA1B-4845-A439-0D316C05D24A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

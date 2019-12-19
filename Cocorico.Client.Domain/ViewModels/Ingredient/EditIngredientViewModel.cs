@@ -1,9 +1,9 @@
-﻿using Cocorico.Client.Domain.Extensions;
-using Cocorico.HttpClient;
+﻿using Cocorico.HttpClient;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
+using Cocorico.HttpClient.Extensions;
 
 namespace Cocorico.Client.Domain.ViewModels.Ingredient
 {

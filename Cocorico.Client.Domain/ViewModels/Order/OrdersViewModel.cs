@@ -1,11 +1,11 @@
-﻿using Cocorico.Client.Domain.Extensions;
-using Cocorico.HttpClient;
+﻿using Cocorico.HttpClient;
 using Cocorico.Client.Domain.SignalrClient.WorkerOrders;
 using Cocorico.Shared.Dtos.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cocorico.HttpClient.Extensions;
 using Cocorico.Shared.Entities;
 using Cocorico.Shared.Exceptions;
 

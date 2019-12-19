@@ -1,4 +1,5 @@
 using Cocorico.Client.Blazor.Extensions;
+using Cocorico.Client.Domain;
 using Cocorico.Shared.Identity;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;

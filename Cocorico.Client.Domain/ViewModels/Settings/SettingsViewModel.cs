@@ -1,11 +1,11 @@
-﻿using Cocorico.Client.Domain.Extensions;
-using Cocorico.HttpClient;
+﻿using Cocorico.HttpClient;
 using Cocorico.Shared.Dtos;
 using Cocorico.Shared.Dtos.Opening;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Cocorico.HttpClient.Extensions;
 using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Client.Domain.ViewModels.Settings

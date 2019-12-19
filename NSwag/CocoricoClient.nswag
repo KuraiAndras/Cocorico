@@ -62,7 +62,7 @@
       "wrapResponseMethods": [],
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
-      "namespace": "Cocorico.Client.Domain.Helpers",
+      "namespace": "Cocorico.HttpClient",
       "requiredPropertiesMustBeDefined": true,
       "dateType": "System.DateTimeOffset",
       "jsonConverters": null,
@@ -97,7 +97,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../Cocorico.Client.Domain/Helpers/CocoricoHttpClient.cs"
+      "output": "../Cocorico.HttpClient/CocoricoHttpClient.cs"
     }
   }
 }

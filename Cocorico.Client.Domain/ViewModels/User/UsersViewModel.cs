@@ -1,4 +1,4 @@
-﻿using Cocorico.Client.Domain.Helpers;
+﻿using Cocorico.HttpClient;
 using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components;

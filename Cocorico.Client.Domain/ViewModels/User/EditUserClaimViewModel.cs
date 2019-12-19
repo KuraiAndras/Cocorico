@@ -1,4 +1,4 @@
-﻿using Cocorico.Client.Domain.Helpers;
+﻿using Cocorico.HttpClient;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.User;
 using System.Collections.Generic;

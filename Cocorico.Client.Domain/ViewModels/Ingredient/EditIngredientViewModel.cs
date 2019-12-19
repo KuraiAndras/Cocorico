@@ -1,5 +1,5 @@
 ﻿using Cocorico.Client.Domain.Extensions;
-using Cocorico.Client.Domain.Helpers;
+using Cocorico.HttpClient;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.Components;

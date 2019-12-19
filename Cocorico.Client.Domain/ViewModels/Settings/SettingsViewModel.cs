@@ -1,5 +1,5 @@
 ﻿using Cocorico.Client.Domain.Extensions;
-using Cocorico.Client.Domain.Helpers;
+using Cocorico.HttpClient;
 using Cocorico.Shared.Dtos;
 using Cocorico.Shared.Dtos.Opening;
 using System.Collections.Generic;

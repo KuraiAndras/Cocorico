@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
-using Cocorico.Domain.Entities;
 using Cocorico.Shared.Dtos.Order;
+using Cocorico.Shared.Entities;
+using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker
 {

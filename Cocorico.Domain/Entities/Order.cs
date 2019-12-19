@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cocorico.Shared.Entities;
 
 namespace Cocorico.Domain.Entities
 {

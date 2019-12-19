@@ -1,8 +1,8 @@
-﻿using Cocorico.Domain.Entities;
-using Cocorico.Shared.Dtos.Order;
+﻿using Cocorico.Shared.Dtos.Order;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cocorico.Shared.Entities;
 
 namespace Cocorico.Client.Domain.ViewModels.Order
 {

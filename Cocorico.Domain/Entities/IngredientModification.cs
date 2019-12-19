@@ -1,4 +1,6 @@
-﻿namespace Cocorico.Domain.Entities
+﻿using Cocorico.Shared.Entities;
+
+namespace Cocorico.Domain.Entities
 {
     public sealed class IngredientModification
     {

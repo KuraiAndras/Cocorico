@@ -1,5 +1,5 @@
 ﻿using Cocorico.Client.Domain.Extensions;
-using Cocorico.Client.Domain.Helpers;
+using Cocorico.HttpClient;
 using Cocorico.Client.Domain.Services.Authentication;
 using Cocorico.Shared.Dtos.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;

@@ -1,4 +1,4 @@
-﻿using Cocorico.Client.Domain.Helpers;
+﻿using Cocorico.HttpClient;
 
 namespace Cocorico.Client.Domain.Extensions
 {

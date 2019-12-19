@@ -1,5 +1,5 @@
 ﻿using Cocorico.Client.Domain.Extensions;
-using Cocorico.Client.Domain.Helpers;
+using Cocorico.HttpClient;
 using Cocorico.Client.Domain.SignalrClient.WorkerOrders;
 using Cocorico.Shared.Dtos.Order;
 using System;

@@ -1,6 +1,6 @@
 ﻿using Blazor.Extensions;
 using Cocorico.Client.Blazor.Services.Authentication;
-using Cocorico.Client.Domain.Helpers;
+using Cocorico.HttpClient;
 using Cocorico.Client.Domain.Services.Authentication;
 using Cocorico.Client.Domain.Services.Basket;
 using Cocorico.Client.Domain.SignalrClient.WorkerOrders;

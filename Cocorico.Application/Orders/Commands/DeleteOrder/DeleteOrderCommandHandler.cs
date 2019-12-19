@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Notifications.OrderAdded;
+using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
-using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Orders.Commands.DeleteOrder
 {
@@ -21,7 +21,7 @@ namespace Cocorico.Application.Orders.Commands.DeleteOrder
 
         protected override async Task Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            var orderToDelete = await Context.Orders.SingleOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
+            var orderToDelete = await Context.Orders.SingleOrDefaultAsync(o => o.Id == request.Dto, cancellationToken);
 
             if (orderToDelete is null) throw new EntityNotFoundException();
 

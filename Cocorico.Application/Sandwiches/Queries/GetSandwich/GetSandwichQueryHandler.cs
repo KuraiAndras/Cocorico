@@ -25,8 +25,8 @@ namespace Cocorico.Application.Sandwiches.Queries.GetSandwich
                                .Sandwiches
                                .Include(s => s.SandwichIngredients)
                                .ThenInclude(il => il.Ingredient)
-                               .SingleOrDefaultAsync(s => s.Id == request.Id, cancellationToken)
-                           ?? throw new EntityNotFoundException($"Cant find sandwich with id:{request.Id}");
+                               .SingleOrDefaultAsync(s => s.Id == request.Dto, cancellationToken)
+                           ?? throw new EntityNotFoundException($"Cant find sandwich with id:{request.Dto}");
 
             return Mapper.Map<SandwichDto>(sandwich);
         }

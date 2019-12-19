@@ -1,11 +1,10 @@
-﻿using MediatR;
-
-namespace Cocorico.Application.Openings.Commands.DeleteOpening
+﻿namespace Cocorico.Application.Openings.Commands.DeleteOpening
 {
-    public sealed class DeleteOpeningCommand : IRequest
+    // TODO: explicit dto class
+    public sealed class DeleteOpeningCommand : CommandDtoBase<int>
     {
-        public DeleteOpeningCommand(int id) => Id = id;
-
-        public int Id { get; }
+        public DeleteOpeningCommand(int dto) : base(dto)
+        {
+        }
     }
 }

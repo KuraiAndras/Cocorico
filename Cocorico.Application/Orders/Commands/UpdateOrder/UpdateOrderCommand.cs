@@ -1,12 +1,11 @@
 ﻿using Cocorico.Shared.Dtos.Order;
-using MediatR;
 
 namespace Cocorico.Application.Orders.Commands.UpdateOrder
 {
-    public sealed class UpdateOrderCommand : IRequest
+    public sealed class UpdateOrderCommand : CommandDtoBase<UpdateOrderDto>
     {
-        public UpdateOrderCommand(UpdateOrderDto dto) => Dto = dto;
-
-        public UpdateOrderDto Dto { get; }
+        public UpdateOrderCommand(UpdateOrderDto dto) : base(dto)
+        {
+        }
     }
 }

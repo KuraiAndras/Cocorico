@@ -21,14 +21,14 @@ namespace Cocorico.Application.Sandwiches.Commands.AddSandwich
 
         protected override async Task Handle(AddSandwichCommand request, CancellationToken cancellationToken)
         {
-            var sandwich = Mapper.Map<Sandwich>(request.SandwichAddDto);
+            var sandwich = Mapper.Map<Sandwich>(request.Dto);
 
             var ingredients = await Context
                 .Ingredients
                 .ToListAsync(cancellationToken);
 
             sandwich.SandwichIngredients = ingredients
-                .Where(i => request.SandwichAddDto.Ingredients.Any(iDto => iDto.Id == i.Id))
+                .Where(i => request.Dto.Ingredients.Any(iDto => iDto.Id == i.Id))
                 .Select(i => new SandwichIngredient
                 {
                     Ingredient = i,

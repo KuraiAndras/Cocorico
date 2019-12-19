@@ -1,12 +1,11 @@
 ﻿using Cocorico.Shared.Dtos.Authentication;
-using MediatR;
 
 namespace Cocorico.Application.Users.Queries.GetClaims
 {
-    public sealed class GetUserClaimsByNameQuery : IRequest<ClaimsDto>
+    public sealed class GetUserClaimsByNameQuery : QueryDtoBase<UserNameDto, ClaimsDto>
     {
-        public GetUserClaimsByNameQuery(UserNameDto dto) => Dto = dto;
-
-        public UserNameDto Dto { get; }
+        public GetUserClaimsByNameQuery(UserNameDto dto) : base(dto)
+        {
+        }
     }
 }

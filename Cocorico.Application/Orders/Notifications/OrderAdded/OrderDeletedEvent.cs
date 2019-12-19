@@ -1,11 +1,10 @@
-﻿using MediatR;
-
-namespace Cocorico.Application.Orders.Notifications.OrderAdded
+﻿namespace Cocorico.Application.Orders.Notifications.OrderAdded
 {
-    public sealed class OrderDeletedEvent : INotification
+    // TODO: explicit dto class
+    public sealed class OrderDeletedEvent : EventDtoBase<int>
     {
-        public OrderDeletedEvent(int id) => Id = id;
-
-        public int Id { get; }
+        public OrderDeletedEvent(int dto) : base(dto)
+        {
+        }
     }
 }

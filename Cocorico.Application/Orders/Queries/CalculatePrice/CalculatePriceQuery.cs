@@ -1,12 +1,11 @@
 ﻿using Cocorico.Shared.Dtos.Order;
-using MediatR;
 
 namespace Cocorico.Application.Orders.Queries.CalculatePrice
 {
-    public sealed class CalculatePriceQuery : IRequest<int>
+    public sealed class CalculatePriceQuery : QueryDtoBase<AddOrderDto, int>
     {
-        public CalculatePriceQuery(AddOrderDto dto) => Dto = dto;
-
-        public AddOrderDto Dto { get; }
+        public CalculatePriceQuery(AddOrderDto dto) : base(dto)
+        {
+        }
     }
 }

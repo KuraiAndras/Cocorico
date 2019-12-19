@@ -16,6 +16,6 @@ namespace Cocorico.Server.Restful.Orders.Notifications
             => _workerViewHub = workerViewHub;
 
         public async Task Handle(OrderDeletedEvent notification, CancellationToken cancellationToken) =>
-            await _workerViewHub.Clients.All.ReceiveOrderDeletedAsync(notification.Id);
+            await _workerViewHub.Clients.All.ReceiveOrderDeletedAsync(notification.Dto);
     }
 }

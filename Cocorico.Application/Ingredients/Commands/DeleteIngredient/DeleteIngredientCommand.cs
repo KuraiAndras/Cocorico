@@ -1,11 +1,10 @@
-﻿using MediatR;
-
-namespace Cocorico.Application.Ingredients.Commands.DeleteIngredient
+﻿namespace Cocorico.Application.Ingredients.Commands.DeleteIngredient
 {
-    public sealed class DeleteIngredientCommand : IRequest
+    // TODO: Explicit dto class
+    public sealed class DeleteIngredientCommand : CommandDtoBase<int>
     {
-        public DeleteIngredientCommand(int id) => Id = id;
-
-        public int Id { get; }
+        public DeleteIngredientCommand(int dto) : base(dto)
+        {
+        }
     }
 }

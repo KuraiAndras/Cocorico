@@ -1,12 +1,11 @@
 ﻿using Cocorico.Shared.Dtos.Authentication;
-using MediatR;
 
 namespace Cocorico.Application.Users.Commands.RegisterUser
 {
-    public sealed class RegisterUserCommand : IRequest
+    public sealed class RegisterUserCommand : CommandDtoBase<RegisterDetails>
     {
-        public RegisterUserCommand(RegisterDetails dto) => Dto = dto;
-
-        public RegisterDetails Dto { get; }
+        public RegisterUserCommand(RegisterDetails dto) : base(dto)
+        {
+        }
     }
 }

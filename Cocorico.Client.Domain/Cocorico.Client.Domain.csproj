@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.SignalR" Version="1.1.0-preview3" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Roslynator.Analyzers" Version="2.2.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cocorico.HttpClient\Cocorico.HttpClient.csproj" />
     <ProjectReference Include="..\Cocorico.Shared\Cocorico.Shared.csproj" />
   </ItemGroup>
 

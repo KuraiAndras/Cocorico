@@ -1,13 +1,13 @@
-﻿using Cocorico.Application.Common.Persistence;
+﻿using AutoMapper;
+using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Services.Price;
-using Cocorico.Domain.Entities;
+using Cocorico.Shared.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 
 namespace Cocorico.Application.Orders.Queries.CalculatePrice
 {

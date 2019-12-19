@@ -1,12 +1,11 @@
 ﻿using Cocorico.Shared.Dtos.Authentication;
-using MediatR;
 
 namespace Cocorico.Application.Users.Commands.RemoveClaimFromUser
 {
-    public sealed class RemoveClaimFromUserCommand : IRequest
+    public sealed class RemoveClaimFromUserCommand : CommandDtoBase<UserClaimRequest>
     {
-        public RemoveClaimFromUserCommand(UserClaimRequest dto) => Dto = dto;
-
-        public UserClaimRequest Dto { get; }
+        public RemoveClaimFromUserCommand(UserClaimRequest dto) : base(dto)
+        {
+        }
     }
 }

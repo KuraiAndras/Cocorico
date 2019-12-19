@@ -1,12 +1,12 @@
-﻿using MediatR;
-using System;
+﻿using System;
 
 namespace Cocorico.Application.Orders.Queries.CanAddOrder
 {
-    public sealed class CanAddOrderQuery : IRequest<bool>
+    // TODO: explicit dto class
+    public sealed class CanAddOrderQuery : QueryDtoBase<DateTime, bool>
     {
-        public CanAddOrderQuery(DateTime time) => Time = time;
-
-        public DateTime Time { get; }
+        public CanAddOrderQuery(DateTime dto) : base(dto)
+        {
+        }
     }
 }

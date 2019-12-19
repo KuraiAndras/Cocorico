@@ -1,12 +1,11 @@
 ﻿using Cocorico.Shared.Dtos.Authentication;
-using MediatR;
 
 namespace Cocorico.Application.Users.Commands.AddClaimToUser
 {
-    public sealed class AddClaimToUserCommand : IRequest
+    public sealed class AddClaimToUserCommand : CommandDtoBase<UserClaimRequest>
     {
-        public AddClaimToUserCommand(UserClaimRequest dto) => Dto = dto;
-
-        public UserClaimRequest Dto { get; }
+        public AddClaimToUserCommand(UserClaimRequest dto) : base(dto)
+        {
+        }
     }
 }

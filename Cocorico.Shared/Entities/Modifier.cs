@@ -1,4 +1,4 @@
-﻿namespace Cocorico.Domain.Entities
+﻿namespace Cocorico.Shared.Entities
 {
     public enum Modifier
     {

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
+using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
-using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Ingredients.Commands.DeleteIngredient
 {
@@ -21,7 +21,7 @@ namespace Cocorico.Application.Ingredients.Commands.DeleteIngredient
         protected override async Task Handle(DeleteIngredientCommand request, CancellationToken cancellationToken)
         {
             var ingredientToRemove = await Context.Ingredients
-                .SingleOrDefaultAsync(i => i.Id.Equals(request.Id), cancellationToken);
+                .SingleOrDefaultAsync(i => i.Id.Equals(request.Dto), cancellationToken);
 
             if (ingredientToRemove is null) throw new EntityNotFoundException();
 

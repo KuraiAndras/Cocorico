@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Cocorico.Application.Users.Commands.LogoutUser
 {
-    public sealed class LogoutCommandHandler : CommandHandlerBase<LogoutCurrentUserCommand>
+    public sealed class LogoutCurrentUserCommandHandler : CommandHandlerBase<LogoutCurrentUserCommand>
     {
         private readonly SignInManager<CocoricoUser> _signInManager;
 
-        public LogoutCommandHandler(
+        public LogoutCurrentUserCommandHandler(
             IMediator mediator,
             IMapper mapper,
             ICocoricoDbContext context,

@@ -1,15 +1,15 @@
 ﻿using Blazor.Extensions;
+using Cocorico.Client.Application.Services.Authentication;
+using Cocorico.Client.Application.Services.Basket;
+using Cocorico.Client.Application.SignalrClient.WorkerOrders;
+using Cocorico.Client.Application.ViewModels.Authentication;
+using Cocorico.Client.Application.ViewModels.Ingredient;
+using Cocorico.Client.Application.ViewModels.NavMenu;
+using Cocorico.Client.Application.ViewModels.Order;
+using Cocorico.Client.Application.ViewModels.Sandwich;
+using Cocorico.Client.Application.ViewModels.Settings;
+using Cocorico.Client.Application.ViewModels.User;
 using Cocorico.Client.Blazor.Services.Authentication;
-using Cocorico.Client.Domain.Services.Authentication;
-using Cocorico.Client.Domain.Services.Basket;
-using Cocorico.Client.Domain.SignalrClient.WorkerOrders;
-using Cocorico.Client.Domain.ViewModels.Authentication;
-using Cocorico.Client.Domain.ViewModels.Ingredient;
-using Cocorico.Client.Domain.ViewModels.NavMenu;
-using Cocorico.Client.Domain.ViewModels.Order;
-using Cocorico.Client.Domain.ViewModels.Sandwich;
-using Cocorico.Client.Domain.ViewModels.Settings;
-using Cocorico.Client.Domain.ViewModels.User;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 

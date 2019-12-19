@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28714.193
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Client.Blazor", "Cocorico.Client.Blazor\Cocorico.Client.Blazor.csproj", "{5190B0B1-CD9C-4EBE-8CE5-BC52799F5C86}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Client.Domain", "Cocorico.Client.Domain\Cocorico.Client.Domain.csproj", "{627212E1-EF74-4E81-8C8B-25F715CB4044}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Client.Application", "Cocorico.Client.Application\Cocorico.Client.Application.csproj", "{627212E1-EF74-4E81-8C8B-25F715CB4044}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Server.Restful", "Cocorico.Server.Restful\Cocorico.Server.Restful.csproj", "{AABD8490-3F0C-4F29-869F-C10A4CC7F4B9}"
 EndProject

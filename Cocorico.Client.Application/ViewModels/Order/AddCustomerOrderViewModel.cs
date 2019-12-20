@@ -59,7 +59,6 @@ namespace Cocorico.Client.Application.ViewModels.Order
 
         public void DeleteSandwich(int id) => _basketService.RemoveFromBasket(id);
 
-
         public async Task LoadIngredientsAsync()
         {
             try

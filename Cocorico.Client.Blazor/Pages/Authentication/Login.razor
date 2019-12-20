@@ -1,9 +1,11 @@
 ﻿@page "/login"
 @using Cocorico.Client.Application.ViewModels.Authentication
+@using Cocorico.Shared.Helpers
 
 @layout MainLayout
 
 @inject ILoginViewModel ViewModel
+@inject NavigationManager Navigation
 
 <div class="container">
     <div class="row">
@@ -14,7 +16,7 @@
                     Login attempt failed.
                 </div>
             }
-            <EditForm OnValidSubmit="@ViewModel.LoginUserAsync" Model="@ViewModel.UserLoginDetails">
+            <EditForm OnValidSubmit="@LoginUserAsync" Model="@ViewModel.UserLoginDetails">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
                 <InputText type="email" @bind-Value="@ViewModel.UserLoginDetails.Email" placeholder="example@host.org" class="form-control" />
@@ -24,3 +26,16 @@
         </div>
     </div>
 </div>
+
+@code
+{
+    private async Task LoginUserAsync()
+    {
+        await ViewModel.LoginUserAsync();
+
+        if (!ViewModel.ShowLoginFailed)
+        {
+            Navigation.NavigateTo(Urls.Client.Home);
+        }
+    }
+}

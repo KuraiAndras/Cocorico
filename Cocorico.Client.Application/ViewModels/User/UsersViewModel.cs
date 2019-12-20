@@ -1,22 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Cocorico.HttpClient;
+using Cocorico.Shared.Dtos.User;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cocorico.HttpClient;
-using Cocorico.Shared.Dtos.User;
-using Cocorico.Shared.Helpers;
-using Microsoft.AspNetCore.Components;
 
 namespace Cocorico.Client.Application.ViewModels.User
 {
     public class UsersViewModel : IUsersViewModel
     {
         private readonly IUserClient _userHttpClient;
-        private readonly NavigationManager _uriHelper;
 
-        public UsersViewModel(IUserClient userHttpClient, NavigationManager uriHelper)
+        public UsersViewModel(IUserClient userHttpClient)
         {
             _userHttpClient = userHttpClient;
-            _uriHelper = uriHelper;
             UsersList = new List<UserForAdminPage>();
         }
 
@@ -35,7 +31,5 @@ namespace Cocorico.Client.Application.ViewModels.User
                 //TODO: Handle fail
             }
         }
-
-        public void GoToEdit(string userId) => _uriHelper.NavigateTo(Urls.Client.AdminEditUserClaim + $"/{userId}");
     }
 }

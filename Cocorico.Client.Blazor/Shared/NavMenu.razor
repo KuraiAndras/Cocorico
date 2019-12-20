@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Components.Authorization
 
 @inject INavMenuViewModel ViewModel
+@inject NavigationManager Navigation
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Cocorico</a>
@@ -82,7 +83,7 @@
         <Authorized>
             <ul class="nav flex-column">
                 <li class="nav-item px-3">
-                    <button class="btn btn-outline-light text-left" style="width:100%" @onclick="@ViewModel.LogoutAsync">
+                    <button class="btn btn-outline-light text-left" style="width:100%" @onclick="@LogCurrentUserOutAsync">
                         <i class="oi oi-account-logout" style="vertical-align: middle"></i>
                         <span>Log Out</span>
                     </button>
@@ -105,3 +106,13 @@
         </NotAuthorized>
     </AuthorizeView>
 </div>
+
+@code
+{
+    private async Task LogCurrentUserOutAsync()
+    {
+        await ViewModel.LogoutAsync();
+
+        Navigation.NavigateTo("/");
+    }
+}

@@ -1,28 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cocorico.Client.Application.Services.Basket;
+﻿using Cocorico.Client.Application.Services.Basket;
 using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
 using Cocorico.Shared.Dtos.Sandwich;
-using Cocorico.Shared.Helpers;
-using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.ViewModels.Sandwich
 {
     public class SandwichesViewModel : ISandwichesViewModel
     {
         private readonly IBasketService _basketService;
-        private readonly NavigationManager _navigationManager;
         private readonly ISandwichClient _sandwichClient;
 
         public SandwichesViewModel(
             IBasketService basketService,
-            NavigationManager navigationManager,
             ISandwichClient sandwichClient)
         {
             _basketService = basketService;
-            _navigationManager = navigationManager;
             _sandwichClient = sandwichClient;
             SandwichesList = new List<SandwichDto>();
         }
@@ -42,8 +37,6 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
                 //TODO: Handle fail
             }
         }
-
-        public void Edit(int sandwichId) => _navigationManager.NavigateTo(Urls.Client.Sandwiches + $"/{sandwichId}");
 
         public async Task DeleteAsync(int sandwichId)
         {

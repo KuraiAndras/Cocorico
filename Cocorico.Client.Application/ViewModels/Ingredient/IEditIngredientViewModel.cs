@@ -8,6 +8,6 @@ namespace Cocorico.Client.Application.ViewModels.Ingredient
         IngredientDto IngredientDto { get; }
 
         Task LoadIngredientAsync(int id);
-        Task EditIngredientAsync();
+        Task<bool> EditIngredientAsync();
     }
 }

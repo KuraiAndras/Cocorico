@@ -6,7 +6,7 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using Cocorico.Shared.Identity
 
-@inject NavigationManager urihelper
+@inject NavigationManager Navigation
 @inject IAddCustomerOrderViewModel OrderViewModel
 @inject ISandwichesViewModel ViewModel
 
@@ -34,24 +34,24 @@
                     <td><MatButton Raised="true" Icon="add_shopping_cart" @onclick="@(() => ViewModel.AddToBasket(sandwich))">Order</MatButton></td>
                 </AuthorizeView>
                 <AuthorizeView Policy="@Policies.Administrator">
-                    <td><MatButton Icon="edit" Raised="true" @onclick="@(() => ViewModel.Edit(sandwich.Id))">Edit</MatButton></td>
+                    <td><MatButton Icon="edit" Raised="true" @onclick="@(() => GotToEdit(sandwich.Id))">Edit</MatButton></td>
                     <td><MatButton Icon="delete_forever" Outlined="true" @onclick="@(async () => await ViewModel.DeleteAsync(sandwich.Id))">Delete</MatButton></td>
                 </AuthorizeView>
             </tr>
             @string.Join(", ", sandwich.Ingredients.Select(i => i.Name))
         }
-    <tr>
-        @if (@OrderViewModel.AddOrderDto.Sandwiches.Count != 0)
-        {
-            <td>Number of sandwich(es): @OrderViewModel.AddOrderDto.Sandwiches.Count</td>
-            <td><MatButton Raised="true" Icon="shopping_cart" @onclick="@Redirect">Go to cart</MatButton></td>
-        }
-        else
-        {
-            <td>Currenty your cart is empty.</td>
-            <td><MatButton Outlined="true" Icon="shopping_cart" @onclick="@Redirect">Visit my cart anyway</MatButton></td>
-        }
-    </tr>
+        <tr>
+            @if (@OrderViewModel.AddOrderDto.Sandwiches.Count != 0)
+            {
+                <td>Number of sandwich(es): @OrderViewModel.AddOrderDto.Sandwiches.Count</td>
+                <td><MatButton Raised="true" Icon="shopping_cart" @onclick="@Redirect">Go to cart</MatButton></td>
+            }
+            else
+            {
+                <td>Currently your cart is empty.</td>
+                <td><MatButton Outlined="true" Icon="shopping_cart" @onclick="@Redirect">Visit my cart anyway</MatButton></td>
+            }
+        </tr>
     </tbody>
 </table>
 
@@ -60,8 +60,8 @@
 @code
 {
     protected override Task OnInitializedAsync() => ViewModel.LoadSandwichesAsync();
-    private void Redirect()
-    {
-        urihelper.NavigateTo(Urls.Client.AddCustomerOrder);
-    }
+
+    private void Redirect() => Navigation.NavigateTo(Urls.Client.AddCustomerOrder);
+
+    private void GotToEdit(int id) => Navigation.NavigateTo(Urls.Client.Sandwiches + $"/{id}");
 }

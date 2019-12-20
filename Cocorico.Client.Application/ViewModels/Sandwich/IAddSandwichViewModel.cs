@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Cocorico.Shared.Dtos.Ingredient;
+﻿using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Sandwich;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.ViewModels.Sandwich
 {
@@ -14,6 +14,6 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
         Task LoadAvailableIngredientsAsync();
         void AddIngredient(IngredientDto ingredient);
         void RemoveIngredient(IngredientDto ingredient);
-        Task AddAsync();
+        Task<bool> TryAddAsync();
     }
 }

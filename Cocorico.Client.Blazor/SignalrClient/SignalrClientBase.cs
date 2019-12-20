@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
-using Blazor.Extensions;
+﻿using Blazor.Extensions;
+using Cocorico.Client.Application.SignalrClient;
+using System.Threading.Tasks;
 
-namespace Cocorico.Client.Application.SignalrClient
+namespace Cocorico.Client.Blazor.SignalrClient
 {
     public abstract class SignalrClientBase : IHubClient
     {

@@ -1,22 +1,18 @@
-﻿using System.Threading.Tasks;
-using Cocorico.HttpClient;
+﻿using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
 using Cocorico.Shared.Dtos.Ingredient;
-using Cocorico.Shared.Helpers;
-using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.ViewModels.Ingredient
 {
     public class EditIngredientViewModel : IEditIngredientViewModel
     {
-        private readonly NavigationManager _navigationManager;
         private readonly IIngredientClient _ingredientClient;
 
         public IngredientDto IngredientDto { get; private set; }
 
-        public EditIngredientViewModel(NavigationManager navigationManager, IIngredientClient ingredientClient)
+        public EditIngredientViewModel(IIngredientClient ingredientClient)
         {
-            _navigationManager = navigationManager;
             _ingredientClient = ingredientClient;
             IngredientDto = new IngredientDto();
         }
@@ -33,20 +29,17 @@ namespace Cocorico.Client.Application.ViewModels.Ingredient
             }
         }
 
-        public async Task EditIngredientAsync()
+        public async Task<bool> EditIngredientAsync()
         {
             try
             {
                 var fileResponse = await _ingredientClient.UpdateAsync(IngredientDto);
 
-                //TODO: Handle fail
-                if (!fileResponse.IsSuccessfulStatusCode()) return;
-
-                _navigationManager.NavigateTo(Urls.Client.Ingredients);
+                return fileResponse.IsSuccessfulStatusCode();
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
+                return false;
             }
         }
     }

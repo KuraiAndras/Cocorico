@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cocorico.HttpClient;
+﻿using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Sandwich;
-using Cocorico.Shared.Helpers;
-using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.ViewModels.Sandwich
 {
@@ -14,16 +12,13 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
     {
         private readonly IIngredientClient _ingredientClient;
         private readonly ISandwichClient _sandwichClient;
-        private readonly NavigationManager _navigationManager;
 
         public AddSandwichViewModel(
             IIngredientClient ingredientClient,
-            ISandwichClient sandwichClient,
-            NavigationManager navigationManager)
+            ISandwichClient sandwichClient)
         {
             _ingredientClient = ingredientClient;
             _sandwichClient = sandwichClient;
-            _navigationManager = navigationManager;
 
             NewSandwichDto = new SandwichAddDto { Ingredients = new List<IngredientDto>() };
             AvailableIngredients = new List<IngredientDto>();
@@ -61,7 +56,7 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
             NewSandwichDto.Ingredients = AddedIngredients;
         }
 
-        public async Task AddAsync()
+        public async Task<bool> TryAddAsync()
         {
             try
             {
@@ -69,12 +64,11 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
 
                 var result = await _sandwichClient.AddAsync(NewSandwichDto);
 
-                if (result.IsSuccessfulStatusCode()) _navigationManager.NavigateTo(Urls.Client.Sandwiches);
-                //TODO: Handle fail
+                return result.IsSuccessfulStatusCode();
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
+                return false;
             }
         }
     }

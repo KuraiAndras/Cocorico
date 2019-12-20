@@ -1,20 +1,32 @@
 @page "/AddIngredient"
 @using Cocorico.Client.Application.ViewModels.Ingredient
+@using Cocorico.Shared.Helpers
 
 @inject IAddIngredientViewModel ViewModel
+@inject NavigationManager Navigation
 
 <div class="container">
     <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4">
-                
-                    <p>
-                        <MatTextField @bind-Value="@ViewModel.IngredientAddDto.Name" Dense="true" Label="Ingredient name " Outlined="true"></MatTextField>
-                    </p>
-                    <p>
-                        <MatButton Icon="save" Raised="true" @onclick="@ViewModel.AddAsync">Create</MatButton>
-                    </p>
+
+                <p>
+                    <MatTextField @bind-Value="@ViewModel.IngredientAddDto.Name" Dense="true" Label="Ingredient name " Outlined="true"></MatTextField>
+                </p>
+                <p>
+                    <MatButton Icon="save" Raised="true" @onclick="@AddIngredientAsync">Create</MatButton>
+                </p>
             </div>
         </div>
     </div>
 </div>
+
+@code
+{
+    private async Task AddIngredientAsync()
+    {
+        var success = await ViewModel.AddAsync();
+
+        if (success) Navigation.NavigateTo(Urls.Client.Ingredients);
+    }
+}

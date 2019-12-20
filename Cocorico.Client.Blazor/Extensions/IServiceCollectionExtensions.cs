@@ -10,6 +10,7 @@ using Cocorico.Client.Application.ViewModels.Sandwich;
 using Cocorico.Client.Application.ViewModels.Settings;
 using Cocorico.Client.Application.ViewModels.User;
 using Cocorico.Client.Blazor.Services.Authentication;
+using Cocorico.Client.Blazor.SignalrClient.WorkerOrders;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 

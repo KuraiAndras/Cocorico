@@ -1,9 +1,11 @@
 ﻿@page "/register"
 @using Cocorico.Client.Application.ViewModels.Authentication
+@using Cocorico.Shared.Helpers
 
 @layout MainLayout
 
 @inject IRegisterViewModel ViewModel
+@inject NavigationManager Navigation
 
 <div class="container">
     <div class="container">
@@ -15,7 +17,7 @@
                         Login attempt failed.
                     </div>
                 }
-                <EditForm OnValidSubmit="@ViewModel.RegisterUserAsync" Model="@ViewModel.UserRegisterDetails">
+                <EditForm OnValidSubmit="@RegisterUserAsync" Model="@ViewModel.UserRegisterDetails">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
                     <InputText type="text" @bind-Value="@ViewModel.UserRegisterDetails.Name" placeholder="John Doe" class="form-control" />
@@ -28,3 +30,16 @@
         </div>
     </div>
 </div>
+
+@code
+{
+    private async Task RegisterUserAsync()
+    {
+        await ViewModel.RegisterUserAsync();
+
+        if (!ViewModel.ShowRegisterFailed)
+        {
+            Navigation.NavigateTo(Urls.Client.Login);
+        }
+    }
+}

@@ -1,28 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cocorico.HttpClient;
+﻿using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Sandwich;
-using Cocorico.Shared.Helpers;
-using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.ViewModels.Sandwich
 {
     public class EditSandwichViewModel : IEditSandwichViewModel
     {
-        private readonly NavigationManager _navigationManager;
         private readonly ISandwichClient _sandwichClient;
         private readonly IIngredientClient _ingredientClient;
         private readonly List<IngredientDto> _addedIngredients;
 
         public EditSandwichViewModel(
-            NavigationManager navigationManager,
             ISandwichClient sandwichClient,
             IIngredientClient ingredientClient)
         {
-            _navigationManager = navigationManager;
             _sandwichClient = sandwichClient;
             _ingredientClient = ingredientClient;
 
@@ -34,7 +29,6 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
 
         public SandwichDto Sandwich { get; private set; }
         public List<IngredientDto> AvailableIngredients { get; }
-
 
         public async Task LoadIngredientsAsync(int id)
         {
@@ -68,7 +62,7 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
             Sandwich.Ingredients = _addedIngredients;
         }
 
-        public async Task EditAsync()
+        public async Task<bool> TryEditAsync()
         {
             try
             {
@@ -76,14 +70,11 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
 
                 var fileResponse = await _sandwichClient.UpdateAsync(Sandwich);
 
-                //TODO: Handle fail
-                if (!fileResponse.IsSuccessfulStatusCode()) return;
-
-                _navigationManager.NavigateTo(Urls.Client.Sandwiches);
+                return fileResponse.IsSuccessfulStatusCode();
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
+                return false;
             }
         }
     }

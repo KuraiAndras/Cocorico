@@ -1,7 +1,9 @@
 ﻿@page "/Sandwiches/{Id:int}"
 @using Cocorico.Client.Application.ViewModels.Sandwich
+@using Cocorico.Shared.Helpers
 
 @inject IEditSandwichViewModel ViewModel
+@inject NavigationManager Navigation
 
 <table class="table">
     <thead>
@@ -23,13 +25,21 @@
                 <tr><td><MatButton Raised="true" @onclick="@(() => ViewModel.RemoveIngredient(ingredient))">@ingredient.Name</MatButton></td></tr>
             }
         }
-        <tr><td><MatButton Raised="true" Icon="save" @onclick="@ViewModel.EditAsync">Save</MatButton></td></tr>
+        <tr><td><MatButton Raised="true" Icon="save" @onclick="@EditAsync">Save</MatButton></td></tr>
     </tbody>
 </table>
 @code
 {
     [Parameter] public int Id { get; set; }
     protected override Task OnInitializedAsync() => ViewModel.LoadIngredientsAsync(Id);
+
+    private async Task EditAsync()
+    {
+        var success = await ViewModel.TryEditAsync();
+
+        //TODO: Handle fail
+        if (success) Navigation.NavigateTo(Urls.Client.Sandwiches);
+    }
 }
 
 

@@ -11,7 +11,7 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
 
         List<IngredientDto> AvailableIngredients { get; }
         void AddIngredient(IngredientDto ingredient);
-        Task EditAsync();
+        Task<bool> TryEditAsync();
         void RemoveIngredient(IngredientDto ingredient);
         Task LoadIngredientsAsync(int id);
     }

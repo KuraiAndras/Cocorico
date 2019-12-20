@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Cocorico.Client.Application.Services.Basket;
+﻿using Cocorico.Client.Application.Services.Basket;
 using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
 using Cocorico.Shared.Dtos.Ingredient;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Dtos.Sandwich;
 using Cocorico.Shared.Exceptions;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.ViewModels.Order
 {
@@ -17,7 +17,7 @@ namespace Cocorico.Client.Application.ViewModels.Order
 
         private readonly IIngredientClient _ingredientClient;
         private readonly ISandwichClient _sandwichClient;
-        public SandwichDto Sandwich { get; private set; }
+        public SandwichDto Sandwich { get; }
         private readonly List<IngredientDto> _addedIngredients;
 
         public AddOrderDto AddOrderDto { get; }

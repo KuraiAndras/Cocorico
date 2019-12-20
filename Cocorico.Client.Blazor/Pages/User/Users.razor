@@ -1,9 +1,10 @@
 ﻿@page "/users"
-
-@using Cocorico.Client.Domain.ViewModels.User
+@using Cocorico.Client.Application.ViewModels.User
 @using Cocorico.Shared.Dtos.User
+@using Cocorico.Shared.Helpers
 
 @inject IUsersViewModel ViewModel
+@inject NavigationManager Navigation
 
 @if (ViewModel.UsersList.Count == 0)
 {
@@ -25,7 +26,7 @@ else
                 <tr>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
-                    <td><MatButton Icon="edit" Raised="true" @onclick="@(() => ViewModel.GoToEdit(user.Id))">Edit</MatButton></td>
+                    <td><MatButton Icon="edit" Raised="true" @onclick="@(() => GoToEdit(user.Id))">Edit</MatButton></td>
                 </tr>
             }
         </tbody>
@@ -35,4 +36,6 @@ else
 @code
 {
     protected override Task OnInitializedAsync() => ViewModel.LoadUsersAsync();
+
+    private void GoToEdit(string id) => Navigation.NavigateTo(Urls.Client.AdminEditUserClaim + $"/{id}");
 }

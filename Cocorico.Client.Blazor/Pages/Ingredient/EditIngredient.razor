@@ -1,14 +1,15 @@
 ﻿@page "/Ingredients/{Id:int}"
-
-@using Cocorico.Client.Domain.ViewModels.Ingredient
+@using Cocorico.Client.Application.ViewModels.Ingredient
+@using Cocorico.Shared.Helpers
 
 @inject IEditIngredientViewModel ViewModel
+@inject NavigationManager Navigation
 
 <div class="container">
     <div class="row">
         <div class="col-md-4 offset-md-4">
             <input type="text" placeholder="Ingredient Name" class="form-control" @bind="@ViewModel.IngredientDto.Name" />
-            <MatButton Icon="edit" Raised="true" @onclick="@ViewModel.EditIngredientAsync">Edit</MatButton>
+            <MatButton Icon="edit" Raised="true" @onclick="@EditIngredientAsync">Edit</MatButton>
         </div>
     </div>
 </div>
@@ -18,4 +19,12 @@
     [Parameter] public int Id { get; set; }
 
     protected override Task OnInitializedAsync() => ViewModel.LoadIngredientAsync(Id);
+
+    private async Task EditIngredientAsync()
+    {
+        var success = await ViewModel.EditIngredientAsync();
+
+        //TODO: Handle fail
+        if (success) Navigation.NavigateTo(Urls.Client.Ingredients);
+    }
 }

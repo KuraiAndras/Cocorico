@@ -1,8 +1,9 @@
 ﻿@page "/AddSandwich"
-
-@using Cocorico.Client.Domain.ViewModels.Sandwich
+@using Cocorico.Client.Application.ViewModels.Sandwich
+@using Cocorico.Shared.Helpers
 
 @inject IAddSandwichViewModel ViewModel
+@inject NavigationManager Navigation
 
 <table class="table">
     <thead>
@@ -41,7 +42,7 @@
                 <tr><td><MatButton Raised="true" @onclick="@(() => ViewModel.RemoveIngredient(ingredient))">@ingredient.Name</MatButton></td></tr>
             }
         }
-        <tr><td><MatButton Icon="save" @onclick="@(async_ => onAdd())">Create</MatButton></td></tr>
+        <tr><td><MatButton Icon="save" @onclick="@(async _ => await AddAsync())">Create</MatButton></td></tr>
     </tbody>
 </table>
 
@@ -51,16 +52,15 @@
 
     decimal? resultPrice = null;
 
-    private async void onAdd()
+    private async Task AddAsync()
     {
-        if(resultPrice != null)
-        {
-            ViewModel.NewSandwichDto.Price = (int) resultPrice;
-        } else
-        {
-            
-            ViewModel.NewSandwichDto.Price = 0;
-        }
-        await ViewModel.AddAsync();
+        ViewModel.NewSandwichDto.Price = resultPrice != null
+            ? (int)resultPrice
+            : 0;
+
+        var success = await ViewModel.TryAddAsync();
+
+        //TODO: Handle fail
+        if (success) Navigation.NavigateTo(Urls.Client.Sandwiches);
     }
 }

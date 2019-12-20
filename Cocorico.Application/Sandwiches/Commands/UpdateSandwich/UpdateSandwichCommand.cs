@@ -1,13 +1,11 @@
 ﻿using Cocorico.Shared.Dtos.Sandwich;
-using MediatR;
 
 namespace Cocorico.Application.Sandwiches.Commands.UpdateSandwich
 {
-    public sealed class UpdateSandwichCommand : IRequest
+    public sealed class UpdateSandwichCommand : CommandDtoBase<SandwichDto>
     {
-        public UpdateSandwichCommand(SandwichDto dto) =>
-            Dto = dto;
-
-        public SandwichDto Dto { get; }
+        public UpdateSandwichCommand(SandwichDto dto) : base(dto)
+        {
+        }
     }
 }

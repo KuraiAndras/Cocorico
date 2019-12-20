@@ -1,14 +1,13 @@
 ﻿using Cocorico.Shared.Dtos.Order;
-using MediatR;
 using System.Collections.Generic;
 
 namespace Cocorico.Application.Orders.Queries.GetAllOrderForCustomer
 {
-    public sealed class GetAllOrderForCustomerQuery : IRequest<ICollection<CustomerViewOrderDto>>
+    // TODO: explicit dto class
+    public sealed class GetAllOrderForCustomerQuery : QueryDtoBase<string, ICollection<CustomerViewOrderDto>>
     {
-        public GetAllOrderForCustomerQuery(string customerId) =>
-            CustomerId = customerId;
-
-        public string CustomerId { get; }
+        public GetAllOrderForCustomerQuery(string dto) : base(dto)
+        {
+        }
     }
 }

@@ -1,12 +1,12 @@
-﻿using Cocorico.Client.Domain.Extensions;
-using Cocorico.Client.Domain.Helpers;
-using Cocorico.Client.Domain.Services.Authentication;
+﻿using Cocorico.HttpClient;
 using Cocorico.Shared.Dtos.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Cocorico.Client.Application.Services.Authentication;
+using Cocorico.HttpClient.Extensions;
 using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Client.Blazor.Services.Authentication

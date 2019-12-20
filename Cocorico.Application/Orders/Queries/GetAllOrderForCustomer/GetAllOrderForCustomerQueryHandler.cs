@@ -24,7 +24,7 @@ namespace Cocorico.Application.Orders.Queries.GetAllOrderForCustomer
         public override async Task<ICollection<CustomerViewOrderDto>> Handle(GetAllOrderForCustomerQuery request, CancellationToken cancellationToken)
         {
             // TODO: Fluent Validator
-            if (string.IsNullOrEmpty(request.CustomerId)) throw new EntityNotFoundException($"Invalid customer Id:{request.CustomerId}");
+            if (string.IsNullOrEmpty(request.Dto)) throw new EntityNotFoundException($"Invalid customer Id:{request.Dto}");
 
             var ordersForCustomer = await Context.Orders
                                         .Include(o => o.SandwichOrders)
@@ -34,7 +34,7 @@ namespace Cocorico.Application.Orders.Queries.GetAllOrderForCustomer
                                         .Include(o => o.SandwichOrders)
                                         .ThenInclude(so => so.IngredientModifications)
                                         .ThenInclude(im => im.Ingredient)
-                                        .Where(o => o.CocoricoUserId == request.CustomerId)
+                                        .Where(o => o.CocoricoUserId == request.Dto)
                                         .ToListAsync(cancellationToken)
                                     ?? throw new UnexpectedException();
 

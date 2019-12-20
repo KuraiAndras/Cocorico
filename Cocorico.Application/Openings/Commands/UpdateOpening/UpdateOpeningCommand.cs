@@ -1,13 +1,11 @@
 ﻿using Cocorico.Shared.Dtos.Opening;
-using MediatR;
 
 namespace Cocorico.Application.Openings.Commands.UpdateOpening
 {
-    public sealed class UpdateOpeningCommand : IRequest
+    public sealed class UpdateOpeningCommand : CommandDtoBase<OpeningDto>
     {
-        public UpdateOpeningCommand(OpeningDto dto) =>
-            Dto = dto;
-
-        public OpeningDto Dto { get; }
+        public UpdateOpeningCommand(OpeningDto dto) : base(dto)
+        {
+        }
     }
 }

@@ -3,6 +3,7 @@ using Cocorico.Shared.Identity;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
+using Cocorico.Client.Application;
 
 namespace Cocorico.Client.Blazor
 {

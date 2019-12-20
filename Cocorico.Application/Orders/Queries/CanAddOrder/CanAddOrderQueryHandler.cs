@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
+using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Orders.Queries.CanAddOrder
 {
@@ -28,7 +28,7 @@ namespace Cocorico.Application.Orders.Queries.CanAddOrder
 
             if (lastOpeningEnd is null) throw new UnexpectedException("No Opening in Database");
 
-            return request.Time < lastOpeningEnd.End && request.Time > lastOpeningEnd.Start;
+            return request.Dto < lastOpeningEnd.End && request.Dto > lastOpeningEnd.Start;
         }
     }
 }

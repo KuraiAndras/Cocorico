@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Cocorico.Shared.Entities;
 using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Orders.Commands.AddOrder

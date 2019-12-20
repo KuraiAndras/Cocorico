@@ -1,12 +1,11 @@
 ﻿using Cocorico.Shared.Dtos.Ingredient;
-using MediatR;
 
 namespace Cocorico.Application.Ingredients.Queries.GetIngredient
 {
-    public sealed class GetIngredientQuery : IRequest<IngredientDto>
+    public sealed class GetIngredientQuery : QueryDtoBase<int, IngredientDto>
     {
-        public GetIngredientQuery(int id) => Id = id;
-
-        public int Id { get; }
+        public GetIngredientQuery(int dto) : base(dto)
+        {
+        }
     }
 }

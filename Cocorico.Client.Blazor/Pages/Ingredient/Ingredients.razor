@@ -1,8 +1,9 @@
 ﻿@page "/Ingredients"
-
-@using Cocorico.Client.Domain.ViewModels.Ingredient
+@using Cocorico.Client.Application.ViewModels.Ingredient
+@using Cocorico.Shared.Helpers
 
 @inject IIngredientsViewModel ViewModel
+@inject NavigationManager Navigation
 
 <table class="table">
     <thead>
@@ -15,11 +16,11 @@
     <tbody>
         @foreach (var ingredientDto in ViewModel.IngredientsList)
         {
-        <tr>
-            <td>@ingredientDto.Name</td>
-            <td><MatButton Icon="edit" Raised="true" @onclick="@(() => ViewModel.GoToEdit(ingredientDto.Id))">Edit</MatButton></td>
-            <td><MatButton Icon="delete_forever" Outlined="true" @onclick="@(async () => await ViewModel.DeleteAsync(ingredientDto.Id))">Delete</MatButton></td>
-        </tr>
+            <tr>
+                <td>@ingredientDto.Name</td>
+                <td><MatButton Icon="edit" Raised="true" @onclick="@(() => GoToEdit(ingredientDto.Id))">Edit</MatButton></td>
+                <td><MatButton Icon="delete_forever" Outlined="true" @onclick="@(async () => await ViewModel.DeleteAsync(ingredientDto.Id))">Delete</MatButton></td>
+            </tr>
         }
     </tbody>
 </table>
@@ -27,4 +28,6 @@
 @code
 {
     protected override async Task OnInitializedAsync() => await ViewModel.LoadIngredientsAsync();
+
+    private void GoToEdit(int id) => Navigation.NavigateTo(Urls.Client.Ingredients + $"/{id}");
 }

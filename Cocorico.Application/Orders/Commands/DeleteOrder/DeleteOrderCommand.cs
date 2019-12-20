@@ -1,11 +1,10 @@
-﻿using MediatR;
-
-namespace Cocorico.Application.Orders.Commands.DeleteOrder
+﻿namespace Cocorico.Application.Orders.Commands.DeleteOrder
 {
-    public sealed class DeleteOrderCommand : IRequest
+    // TODO: explicit dto class
+    public sealed class DeleteOrderCommand : CommandDtoBase<int>
     {
-        public DeleteOrderCommand(int id) => Id = id;
-
-        public int Id { get; }
+        public DeleteOrderCommand(int dto) : base(dto)
+        {
+        }
     }
 }

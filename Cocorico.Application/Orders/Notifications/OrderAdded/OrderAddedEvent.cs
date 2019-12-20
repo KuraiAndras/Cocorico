@@ -1,12 +1,11 @@
 ﻿using Cocorico.Shared.Dtos.Order;
-using MediatR;
 
 namespace Cocorico.Application.Orders.Notifications.OrderAdded
 {
-    public sealed class OrderAddedEvent : INotification
+    public sealed class OrderAddedEvent : EventDtoBase<WorkerOrderViewDto>
     {
-        public OrderAddedEvent(WorkerOrderViewDto dto) => Dto = dto;
-
-        public WorkerOrderViewDto Dto { get; }
+        public OrderAddedEvent(WorkerOrderViewDto dto) : base(dto)
+        {
+        }
     }
 }

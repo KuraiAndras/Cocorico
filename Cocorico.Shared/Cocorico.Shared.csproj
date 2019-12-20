@@ -13,8 +13,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Cocorico.Domain\Cocorico.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

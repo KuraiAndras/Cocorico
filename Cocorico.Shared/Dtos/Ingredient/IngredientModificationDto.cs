@@ -1,4 +1,4 @@
-﻿using Cocorico.Domain.Entities;
+﻿using Cocorico.Shared.Entities;
 
 namespace Cocorico.Shared.Dtos.Ingredient
 {

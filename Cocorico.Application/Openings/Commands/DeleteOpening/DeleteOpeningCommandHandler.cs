@@ -21,7 +21,7 @@ namespace Cocorico.Application.Openings.Commands.DeleteOpening
         {
             var opening = await Context.Openings
                 .AsNoTracking()
-                .SingleOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
+                .SingleOrDefaultAsync(o => o.Id == request.Dto, cancellationToken);
 
             if (opening is null) return;
 

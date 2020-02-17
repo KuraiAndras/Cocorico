@@ -1,5 +1,4 @@
-﻿using Blazor.Extensions;
-using Cocorico.Client.Application.Services.Authentication;
+﻿using Cocorico.Client.Application.Services.Authentication;
 using Cocorico.Client.Application.Services.Basket;
 using Cocorico.Client.Application.SignalrClient.WorkerOrders;
 using Cocorico.Client.Application.ViewModels.Authentication;
@@ -12,6 +11,7 @@ using Cocorico.Client.Application.ViewModels.User;
 using Cocorico.Client.Blazor.Services.Authentication;
 using Cocorico.Client.Blazor.SignalrClient.WorkerOrders;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cocorico.Client.Blazor.Extensions

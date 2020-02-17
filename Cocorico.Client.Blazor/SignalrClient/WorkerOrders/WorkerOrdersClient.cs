@@ -1,7 +1,7 @@
-﻿using Blazor.Extensions;
-using Cocorico.Client.Application.SignalrClient.WorkerOrders;
+﻿using Cocorico.Client.Application.SignalrClient.WorkerOrders;
 using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Helpers;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Threading.Tasks;
 
@@ -15,7 +15,6 @@ namespace Cocorico.Client.Blazor.SignalrClient.WorkerOrders
             _connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderAddedAsync, o =>
             {
                 OrderAdded?.Invoke(o);
-
                 return Task.CompletedTask;
             });
 

@@ -1,16 +1,22 @@
-﻿using Microsoft.AspNetCore.Blazor.Hosting;
+﻿using Cocorico.Client.Blazor.DependencyInjection;
+using Microsoft.AspNetCore.Blazor.Hosting;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Blazor
 {
-    public static class Program
+    public class Program
     {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        public static async Task Main(string[] args) => await CreateHostBuilder(args).Build().RunAsync();
 
-        private static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
-            BlazorWebAssemblyHost.CreateDefaultBuilder()
-                .UseBlazorStartup<Startup>();
+        private static WebAssemblyHostBuilder CreateHostBuilder(string[] args)
+        {
+            var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+            builder.RootComponents.Add<App>("app");
+
+            builder.Services.AddBlazorClient();
+
+            return builder;
+        }
     }
 }

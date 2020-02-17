@@ -73,7 +73,7 @@ namespace Cocorico.Server.Restful
 
             app.UseProblemDetails();
 
-            app.UseClientSideBlazorFiles<Client.Blazor.Startup>();
+            app.UseClientSideBlazorFiles<Client.Blazor.Program>();
 
             app.UseRouting();
 
@@ -84,7 +84,7 @@ namespace Cocorico.Server.Restful
             {
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapHub<WorkerViewOrderHub>(HubNames.WorkerViewOrderHubNames.Name);
-                endpoints.MapFallbackToClientSideBlazor<Client.Blazor.Startup>("index.html");
+                endpoints.MapFallbackToClientSideBlazor<Client.Blazor.Program>("index.html");
             });
         }
     }

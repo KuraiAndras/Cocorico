@@ -1,15 +1,14 @@
+﻿using Cocorico.Client.Application;
 using Cocorico.Client.Blazor.Extensions;
 using Cocorico.Shared.Identity;
-using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
-using Cocorico.Client.Application;
 
-namespace Cocorico.Client.Blazor
+namespace Cocorico.Client.Blazor.DependencyInjection
 {
-    public class Startup
+    public static class BlazorInjector
     {
-        public void ConfigureServices(IServiceCollection services)
+        public static IServiceCollection AddBlazorClient(this IServiceCollection services)
         {
             services.AddAuthorizationCore(options =>
             {
@@ -27,8 +26,8 @@ namespace Cocorico.Client.Blazor
             services.AddSignalrClients();
 
             services.AddViewModels();
-        }
 
-        public void Configure(IComponentsApplicationBuilder app) => app.AddComponent<App>("app");
+            return services;
+        }
     }
 }

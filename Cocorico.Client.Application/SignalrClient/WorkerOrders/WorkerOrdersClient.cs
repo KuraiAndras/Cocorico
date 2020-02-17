@@ -1,39 +1,24 @@
 ﻿using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Helpers;
+using Cocorico.Shared.Hubs;
 using Microsoft.AspNetCore.SignalR.Client;
-using System;
-using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.SignalrClient.WorkerOrders
 {
-    public class WorkerOrdersHubClient : SignalrClientBase, IWorkerOrdersHubClient
+    public class WorkerOrdersHubClient : SignalrClientBase, IWorkerOrdersHubClientListener
     {
         public WorkerOrdersHubClient(HubConnectionBuilder hubConnectionBuilder)
             : base(hubConnectionBuilder, HubNames.WorkerViewOrderHubNames.Name)
         {
-            _connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderAddedAsync, o =>
-            {
-                OrderAdded?.Invoke(o);
-                return Task.CompletedTask;
-            });
-
-            _connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderModifiedAsync, o =>
-            {
-                OrderModified?.Invoke(o);
-
-                return Task.CompletedTask;
-            });
-
-            _connection.On<int>(HubNames.WorkerViewOrderHubNames.ReceiveOrderDeletedAsync, o =>
-            {
-                OrderDeleted?.Invoke(o);
-
-                return Task.CompletedTask;
-            });
         }
 
-        public event Action<WorkerOrderViewDto>? OrderAdded;
-        public event Action<WorkerOrderViewDto>? OrderModified;
-        public event Action<int>? OrderDeleted;
+        public void RegisterListener(IWorkerViewOrderClient client)
+        {
+            _connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderAddedAsync, client.ReceiveOrderAddedAsync);
+
+            _connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderModifiedAsync, client.ReceiveOrderModifiedAsync);
+
+            _connection.On<int>(HubNames.WorkerViewOrderHubNames.ReceiveOrderDeletedAsync, client.ReceiveOrderDeletedAsync);
+        }
     }
 }

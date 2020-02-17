@@ -47,7 +47,7 @@ namespace Cocorico.Client.Blazor.Extensions
         {
             services.AddTransient<HubConnectionBuilder>();
 
-            services.AddTransient<IWorkerOrdersHubClient, WorkerOrdersHubClient>();
+            services.AddTransient<IWorkerOrdersHubClientListener, WorkerOrdersHubClient>();
         }
     }
 }

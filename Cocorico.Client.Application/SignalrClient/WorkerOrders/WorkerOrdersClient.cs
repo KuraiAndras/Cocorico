@@ -1,11 +1,10 @@
-﻿using Cocorico.Client.Application.SignalrClient.WorkerOrders;
-using Cocorico.Shared.Dtos.Order;
+﻿using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Helpers;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Threading.Tasks;
 
-namespace Cocorico.Client.Blazor.SignalrClient.WorkerOrders
+namespace Cocorico.Client.Application.SignalrClient.WorkerOrders
 {
     public class WorkerOrdersHubClient : SignalrClientBase, IWorkerOrdersHubClient
     {

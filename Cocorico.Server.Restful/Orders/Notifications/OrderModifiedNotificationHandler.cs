@@ -1,5 +1,6 @@
 ﻿using Cocorico.Application.Orders.Notifications.OrderAdded;
 using Cocorico.Server.Restful.Hubs;
+using Cocorico.Shared.Hubs;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading;

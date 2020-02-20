@@ -21,9 +21,9 @@ steps:
 - task: SonarCloudPrepare@1
   displayName: 'Prepare analysis on SonarCloud'
   inputs:
-    SonarCloud: 'DicePoker Azure Devops Pipeline'
-    organization: 'kuraiandras-devops'
-    projectKey: DicePoker
+    SonarCloud: 'SonarCloud'
+    organization: 'kuraiandras'
+    projectKey: 'KuraiAndras_Cocorico'
     projectName: DicePoker
 
 - task: DotNetCoreCLI@2

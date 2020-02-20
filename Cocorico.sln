@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Application", "Coc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.HttpClient", "Cocorico.HttpClient\Cocorico.HttpClient.csproj", "{A6E25BBC-AA1B-4845-A439-0D316C05D24A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Application.Tests", "Cocorico.Application.Tests\Cocorico.Application.Tests.csproj", "{C4CDB6CA-A672-4557-8F0A-B80079F77871}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{A6E25BBC-AA1B-4845-A439-0D316C05D24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6E25BBC-AA1B-4845-A439-0D316C05D24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6E25BBC-AA1B-4845-A439-0D316C05D24A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4CDB6CA-A672-4557-8F0A-B80079F77871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4CDB6CA-A672-4557-8F0A-B80079F77871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4CDB6CA-A672-4557-8F0A-B80079F77871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4CDB6CA-A672-4557-8F0A-B80079F77871}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

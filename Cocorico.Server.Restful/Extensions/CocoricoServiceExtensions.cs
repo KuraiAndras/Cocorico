@@ -2,10 +2,10 @@
 using Cocorico.Application.Orders.Services.Price;
 using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Application.Users.Services;
+using Cocorico.Authentication;
 using Cocorico.Domain.Entities;
 using Cocorico.Persistence;
 using Cocorico.Shared.Exceptions;
-using Cocorico.Shared.Identity;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
-using System.Security.Claims;
 
 namespace Cocorico.Server.Restful.Extensions
 {
@@ -41,14 +40,7 @@ namespace Cocorico.Server.Restful.Extensions
             //Instant logout
             services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.Zero);
 
-            services.AddAuthorization(options =>
-            {
-                // TODO: deduplicate
-                options.AddPolicy(Policies.Administrator, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Admin));
-                options.AddPolicy(Policies.Customer, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Customer));
-                options.AddPolicy(Policies.User, policy => policy.RequireClaim(ClaimTypes.Role, Claims.User));
-                options.AddPolicy(Policies.Worker, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Worker));
-            });
+            services.AddAuthorization(options => options.AddCocoricoPolicies());
 
             services
                 .AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)

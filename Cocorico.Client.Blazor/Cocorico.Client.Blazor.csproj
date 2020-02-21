@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cocorico.Authentication\Cocorico.Authentication.csproj" />
     <ProjectReference Include="..\Cocorico.Client.Application\Cocorico.Client.Application.csproj" />
     <ProjectReference Include="..\Cocorico.Shared\Cocorico.Shared.csproj" />
   </ItemGroup>

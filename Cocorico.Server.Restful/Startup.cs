@@ -73,6 +73,7 @@ namespace Cocorico.Server.Restful
 
             app.UseProblemDetails();
 
+            app.UseStaticFiles();
             app.UseClientSideBlazorFiles<Client.Blazor.Program>();
 
             app.UseRouting();

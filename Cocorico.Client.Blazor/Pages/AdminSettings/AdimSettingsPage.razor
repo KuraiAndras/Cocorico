@@ -1,5 +1,6 @@
 ﻿@page "/Settings"
 @using Cocorico.Client.Application.ViewModels.Settings
+@using MatBlazor
 
 @inject ISettingsViewModel ViewModel
 
@@ -7,22 +8,22 @@
 <p>
     <MatNumericUpDownField Label="Start"
                            Type="integer"
-                           DecimalPlaces=0
-                           Dense="true"
+                           DecimalPlaces="0"
+                           Dense="@true"
                            @bind-Value="@RotatingIdStart"
                            Outlined="true"
-                           Minimum=0 Maximum=null>
+                           Minimum="0">
     </MatNumericUpDownField>
     <MatNumericUpDownField Label="End"
-                           DecimalPlaces=0
+                           DecimalPlaces="0"
                            Dense="true"
                            @bind-Value="@RotatingIdEnd"
                            Outlined="true"
-                           Minimum=0 Maximum=null>
+                           Minimum="0" Maximum="null">
     </MatNumericUpDownField>
 </p>
 <p>
-    <MatButton Outlined="true" @onclick="@(async_ => OnAddAsync())">Set Rotating ID Range</MatButton>
+    <MatButton Outlined="true" @onclick="@(async _ => await OnAddAsync())">Set Rotating ID Range</MatButton>
 </p>
 <h3>Add opening time</h3>
 <div>

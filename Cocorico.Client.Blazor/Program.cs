@@ -6,17 +6,20 @@ namespace Cocorico.Client.Blazor
 {
     public class Program
     {
-        public static async Task Main(string[] args) => await CreateHostBuilder(args).Build().RunAsync();
-
-        private static WebAssemblyHostBuilder CreateHostBuilder(string[] args)
+        public static async Task Main(string[] args)
         {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            await CreateHostBuilder(args).Build().RunAsync();
 
-            builder.RootComponents.Add<App>("app");
+            static WebAssemblyHostBuilder CreateHostBuilder(string[] args)
+            {
+                var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            builder.Services.AddBlazorClient();
+                builder.RootComponents.Add<App>("app");
 
-            return builder;
+                builder.Services.AddBlazorClient();
+
+                return builder;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿@page "/AddSandwich"
 @using Cocorico.Client.Application.ViewModels.Sandwich
 @using Cocorico.Shared.Helpers
+@using MatBlazor
 
 @inject IAddSandwichViewModel ViewModel
 @inject NavigationManager Navigation
@@ -21,11 +22,11 @@
         <tr>
             <td>
                 <MatNumericUpDownField Label="Sandwich Price"
-                                       DecimalPlaces=0
+                                       DecimalPlaces="0"
                                        Dense="true"
-                                       @bind-Value=@resultPrice
+                                       @bind-Value="@resultPrice"
                                        Outlined="true"
-                                       Minimum=0 Maximum=null>
+                                       Minimum="0" Maximum="null">
                 </MatNumericUpDownField>
             </td>
         </tr>
@@ -50,7 +51,7 @@
 {
     protected override Task OnInitializedAsync() => ViewModel.LoadAvailableIngredientsAsync();
 
-    decimal? resultPrice = null;
+    private decimal? resultPrice = null;
 
     private async Task AddAsync()
     {

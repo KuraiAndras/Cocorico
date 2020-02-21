@@ -42,8 +42,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cocorico.Application\Cocorico.Application.csproj" />
+    <ProjectReference Include="..\Cocorico.Authentication\Cocorico.Authentication.csproj" />
     <ProjectReference Include="..\Cocorico.Client.Blazor\Cocorico.Client.Blazor.csproj" />
-    <ProjectReference Include="..\Cocorico.Mappings\Cocorico.Mappings.csproj" />
     <ProjectReference Include="..\Cocorico.Persistence\Cocorico.Persistence.csproj" />
     <ProjectReference Include="..\Cocorico.Shared\Cocorico.Shared.csproj" />
   </ItemGroup>

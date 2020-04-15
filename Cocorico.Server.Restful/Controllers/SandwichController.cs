@@ -3,7 +3,7 @@ using Cocorico.Application.Sandwiches.Commands.DeleteSandwich;
 using Cocorico.Application.Sandwiches.Commands.UpdateSandwich;
 using Cocorico.Application.Sandwiches.Queries.GetAllSandwich;
 using Cocorico.Application.Sandwiches.Queries.GetSandwich;
-using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Dtos.Sandwiches;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
 using MediatR;

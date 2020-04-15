@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Cocorico.Shared.Dtos;
-using Cocorico.Shared.Dtos.Opening;
+using Cocorico.Shared.Dtos.Openings;
 
 namespace Cocorico.Client.Application.ViewModels.Settings
 {

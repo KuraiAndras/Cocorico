@@ -2,11 +2,11 @@
 using Cocorico.Application.Common.Persistence;
 using Cocorico.Domain.Entities;
 using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System.Threading;
 using System.Threading.Tasks;
-using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Users.Queries.GetClaims
 {

@@ -5,7 +5,8 @@ namespace Cocorico.Application.Users.Queries.GetUserForAdmin
 {
     public sealed class GetUserForAdminQuery : QueryDtoBase<UserIdDto, UserForAdminPage>
     {
-        public GetUserForAdminQuery(UserIdDto dto) : base(dto)
+        public GetUserForAdminQuery(UserIdDto dto)
+            : base(dto)
         {
         }
     }

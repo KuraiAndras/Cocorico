@@ -1,9 +1,9 @@
 ﻿using Cocorico.Client.Application.Services.Basket;
 using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
-using Cocorico.Shared.Dtos.Ingredient;
-using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Dtos.Ingredients;
+using Cocorico.Shared.Dtos.Orders;
+using Cocorico.Shared.Dtos.Sandwiches;
 using Cocorico.Shared.Exceptions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,11 +17,8 @@ namespace Cocorico.Client.Application.ViewModels.Order
 
         private readonly IIngredientClient _ingredientClient;
         private readonly ISandwichClient _sandwichClient;
-        public SandwichDto Sandwich { get; }
-        private readonly List<IngredientDto> _addedIngredients;
 
-        public AddOrderDto AddOrderDto { get; }
-        public List<IngredientDto> AvailableIngredients { get; }
+        private readonly List<IngredientDto> _addedIngredients;
 
         public AddCustomerOrderViewModel(
             IBasketService basketService,
@@ -39,13 +36,17 @@ namespace Cocorico.Client.Application.ViewModels.Order
             _sandwichClient = sandwichClient;
         }
 
+        public AddOrderDto AddOrderDto { get; }
+        public List<IngredientDto> AvailableIngredients { get; }
+        public SandwichDto Sandwich { get; }
+
         public async Task AddAsync()
         {
             try
             {
                 var result = await _orderClient.AddOrderAsync(AddOrderDto);
 
-                //TODO: Go to orders
+                // TODO: Go to orders
                 if (result.IsSuccessfulStatusCode())
                 {
                     _basketService.EmptyBasket();

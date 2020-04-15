@@ -41,7 +41,7 @@ namespace Cocorico.Client.Application.ViewModels.User
                 await _authenticationClient.AddClaimToUserAsync(new UserClaimRequest
                 {
                     UserId = userId,
-                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
+                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue },
                 });
 
                 await LoadUserAsync(userId);
@@ -58,7 +58,7 @@ namespace Cocorico.Client.Application.ViewModels.User
                 await _authenticationClient.RemoveClaimFromUserAsync(new UserClaimRequest
                 {
                     UserId = userId,
-                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
+                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue },
                 });
 
                 await LoadUserAsync(userId);

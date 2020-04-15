@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 using Cocorico.Domain.Entities;
-using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Dtos.Sandwiches;
 
 namespace Cocorico.Mappings
 {
@@ -10,7 +10,8 @@ namespace Cocorico.Mappings
         public SandwichProfile()
         {
             CreateMap<Sandwich, SandwichDto>()
-                .ForMember(d => d.Ingredients,
+                .ForMember(
+                    d => d.Ingredients,
                     o => o.MapFrom(s => s.SandwichIngredients.Select(si => si.Ingredient)));
             CreateMap<SandwichAddDto, Sandwich>();
             CreateMap<SandwichDto, Sandwich>();

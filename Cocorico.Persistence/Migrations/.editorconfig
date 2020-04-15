@@ -1,7 +1,8 @@
+# Suppress: EC112 EC114
 [*.cs]
 generated_code = true
 
 [*.{cs,vb}]
-dotnet_diagnostic.<rule_id>.severity = unset
-dotnet_analyzer_diagnostic.severity = unset
-dotnet_analyzer_diagnostic.category-<category>.severity = unset
+dotnet_diagnostic.<rule_id>.severity = none
+dotnet_analyzer_diagnostic.severity = none
+dotnet_analyzer_diagnostic.category-<category>.severity = none

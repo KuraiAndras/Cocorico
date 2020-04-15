@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
-using Cocorico.Shared.Dtos.Order;
+using Cocorico.Shared.Dtos.Orders;
 using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

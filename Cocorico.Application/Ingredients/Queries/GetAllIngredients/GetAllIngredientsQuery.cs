@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Ingredient;
+﻿using Cocorico.Shared.Dtos.Ingredients;
 using MediatR;
 using System.Collections.Generic;
 

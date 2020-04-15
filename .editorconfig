@@ -66,7 +66,7 @@ csharp_style_var_when_type_is_apparent = true:silent
 csharp_style_var_elsewhere = true:silent
 # Expression-bodied members
 csharp_style_expression_bodied_methods = false:silent
-csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_constructors = true:warning
 csharp_style_expression_bodied_operators = false:silent
 csharp_style_expression_bodied_properties = true:silent
 csharp_style_expression_bodied_indexers = true:silent
@@ -80,7 +80,7 @@ csharp_style_conditional_delegate_call = true:suggestion
 # Modifier preferences
 csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
 # Expression-level preferences
-csharp_prefer_braces = true:silent
+csharp_prefer_braces = when_multiline:silent
 csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_pattern_local_over_anonymous_function = true:suggestion
@@ -145,3 +145,129 @@ dotnet_diagnostic.S2486.severity = none
 
 # RCS1075: Avoid empty catch clause that catches System.Exception.
 dotnet_diagnostic.RCS1075.severity = none
+
+# AV1755: Name of async method should end with Async or TaskAsync
+dotnet_diagnostic.AV1755.severity = none
+
+# VSD0001: Asynchronous methods should end with the -Async suffix.
+dotnet_diagnostic.VSD0001.severity = warning
+
+# VSTHRD200: Use "Async" suffix for async methods
+dotnet_diagnostic.VSTHRD200.severity = warning
+
+# CC0061: Asynchronous method can be terminated with the 'Async' keyword.
+dotnet_diagnostic.CC0061.severity = warning
+
+# CC0070: Use ConfigureAwait(false) on awaited task.
+dotnet_diagnostic.CC0070.severity = none
+
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
+
+# CC0057: Unused parameters
+dotnet_diagnostic.CC0057.severity = none
+
+# VSTHRD111: Use ConfigureAwait(bool)
+dotnet_diagnostic.VSTHRD111.severity = none
+
+# RCS1183: Format initializer with single expression on single line.
+dotnet_diagnostic.RCS1183.severity = warning
+
+# CC0015: Unnecessary Parenthesis
+dotnet_diagnostic.CC0015.severity = warning
+
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = none
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+
+# SA1208: System using directives should be placed before other using directives
+dotnet_diagnostic.SA1208.severity = none
+
+# SA1200: Using directives should be placed correctly
+dotnet_diagnostic.SA1200.severity = none
+
+# SA1516: Elements should be separated by blank line
+dotnet_diagnostic.SA1516.severity = none
+
+# SA1101: Prefix local calls with this
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1309: Field names should not begin with underscore
+dotnet_diagnostic.SA1309.severity = none
+
+# VSD0010: Warns when an exception catch block is empty.
+dotnet_diagnostic.VSD0010.severity = none
+
+# CC0004: Catch block cannot be empty
+dotnet_diagnostic.CC0004.severity = none
+
+# VSD0023: {0} blocks should use braces to denote start and end.
+dotnet_diagnostic.VSD0023.severity = none
+
+# SA1503: Braces should not be omitted
+dotnet_diagnostic.SA1503.severity = none
+
+# VSD0047: Implement elementary methods for a type used in a collection.
+dotnet_diagnostic.VSD0047.severity = none
+
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = none
+
+# CC0071: Consider introduce field for constructor parameters.
+dotnet_diagnostic.CC0071.severity = none
+
+# SA1128: Put constructor initializers on their own line
+dotnet_diagnostic.SA1128.severity = warning
+
+# CC0035: Ordering member inside this type.
+dotnet_diagnostic.CC0035.severity = none
+
+# VSD0061: Implements Equals() and GetHashCode() using existing fields and properties.
+dotnet_diagnostic.VSD0061.severity = none
+
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = none
+
+# VSD0025: Implements the most common configuration of naming conventions.
+dotnet_diagnostic.VSD0025.severity = none
+
+# SA1649: File name should match first type name
+dotnet_diagnostic.SA1649.severity = none
+
+# CA1054: Uri parameters should not be strings
+dotnet_diagnostic.CA1054.severity = warning
+
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none
+
+# CC0003: Your catch should include an Exception
+dotnet_diagnostic.CC0003.severity = none
+
+# ERP022: Unobserved exception in generic exception handler
+dotnet_diagnostic.ERP022.severity = none
+
+# CA1716: Identifiers should not match keywords
+dotnet_diagnostic.CA1716.severity = none
+
+# SA1129: Do not use default value type constructor
+dotnet_diagnostic.SA1129.severity = none
+
+# VSD0033: Use the built-in type alias instead of the concrete type.
+dotnet_diagnostic.VSD0033.severity = none
+
+# CC0047: You should change to 'private set' whenever possible.
+dotnet_diagnostic.CC0047.severity = none
+
+# CA2227: Collection properties should be read only
+dotnet_diagnostic.CA2227.severity = none
+
+# VSD0003: Gives an enum the `[Flags]` attribute.
+dotnet_diagnostic.VSD0003.severity = none
+
+# SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1602.severity = none
+
+# CA1034: Nested types should not be visible
+dotnet_diagnostic.CA1034.severity = none

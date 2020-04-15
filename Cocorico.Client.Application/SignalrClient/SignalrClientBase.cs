@@ -5,15 +5,13 @@ namespace Cocorico.Client.Application.SignalrClient
 {
     public abstract class SignalrClientBase : IHubClient
     {
-        protected readonly HubConnection _connection;
+#pragma warning disable CA1054 // Uri parameters should not be strings
+        protected SignalrClientBase(HubConnectionBuilder hubConnectionBuilder, string url) =>
+            Connection = hubConnectionBuilder.WithUrl(url).Build();
+#pragma warning restore CA1054 // Uri parameters should not be strings
 
-        protected SignalrClientBase(
-            HubConnectionBuilder hubConnectionBuilder,
-            string url)
-        {
-            _connection = hubConnectionBuilder.WithUrl(url).Build();
-        }
+        protected HubConnection Connection { get; }
 
-        public async Task InitializeConnectionAsync() => await _connection.StartAsync();
+        public async Task InitializeConnectionAsync() => await Connection.StartAsync();
     }
 }

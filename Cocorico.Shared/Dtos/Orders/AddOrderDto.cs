@@ -1,8 +1,8 @@
-﻿using Cocorico.Shared.Dtos.Ingredient;
-using Cocorico.Shared.Dtos.Sandwich;
+﻿using Cocorico.Shared.Dtos.Ingredients;
+using Cocorico.Shared.Dtos.Sandwiches;
 using System.Collections.Generic;
 
-namespace Cocorico.Shared.Dtos.Order
+namespace Cocorico.Shared.Dtos.Orders
 {
     public class AddOrderDto
     {

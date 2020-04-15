@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Domain.Entities;
-using Cocorico.Shared.Dtos.Ingredient;
+using Cocorico.Shared.Dtos.Ingredients;
 
 namespace Cocorico.Mappings
 {

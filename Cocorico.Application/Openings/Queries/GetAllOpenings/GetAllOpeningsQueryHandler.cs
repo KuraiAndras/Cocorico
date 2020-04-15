@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
-using Cocorico.Shared.Dtos.Opening;
+using Cocorico.Shared.Dtos.Openings;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

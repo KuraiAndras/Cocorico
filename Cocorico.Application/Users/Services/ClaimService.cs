@@ -10,8 +10,8 @@ namespace Cocorico.Application.Users.Services
         public Task<List<Claim>> GetBasicUserClaimsAsync() =>
             Task.FromResult(new List<Claim>
             {
-                new Claim(ClaimTypes.Role, Claims.User, ClaimValueTypes.String),
-                new Claim(ClaimTypes.Role, Claims.Customer, ClaimValueTypes.String),
+                new Claim(ClaimTypes.Role, ApplicationClaims.User, ClaimValueTypes.String),
+                new Claim(ClaimTypes.Role, ApplicationClaims.Customer, ClaimValueTypes.String),
             });
     }
 }

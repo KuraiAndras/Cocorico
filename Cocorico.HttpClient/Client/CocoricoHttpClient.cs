@@ -6,10 +6,10 @@
 
 using Cocorico.Shared.Dtos;
 using Cocorico.Shared.Dtos.Authentication;
-using Cocorico.Shared.Dtos.Ingredient;
-using Cocorico.Shared.Dtos.Opening;
-using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Dtos.Ingredients;
+using Cocorico.Shared.Dtos.Openings;
+using Cocorico.Shared.Dtos.Orders;
+using Cocorico.Shared.Dtos.Sandwiches;
 using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Helpers;
 using System;
@@ -23,7 +23,7 @@ using System;
 namespace Cocorico.HttpClient
 {
     using System = global::System;
-    
+
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.2.0.0 (NJsonSchema v10.1.2.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial interface IAuthenticationClient
     {

@@ -30,10 +30,7 @@ namespace Cocorico.Server.Restful.Controllers
         {
             await _mediator.Send(new LoginUserCommand(credentials));
 
-            var result = await _mediator.Send(new GetUserClaimsByNameQuery(new UserNameDto()
-            {
-                UserName = credentials.Email,
-            }));
+            var result = await _mediator.Send(new GetUserClaimsByNameQuery(new UserNameDto { UserName = credentials.Email }));
 
             return new ActionResult<ClaimsDto>(result);
         }
@@ -57,8 +54,8 @@ namespace Cocorico.Server.Restful.Controllers
         }
 
         [Authorize(Policy = Policies.User)]
-        [HttpGet(nameof(GetCurrentUserClaims))]
-        public async Task<ActionResult<ClaimsDto>> GetCurrentUserClaims()
+        [HttpGet(nameof(GetCurrentUserClaimsAsync))]
+        public async Task<ActionResult<ClaimsDto>> GetCurrentUserClaimsAsync()
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 

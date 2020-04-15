@@ -22,8 +22,8 @@ namespace Cocorico.Application.Openings.Commands.AddOpening
 
         protected override async Task Handle(AddOpeningCommand request, CancellationToken cancellationToken)
         {
-            if (!request.Dto.Start.HasValue) throw new ArgumentException(nameof(request.Dto));
-            if (!request.Dto.End.HasValue) throw new ArgumentException(nameof(request.Dto));
+            if (request.Dto.Start is null) throw new ArgumentException(nameof(request.Dto));
+            if (request.Dto.End is null) throw new ArgumentException(nameof(request.Dto));
             if (request.Dto.Start.Value > request.Dto.End.Value) throw new InvalidOperationException("Start is sooner than End");
 
             var opening = Mapper.Map<Opening>(request.Dto);

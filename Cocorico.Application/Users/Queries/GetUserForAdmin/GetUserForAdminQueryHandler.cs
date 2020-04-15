@@ -20,10 +20,7 @@ namespace Cocorico.Application.Users.Queries.GetUserForAdmin
             IMapper mapper,
             ICocoricoDbContext context,
             UserManager<CocoricoUser> userManager)
-            : base(mediator, mapper, context)
-        {
-            _userManager = userManager;
-        }
+            : base(mediator, mapper, context) => _userManager = userManager;
 
         public override async Task<UserForAdminPage> Handle(GetUserForAdminQuery request, CancellationToken cancellationToken)
         {

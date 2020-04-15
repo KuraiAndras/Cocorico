@@ -55,8 +55,7 @@ namespace Cocorico.Server.Restful.Extensions
             services.AddTransient<IPriceCalculator, PriceCalculator>();
         }
 
-        public static void AddCocoricoProblemDetails(this IServiceCollection services, IWebHostEnvironment webHostingEnvironment)
-        {
+        public static void AddCocoricoProblemDetails(this IServiceCollection services, IWebHostEnvironment webHostingEnvironment) =>
             services.AddProblemDetails(options =>
             {
                 options.IncludeExceptionDetails = (_, __) => webHostingEnvironment.IsDevelopment();
@@ -70,6 +69,5 @@ namespace Cocorico.Server.Restful.Extensions
 
                 options.MapToStatusCode<Exception>(StatusCodes.Status500InternalServerError);
             });
-        }
     }
 }

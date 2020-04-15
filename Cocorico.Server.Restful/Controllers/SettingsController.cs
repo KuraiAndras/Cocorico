@@ -5,7 +5,7 @@ using Cocorico.Application.Openings.Queries.GetAllOpenings;
 using Cocorico.Application.Orders.Queries.CanAddOrder;
 using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Shared.Dtos;
-using Cocorico.Shared.Dtos.Opening;
+using Cocorico.Shared.Dtos.Openings;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
 using MediatR;
@@ -69,8 +69,8 @@ namespace Cocorico.Server.Restful.Controllers
             return new ActionResult<bool>(result);
         }
 
-        [HttpPost(nameof(AddOpening))]
-        public async Task<ActionResult> AddOpening([FromBody] AddOpeningDto addOpeningDto)
+        [HttpPost(nameof(AddOpeningAsync))]
+        public async Task<ActionResult> AddOpeningAsync([FromBody] AddOpeningDto addOpeningDto)
         {
             await _mediator.Send(new AddOpeningCommand(addOpeningDto));
 

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Cocorico.Application
 {
-    public static class DependencyInjection
+    public static class ApplicationInjector
     {
         public static void AddApplication(this IServiceCollection services)
         {

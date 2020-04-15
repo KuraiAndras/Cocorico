@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cocorico.Shared.Dtos.Opening
+namespace Cocorico.Shared.Dtos.Openings
 {
     public class OpeningDto
     {

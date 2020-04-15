@@ -2,7 +2,8 @@
 {
     public sealed class DeleteIngredientCommand : CommandDtoBase<int>
     {
-        public DeleteIngredientCommand(int dto) : base(dto)
+        public DeleteIngredientCommand(int dto)
+            : base(dto)
         {
         }
     }

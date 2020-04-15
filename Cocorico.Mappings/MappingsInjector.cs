@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Cocorico.Mappings
 {
-    public static class DependencyInjection
+    public static class MappingsInjector
     {
         public static void AddMappings(this IServiceCollection services) =>
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

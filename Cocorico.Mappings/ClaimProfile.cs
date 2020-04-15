@@ -13,7 +13,7 @@ namespace Cocorico.Mappings
                 .ConvertUsing(c => new ClaimDto
                 {
                     ClaimType = c.Type,
-                    ClaimValue = c.Value
+                    ClaimValue = c.Value,
                 });
 
             CreateMap<ClaimDto, Claim>()

@@ -7,7 +7,8 @@ namespace Cocorico.Persistence
 {
     public sealed class CocoricoDbContext : IdentityDbContext<CocoricoUser>, ICocoricoDbContext
     {
-        public CocoricoDbContext(DbContextOptions<CocoricoDbContext> options) : base(options)
+        public CocoricoDbContext(DbContextOptions<CocoricoDbContext> options)
+            : base(options)
         {
         }
 

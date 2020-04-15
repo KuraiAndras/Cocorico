@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
-using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Dtos.Sandwiches;
+using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
-using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Sandwiches.Queries.GetSandwich
 {

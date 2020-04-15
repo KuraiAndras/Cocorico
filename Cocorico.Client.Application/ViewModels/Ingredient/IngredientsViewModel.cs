@@ -1,6 +1,6 @@
 ﻿using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
-using Cocorico.Shared.Dtos.Ingredient;
+using Cocorico.Shared.Dtos.Ingredients;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,13 +11,13 @@ namespace Cocorico.Client.Application.ViewModels.Ingredient
     {
         private readonly IIngredientClient _ingredientClient;
 
-        public IReadOnlyList<IngredientDto> IngredientsList { get; private set; }
-
         public IngredientsViewModel(IIngredientClient ingredientClient)
         {
             _ingredientClient = ingredientClient;
             IngredientsList = new List<IngredientDto>();
         }
+
+        public IReadOnlyList<IngredientDto> IngredientsList { get; private set; }
 
         public async Task DeleteAsync(int id)
         {
@@ -26,11 +26,9 @@ namespace Cocorico.Client.Application.ViewModels.Ingredient
                 var fileResponse = await _ingredientClient.DeleteAsync(id);
 
                 if (fileResponse.IsSuccessfulStatusCode()) await LoadIngredientsAsync();
-                //TODO: Handle fail
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 
@@ -44,7 +42,6 @@ namespace Cocorico.Client.Application.ViewModels.Ingredient
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Order;
+﻿using Cocorico.Shared.Dtos.Orders;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Hubs;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -14,11 +14,11 @@ namespace Cocorico.Client.Application.SignalrClient.WorkerOrders
 
         public void RegisterListener(IWorkerViewOrderClient client)
         {
-            _connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderAddedAsync, client.ReceiveOrderAddedAsync);
+            Connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderAddedAsync, client.ReceiveOrderAddedAsync);
 
-            _connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderModifiedAsync, client.ReceiveOrderModifiedAsync);
+            Connection.On<WorkerOrderViewDto>(HubNames.WorkerViewOrderHubNames.ReceiveOrderModifiedAsync, client.ReceiveOrderModifiedAsync);
 
-            _connection.On<int>(HubNames.WorkerViewOrderHubNames.ReceiveOrderDeletedAsync, client.ReceiveOrderDeletedAsync);
+            Connection.On<int>(HubNames.WorkerViewOrderHubNames.ReceiveOrderDeletedAsync, client.ReceiveOrderDeletedAsync);
         }
     }
 }

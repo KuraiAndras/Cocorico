@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 using Cocorico.Domain.Entities;
-using Cocorico.Shared.Dtos.Order;
+using Cocorico.Shared.Dtos.Orders;
 
 namespace Cocorico.Mappings
 {

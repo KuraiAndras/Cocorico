@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Opening;
+﻿using Cocorico.Shared.Dtos.Openings;
 using MediatR;
 using System.Collections.Generic;
 

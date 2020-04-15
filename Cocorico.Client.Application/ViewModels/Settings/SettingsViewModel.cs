@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Cocorico.HttpClient;
+using Cocorico.HttpClient.Extensions;
+using Cocorico.Shared.Dtos;
+using Cocorico.Shared.Dtos.Openings;
+using Cocorico.Shared.Exceptions;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Cocorico.HttpClient;
-using Cocorico.HttpClient.Extensions;
-using Cocorico.Shared.Dtos;
-using Cocorico.Shared.Dtos.Opening;
-using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Client.Application.ViewModels.Settings
 {
@@ -17,27 +17,21 @@ namespace Cocorico.Client.Application.ViewModels.Settings
         public SettingsViewModel(ISettingsClient settingsClient) =>
             _settingsClient = settingsClient;
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public MutableRange IdRange { get; set; } = new MutableRange { End = 30, Start = 0 };
         public ICollection<OpeningDto> Openings { get; private set; } = new List<OpeningDto>();
         public AddOpeningDto OpeningToAdd { get; set; } = new AddOpeningDto();
 
         public async Task InitializeAsync()
         {
-            var currentRangeTask = _settingsClient.CurrentRangeAsync();
-            var openingsTask = _settingsClient.GetAllOpeningsAsync();
+            var currentRangeTask = await _settingsClient.CurrentRangeAsync();
+            var openingsTask = await _settingsClient.GetAllOpeningsAsync();
 
-            var tasks = new Task[]
-            {
-                currentRangeTask,
-                openingsTask,
-            };
+            IdRange.Start = currentRangeTask.Start;
+            IdRange.End = currentRangeTask.End;
 
-            await Task.WhenAll(tasks);
-
-            IdRange.Start = currentRangeTask.Result.Start;
-            IdRange.End = currentRangeTask.Result.End;
-
-            Openings = openingsTask.Result;
+            Openings = openingsTask;
 
             OnPropertyChanged(nameof(IdRange));
             OnPropertyChanged(nameof(Openings));
@@ -53,7 +47,6 @@ namespace Cocorico.Client.Application.ViewModels.Settings
             }
             catch (SwaggerException)
             {
-                // TODO: Handle Fail
             }
         }
 
@@ -73,7 +66,6 @@ namespace Cocorico.Client.Application.ViewModels.Settings
             }
             catch (SwaggerException)
             {
-                // TODO: Handle Fail
             }
         }
 
@@ -89,7 +81,6 @@ namespace Cocorico.Client.Application.ViewModels.Settings
             }
             catch (SwaggerException)
             {
-                // TODO: Handle Fail
             }
         }
 
@@ -105,11 +96,8 @@ namespace Cocorico.Client.Application.ViewModels.Settings
             }
             catch (SwaggerException)
             {
-                // TODO: Handle Fail
             }
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

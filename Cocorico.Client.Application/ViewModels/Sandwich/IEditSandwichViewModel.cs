@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cocorico.Shared.Dtos.Ingredient;
-using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Dtos.Ingredients;
+using Cocorico.Shared.Dtos.Sandwiches;
 
 namespace Cocorico.Client.Application.ViewModels.Sandwich
 {

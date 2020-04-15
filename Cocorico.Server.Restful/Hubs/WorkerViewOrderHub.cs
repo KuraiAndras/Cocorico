@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Cocorico.Server.Restful.Hubs
 {
-    [Authorize(Roles = Claims.Worker)]
+    [Authorize(Roles = ApplicationClaims.Worker)]
     public class WorkerViewOrderHub : Hub<IWorkerViewOrderClient>
     {
     }

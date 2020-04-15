@@ -5,8 +5,10 @@ using Cocorico.Application.Orders.Queries.CalculatePrice;
 using Cocorico.Application.Orders.Queries.CanAddOrder;
 using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Domain.Entities;
-using Cocorico.Shared.Dtos.Ingredient;
-using Cocorico.Shared.Dtos.Order;
+using Cocorico.Shared.Dtos.Ingredients;
+using Cocorico.Shared.Dtos.Orders;
+using Cocorico.Shared.Entities;
+using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,8 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Cocorico.Shared.Entities;
-using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Orders.Commands.AddOrder
 {
@@ -33,7 +33,7 @@ namespace Cocorico.Application.Orders.Commands.AddOrder
 
         protected override async Task Handle(AddOrderCommand request, CancellationToken cancellationToken)
         {
-            // TODO: date service
+            // TODO: Date service
             var dateAdded = DateTime.Now;
             var canAdd = await Mediator.Send(new CanAddOrderQuery(dateAdded), cancellationToken);
             if (!canAdd) throw new StoreClosedException();

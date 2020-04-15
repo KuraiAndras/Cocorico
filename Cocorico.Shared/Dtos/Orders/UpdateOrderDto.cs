@@ -1,6 +1,6 @@
 ﻿using Cocorico.Shared.Entities;
 
-namespace Cocorico.Shared.Dtos.Order
+namespace Cocorico.Shared.Dtos.Orders
 {
     public class UpdateOrderDto
     {

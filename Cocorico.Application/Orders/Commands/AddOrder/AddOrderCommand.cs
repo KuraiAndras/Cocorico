@@ -1,10 +1,11 @@
-﻿using Cocorico.Shared.Dtos.Order;
+﻿using Cocorico.Shared.Dtos.Orders;
 
 namespace Cocorico.Application.Orders.Commands.AddOrder
 {
     public sealed class AddOrderCommand : CommandDtoBase<AddOrderDto>
     {
-        public AddOrderCommand(AddOrderDto dto) : base(dto)
+        public AddOrderCommand(AddOrderDto dto)
+            : base(dto)
         {
         }
     }

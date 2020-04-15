@@ -27,6 +27,8 @@ namespace Cocorico.Client.Application.ViewModels.Authentication
                 var response = await _authenticationClient.RegisterAsync(UserRegisterDetails);
 
                 if (!response.IsSuccessfulStatusCode()) throw new RegisterFailedException();
+
+                response.Dispose();
             }
             catch (Exception)
             {

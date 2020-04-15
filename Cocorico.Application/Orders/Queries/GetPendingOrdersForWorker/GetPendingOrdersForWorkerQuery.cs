@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Order;
+﻿using Cocorico.Shared.Dtos.Orders;
 using MediatR;
 using System.Collections.Generic;
 

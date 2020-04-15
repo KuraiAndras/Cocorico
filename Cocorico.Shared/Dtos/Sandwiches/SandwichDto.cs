@@ -1,7 +1,7 @@
-﻿using Cocorico.Shared.Dtos.Ingredient;
+﻿using Cocorico.Shared.Dtos.Ingredients;
 using System.Collections.Generic;
 
-namespace Cocorico.Shared.Dtos.Sandwich
+namespace Cocorico.Shared.Dtos.Sandwiches
 {
     public class SandwichDto
     {

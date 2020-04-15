@@ -5,7 +5,7 @@ using Cocorico.Application.Openings.Queries.GetAllOpenings;
 using Cocorico.Application.Orders.Queries.CanAddOrder;
 using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Shared.Dtos;
-using Cocorico.Shared.Dtos.Opening;
+using Cocorico.Shared.Dtos.Openings;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
 using MediatR;
@@ -64,14 +64,13 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpGet(nameof(IsStoreOpenAsync))]
         public async Task<ActionResult<bool>> IsStoreOpenAsync()
         {
-            // TODO: date time move to infrastructure
             var result = await _mediator.Send(new CanAddOrderQuery(DateTime.Now));
 
             return new ActionResult<bool>(result);
         }
 
-        [HttpPost(nameof(AddOpening))]
-        public async Task<ActionResult> AddOpening([FromBody] AddOpeningDto addOpeningDto)
+        [HttpPost(nameof(AddOpeningAsync))]
+        public async Task<ActionResult> AddOpeningAsync([FromBody] AddOpeningDto addOpeningDto)
         {
             await _mediator.Send(new AddOpeningCommand(addOpeningDto));
 

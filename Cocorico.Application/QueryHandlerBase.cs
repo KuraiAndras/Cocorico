@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application
 {
-    public abstract class QueryHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    public abstract class QueryHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
+        where TRequest : IRequest<TResponse>
     {
         protected QueryHandlerBase(
             IMediator mediator,

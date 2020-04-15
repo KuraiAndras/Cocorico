@@ -1,6 +1,4 @@
-﻿using System;
-using Cocorico.Shared.Dtos.Order;
-using Cocorico.Shared.Hubs;
+﻿using Cocorico.Shared.Hubs;
 
 namespace Cocorico.Client.Application.SignalrClient.WorkerOrders
 {

@@ -1,4 +1,4 @@
-using Cocorico.Application;
+﻿using Cocorico.Application;
 using Cocorico.Mappings;
 using Cocorico.Persistence.DependencyInjection;
 using Cocorico.Server.Restful.Extensions;
@@ -58,6 +58,7 @@ namespace Cocorico.Server.Restful
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         // ReSharper disable once UnusedMember.Global
+#pragma warning disable CA1822 // Mark members as static
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseResponseCompression();
@@ -88,5 +89,6 @@ namespace Cocorico.Server.Restful
                 endpoints.MapFallbackToClientSideBlazor<Client.Blazor.Program>("index.html");
             });
         }
+#pragma warning restore CA1822 // Mark members as static
     }
 }

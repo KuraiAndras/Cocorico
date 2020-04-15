@@ -3,7 +3,7 @@ using Cocorico.Application.Ingredients.Commands.DeleteIngredient;
 using Cocorico.Application.Ingredients.Commands.UpdateIngredient;
 using Cocorico.Application.Ingredients.Queries.GetAllIngredients;
 using Cocorico.Application.Ingredients.Queries.GetIngredient;
-using Cocorico.Shared.Dtos.Ingredient;
+using Cocorico.Shared.Dtos.Ingredients;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
 using MediatR;

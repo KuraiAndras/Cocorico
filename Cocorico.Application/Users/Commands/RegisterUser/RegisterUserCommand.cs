@@ -4,7 +4,8 @@ namespace Cocorico.Application.Users.Commands.RegisterUser
 {
     public sealed class RegisterUserCommand : CommandDtoBase<RegisterDetails>
     {
-        public RegisterUserCommand(RegisterDetails dto) : base(dto)
+        public RegisterUserCommand(RegisterDetails dto)
+            : base(dto)
         {
         }
     }

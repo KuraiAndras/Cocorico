@@ -4,7 +4,8 @@ namespace Cocorico.Application
 {
     public abstract class CommandDtoBase<TDto> : DtoMessageBase<TDto>, IRequest
     {
-        protected CommandDtoBase(TDto dto) : base(dto)
+        protected CommandDtoBase(TDto dto)
+            : base(dto)
         {
         }
     }

@@ -7,8 +7,6 @@ namespace Cocorico.Shared.Exceptions
     [Serializable]
     public class InvalidCommandException : Exception
     {
-        public string? ResourceReferenceProperty { get; set; }
-
         public InvalidCommandException()
         {
         }
@@ -26,6 +24,8 @@ namespace Cocorico.Shared.Exceptions
         protected InvalidCommandException(SerializationInfo info, StreamingContext context)
             : base(info, context) =>
             ResourceReferenceProperty = info.GetString(nameof(ResourceReferenceProperty));
+
+        public string? ResourceReferenceProperty { get; set; }
 
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

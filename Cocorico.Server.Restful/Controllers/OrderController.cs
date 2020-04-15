@@ -5,7 +5,6 @@ using Cocorico.Application.Orders.Queries.CalculatePrice;
 using Cocorico.Application.Orders.Queries.GetAllOrderForCustomer;
 using Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker;
 using Cocorico.Domain.Entities;
-using Cocorico.Shared.Dtos.Order;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
 using MediatR;
@@ -15,6 +14,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cocorico.Shared.Exceptions;
+using Cocorico.Shared.Dtos.Orders;
+using System;
 
 namespace Cocorico.Server.Restful.Controllers
 {
@@ -40,7 +41,7 @@ namespace Cocorico.Server.Restful.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User) ?? throw new InvalidCommandException();
 
-            if (!userId.Equals(customerId)) throw new InvalidCommandException();
+            if (!userId.Equals(customerId, StringComparison.InvariantCulture)) throw new InvalidCommandException();
 
             var serviceResult = await _mediator.Send(new GetAllOrderForCustomerQuery(customerId));
 
@@ -56,7 +57,6 @@ namespace Cocorico.Server.Restful.Controllers
             return new ActionResult<IEnumerable<WorkerOrderViewDto>>(serviceResult);
         }
 
-        //TODO: Worker policy update
         [Authorize(Policy = Policies.Customer)]
         [HttpPost]
         public async Task<ActionResult> AddOrderAsync([FromBody] AddOrderDto addOrderDto)

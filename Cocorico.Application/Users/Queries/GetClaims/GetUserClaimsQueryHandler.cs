@@ -26,7 +26,6 @@ namespace Cocorico.Application.Users.Queries.GetClaims
         {
             var user = await _userManager.FindByIdAsync(request.Dto.UserId) ?? throw new EntityNotFoundException($"User not found with id: {request.Dto.UserId}");
 
-            // TODO: better exception
             var claims = await _userManager.GetClaimsAsync(user) ?? throw new UnexpectedException();
 
             return Mapper.Map<ClaimsDto>(claims);

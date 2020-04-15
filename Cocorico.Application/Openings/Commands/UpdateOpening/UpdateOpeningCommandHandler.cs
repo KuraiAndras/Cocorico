@@ -20,7 +20,6 @@ namespace Cocorico.Application.Openings.Commands.UpdateOpening
 
         protected override async Task Handle(UpdateOpeningCommand request, CancellationToken cancellationToken)
         {
-            // TODO: fluent validator
             if (!request.Dto.Start.HasValue) throw new ArgumentException(nameof(request.Dto));
             if (!request.Dto.End.HasValue) throw new ArgumentException(nameof(request.Dto));
             if (request.Dto.Start.Value > request.Dto.End.Value) throw new ArgumentException(nameof(request.Dto));

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Client.Blazor
 {
+#pragma warning disable RCS1102 // Make class static.
     public class Program
     {
         public static async Task Main(string[] args)
@@ -22,4 +23,5 @@ namespace Cocorico.Client.Blazor
             }
         }
     }
+#pragma warning restore RCS1102 // Make class static.
 }

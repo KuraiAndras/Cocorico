@@ -25,7 +25,6 @@ namespace Cocorico.Client.Application.ViewModels.Ingredient
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 

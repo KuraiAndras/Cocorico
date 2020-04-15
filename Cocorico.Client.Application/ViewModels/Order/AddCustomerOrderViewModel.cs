@@ -53,7 +53,6 @@ namespace Cocorico.Client.Application.ViewModels.Order
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 
@@ -68,7 +67,6 @@ namespace Cocorico.Client.Application.ViewModels.Order
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 
@@ -92,12 +90,10 @@ namespace Cocorico.Client.Application.ViewModels.Order
 
                 var fileResponse = await _sandwichClient.UpdateAsync(sandwich);
 
-                //TODO: Handle fail
                 if (!fileResponse.IsSuccessfulStatusCode()) throw new UnexpectedException();
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
     }

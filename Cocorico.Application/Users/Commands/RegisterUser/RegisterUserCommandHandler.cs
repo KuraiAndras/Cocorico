@@ -1,12 +1,12 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Users.Services;
 using Cocorico.Domain.Entities;
 using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Cocorico.Application.Users.Commands.RegisterUser
 {
@@ -36,7 +36,7 @@ namespace Cocorico.Application.Users.Commands.RegisterUser
 
             var result = await _userManager.CreateAsync(userIdentity, request.Dto.Password);
 
-            //TODO: Better exception
+            // TODO: Better exception
             if (!result.Succeeded) throw new UnexpectedException();
 
             var customerClaim = await _claimService.GetBasicUserClaimsAsync();

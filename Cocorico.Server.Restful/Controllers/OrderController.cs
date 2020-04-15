@@ -56,7 +56,6 @@ namespace Cocorico.Server.Restful.Controllers
             return new ActionResult<IEnumerable<WorkerOrderViewDto>>(serviceResult);
         }
 
-        //TODO: Worker policy update
         [Authorize(Policy = Policies.Customer)]
         [HttpPost]
         public async Task<ActionResult> AddOrderAsync([FromBody] AddOrderDto addOrderDto)

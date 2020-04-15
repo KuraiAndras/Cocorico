@@ -39,7 +39,6 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 

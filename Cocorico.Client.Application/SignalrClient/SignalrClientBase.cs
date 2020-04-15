@@ -1,5 +1,4 @@
-﻿using Cocorico.Client.Application.SignalrClient;
-using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.SignalrClient

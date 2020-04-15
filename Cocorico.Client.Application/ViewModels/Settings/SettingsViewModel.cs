@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Cocorico.HttpClient;
+﻿using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
 using Cocorico.Shared.Dtos;
 using Cocorico.Shared.Dtos.Opening;
 using Cocorico.Shared.Exceptions;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.ViewModels.Settings
 {
@@ -53,7 +53,6 @@ namespace Cocorico.Client.Application.ViewModels.Settings
             }
             catch (SwaggerException)
             {
-                // TODO: Handle Fail
             }
         }
 
@@ -73,7 +72,6 @@ namespace Cocorico.Client.Application.ViewModels.Settings
             }
             catch (SwaggerException)
             {
-                // TODO: Handle Fail
             }
         }
 
@@ -89,7 +87,6 @@ namespace Cocorico.Client.Application.ViewModels.Settings
             }
             catch (SwaggerException)
             {
-                // TODO: Handle Fail
             }
         }
 
@@ -105,7 +102,6 @@ namespace Cocorico.Client.Application.ViewModels.Settings
             }
             catch (SwaggerException)
             {
-                // TODO: Handle Fail
             }
         }
 

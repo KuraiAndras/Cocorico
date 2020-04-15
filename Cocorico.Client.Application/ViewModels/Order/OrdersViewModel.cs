@@ -41,10 +41,8 @@ namespace Cocorico.Client.Application.ViewModels.Order
                 Orders.AddRange(orders);
                 Orders.Sort(RotatingIdComparator);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                // TODO: Handle exception
-                Console.WriteLine(e);
             }
         }
 
@@ -60,10 +58,8 @@ namespace Cocorico.Client.Application.ViewModels.Order
 
                 if (!fileResponse.IsSuccessfulStatusCode()) throw new InvalidOperationException();
             }
-            catch (SwaggerException e)
+            catch (SwaggerException)
             {
-                //TODO: Handle fail
-                Console.WriteLine(e);
             }
         }
 

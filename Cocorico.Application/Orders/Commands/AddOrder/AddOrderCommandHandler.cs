@@ -33,7 +33,7 @@ namespace Cocorico.Application.Orders.Commands.AddOrder
 
         protected override async Task Handle(AddOrderCommand request, CancellationToken cancellationToken)
         {
-            // TODO: date service
+            // TODO: Date service
             var dateAdded = DateTime.Now;
             var canAdd = await Mediator.Send(new CanAddOrderQuery(dateAdded), cancellationToken);
             if (!canAdd) throw new StoreClosedException();

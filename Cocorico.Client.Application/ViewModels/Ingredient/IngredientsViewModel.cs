@@ -26,11 +26,9 @@ namespace Cocorico.Client.Application.ViewModels.Ingredient
                 var fileResponse = await _ingredientClient.DeleteAsync(id);
 
                 if (fileResponse.IsSuccessfulStatusCode()) await LoadIngredientsAsync();
-                //TODO: Handle fail
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 
@@ -44,7 +42,6 @@ namespace Cocorico.Client.Application.ViewModels.Ingredient
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
     }

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Common.Persistence;
 using Cocorico.Shared.Dtos.Order;
+using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Orders.Queries.GetAllOrderForCustomer
 {
@@ -23,7 +23,6 @@ namespace Cocorico.Application.Orders.Queries.GetAllOrderForCustomer
 
         public override async Task<ICollection<CustomerViewOrderDto>> Handle(GetAllOrderForCustomerQuery request, CancellationToken cancellationToken)
         {
-            // TODO: Fluent Validator
             if (string.IsNullOrEmpty(request.Dto)) throw new EntityNotFoundException($"Invalid customer Id:{request.Dto}");
 
             var ordersForCustomer = await Context.Orders

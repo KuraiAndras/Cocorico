@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Cocorico.HttpClient;
+﻿using Cocorico.HttpClient;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.User;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.ViewModels.User
 {
@@ -31,7 +31,6 @@ namespace Cocorico.Client.Application.ViewModels.User
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 
@@ -49,7 +48,6 @@ namespace Cocorico.Client.Application.ViewModels.User
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 
@@ -67,7 +65,6 @@ namespace Cocorico.Client.Application.ViewModels.User
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
     }

@@ -64,7 +64,6 @@ namespace Cocorico.Server.Restful.Controllers
         [HttpGet(nameof(IsStoreOpenAsync))]
         public async Task<ActionResult<bool>> IsStoreOpenAsync()
         {
-            // TODO: date time move to infrastructure
             var result = await _mediator.Send(new CanAddOrderQuery(DateTime.Now));
 
             return new ActionResult<bool>(result);

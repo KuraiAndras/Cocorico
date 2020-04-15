@@ -34,7 +34,6 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 
@@ -45,11 +44,9 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
                 var fileResponse = await _sandwichClient.DeleteAsync(sandwichId);
 
                 if (fileResponse.IsSuccessfulStatusCode()) await LoadSandwichesAsync();
-                //TODO: Handle fail
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 

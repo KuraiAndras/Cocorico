@@ -22,10 +22,9 @@ namespace Cocorico.Application.Openings.Commands.AddOpening
 
         protected override async Task Handle(AddOpeningCommand request, CancellationToken cancellationToken)
         {
-            // TODO: fluent validator
             if (!request.Dto.Start.HasValue) throw new ArgumentException(nameof(request.Dto));
             if (!request.Dto.End.HasValue) throw new ArgumentException(nameof(request.Dto));
-            if (request.Dto.Start.Value > request.Dto.End.Value) throw new ArgumentException("Start is sooner than End", nameof(request.Dto));
+            if (request.Dto.Start.Value > request.Dto.End.Value) throw new InvalidOperationException("Start is sooner than End");
 
             var opening = Mapper.Map<Opening>(request.Dto);
 
@@ -34,7 +33,7 @@ namespace Cocorico.Application.Openings.Commands.AddOpening
             var lastOpening = openingsInDb.OrderByDescending(o => o.End).FirstOrDefault()
                               ?? new Opening { End = new DateTime(), Start = new DateTime() };
 
-            if (lastOpening.End > opening.Start) throw new ArgumentException("New start is sooner than last end", nameof(request.Dto));
+            if (lastOpening.End > opening.Start) throw new InvalidOperationException("New start is sooner than last end");
 
             Context.Openings.Add(opening);
 

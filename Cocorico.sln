@@ -23,7 +23,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.HttpClient", "Coco
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Application.Tests", "Cocorico.Application.Tests\Cocorico.Application.Tests.csproj", "{C4CDB6CA-A672-4557-8F0A-B80079F77871}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cocorico.Authentication", "Cocorico.Authentication\Cocorico.Authentication.csproj", "{E31E64B6-7AD7-417B-838B-7AE43DADDDFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Authentication", "Cocorico.Authentication\Cocorico.Authentication.csproj", "{E31E64B6-7AD7-417B-838B-7AE43DADDDFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E1EEF9D7-A96E-459E-AF36-9806F7C2B02A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

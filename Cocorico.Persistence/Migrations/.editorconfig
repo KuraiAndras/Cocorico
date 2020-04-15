@@ -1,0 +1,7 @@
+[*.cs]
+generated_code = true
+
+[*.{cs,vb}]
+dotnet_diagnostic.<rule_id>.severity = unset
+dotnet_analyzer_diagnostic.severity = unset
+dotnet_analyzer_diagnostic.category-<category>.severity = unset

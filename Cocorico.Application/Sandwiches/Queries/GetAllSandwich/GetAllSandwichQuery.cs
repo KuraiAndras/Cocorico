@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Sandwich;
+﻿using Cocorico.Shared.Dtos.Sandwiches;
 using MediatR;
 using System.Collections.Generic;
 

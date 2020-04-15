@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Order;
+﻿using Cocorico.Shared.Dtos.Orders;
 using System.Threading.Tasks;
 
 namespace Cocorico.Shared.Hubs

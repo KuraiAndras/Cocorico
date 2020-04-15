@@ -1,53 +1,273 @@
+# To learn more about .editorconfig see https://aka.ms/editorconfigdocs
+###############################
+# Core EditorConfig Options   #
+###############################
+# All files
+[*]
+indent_style = space
+# Code files
+[*.{cs,csx,vb,vbx}]
+indent_size = 4
+insert_final_newline = true
+charset = utf-8-bom
+###############################
+# .NET Coding Conventions     #
+###############################
+[*.{cs,vb}]
+# Organize usings
+dotnet_sort_system_directives_first = false
+# this. preferences
+dotnet_style_qualification_for_field = false:silent
+dotnet_style_qualification_for_property = false:silent
+dotnet_style_qualification_for_method = false:silent
+dotnet_style_qualification_for_event = false:silent
+# Language keywords vs BCL types preferences
+dotnet_style_predefined_type_for_locals_parameters_members = true:silent
+dotnet_style_predefined_type_for_member_access = true:silent
+# Parentheses preferences
+dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:silent
+dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:silent
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:silent
+dotnet_style_parentheses_in_other_operators = never_if_unnecessary:silent
+# Modifier preferences
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
+dotnet_style_readonly_field = true:suggestion
+# Expression-level preferences
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_explicit_tuple_names = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:silent
+dotnet_style_prefer_inferred_tuple_names = true:suggestion
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
+dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_prefer_conditional_expression_over_return = true:silent
+###############################
+# Naming Conventions          #
+###############################
+# Style Definitions
+dotnet_naming_style.pascal_case_style.capitalization             = pascal_case
+# Use PascalCase for constant fields  
+dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_style
+dotnet_naming_symbols.constant_fields.applicable_kinds            = field
+dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
+dotnet_naming_symbols.constant_fields.required_modifiers          = const
+###############################
+# C# Coding Conventions       #
+###############################
 [*.cs]
+# var preferences
+csharp_style_var_for_built_in_types = true:silent
+csharp_style_var_when_type_is_apparent = true:silent
+csharp_style_var_elsewhere = true:silent
+# Expression-bodied members
+csharp_style_expression_bodied_methods = false:silent
+csharp_style_expression_bodied_constructors = true:warning
+csharp_style_expression_bodied_operators = false:silent
+csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_indexers = true:silent
+csharp_style_expression_bodied_accessors = true:silent
+# Pattern matching preferences
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+# Null-checking preferences
+csharp_style_throw_expression = true:suggestion
+csharp_style_conditional_delegate_call = true:suggestion
+# Modifier preferences
+csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
+# Expression-level preferences
+csharp_prefer_braces = when_multiline:silent
+csharp_style_deconstructed_variable_declaration = true:suggestion
+csharp_prefer_simple_default_expression = true:suggestion
+csharp_style_pattern_local_over_anonymous_function = true:suggestion
+csharp_style_inlined_variable_declaration = true:suggestion
+###############################
+# C# Formatting Rules         #
+###############################
+# New line preferences
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+# Indentation preferences
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = flush_left
+# Space preferences
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_method_call_parameter_list_parentheses = false
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_parentheses = false
+csharp_space_before_colon_in_inheritance_clause = true
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+csharp_space_between_method_call_empty_parameter_list_parentheses = false
+# Wrapping preferences
+csharp_preserve_single_line_statements = true
+csharp_preserve_single_line_blocks = true
 
 # RCS1090: Call 'ConfigureAwait(false)'.
-dotnet_diagnostic.rcs1090.severity=none
+dotnet_diagnostic.RCS1090.severity = none
 
-# CS8602: Dereference of a possibly null reference.
-dotnet_diagnostic.cs8602.severity=warning
+# S4457: Parameter validation in "async"/"await" methods should be wrapped
+dotnet_diagnostic.S4457.severity = none
 
-# CS8653: A default expression introduces a null value for a type parameter.
-dotnet_diagnostic.cs8653.severity=suggestion
+# RCS1102: Make class static.
+dotnet_diagnostic.RCS1102.severity = warning
 
-# RCS1047: Non-asynchronous method name should not end with 'Async'.
-dotnet_diagnostic.rcs1047.severity=warning
+# S1118: Utility classes should not have public constructors
+dotnet_diagnostic.S1118.severity = none
 
-# RCS1124: Inline local variable.
-dotnet_diagnostic.rcs1124.severity=warning
+# S927: parameter names should match base declaration and other partial definitions
+dotnet_diagnostic.S927.severity = none
 
-# RCS1225: Make class sealed
-dotnet_diagnostic.rcs1225.severity=warning
+# RCS1168: Parameter name differs from base name.
+dotnet_diagnostic.RCS1168.severity = none
 
-[*.{c,c++,cc,cp,cpp,cu,cuh,cxx,h,hh,hpp,hxx,inc,inl,ino,ipp,mpp,proto,tpp}]
-indent_style=tab
-indent_size=tab
-tab_width=4
+# S2696: Instance members should not write to "static" fields
+dotnet_diagnostic.S2696.severity = none
 
-[*.{asax,ascx,aspx,cs,cshtml,css,htm,html,js,jsx,master,razor,skin,ts,tsx,vb,xaml,xamlx,xoml}]
-indent_style=space
-indent_size=4
-tab_width=4
+# S108: Nested blocks of code should not be left empty
+dotnet_diagnostic.S108.severity = none
 
-[*.{appxmanifest,axml,build,config,csproj,dbml,discomap,dtd,json,jsproj,lsproj,njsproj,nuspec,proj,props,resjson,resw,resx,StyleCop,targets,tasks,vbproj,xml,xsd}]
-indent_style=space
-indent_size=2
-tab_width=2
+# S2486: Generic exceptions should not be ignored
+dotnet_diagnostic.S2486.severity = none
 
-[*]
+# RCS1075: Avoid empty catch clause that catches System.Exception.
+dotnet_diagnostic.RCS1075.severity = none
 
-# Microsoft .NET properties
-csharp_new_line_before_members_in_object_initializers=false
-csharp_preferred_modifier_order=public, private, protected, internal, new, abstract, virtual, sealed, override, static, readonly, extern, unsafe, volatile, async:suggestion
-csharp_style_var_elsewhere=true:suggestion
-csharp_style_var_for_built_in_types=true:suggestion
-csharp_style_var_when_type_is_apparent=true:suggestion
-dotnet_style_parentheses_in_arithmetic_binary_operators=never_if_unnecessary:suggestion
-dotnet_style_parentheses_in_other_binary_operators=never_if_unnecessary:suggestion
-dotnet_style_parentheses_in_relational_binary_operators=never_if_unnecessary:suggestion
-dotnet_style_predefined_type_for_locals_parameters_members=true:suggestion
-dotnet_style_predefined_type_for_member_access=true:suggestion
-dotnet_style_qualification_for_event=false:suggestion
-dotnet_style_qualification_for_field=false:suggestion
-dotnet_style_qualification_for_method=false:suggestion
-dotnet_style_qualification_for_property=false:suggestion
-dotnet_style_require_accessibility_modifiers=for_non_interface_members:suggestion
+# AV1755: Name of async method should end with Async or TaskAsync
+dotnet_diagnostic.AV1755.severity = none
+
+# VSD0001: Asynchronous methods should end with the -Async suffix.
+dotnet_diagnostic.VSD0001.severity = warning
+
+# VSTHRD200: Use "Async" suffix for async methods
+dotnet_diagnostic.VSTHRD200.severity = warning
+
+# CC0061: Asynchronous method can be terminated with the 'Async' keyword.
+dotnet_diagnostic.CC0061.severity = warning
+
+# CC0070: Use ConfigureAwait(false) on awaited task.
+dotnet_diagnostic.CC0070.severity = none
+
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
+
+# CC0057: Unused parameters
+dotnet_diagnostic.CC0057.severity = none
+
+# VSTHRD111: Use ConfigureAwait(bool)
+dotnet_diagnostic.VSTHRD111.severity = none
+
+# RCS1183: Format initializer with single expression on single line.
+dotnet_diagnostic.RCS1183.severity = warning
+
+# CC0015: Unnecessary Parenthesis
+dotnet_diagnostic.CC0015.severity = warning
+
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = none
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+
+# SA1208: System using directives should be placed before other using directives
+dotnet_diagnostic.SA1208.severity = none
+
+# SA1200: Using directives should be placed correctly
+dotnet_diagnostic.SA1200.severity = none
+
+# SA1516: Elements should be separated by blank line
+dotnet_diagnostic.SA1516.severity = none
+
+# SA1101: Prefix local calls with this
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1309: Field names should not begin with underscore
+dotnet_diagnostic.SA1309.severity = none
+
+# VSD0010: Warns when an exception catch block is empty.
+dotnet_diagnostic.VSD0010.severity = none
+
+# CC0004: Catch block cannot be empty
+dotnet_diagnostic.CC0004.severity = none
+
+# VSD0023: {0} blocks should use braces to denote start and end.
+dotnet_diagnostic.VSD0023.severity = none
+
+# SA1503: Braces should not be omitted
+dotnet_diagnostic.SA1503.severity = none
+
+# VSD0047: Implement elementary methods for a type used in a collection.
+dotnet_diagnostic.VSD0047.severity = none
+
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = none
+
+# CC0071: Consider introduce field for constructor parameters.
+dotnet_diagnostic.CC0071.severity = none
+
+# SA1128: Put constructor initializers on their own line
+dotnet_diagnostic.SA1128.severity = warning
+
+# CC0035: Ordering member inside this type.
+dotnet_diagnostic.CC0035.severity = none
+
+# VSD0061: Implements Equals() and GetHashCode() using existing fields and properties.
+dotnet_diagnostic.VSD0061.severity = none
+
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = none
+
+# VSD0025: Implements the most common configuration of naming conventions.
+dotnet_diagnostic.VSD0025.severity = none
+
+# SA1649: File name should match first type name
+dotnet_diagnostic.SA1649.severity = none
+
+# CA1054: Uri parameters should not be strings
+dotnet_diagnostic.CA1054.severity = warning
+
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none
+
+# CC0003: Your catch should include an Exception
+dotnet_diagnostic.CC0003.severity = none
+
+# ERP022: Unobserved exception in generic exception handler
+dotnet_diagnostic.ERP022.severity = none
+
+# CA1716: Identifiers should not match keywords
+dotnet_diagnostic.CA1716.severity = none
+
+# SA1129: Do not use default value type constructor
+dotnet_diagnostic.SA1129.severity = none
+
+# VSD0033: Use the built-in type alias instead of the concrete type.
+dotnet_diagnostic.VSD0033.severity = none
+
+# CC0047: You should change to 'private set' whenever possible.
+dotnet_diagnostic.CC0047.severity = none
+
+# CA2227: Collection properties should be read only
+dotnet_diagnostic.CA2227.severity = none
+
+# VSD0003: Gives an enum the `[Flags]` attribute.
+dotnet_diagnostic.VSD0003.severity = none
+
+# SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1602.severity = none
+
+# CA1034: Nested types should not be visible
+dotnet_diagnostic.CA1034.severity = none

@@ -1,7 +1,7 @@
 ﻿using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
-using Cocorico.Shared.Dtos.Ingredient;
-using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Dtos.Ingredients;
+using Cocorico.Shared.Dtos.Sandwiches;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,7 +45,6 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 

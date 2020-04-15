@@ -8,10 +8,10 @@ namespace Cocorico.Authentication
     {
         public static AuthorizationOptions AddCocoricoPolicies(this AuthorizationOptions options)
         {
-            options.AddPolicy(Policies.Administrator, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Admin));
-            options.AddPolicy(Policies.Customer, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Customer));
-            options.AddPolicy(Policies.User, policy => policy.RequireClaim(ClaimTypes.Role, Claims.User));
-            options.AddPolicy(Policies.Worker, policy => policy.RequireClaim(ClaimTypes.Role, Claims.Worker));
+            options.AddPolicy(Policies.Administrator, policy => policy.RequireClaim(ClaimTypes.Role, ApplicationClaims.Admin));
+            options.AddPolicy(Policies.Customer, policy => policy.RequireClaim(ClaimTypes.Role, ApplicationClaims.Customer));
+            options.AddPolicy(Policies.User, policy => policy.RequireClaim(ClaimTypes.Role, ApplicationClaims.User));
+            options.AddPolicy(Policies.Worker, policy => policy.RequireClaim(ClaimTypes.Role, ApplicationClaims.Worker));
 
             return options;
         }

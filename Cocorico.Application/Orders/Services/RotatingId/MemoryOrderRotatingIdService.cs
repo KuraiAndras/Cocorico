@@ -4,13 +4,13 @@ namespace Cocorico.Application.Orders.Services.RotatingId
 {
     public class MemoryOrderRotatingIdService : IOrderRotatingIdService
     {
-        private static readonly object _idAndRangeLock = new object();
+        private static readonly object IdAndRangeLock = new object();
         private static Range _idRange = new Range(1, 5);
         private static int _id = _idRange.Start.Value;
 
         public void SetRange(Range range)
         {
-            lock (_idAndRangeLock)
+            lock (IdAndRangeLock)
             {
                 if (_idRange.Start.Value == range.Start.Value && _idRange.End.Value == range.End.Value) return;
 
@@ -20,7 +20,7 @@ namespace Cocorico.Application.Orders.Services.RotatingId
 
         public Range GetRange()
         {
-            lock (_idAndRangeLock)
+            lock (IdAndRangeLock)
             {
                 return _idRange;
             }
@@ -28,7 +28,7 @@ namespace Cocorico.Application.Orders.Services.RotatingId
 
         public int GetNextId()
         {
-            lock (_idAndRangeLock)
+            lock (IdAndRangeLock)
             {
                 var idToReturn = _id;
 

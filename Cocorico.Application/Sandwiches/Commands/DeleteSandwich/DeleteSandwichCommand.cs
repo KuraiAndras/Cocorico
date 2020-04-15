@@ -2,7 +2,8 @@
 {
     public sealed class DeleteSandwichCommand : CommandDtoBase<int>
     {
-        public DeleteSandwichCommand(int dto) : base(dto)
+        public DeleteSandwichCommand(int dto)
+            : base(dto)
         {
         }
     }

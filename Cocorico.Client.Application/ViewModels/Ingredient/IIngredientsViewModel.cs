@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cocorico.Shared.Dtos.Ingredient;
+using Cocorico.Shared.Dtos.Ingredients;
 
 namespace Cocorico.Client.Application.ViewModels.Ingredient
 {

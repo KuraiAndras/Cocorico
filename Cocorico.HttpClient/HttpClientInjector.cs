@@ -2,7 +2,7 @@
 
 namespace Cocorico.HttpClient
 {
-    public static class DependencyInjection
+    public static class HttpClientInjector
     {
         public static void AddHttpClients(IServiceCollection services)
         {

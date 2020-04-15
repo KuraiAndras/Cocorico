@@ -28,7 +28,6 @@ namespace Cocorico.Client.Application.ViewModels.User
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
     }

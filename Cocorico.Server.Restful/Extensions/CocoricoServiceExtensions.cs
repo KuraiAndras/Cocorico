@@ -22,7 +22,6 @@ namespace Cocorico.Server.Restful.Extensions
     {
         public static void AddCocoricoIdentityConfiguration(this IServiceCollection services)
         {
-            // TODO: Move to infrastructure, use Identity server
             services
                 .AddIdentity<CocoricoUser, IdentityRole>(identityOptions => identityOptions.User.RequireUniqueEmail = true)
                 .AddEntityFrameworkStores<CocoricoDbContext>()
@@ -56,21 +55,19 @@ namespace Cocorico.Server.Restful.Extensions
             services.AddTransient<IPriceCalculator, PriceCalculator>();
         }
 
-        public static void AddCocoricoProblemDetails(this IServiceCollection services, IWebHostEnvironment webHostingEnvironment)
-        {
+        public static void AddCocoricoProblemDetails(this IServiceCollection services, IWebHostEnvironment webHostingEnvironment) =>
             services.AddProblemDetails(options =>
             {
-                options.IncludeExceptionDetails = _ => webHostingEnvironment.IsDevelopment();
+                options.IncludeExceptionDetails = (_, __) => webHostingEnvironment.IsDevelopment();
 
-                options.Map<HttpRequestException>(exception => new ExceptionProblemDetails(exception, StatusCodes.Status503ServiceUnavailable));
+                options.MapToStatusCode<HttpRequestException>(StatusCodes.Status503ServiceUnavailable);
 
-                options.Map<EntityNotFoundException>(exception => new ExceptionProblemDetails(exception, StatusCodes.Status404NotFound));
-                options.Map<UnexpectedException>(exception => new ExceptionProblemDetails(exception, StatusCodes.Status500InternalServerError));
-                options.Map<InvalidCredentialsException>(exception => new ExceptionProblemDetails(exception, StatusCodes.Status403Forbidden));
-                options.Map<InvalidCommandException>(exception => new ExceptionProblemDetails(exception, StatusCodes.Status400BadRequest));
+                options.MapToStatusCode<EntityNotFoundException>(StatusCodes.Status404NotFound);
+                options.MapToStatusCode<UnexpectedException>(StatusCodes.Status500InternalServerError);
+                options.MapToStatusCode<InvalidCredentialsException>(StatusCodes.Status403Forbidden);
+                options.MapToStatusCode<InvalidCommandException>(StatusCodes.Status400BadRequest);
 
-                options.Map<Exception>(ex => new ExceptionProblemDetails(ex, StatusCodes.Status500InternalServerError));
+                options.MapToStatusCode<Exception>(StatusCodes.Status500InternalServerError);
             });
-        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
-using Cocorico.Shared.Dtos.Ingredient;
+using Cocorico.Shared.Dtos.Ingredients;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.ViewModels.Ingredient
@@ -9,13 +9,13 @@ namespace Cocorico.Client.Application.ViewModels.Ingredient
     {
         private readonly IIngredientClient _ingredientClient;
 
-        public IngredientDto IngredientDto { get; private set; }
-
         public EditIngredientViewModel(IIngredientClient ingredientClient)
         {
             _ingredientClient = ingredientClient;
             IngredientDto = new IngredientDto();
         }
+
+        public IngredientDto IngredientDto { get; private set; }
 
         public async Task LoadIngredientAsync(int id)
         {
@@ -25,7 +25,6 @@ namespace Cocorico.Client.Application.ViewModels.Ingredient
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 

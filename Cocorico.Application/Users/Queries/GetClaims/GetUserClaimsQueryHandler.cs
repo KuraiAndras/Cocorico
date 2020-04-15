@@ -2,11 +2,11 @@
 using Cocorico.Application.Common.Persistence;
 using Cocorico.Domain.Entities;
 using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System.Threading;
 using System.Threading.Tasks;
-using Cocorico.Shared.Exceptions;
 
 namespace Cocorico.Application.Users.Queries.GetClaims
 {
@@ -26,7 +26,6 @@ namespace Cocorico.Application.Users.Queries.GetClaims
         {
             var user = await _userManager.FindByIdAsync(request.Dto.UserId) ?? throw new EntityNotFoundException($"User not found with id: {request.Dto.UserId}");
 
-            // TODO: better exception
             var claims = await _userManager.GetClaimsAsync(user) ?? throw new UnexpectedException();
 
             return Mapper.Map<ClaimsDto>(claims);

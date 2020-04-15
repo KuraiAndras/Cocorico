@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Cocorico.HttpClient;
+﻿using Cocorico.HttpClient;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.User;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.ViewModels.User
 {
@@ -31,7 +31,6 @@ namespace Cocorico.Client.Application.ViewModels.User
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 
@@ -42,14 +41,13 @@ namespace Cocorico.Client.Application.ViewModels.User
                 await _authenticationClient.AddClaimToUserAsync(new UserClaimRequest
                 {
                     UserId = userId,
-                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
+                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue },
                 });
 
                 await LoadUserAsync(userId);
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 
@@ -60,14 +58,13 @@ namespace Cocorico.Client.Application.ViewModels.User
                 await _authenticationClient.RemoveClaimFromUserAsync(new UserClaimRequest
                 {
                     UserId = userId,
-                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue }
+                    CocoricoClaim = new CocoricoClaim { ClaimValue = claimValue },
                 });
 
                 await LoadUserAsync(userId);
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
     }

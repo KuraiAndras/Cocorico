@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application
 {
-    public abstract class CommandHandlerBase<T> : AsyncRequestHandler<T> where T : IRequest
+    public abstract class CommandHandlerBase<T> : AsyncRequestHandler<T>
+        where T : IRequest
     {
         protected CommandHandlerBase(
             IMediator mediator,
@@ -18,9 +19,10 @@ namespace Cocorico.Application
             Context = context;
         }
 
-        protected IMediator Mediator { get; }
-        protected IMapper Mapper { get; }
         protected ICocoricoDbContext Context { get; }
+        protected IMapper Mapper { get; }
+
+        protected IMediator Mediator { get; }
 
         protected abstract override Task Handle(T request, CancellationToken cancellationToken);
     }

@@ -1,7 +1,7 @@
 ﻿using Cocorico.Client.Application.SignalrClient.WorkerOrders;
 using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
-using Cocorico.Shared.Dtos.Order;
+using Cocorico.Shared.Dtos.Orders;
 using Cocorico.Shared.Entities;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Hubs;
@@ -27,6 +27,8 @@ namespace Cocorico.Client.Application.ViewModels.Order
             _hubClient.RegisterListener(this);
         }
 
+        public event Action? OrdersChanged;
+
         public List<WorkerOrderViewDto> Orders { get; }
 
         public async Task InitializeAsync()
@@ -41,10 +43,8 @@ namespace Cocorico.Client.Application.ViewModels.Order
                 Orders.AddRange(orders);
                 Orders.Sort(RotatingIdComparator);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                // TODO: Handle exception
-                Console.WriteLine(e);
             }
         }
 
@@ -60,16 +60,10 @@ namespace Cocorico.Client.Application.ViewModels.Order
 
                 if (!fileResponse.IsSuccessfulStatusCode()) throw new InvalidOperationException();
             }
-            catch (SwaggerException e)
+            catch (SwaggerException)
             {
-                //TODO: Handle fail
-                Console.WriteLine(e);
             }
         }
-
-        public event Action? OrdersChanged;
-
-        private static int RotatingIdComparator(WorkerOrderViewDto o1, WorkerOrderViewDto o2) => o1.RotatingId - o2.RotatingId;
 
         public Task ReceiveOrderAddedAsync(WorkerOrderViewDto order)
         {
@@ -105,5 +99,7 @@ namespace Cocorico.Client.Application.ViewModels.Order
 
             return Task.CompletedTask;
         }
+
+        private static int RotatingIdComparator(WorkerOrderViewDto x, WorkerOrderViewDto y) => x.RotatingId - y.RotatingId;
     }
 }

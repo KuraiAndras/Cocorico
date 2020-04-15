@@ -1,7 +1,7 @@
 ﻿using Cocorico.Client.Application.Services.Basket;
 using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
-using Cocorico.Shared.Dtos.Sandwich;
+using Cocorico.Shared.Dtos.Sandwiches;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +34,6 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 
@@ -45,11 +44,9 @@ namespace Cocorico.Client.Application.ViewModels.Sandwich
                 var fileResponse = await _sandwichClient.DeleteAsync(sandwichId);
 
                 if (fileResponse.IsSuccessfulStatusCode()) await LoadSandwichesAsync();
-                //TODO: Handle fail
             }
             catch (SwaggerException)
             {
-                //TODO: Handle fail
             }
         }
 

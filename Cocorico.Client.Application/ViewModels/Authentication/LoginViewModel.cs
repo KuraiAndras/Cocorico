@@ -1,5 +1,6 @@
 ﻿using Cocorico.Client.Application.Services.Authentication;
 using Cocorico.Shared.Dtos.Authentication;
+using System;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Application.ViewModels.Authentication
@@ -8,14 +9,14 @@ namespace Cocorico.Client.Application.ViewModels.Authentication
     {
         private readonly ICocoricoAuthenticationStateProvider _authStateProvider;
 
-        public bool ShowLoginFailed { get; private set; }
-        public LoginDetails UserLoginDetails { get; }
-
         public LoginViewModel(ICocoricoAuthenticationStateProvider authStateProvider)
         {
             _authStateProvider = authStateProvider;
             UserLoginDetails = new LoginDetails();
         }
+
+        public bool ShowLoginFailed { get; private set; }
+        public LoginDetails UserLoginDetails { get; }
 
         public async Task LoginUserAsync()
         {
@@ -23,7 +24,7 @@ namespace Cocorico.Client.Application.ViewModels.Authentication
             {
                 await _authStateProvider.LoginAsync(UserLoginDetails);
             }
-            catch
+            catch (Exception)
             {
                 ShowLoginFailed = true;
             }

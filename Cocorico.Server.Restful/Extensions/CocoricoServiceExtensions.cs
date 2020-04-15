@@ -60,7 +60,7 @@ namespace Cocorico.Server.Restful.Extensions
         {
             services.AddProblemDetails(options =>
             {
-                options.IncludeExceptionDetails = _ => webHostingEnvironment.IsDevelopment();
+                options.IncludeExceptionDetails = (_, __) => webHostingEnvironment.IsDevelopment();
 
                 options.Map<HttpRequestException>(exception => new ExceptionProblemDetails(exception, StatusCodes.Status503ServiceUnavailable));
 

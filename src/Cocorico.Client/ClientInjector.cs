@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Cocorico.Client.HttpClient;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Cocorico.HttpClient
+namespace Cocorico.Client
 {
-    public static class HttpClientInjector
+    public static class ClientInjector
     {
-        public static void AddHttpClients(IServiceCollection services)
+        public static void AddClient(this IServiceCollection services) => services.AddHttpClients();
+
+        public static void AddHttpClients(this IServiceCollection services)
         {
             services.AddTransient<ISandwichClient, SandwichClient>();
             services.AddTransient<IUserClient, UserClient>();

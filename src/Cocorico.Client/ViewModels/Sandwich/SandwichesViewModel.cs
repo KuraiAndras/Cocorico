@@ -1,6 +1,6 @@
-﻿using Cocorico.Client.Services.Basket;
-using Cocorico.HttpClient;
-using Cocorico.HttpClient.Extensions;
+﻿using Cocorico.Client.Extensions;
+using Cocorico.Client.HttpClient;
+using Cocorico.Client.Services.Basket;
 using Cocorico.Shared.Dtos.Sandwiches;
 using System.Collections.Generic;
 using System.Linq;

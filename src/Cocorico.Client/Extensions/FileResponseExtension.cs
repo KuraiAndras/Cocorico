@@ -1,4 +1,6 @@
-﻿namespace Cocorico.HttpClient.Extensions
+﻿using Cocorico.Client.HttpClient;
+
+namespace Cocorico.Client.Extensions
 {
     public static class FileResponseExtension
     {

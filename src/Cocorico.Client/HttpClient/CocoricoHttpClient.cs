@@ -20,7 +20,7 @@ using System;
 #pragma warning disable 1573 // Disable "CS1573 Parameter '...' has no matching param tag in the XML comment for ...
 #pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
 
-namespace Cocorico.HttpClient
+namespace Cocorico.Client.HttpClient
 {
     using System = global::System;
 

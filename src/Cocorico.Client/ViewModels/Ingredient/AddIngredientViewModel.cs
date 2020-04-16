@@ -1,5 +1,5 @@
-﻿using Cocorico.HttpClient;
-using Cocorico.HttpClient.Extensions;
+﻿using Cocorico.Client.Extensions;
+using Cocorico.Client.HttpClient;
 using Cocorico.Shared.Dtos.Ingredients;
 using System.Threading.Tasks;
 

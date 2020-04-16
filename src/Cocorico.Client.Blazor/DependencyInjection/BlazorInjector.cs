@@ -12,7 +12,7 @@ namespace Cocorico.Client.Blazor.DependencyInjection
 
             services.AddCocoricoClientServices();
 
-            services.AddHttpClients();
+            services.AddClient();
 
             services.AddSignalrClients();
 

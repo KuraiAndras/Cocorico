@@ -1,4 +1,4 @@
-﻿using Cocorico.HttpClient;
+﻿using Cocorico.Client.HttpClient;
 using Cocorico.Shared.Dtos.User;
 using System.Collections.Generic;
 using System.Linq;

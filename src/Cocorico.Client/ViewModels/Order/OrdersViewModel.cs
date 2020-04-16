@@ -1,6 +1,6 @@
-﻿using Cocorico.Client.SignalrClient.WorkerOrders;
-using Cocorico.HttpClient;
-using Cocorico.HttpClient.Extensions;
+﻿using Cocorico.Client.Extensions;
+using Cocorico.Client.HttpClient;
+using Cocorico.Client.SignalrClient.WorkerOrders;
 using Cocorico.Shared.Dtos.Orders;
 using Cocorico.Shared.Entities;
 using Cocorico.Shared.Exceptions;

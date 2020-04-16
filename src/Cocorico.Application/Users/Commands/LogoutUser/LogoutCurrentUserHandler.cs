@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Users.Commands.LogoutUser
 {
-    public sealed class LogoutCurrentUserRequestHandler : RequestHandlerBase<LogoutCurrentUserCommand>
+    public sealed class LogoutCurrentUserHandler : HandlerBase<LogoutCurrentUserCommand>
     {
         private readonly SignInManager<CocoricoUser> _signInManager;
 
-        public LogoutCurrentUserRequestHandler(
+        public LogoutCurrentUserHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context,

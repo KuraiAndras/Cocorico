@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Sandwiches.Commands.UpdateSandwich
 {
-    public sealed class UpdateSandwichRequestHandler : RequestHandlerBase<UpdateSandwichCommand>
+    public sealed class UpdateSandwichHandler : HandlerBase<UpdateSandwichCommand>
     {
-        public UpdateSandwichRequestHandler(
+        public UpdateSandwichHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context)

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Sandwiches.Commands.DeleteSandwich
 {
-    public class DeleteSandwichRequestHandler : RequestHandlerBase<DeleteSandwichCommand>
+    public class DeleteSandwichHandler : HandlerBase<DeleteSandwichCommand>
     {
-        public DeleteSandwichRequestHandler(
+        public DeleteSandwichHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context)

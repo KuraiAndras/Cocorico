@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Ingredients
 {
-    public sealed class UpdateIngredientHandler : RequestHandlerBase<UpdateIngredient>
+    public sealed class UpdateIngredientHandler : HandlerBase<UpdateIngredient>
     {
         public UpdateIngredientHandler(
             IMediator mediator,

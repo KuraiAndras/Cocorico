@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Users.Commands.LoginUser
 {
-    public sealed class LoginUserRequestHandler : RequestHandlerBase<LoginUserCommand>
+    public sealed class LoginUserHandler : HandlerBase<LoginUserCommand>
     {
         private readonly UserManager<CocoricoUser> _userManager;
         private readonly SignInManager<CocoricoUser> _signInManager;
 
-        public LoginUserRequestHandler(
+        public LoginUserHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context,

@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Users.Commands.RegisterUser
 {
-    public class RegisterUserRequestHandler : RequestHandlerBase<RegisterUserCommand>
+    public class RegisterUserHandler : HandlerBase<RegisterUserCommand>
     {
         private readonly UserManager<CocoricoUser> _userManager;
         private readonly IClaimService _claimService;
 
-        public RegisterUserRequestHandler(
+        public RegisterUserHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context,

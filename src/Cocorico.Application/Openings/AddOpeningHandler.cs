@@ -8,11 +8,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Application.Openings.Commands.AddOpening
+namespace Cocorico.Application.Openings
 {
-    public sealed class AddOpeningRequestHandler : RequestHandlerBase<AddOpeningCommand>
+    public sealed class AddOpeningHandler : HandlerBase<Shared.Api.Openings.AddOpening>
     {
-        public AddOpeningRequestHandler(
+        public AddOpeningHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context)
@@ -20,13 +20,13 @@ namespace Cocorico.Application.Openings.Commands.AddOpening
         {
         }
 
-        protected override async Task Handle(AddOpeningCommand request, CancellationToken cancellationToken)
+        protected override async Task Handle(Shared.Api.Openings.AddOpening request, CancellationToken cancellationToken)
         {
-            if (request.Dto.Start is null) throw new ArgumentException(nameof(request.Dto));
-            if (request.Dto.End is null) throw new ArgumentException(nameof(request.Dto));
-            if (request.Dto.Start.Value > request.Dto.End.Value) throw new InvalidOperationException("Start is sooner than End");
+            if (request.Start is null) throw new ArgumentException(nameof(request));
+            if (request.End is null) throw new ArgumentException(nameof(request));
+            if (request.Start.Value > request.End.Value) throw new InvalidOperationException("Start is sooner than End");
 
-            var opening = Mapper.Map<Opening>(request.Dto);
+            var opening = Mapper.Map<Opening>(request);
 
             var openingsInDb = await Context.Openings.AsNoTracking().ToListAsync(cancellationToken);
 

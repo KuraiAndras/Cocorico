@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence;
-using Cocorico.Shared.Dtos.Openings;
+using Cocorico.Shared.Api.Openings;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Application.Openings.Queries.GetAllOpenings
+namespace Cocorico.Application.Openings
 {
-    public sealed class GetAllOpeningsRequestHandler : RequestHandlerBase<GetAllOpeningsQuery, ICollection<OpeningDto>>
+    public sealed class GetAllOpeningsHandler : RequestHandlerBase<GetAllOpenings, ICollection<OpeningDto>>
     {
-        public GetAllOpeningsRequestHandler(
+        public GetAllOpeningsHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context)
@@ -19,7 +19,7 @@ namespace Cocorico.Application.Openings.Queries.GetAllOpenings
         {
         }
 
-        public override async Task<ICollection<OpeningDto>> Handle(GetAllOpeningsQuery request, CancellationToken cancellationToken)
+        public override async Task<ICollection<OpeningDto>> Handle(GetAllOpenings request, CancellationToken cancellationToken)
         {
             var openingsInDb = await Context.Openings
                 .AsNoTracking()

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Sandwiches.Commands.AddSandwich
 {
-    public sealed class AddSandwichRequestHandler : RequestHandlerBase<AddSandwichCommand>
+    public sealed class AddSandwichHandler : HandlerBase<AddSandwichCommand>
     {
-        public AddSandwichRequestHandler(
+        public AddSandwichHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context)

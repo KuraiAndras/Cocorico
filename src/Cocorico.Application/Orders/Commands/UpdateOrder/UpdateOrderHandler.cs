@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Orders.Commands.UpdateOrder
 {
-    public sealed class UpdateOrderRequestHandler : RequestHandlerBase<UpdateOrderCommand>
+    public sealed class UpdateOrderHandler : HandlerBase<UpdateOrderCommand>
     {
-        public UpdateOrderRequestHandler(
+        public UpdateOrderHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context)

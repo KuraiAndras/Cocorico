@@ -19,11 +19,11 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Orders.Commands.AddOrder
 {
-    public sealed class AddOrderRequestHandler : RequestHandlerBase<AddOrderCommand>
+    public sealed class AddOrderHandler : HandlerBase<AddOrderCommand>
     {
         private readonly IOrderRotatingIdService _idService;
 
-        public AddOrderRequestHandler(
+        public AddOrderHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context,

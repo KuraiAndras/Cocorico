@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Orders.Commands.DeleteOrder
 {
-    public sealed class DeleteOrderRequestHandler : RequestHandlerBase<DeleteOrderCommand>
+    public sealed class DeleteOrderHandler : HandlerBase<DeleteOrderCommand>
     {
-        public DeleteOrderRequestHandler(
+        public DeleteOrderHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context)

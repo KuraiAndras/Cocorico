@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Users.Commands.RemoveClaimFromUser
 {
-    public sealed class RemoveClaimFromUserRequestHandler : RequestHandlerBase<RemoveClaimFromUserCommand>
+    public sealed class RemoveClaimFromUserHandler : HandlerBase<RemoveClaimFromUserCommand>
     {
         private readonly UserManager<CocoricoUser> _userManager;
 
-        public RemoveClaimFromUserRequestHandler(
+        public RemoveClaimFromUserHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context,

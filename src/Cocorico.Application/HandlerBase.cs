@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace Cocorico.Application
 {
 #pragma warning disable SA1402 // File may only contain a single type
-    public abstract class RequestHandlerBase<T> : AsyncRequestHandler<T>
+    public abstract class HandlerBase<T> : AsyncRequestHandler<T>
         where T : IRequest
     {
-        protected RequestHandlerBase(
+        protected HandlerBase(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context)

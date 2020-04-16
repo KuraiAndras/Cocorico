@@ -1,7 +1,7 @@
 ﻿using Cocorico.Client.Extensions;
 using Cocorico.Client.HttpClient;
+using Cocorico.Shared.Api.Openings;
 using Cocorico.Shared.Dtos;
-using Cocorico.Shared.Dtos.Openings;
 using Cocorico.Shared.Exceptions;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +21,7 @@ namespace Cocorico.Client.ViewModels.Settings
 
         public MutableRange IdRange { get; set; } = new MutableRange { End = 30, Start = 0 };
         public ICollection<OpeningDto> Openings { get; private set; } = new List<OpeningDto>();
-        public AddOpeningDto OpeningToAdd { get; set; } = new AddOpeningDto();
+        public AddOpening OpeningToAdd { get; set; } = new AddOpening();
 
         public async Task InitializeAsync()
         {
@@ -58,7 +58,7 @@ namespace Cocorico.Client.ViewModels.Settings
 
                 if (!response.IsSuccessfulStatusCode()) throw new UnexpectedException();
 
-                OpeningToAdd = new AddOpeningDto();
+                OpeningToAdd = new AddOpening();
 
                 OnPropertyChanged(nameof(OpeningToAdd));
 

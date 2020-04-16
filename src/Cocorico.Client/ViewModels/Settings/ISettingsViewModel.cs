@@ -1,5 +1,5 @@
-﻿using Cocorico.Shared.Dtos;
-using Cocorico.Shared.Dtos.Openings;
+﻿using Cocorico.Shared.Api.Openings;
+using Cocorico.Shared.Dtos;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace Cocorico.Client.ViewModels.Settings
     {
         MutableRange IdRange { get; set; }
         ICollection<OpeningDto> Openings { get; }
-        AddOpeningDto OpeningToAdd { get; set; }
+        AddOpening OpeningToAdd { get; set; }
 
         Task InitializeAsync();
         Task SetNewRangeAsync();

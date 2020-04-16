@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Users.Commands.AddClaimToUser
 {
-    public sealed class AddClaimToUserRequestHandler : RequestHandlerBase<AddClaimToUserCommand>
+    public sealed class AddClaimToUserHandler : HandlerBase<AddClaimToUserCommand>
     {
         private readonly UserManager<CocoricoUser> _userManager;
 
-        public AddClaimToUserRequestHandler(
+        public AddClaimToUserHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context,

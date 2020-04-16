@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cocorico.Application.Ingredients
 {
-    public sealed class DeleteIngredientHandler : RequestHandlerBase<DeleteIngredient>
+    public sealed class DeleteIngredientHandler : HandlerBase<DeleteIngredient>
     {
         public DeleteIngredientHandler(
             IMediator mediator,

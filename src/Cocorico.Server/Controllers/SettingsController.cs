@@ -1,11 +1,7 @@
-﻿using Cocorico.Application.Openings.Commands.AddOpening;
-using Cocorico.Application.Openings.Commands.DeleteOpening;
-using Cocorico.Application.Openings.Commands.UpdateOpening;
-using Cocorico.Application.Openings.Queries.GetAllOpenings;
-using Cocorico.Application.Orders.Queries.CanAddOrder;
+﻿using Cocorico.Application.Orders.Queries.CanAddOrder;
 using Cocorico.Application.Orders.Services.RotatingId;
+using Cocorico.Shared.Api.Openings;
 using Cocorico.Shared.Dtos;
-using Cocorico.Shared.Dtos.Openings;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
 using MediatR;
@@ -56,7 +52,7 @@ namespace Cocorico.Server.Controllers
         [HttpGet(nameof(GetAllOpeningsAsync))]
         public async Task<ActionResult<ICollection<OpeningDto>>> GetAllOpeningsAsync()
         {
-            var result = await _mediator.Send(new GetAllOpeningsQuery());
+            var result = await _mediator.Send(new GetAllOpenings());
 
             return new ActionResult<ICollection<OpeningDto>>(result);
         }
@@ -70,17 +66,17 @@ namespace Cocorico.Server.Controllers
         }
 
         [HttpPost(nameof(AddOpeningAsync))]
-        public async Task<ActionResult> AddOpeningAsync([FromBody] AddOpeningDto addOpeningDto)
+        public async Task<ActionResult> AddOpeningAsync([FromBody] AddOpening addOpening)
         {
-            await _mediator.Send(new AddOpeningCommand(addOpeningDto));
+            await _mediator.Send(addOpening);
 
             return new OkResult();
         }
 
         [HttpPost(nameof(UpdateOpeningAsync))]
-        public async Task<ActionResult> UpdateOpeningAsync([FromBody] OpeningDto openingDto)
+        public async Task<ActionResult> UpdateOpeningAsync([FromBody] UpdateOpening openingDto)
         {
-            await _mediator.Send(new UpdateOpeningCommand(openingDto));
+            await _mediator.Send(openingDto);
 
             return new OkResult();
         }
@@ -88,7 +84,7 @@ namespace Cocorico.Server.Controllers
         [HttpDelete(nameof(DeleteOpeningAsync))]
         public async Task<ActionResult> DeleteOpeningAsync([FromBody] int openingId)
         {
-            await _mediator.Send(new DeleteOpeningCommand(openingId));
+            await _mediator.Send(new DeleteOpening { Id = openingId });
 
             return new OkResult();
         }

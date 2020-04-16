@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence;
+using Cocorico.Shared.Api.Openings;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Application.Openings.Commands.DeleteOpening
+namespace Cocorico.Application.Openings
 {
-    public sealed class DeleteOpeningRequestHandler : RequestHandlerBase<DeleteOpeningCommand>
+    public sealed class DeleteOpeningHandler : HandlerBase<DeleteOpening>
     {
-        public DeleteOpeningRequestHandler(
+        public DeleteOpeningHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context)
@@ -17,11 +18,11 @@ namespace Cocorico.Application.Openings.Commands.DeleteOpening
         {
         }
 
-        protected override async Task Handle(DeleteOpeningCommand request, CancellationToken cancellationToken)
+        protected override async Task Handle(DeleteOpening request, CancellationToken cancellationToken)
         {
             var opening = await Context.Openings
                 .AsNoTracking()
-                .SingleOrDefaultAsync(o => o.Id == request.Dto, cancellationToken);
+                .SingleOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
 
             if (opening is null) return;
 

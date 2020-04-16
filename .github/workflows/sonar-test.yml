@@ -1,0 +1,34 @@
+name: Tests, Sonar
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  TestSonar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Fetch unshallow
+        run: |
+          git fetch --unshallow
+
+      - name: Run Sonar with tests
+        uses: Secbyte/dotnet-sonarscanner@v2.2
+        with:
+          buildCommand: |
+            dotnet build Cocorico.sln
+          testCommand: |
+            dotnet test Cocorico.sln -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -l:trx && export PATH="$PATH:/github/home/.dotnet/tools" && dotnet tool install -g dotnet-reportgenerator-globaltool && reportgenerator "-reports:**/coverage.opencover.xml" "-targetdir:CodeCoverage" "-reporttypes:SonarQube"
+          projectKey: KuraiAndras_Cocorico
+          projectName: Cocorico
+          sonarOrganisation: kuraiandras
+          beginArguments: >
+            /d:sonar.verbose="true"
+            /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+            /d:sonar.cs.vstest.reportsPaths="**/*.trx"
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

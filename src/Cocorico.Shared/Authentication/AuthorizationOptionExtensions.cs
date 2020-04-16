@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace Cocorico.Authentication
+namespace Cocorico.Shared.Authentication
 {
     public static class AuthorizationOptionExtensions
     {

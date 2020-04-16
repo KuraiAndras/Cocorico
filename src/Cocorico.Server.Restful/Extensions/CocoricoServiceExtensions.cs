@@ -1,9 +1,9 @@
 ﻿using Cocorico.Application.Orders.Services.Price;
 using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Application.Users.Services;
-using Cocorico.Authentication;
 using Cocorico.Persistence;
 using Cocorico.Persistence.Entities;
+using Cocorico.Shared.Authentication;
 using Cocorico.Shared.Exceptions;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;

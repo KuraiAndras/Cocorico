@@ -58,7 +58,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cocorico.HttpClient\Cocorico.HttpClient.csproj" />
-    <ProjectReference Include="..\Cocorico.Shared\Cocorico.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,7 @@
     <tbody>
         <tr><td>@ViewModel.UserForAdminPage.Email</td></tr>
         <tr><td>@ViewModel.UserForAdminPage.Name</td></tr>
-        @foreach (var claim in Claims.ClaimsCollection.Where(c => !c.Equals(Claims.User)))
+        @foreach (var claim in ApplicationClaims.ClaimsCollection.Where(c => !c.Equals(ApplicationClaims.User)))
         {
             @if (ViewModel.UserForAdminPage.Claims.SingleOrDefault(c => string.Equals(c, claim)) is null)
             {

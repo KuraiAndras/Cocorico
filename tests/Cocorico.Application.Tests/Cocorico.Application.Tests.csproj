@@ -66,7 +66,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cocorico.Application\Cocorico.Application.csproj" />
+    <ProjectReference Include="..\..\src\Cocorico.Application\Cocorico.Application.csproj" />
   </ItemGroup>
 
 </Project>

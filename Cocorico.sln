@@ -6,6 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E1EEF9D7-A96E-459E-AF36-9806F7C2B02A}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		NSwag\CocoricoClient.nswag = NSwag\CocoricoClient.nswag
+		NSwag\swagger.json = NSwag\swagger.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Application", "src\Cocorico.Application\Cocorico.Application.csproj", "{4D10FF61-C2BC-438B-BDB0-32F3DFBD9922}"

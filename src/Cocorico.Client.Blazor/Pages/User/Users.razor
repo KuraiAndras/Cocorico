@@ -1,0 +1,41 @@
+﻿@page "/users"
+@using Cocorico.Client.ViewModels.User
+@using Cocorico.Shared.Dtos.User
+@using Cocorico.Shared.Helpers
+
+@inject IUsersViewModel ViewModel
+@inject NavigationManager Navigation
+
+@if (ViewModel.UsersList.Count == 0)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@nameof(UserForAdminPage.Name)</th>
+                <th>@nameof(UserForAdminPage.Email)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in ViewModel.UsersList)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td><MatButton Icon="edit" Raised="true" @onclick="@(() => GoToEdit(user.Id))">Edit</MatButton></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    protected override Task OnInitializedAsync() => ViewModel.LoadUsersAsync();
+
+    private void GoToEdit(string id) => Navigation.NavigateTo(Urls.Client.AdminEditUserClaim + $"/{id}");
+}

@@ -1,0 +1,50 @@
+﻿@page "/OrdersToDeliver"
+@using Cocorico.Client.ViewModels.Order
+@using Cocorico.Shared.Entities
+
+@inject IOrdersViewModel ViewModel
+
+@if (ViewModel.Orders.Count == 0)
+{
+    <p><em>Currently you can rest, there is nothing to do.</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in ViewModel.Orders.Where(o => o.State == OrderState.ToBeDelivered))
+            {
+                <tr>
+                    <td>@order.RotatingId</td>
+                    <td>@order.State</td>
+                    <td><MatButton Raised="true" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.Delivered))">Deliver</MatButton></td>
+                </tr>
+                @foreach (var sandwich in order.Sandwiches)
+                {
+                    <tr>
+                        <td></td>
+                        <td>@sandwich.Name</td>
+                        <td></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    protected override Task OnInitializedAsync()
+    {
+        ViewModel.OrdersChanged += StateHasChanged;
+        return ViewModel.InitializeAsync();
+    }
+
+}

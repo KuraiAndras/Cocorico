@@ -1,0 +1,59 @@
+﻿@page "/OrdersToMake"
+@using Cocorico.Client.ViewModels.Order
+@using Cocorico.Shared.Entities
+
+@inject IOrdersViewModel ViewModel
+
+@if (ViewModel.Orders.Count == 0)
+{
+    <p><em>Currently you can rest, there is nothing to do.</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>State</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in ViewModel.Orders.Where(o => o.State == OrderState.OrderPlaced || o.State == OrderState.InTheOven))
+            {
+                <tr>
+                    <td>@order.RotatingId</td>
+                    <td>@order.State</td>
+                    @if (order.State == OrderState.OrderPlaced)
+                    {
+                        <td><MatButton Outlined="true" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.InTheOven))">To Oven</MatButton></td>
+                        <td><MatButton Icon="delete_forever" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.Rejected))">Reject</MatButton></td>
+                    }
+                    @if (order.State == OrderState.InTheOven)
+                    {
+                        <td><MatButton Raised="true" @onclick="@(async () => await ViewModel.UpdateStateAsync(order.Id, OrderState.ToBeDelivered))">To Delivery</MatButton></td>
+                    }
+                </tr>
+                @foreach (var sandwich in order.Sandwiches)
+                {
+                    <tr>
+                        <td></td>
+                        <td>@sandwich.Name</td>
+                        <td></td>
+                        <td>@string.Join(", ", sandwich.Ingredients.Select(i => i.Name))</td>
+                    </tr>
+                 }
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    protected override Task OnInitializedAsync()
+    {
+        ViewModel.OrdersChanged += StateHasChanged;
+        return ViewModel.InitializeAsync();
+    }
+}

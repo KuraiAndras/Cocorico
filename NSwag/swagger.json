@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v13.1.6.0 (NJsonSchema v10.0.28.0 (Newtonsoft.Json v12.0.0.0))",
+  "x-generator": "NSwag v13.3.0.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
@@ -98,7 +98,7 @@
         }
       }
     },
-    "/api/Authentication/GetCurrentUserClaims": {
+    "/api/Authentication/GetCurrentUserClaimsAsync": {
       "get": {
         "tags": [
           "Authentication"
@@ -755,7 +755,7 @@
         }
       }
     },
-    "/api/Settings/AddOpening": {
+    "/api/Settings/AddOpeningAsync": {
       "post": {
         "tags": [
           "Settings"

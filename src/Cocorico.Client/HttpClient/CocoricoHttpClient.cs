@@ -4,6 +4,7 @@
 // </auto-generated>
 //----------------------
 
+using Cocorico.Shared.Api.Ingredients;
 using Cocorico.Shared.Dtos;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.Ingredients;
@@ -634,11 +635,11 @@ namespace Cocorico.Client.HttpClient
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IngredientDto>> GetAllAsync(System.Threading.CancellationToken cancellationToken);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> AddAsync(IngredientAddDto ingredientAddDto);
+        System.Threading.Tasks.Task<FileResponse> AddAsync(AddIngredient addIngredient);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> AddAsync(IngredientAddDto ingredientAddDto, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<FileResponse> AddAsync(AddIngredient addIngredient, System.Threading.CancellationToken cancellationToken);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> UpdateAsync(IngredientDto ingredientDto);
@@ -762,17 +763,17 @@ namespace Cocorico.Client.HttpClient
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> AddAsync(IngredientAddDto ingredientAddDto)
+        public System.Threading.Tasks.Task<FileResponse> AddAsync(AddIngredient addIngredient)
         {
-            return AddAsync(ingredientAddDto, System.Threading.CancellationToken.None);
+            return AddAsync(addIngredient, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> AddAsync(IngredientAddDto ingredientAddDto, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> AddAsync(AddIngredient addIngredient, System.Threading.CancellationToken cancellationToken)
         {
-            if (ingredientAddDto == null)
-                throw new System.ArgumentNullException("ingredientAddDto");
+            if (addIngredient == null)
+                throw new System.ArgumentNullException("addIngredient");
     
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Ingredient");
@@ -782,7 +783,7 @@ namespace Cocorico.Client.HttpClient
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(ingredientAddDto, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(addIngredient, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");

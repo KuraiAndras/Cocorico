@@ -1,7 +1,7 @@
 ﻿using Cocorico.Client.Extensions;
 using Cocorico.Client.HttpClient;
 using Cocorico.Client.Services.Basket;
-using Cocorico.Shared.Dtos.Ingredients;
+using Cocorico.Shared.Api.Ingredients;
 using Cocorico.Shared.Dtos.Orders;
 using Cocorico.Shared.Dtos.Sandwiches;
 using Cocorico.Shared.Exceptions;

@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Ingredients;
+﻿using Cocorico.Shared.Api.Ingredients;
 using Cocorico.Shared.Dtos.Sandwiches;
 using System.Collections.Generic;
 using System.Threading.Tasks;

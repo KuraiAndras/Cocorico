@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Ingredients;
+﻿using Cocorico.Shared.Api.Ingredients;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.ViewModels.Ingredient

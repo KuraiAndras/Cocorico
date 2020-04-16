@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence.Entities;
+using Cocorico.Shared.Api.Ingredients;
 using Cocorico.Shared.Dtos.Ingredients;
 
 namespace Cocorico.Application.Mappings
@@ -9,7 +10,7 @@ namespace Cocorico.Application.Mappings
         public IngredientProfile()
         {
             CreateMap<Ingredient, IngredientDto>();
-            CreateMap<IngredientAddDto, Ingredient>();
+            CreateMap<AddIngredient, Ingredient>();
             CreateMap<IngredientDto, Ingredient>();
 
             CreateMap<IngredientModification, IngredientModificationDto>();

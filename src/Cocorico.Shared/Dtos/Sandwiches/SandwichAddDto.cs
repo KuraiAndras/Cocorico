@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Ingredients;
+﻿using Cocorico.Shared.Api.Ingredients;
 using System.Collections.Generic;
 
 namespace Cocorico.Shared.Dtos.Sandwiches

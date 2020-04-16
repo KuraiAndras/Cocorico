@@ -1,0 +1,36 @@
+﻿@page "/adminEditUserClaim/{UserId}"
+@using Cocorico.Client.ViewModels.User
+@using Cocorico.Shared.Identity
+
+@inject IEditUserClaimViewModel ViewModel
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>User</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>@ViewModel.UserForAdminPage.Email</td></tr>
+        <tr><td>@ViewModel.UserForAdminPage.Name</td></tr>
+        @foreach (var claim in ApplicationClaims.ClaimsCollection.Where(c => !c.Equals(ApplicationClaims.User)))
+        {
+            @if (ViewModel.UserForAdminPage.Claims.SingleOrDefault(c => string.Equals(c, claim)) is null)
+            {
+                <tr><td><MatButton Outlined="true" @onclick="@(async () => await ViewModel.AddClaimToUserAsync(claim, UserId))">Add as @claim</MatButton></td></tr>
+            }
+            else
+            {
+                <tr><td><MatButton Raised="true" @onclick="@(async () => await ViewModel.RemoveClaimFromUserAsync(claim, UserId))">Remove from @claim</MatButton></td></tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+@code
+{
+    [Parameter] public string UserId { get; set; } = string.Empty;
+
+    protected override Task OnInitializedAsync() => ViewModel.LoadUserAsync(UserId);
+}

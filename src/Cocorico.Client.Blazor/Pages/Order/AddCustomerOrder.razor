@@ -1,0 +1,99 @@
+@page "/AddCustomerOrder"
+@using Cocorico.Client.ViewModels.Order
+@using Cocorico.Shared.Helpers
+@using Cocorico.Shared.Dtos.Sandwiches
+@using Cocorico.Shared.Dtos.Ingredients
+@using Cocorico.Shared.Entities
+
+@inject IAddCustomerOrderViewModel ViewModel
+@inject NavigationManager urihelper
+
+@if (ViewModel.AddOrderDto.Sandwiches.Count != 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sandwich in ViewModel.AddOrderDto.Sandwiches)
+            {
+                <tr>
+                    <td>@sandwich.Name</td>
+                    <td>@sandwich.Price JMF</td>
+                    <td><MatButton Icon="edit" Raised="true" @onclick="@(() =>onEdit(sandwich))">Edit</MatButton></td>
+                    <td><MatButton Icon="remove_shopping_cart" Outlined="true" @onclick="@(() => ViewModel.DeleteSandwich(ViewModel.AddOrderDto.Sandwiches.IndexOf(sandwich)))">Delete</MatButton></td>
+                </tr>
+            }
+            <tr>
+                <td>Sum: @ViewModel.AddOrderDto.Sandwiches.Sum(s => s.Price) JMF</td>
+                <td><MatButton Raised="true" @onclick="@ViewModel.AddAsync">Order</MatButton></td>
+            </tr>
+        </tbody>
+    </table>
+
+    if (SelectedSandwich != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>@SelectedSandwich.Name</td></tr>
+                <tr><td>@SelectedSandwich.Price</td></tr>
+                @foreach (var ingredient in ViewModel.AvailableIngredients)
+                {
+                    if (SelectedSandwich.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
+                    {
+                        <tr><td><MatButton Outlined="true" @onclick="@(() => Modify(ingredient.Id, Modifier.Add))">@ingredient.Name</MatButton></td></tr>
+                    }
+                    else
+                    {
+                        <tr><td><MatButton Raised="true" @onclick="@(() =>  Modify(ingredient.Id, Modifier.Remove))">@ingredient.Name</MatButton></td></tr>
+                    }
+                }
+                <tr><td><MatButton Raised="true" Icon="save" @onclick="@(() => { ViewModel.AddOrderDto.SandwichModifications.Add(SelectedSandwich, modificationList); ViewModel.AddAsync(); SelectedSandwich = null; })">Save</MatButton></td></tr>
+            </tbody>
+        </table>
+    }
+}
+else
+{
+    <p>Your cart is currently empty</p>
+    <td><MatButton Raised="true" Icon="shopping_cart" @onclick="@Redirect">Go sandwiches</MatButton></td>
+}
+
+
+@code
+{
+    protected override Task OnInitializedAsync() => ViewModel.LoadIngredientsAsync();
+
+    List<IngredientModificationDto> modificationList = new List<IngredientModificationDto>();
+
+    private SandwichDto? SelectedSandwich { get; set; }
+
+    private void Redirect()
+    {
+        urihelper.NavigateTo(Urls.Client.Sandwiches);
+    }
+
+    private void onEdit(SandwichDto sandwich)
+    {
+        SelectedSandwich = sandwich;
+    }
+
+    private void Modify(int ingredientId, Modifier mod)
+    {
+        var tmp = new IngredientModificationDto
+        {
+            IngredientId = ingredientId,
+            Modification = mod
+        };
+        modificationList.Add(tmp);
+    }
+}

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Restful.Controllers
+namespace Cocorico.Server.Controllers
 {
     [Produces(Verbs.ApplicationJson)]
     [Route(Verbs.ApiController)]

@@ -15,7 +15,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
 
-namespace Cocorico.Server.Restful.Extensions
+namespace Cocorico.Server.Extensions
 {
     public static class CocoricoServiceExtensions
     {

@@ -1,12 +1,12 @@
 ﻿using Cocorico.Application.Orders.Notifications.OrderAdded;
-using Cocorico.Server.Restful.Hubs;
+using Cocorico.Server.Hubs;
 using Cocorico.Shared.Hubs;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Restful.Orders.Notifications
+namespace Cocorico.Server.Orders.Notifications
 {
     public class OrderDeletedNotificationHandler : INotificationHandler<OrderDeletedEvent>
     {

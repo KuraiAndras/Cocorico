@@ -5,19 +5,19 @@ using Cocorico.Application.Orders.Queries.CalculatePrice;
 using Cocorico.Application.Orders.Queries.GetAllOrderForCustomer;
 using Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker;
 using Cocorico.Persistence.Entities;
+using Cocorico.Shared.Dtos.Orders;
+using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cocorico.Shared.Exceptions;
-using Cocorico.Shared.Dtos.Orders;
-using System;
 
-namespace Cocorico.Server.Restful.Controllers
+namespace Cocorico.Server.Controllers
 {
     [Produces(Verbs.ApplicationJson)]
     [Route(Verbs.ApiController)]

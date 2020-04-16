@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.HttpClient", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Persistence", "src\Cocorico.Persistence\Cocorico.Persistence.csproj", "{B10E846C-7FE0-4D3E-B9B3-1D9D1D73A1AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Server.Restful", "src\Cocorico.Server.Restful\Cocorico.Server.Restful.csproj", "{7EE4F281-4773-474E-8D6C-DB26DC199323}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Server", "src\Cocorico.Server\Cocorico.Server.csproj", "{7EE4F281-4773-474E-8D6C-DB26DC199323}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cocorico.Shared", "src\Cocorico.Shared\Cocorico.Shared.csproj", "{64F99C02-ECB2-4F19-963E-3361F312B0C4}"
 EndProject

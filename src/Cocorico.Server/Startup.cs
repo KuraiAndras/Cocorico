@@ -1,8 +1,8 @@
 ﻿using Cocorico.Application;
 using Cocorico.Application.Mappings;
 using Cocorico.Persistence.DependencyInjection;
-using Cocorico.Server.Restful.Extensions;
-using Cocorico.Server.Restful.Hubs;
+using Cocorico.Server.Extensions;
+using Cocorico.Server.Hubs;
 using Cocorico.Shared.Helpers;
 using Hellang.Middleware.ProblemDetails;
 using MediatR;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Reflection;
 
-namespace Cocorico.Server.Restful
+namespace Cocorico.Server
 {
     public class Startup
     {

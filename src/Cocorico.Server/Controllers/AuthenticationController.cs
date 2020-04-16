@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Cocorico.Server.Restful.Controllers
+namespace Cocorico.Server.Controllers
 {
     [Produces(Verbs.ApplicationJson)]
     [Route(Verbs.ApiController)]

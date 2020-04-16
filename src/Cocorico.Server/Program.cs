@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
-namespace Cocorico.Server.Restful
+namespace Cocorico.Server
 {
     public static class Program
     {

@@ -46,7 +46,6 @@ namespace Cocorico.Client.Application.ViewModels.Order
             {
                 var result = await _orderClient.AddOrderAsync(AddOrderDto);
 
-                // TODO: Go to orders
                 if (result.IsSuccessfulStatusCode())
                 {
                     _basketService.EmptyBasket();

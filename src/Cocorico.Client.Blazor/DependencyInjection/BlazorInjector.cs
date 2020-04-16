@@ -1,5 +1,4 @@
-﻿using Cocorico.Client.Application;
-using Cocorico.Client.Blazor.Extensions;
+﻿using Cocorico.Client.Blazor.Extensions;
 using Cocorico.Shared.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 

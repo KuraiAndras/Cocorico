@@ -1,4 +1,4 @@
-﻿using Cocorico.Client.Application.Services.Authentication;
+﻿using Cocorico.Client.Services.Authentication;
 using Cocorico.HttpClient;
 using Cocorico.HttpClient.Extensions;
 using Cocorico.Shared.Dtos.Authentication;

@@ -1,4 +1,4 @@
-﻿using Cocorico.Mappings;
+﻿using Cocorico.Application.Mappings;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;

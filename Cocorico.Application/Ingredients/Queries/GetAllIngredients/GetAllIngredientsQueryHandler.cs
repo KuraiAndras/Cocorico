@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
+using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Ingredients;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +14,7 @@ namespace Cocorico.Application.Ingredients.Queries.GetAllIngredients
         public GetAllIngredientsQueryHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
             : base(mediator, mapper, context)
         {
         }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
-using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
+using Cocorico.Persistence.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace Cocorico.Application.Sandwiches.Commands.AddSandwich
         public AddSandwichCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
             : base(mediator, mapper, context)
         {
         }

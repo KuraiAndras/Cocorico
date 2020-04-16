@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Cocorico.Domain.Entities;
+using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.User;
 
-namespace Cocorico.Mappings
+namespace Cocorico.Application.Mappings
 {
     public sealed class CocoricoUserProfile : Profile
     {

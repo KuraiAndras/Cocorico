@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
+using Cocorico.Persistence;
 using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,7 @@ namespace Cocorico.Application.Ingredients.Commands.DeleteIngredient
         public DeleteIngredientCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
             : base(mediator, mapper, context)
         {
         }

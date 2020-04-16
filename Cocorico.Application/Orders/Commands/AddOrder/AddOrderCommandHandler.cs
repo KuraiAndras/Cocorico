@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Notifications.OrderAdded;
 using Cocorico.Application.Orders.Queries.CalculatePrice;
 using Cocorico.Application.Orders.Queries.CanAddOrder;
 using Cocorico.Application.Orders.Services.RotatingId;
-using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
+using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Dtos.Ingredients;
 using Cocorico.Shared.Dtos.Orders;
 using Cocorico.Shared.Entities;
@@ -26,7 +26,7 @@ namespace Cocorico.Application.Orders.Commands.AddOrder
         public AddOrderCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context,
+            CocoricoDbContext context,
             IOrderRotatingIdService idService)
             : base(mediator, mapper, context) =>
             _idService = idService;

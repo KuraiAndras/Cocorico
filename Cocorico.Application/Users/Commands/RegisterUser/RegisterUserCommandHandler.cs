@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Users.Services;
-using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
+using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -18,7 +18,7 @@ namespace Cocorico.Application.Users.Commands.RegisterUser
         public RegisterUserCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context,
+            CocoricoDbContext context,
             UserManager<CocoricoUser> userManager,
             IClaimService claimService)
             : base(mediator, mapper, context)

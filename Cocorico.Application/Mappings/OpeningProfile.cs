@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Cocorico.Domain.Entities;
+using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Dtos.Openings;
 
-namespace Cocorico.Mappings
+namespace Cocorico.Application.Mappings
 {
     public sealed class OpeningProfile : Profile
     {

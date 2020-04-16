@@ -1,4 +1,4 @@
-﻿using Cocorico.Domain.Entities;
+﻿using Cocorico.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

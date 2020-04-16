@@ -1,11 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Cocorico.Application.Common.Persistence;
-using Cocorico.Domain.Entities;
+﻿using AutoMapper;
+using Cocorico.Persistence;
+using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Cocorico.Application.Users.Commands.LoginUser
 {
@@ -17,7 +17,7 @@ namespace Cocorico.Application.Users.Commands.LoginUser
         public LoginUserCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context,
+            CocoricoDbContext context,
             UserManager<CocoricoUser> userManager,
             SignInManager<CocoricoUser> signInManager)
             : base(mediator, mapper, context)

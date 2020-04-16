@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
+using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Sandwiches;
 using Cocorico.Shared.Exceptions;
 using MediatR;
@@ -14,7 +14,7 @@ namespace Cocorico.Application.Sandwiches.Queries.GetSandwich
         public GetSandwichQueryHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
             : base(mediator, mapper, context)
         {
         }

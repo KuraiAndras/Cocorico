@@ -1,10 +1,10 @@
-﻿using System;
+﻿using AutoMapper;
+using Cocorico.Persistence;
+using Cocorico.Persistence.Entities;
+using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-using Cocorico.Application.Common.Persistence;
-using Cocorico.Domain.Entities;
-using MediatR;
 
 namespace Cocorico.Application.Openings.Commands.UpdateOpening
 {
@@ -13,7 +13,7 @@ namespace Cocorico.Application.Openings.Commands.UpdateOpening
         public UpdateOpeningCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
             : base(mediator, mapper, context)
         {
         }

@@ -4,7 +4,7 @@ using Cocorico.Application.Orders.Commands.UpdateOrder;
 using Cocorico.Application.Orders.Queries.CalculatePrice;
 using Cocorico.Application.Orders.Queries.GetAllOrderForCustomer;
 using Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker;
-using Cocorico.Domain.Entities;
+using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
 using MediatR;

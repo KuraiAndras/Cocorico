@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
+using Cocorico.Persistence;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ namespace Cocorico.Application
         protected QueryHandlerBase(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
         {
             Mediator = mediator;
             Mapper = mapper;
@@ -21,7 +21,7 @@ namespace Cocorico.Application
 
         protected IMediator Mediator { get; }
         protected IMapper Mapper { get; }
-        protected ICocoricoDbContext Context { get; }
+        protected CocoricoDbContext Context { get; }
 
         public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
     }

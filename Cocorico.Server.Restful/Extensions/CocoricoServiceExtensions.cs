@@ -1,10 +1,9 @@
-﻿using Cocorico.Application.Common.Persistence;
-using Cocorico.Application.Orders.Services.Price;
+﻿using Cocorico.Application.Orders.Services.Price;
 using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Application.Users.Services;
 using Cocorico.Authentication;
-using Cocorico.Domain.Entities;
 using Cocorico.Persistence;
+using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Exceptions;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -45,7 +44,7 @@ namespace Cocorico.Server.Restful.Extensions
                 .AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
-            services.AddScoped<ICocoricoDbContext, CocoricoDbContext>();
+            services.AddScoped<CocoricoDbContext>();
         }
 
         public static void AddCocoricoServices(this IServiceCollection services)

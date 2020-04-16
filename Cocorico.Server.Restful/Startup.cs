@@ -1,5 +1,5 @@
 ﻿using Cocorico.Application;
-using Cocorico.Mappings;
+using Cocorico.Application.Mappings;
 using Cocorico.Persistence.DependencyInjection;
 using Cocorico.Server.Restful.Extensions;
 using Cocorico.Server.Restful.Hubs;

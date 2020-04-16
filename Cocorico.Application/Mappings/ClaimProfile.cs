@@ -3,7 +3,7 @@ using Cocorico.Shared.Dtos.Authentication;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace Cocorico.Mappings
+namespace Cocorico.Application.Mappings
 {
     public sealed class ClaimProfile : Profile
     {

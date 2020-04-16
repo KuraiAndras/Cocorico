@@ -1,4 +1,4 @@
-﻿namespace Cocorico.Domain.Entities
+﻿namespace Cocorico.Persistence.Entities
 {
     public sealed class UserOrder
     {

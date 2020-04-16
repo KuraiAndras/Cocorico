@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Notifications.OrderAdded;
+using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Orders;
 using Cocorico.Shared.Exceptions;
 using MediatR;
@@ -15,7 +15,7 @@ namespace Cocorico.Application.Orders.Commands.UpdateOrder
         public UpdateOrderCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
             : base(mediator, mapper, context)
         {
         }

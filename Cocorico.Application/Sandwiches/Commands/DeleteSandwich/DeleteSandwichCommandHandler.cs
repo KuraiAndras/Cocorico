@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
+using Cocorico.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -12,7 +12,7 @@ namespace Cocorico.Application.Sandwiches.Commands.DeleteSandwich
         public DeleteSandwichCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
             : base(mediator, mapper, context)
         {
         }

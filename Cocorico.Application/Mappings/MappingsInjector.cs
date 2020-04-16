@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Cocorico.Mappings
+namespace Cocorico.Application.Mappings
 {
     public static class MappingsInjector
     {

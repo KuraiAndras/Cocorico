@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
-using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
+using Cocorico.Persistence.Entities;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ namespace Cocorico.Application.Ingredients.Commands.UpdateIngredient
         public UpdateIngredientCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
             : base(mediator, mapper, context)
         {
         }

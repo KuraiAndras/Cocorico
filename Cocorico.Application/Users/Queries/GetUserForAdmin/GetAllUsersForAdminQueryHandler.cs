@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
-using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
+using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Exceptions;
 using MediatR;
@@ -20,7 +20,7 @@ namespace Cocorico.Application.Users.Queries.GetUserForAdmin
         public GetAllUsersForAdminQueryHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context,
+            CocoricoDbContext context,
             UserManager<CocoricoUser> userManager)
             : base(mediator, mapper, context) =>
             _userManager = userManager;

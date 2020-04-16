@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using AutoMapper;
-using Cocorico.Domain.Entities;
+﻿using AutoMapper;
+using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Dtos.Orders;
+using System.Linq;
 
-namespace Cocorico.Mappings
+namespace Cocorico.Application.Mappings
 {
     public sealed class OrderProfile : Profile
     {

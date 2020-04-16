@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Cocorico.Shared.Entities;
+using System;
 using System.Collections.Generic;
-using Cocorico.Shared.Entities;
 
-namespace Cocorico.Domain.Entities
+namespace Cocorico.Persistence.Entities
 {
     public sealed class Order
     {

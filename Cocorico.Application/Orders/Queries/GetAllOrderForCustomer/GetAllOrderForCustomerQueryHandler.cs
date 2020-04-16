@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
+using Cocorico.Persistence;
 using Cocorico.Shared.Dtos.Orders;
 using Cocorico.Shared.Exceptions;
 using MediatR;
@@ -16,7 +16,7 @@ namespace Cocorico.Application.Orders.Queries.GetAllOrderForCustomer
         public GetAllOrderForCustomerQueryHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
             : base(mediator, mapper, context)
         {
         }

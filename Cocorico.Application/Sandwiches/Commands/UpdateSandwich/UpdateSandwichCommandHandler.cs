@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Queries.CanAddOrder;
-using Cocorico.Domain.Entities;
+using Cocorico.Persistence;
+using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +17,7 @@ namespace Cocorico.Application.Sandwiches.Commands.UpdateSandwich
         public UpdateSandwichCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
             : base(mediator, mapper, context)
         {
         }

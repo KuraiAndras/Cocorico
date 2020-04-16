@@ -1,6 +1,6 @@
 ﻿using Cocorico.Shared.Entities;
 
-namespace Cocorico.Domain.Entities
+namespace Cocorico.Persistence.Entities
 {
     public sealed class IngredientModification
     {

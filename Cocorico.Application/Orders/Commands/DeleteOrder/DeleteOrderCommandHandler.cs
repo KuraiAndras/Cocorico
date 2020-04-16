@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Notifications.OrderAdded;
+using Cocorico.Persistence;
 using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +14,7 @@ namespace Cocorico.Application.Orders.Commands.DeleteOrder
         public DeleteOrderCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context)
+            CocoricoDbContext context)
             : base(mediator, mapper, context)
         {
         }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Common.Persistence;
 using Cocorico.Application.Orders.Services.Price;
+using Cocorico.Persistence;
 using Cocorico.Shared.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +18,7 @@ namespace Cocorico.Application.Orders.Queries.CalculatePrice
         public CalculatePriceQueryHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context,
+            CocoricoDbContext context,
             IPriceCalculator priceCalculator)
             : base(mediator, mapper, context) =>
             _priceCalculator = priceCalculator;

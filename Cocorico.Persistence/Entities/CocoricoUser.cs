@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
-namespace Cocorico.Domain.Entities
+namespace Cocorico.Persistence.Entities
 {
     public sealed class CocoricoUser : IdentityUser
     {

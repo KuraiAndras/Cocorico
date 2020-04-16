@@ -1,10 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Cocorico.Application.Common.Persistence;
-using Cocorico.Domain.Entities;
+﻿using AutoMapper;
+using Cocorico.Persistence;
+using Cocorico.Persistence.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Cocorico.Application.Users.Commands.LogoutUser
 {
@@ -15,7 +15,7 @@ namespace Cocorico.Application.Users.Commands.LogoutUser
         public LogoutCurrentUserCommandHandler(
             IMediator mediator,
             IMapper mapper,
-            ICocoricoDbContext context,
+            CocoricoDbContext context,
             SignInManager<CocoricoUser> signInManager)
             : base(mediator, mapper, context) =>
             _signInManager = signInManager;

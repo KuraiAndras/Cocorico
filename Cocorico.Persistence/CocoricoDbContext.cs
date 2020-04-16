@@ -1,11 +1,10 @@
-﻿using Cocorico.Application.Common.Persistence;
-using Cocorico.Domain.Entities;
+﻿using Cocorico.Persistence.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cocorico.Persistence
 {
-    public sealed class CocoricoDbContext : IdentityDbContext<CocoricoUser>, ICocoricoDbContext
+    public sealed class CocoricoDbContext : IdentityDbContext<CocoricoUser>
     {
         public CocoricoDbContext(DbContextOptions<CocoricoDbContext> options)
             : base(options)

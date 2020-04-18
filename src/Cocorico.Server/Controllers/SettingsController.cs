@@ -1,6 +1,6 @@
-﻿using Cocorico.Application.Orders.Queries.CanAddOrder;
-using Cocorico.Application.Orders.Services.RotatingId;
+﻿using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Shared.Api.Openings;
+using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Dtos;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
@@ -60,7 +60,7 @@ namespace Cocorico.Server.Controllers
         [HttpGet(nameof(IsStoreOpenAsync))]
         public async Task<ActionResult<bool>> IsStoreOpenAsync()
         {
-            var result = await _mediator.Send(new CanAddOrderQuery(DateTime.Now));
+            var result = await _mediator.Send(new CanAddOrder { RequestTime = DateTime.Now });
 
             return new ActionResult<bool>(result);
         }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Cocorico.Application.Orders.Services.Price;
 using Cocorico.Persistence;
+using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,13 +10,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Application.Orders.Queries.CalculatePrice
+namespace Cocorico.Application.Orders
 {
-    public sealed class CalculatePriceRequestHandler : RequestHandlerBase<CalculatePriceQuery, int>
+    public sealed class CalculatePriceHandler : RequestHandlerBase<CalculatePrice, int>
     {
         private readonly IPriceCalculator _priceCalculator;
 
-        public CalculatePriceRequestHandler(
+        public CalculatePriceHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context,
@@ -23,7 +24,7 @@ namespace Cocorico.Application.Orders.Queries.CalculatePrice
             : base(mediator, mapper, context) =>
             _priceCalculator = priceCalculator;
 
-        public override async Task<int> Handle(CalculatePriceQuery request, CancellationToken cancellationToken)
+        public override async Task<int> Handle(CalculatePrice request, CancellationToken cancellationToken)
         {
             var sandwichesInDb = await Context
                 .Sandwiches
@@ -35,17 +36,17 @@ namespace Cocorico.Application.Orders.Queries.CalculatePrice
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
-            var sandwichesFromOrderInDb = request.Dto.Sandwiches
+            var sandwichesFromOrderInDb = request.Sandwiches
                 .Select(sandwichDto => sandwichesInDb.SingleOrDefault(s => s.Id == sandwichDto.Id))
                 .Where(s => !(s is null))
                 .ToList();
 
-            if (sandwichesFromOrderInDb.Count != request.Dto.Sandwiches.Count) throw new InvalidOperationException("Some sandwiches do not exist in database");
+            if (sandwichesFromOrderInDb.Count != request.Sandwiches.Count) throw new InvalidOperationException("Some sandwiches do not exist in database");
 
-            if (request.Dto.SandwichModifications.Count == 0) return sandwichesFromOrderInDb.Select(s => s.Price).Aggregate((sum, price) => sum + price);
+            if (request.SandwichModifications.Count == 0) return sandwichesFromOrderInDb.Select(s => s.Price).Aggregate((sum, price) => sum + price);
 
             const int ingredientPrice = 50;
-            return request.Dto.SandwichModifications
+            return request.SandwichModifications
                 .Select(kvp =>
                 {
                     var (currentSandwich, ingredientModificationDtos) = kvp;

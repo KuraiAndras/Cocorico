@@ -1,8 +1,9 @@
 ﻿using Cocorico.Shared.Entities;
+using MediatR;
 
-namespace Cocorico.Shared.Dtos.Orders
+namespace Cocorico.Shared.Api.Orders
 {
-    public class UpdateOrderDto
+    public class UpdateOrder : IRequest
     {
         public int OrderId { get; set; }
         public OrderState State { get; set; }

@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Orders.Notifications.OrderAdded;
-using Cocorico.Application.Orders.Queries.CalculatePrice;
-using Cocorico.Application.Orders.Queries.CanAddOrder;
+using Cocorico.Application.Orders.Notifications;
 using Cocorico.Application.Orders.Services.RotatingId;
 using Cocorico.Persistence;
 using Cocorico.Persistence.Entities;
+using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Dtos.Ingredients;
-using Cocorico.Shared.Dtos.Orders;
 using Cocorico.Shared.Entities;
 using Cocorico.Shared.Exceptions;
 using MediatR;
@@ -17,9 +15,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Application.Orders.Commands.AddOrder
+namespace Cocorico.Application.Orders
 {
-    public sealed class AddOrderHandler : HandlerBase<AddOrderCommand>
+    public sealed class AddOrderHandler : HandlerBase<AddOrder>
     {
         private readonly IOrderRotatingIdService _idService;
 
@@ -31,32 +29,31 @@ namespace Cocorico.Application.Orders.Commands.AddOrder
             : base(mediator, mapper, context) =>
             _idService = idService;
 
-        protected override async Task Handle(AddOrderCommand request, CancellationToken cancellationToken)
+        protected override async Task Handle(AddOrder request, CancellationToken cancellationToken)
         {
-            // TODO: Date service
             var dateAdded = DateTime.Now;
-            var canAdd = await Mediator.Send(new CanAddOrderQuery(dateAdded), cancellationToken);
+            var canAdd = await Mediator.Send(new CanAddOrder { RequestTime = dateAdded }, cancellationToken);
             if (!canAdd) throw new StoreClosedException();
 
             var sandwichesInDb = await Context
                 .Sandwiches
                 .ToListAsync(cancellationToken);
 
-            var sandwichesFromOrderInDb = request.Dto.Sandwiches
+            var sandwichesFromOrderInDb = request.Sandwiches
                 .Select(sandwichDto => sandwichesInDb.SingleOrDefault(s => s.Id == sandwichDto.Id))
                 .Where(s => !(s is null))
                 .ToList();
 
             if (sandwichesFromOrderInDb.Count == 0) throw new EntityNotFoundException();
 
-            var orderPrice = await Mediator.Send(new CalculatePriceQuery(request.Dto), cancellationToken);
+            var orderPrice = await Mediator.Send(Mapper.Map<CalculatePrice>(request), cancellationToken);
 
             var currentOpening = await Context.Openings
                 .FirstAsync(o => o.Start <= dateAdded && o.End > dateAdded, cancellationToken);
 
             var newOrder = new Order
             {
-                CocoricoUserId = request.Dto.CustomerId,
+                CocoricoUserId = request.CustomerId,
                 Price = orderPrice,
                 State = OrderState.OrderPlaced,
                 RotatingId = _idService.GetNextId(),
@@ -71,7 +68,7 @@ namespace Cocorico.Application.Orders.Commands.AddOrder
                     Order = newOrder,
                     Sandwich = sandwich,
                     IngredientModifications = Mapper.Map<ICollection<IngredientModification>>(
-                        request.Dto.SandwichModifications.SingleOrDefault(kvp => kvp.Key.Id == sandwich.Id).Value
+                        request.SandwichModifications.SingleOrDefault(kvp => kvp.Key.Id == sandwich.Id).Value
                         ?? new List<IngredientModificationDto>()),
                 });
             }

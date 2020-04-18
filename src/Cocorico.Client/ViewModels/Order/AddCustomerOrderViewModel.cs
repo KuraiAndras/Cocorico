@@ -2,7 +2,7 @@
 using Cocorico.Client.HttpClient;
 using Cocorico.Client.Services.Basket;
 using Cocorico.Shared.Api.Ingredients;
-using Cocorico.Shared.Dtos.Orders;
+using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Dtos.Sandwiches;
 using Cocorico.Shared.Exceptions;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Cocorico.Client.ViewModels.Order
         {
             _basketService = basketService;
             _orderClient = orderClient;
-            AddOrderDto = new AddOrderDto { Sandwiches = _basketService.SandwichesInBasket };
+            AddOrder = new AddOrder { Sandwiches = _basketService.SandwichesInBasket };
             Sandwich = new SandwichDto();
             _addedIngredients = new List<IngredientDto>();
             _ingredientClient = ingredientClient;
@@ -36,7 +36,7 @@ namespace Cocorico.Client.ViewModels.Order
             _sandwichClient = sandwichClient;
         }
 
-        public AddOrderDto AddOrderDto { get; }
+        public AddOrder AddOrder { get; }
         public List<IngredientDto> AvailableIngredients { get; }
         public SandwichDto Sandwich { get; }
 
@@ -44,7 +44,7 @@ namespace Cocorico.Client.ViewModels.Order
         {
             try
             {
-                var result = await _orderClient.AddOrderAsync(AddOrderDto);
+                var result = await _orderClient.AddOrderAsync(AddOrder);
 
                 if (result.IsSuccessfulStatusCode())
                 {

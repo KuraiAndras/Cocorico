@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence;
-using Cocorico.Shared.Dtos.Orders;
+using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Entities;
 using Cocorico.Shared.Exceptions;
 using MediatR;
@@ -10,9 +10,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker
+namespace Cocorico.Application.Orders
 {
-    public sealed class GetPendingOrdersForWorkerRequestHandler : RequestHandlerBase<GetPendingOrdersForWorkerQuery, ICollection<WorkerOrderViewDto>>
+    public sealed class GetPendingOrdersForWorkerRequestHandler : RequestHandlerBase<GetPendingOrdersForWorker, ICollection<WorkerOrderViewDto>>
     {
         public GetPendingOrdersForWorkerRequestHandler(
             IMediator mediator,
@@ -22,7 +22,7 @@ namespace Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker
         {
         }
 
-        public override async Task<ICollection<WorkerOrderViewDto>> Handle(GetPendingOrdersForWorkerQuery request, CancellationToken cancellationToken)
+        public override async Task<ICollection<WorkerOrderViewDto>> Handle(GetPendingOrdersForWorker request, CancellationToken cancellationToken)
         {
             var ordersForWorkerView = await Context
                 .Orders

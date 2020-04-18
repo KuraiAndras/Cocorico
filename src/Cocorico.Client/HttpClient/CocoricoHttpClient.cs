@@ -6,10 +6,10 @@
 
 using Cocorico.Shared.Api.Ingredients;
 using Cocorico.Shared.Api.Openings;
+using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Dtos;
 using Cocorico.Shared.Dtos.Authentication;
 using Cocorico.Shared.Dtos.Ingredients;
-using Cocorico.Shared.Dtos.Orders;
 using Cocorico.Shared.Dtos.Sandwiches;
 using Cocorico.Shared.Dtos.User;
 using Cocorico.Shared.Helpers;
@@ -1162,18 +1162,18 @@ namespace Cocorico.Client.HttpClient
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrderDto addOrderDto);
+        System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrder addOrder);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrderDto addOrderDto, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrder addOrder, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrderDto addOrderDto);
+        System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrder addOrder);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrderDto addOrderDto, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrder addOrder, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DeleteOrderAsync(int orderId);
@@ -1183,11 +1183,11 @@ namespace Cocorico.Client.HttpClient
         System.Threading.Tasks.Task<FileResponse> DeleteOrderAsync(int orderId, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrderDto updateOrderDto);
+        System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrder updateOrder);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrderDto updateOrderDto, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrder updateOrder, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -1356,17 +1356,17 @@ namespace Cocorico.Client.HttpClient
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrderDto addOrderDto)
+        public System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrder addOrder)
         {
-            return AddOrderAsync(addOrderDto, System.Threading.CancellationToken.None);
+            return AddOrderAsync(addOrder, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrderDto addOrderDto, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrder addOrder, System.Threading.CancellationToken cancellationToken)
         {
-            if (addOrderDto == null)
-                throw new System.ArgumentNullException("addOrderDto");
+            if (addOrder == null)
+                throw new System.ArgumentNullException("addOrder");
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order");
@@ -1376,7 +1376,7 @@ namespace Cocorico.Client.HttpClient
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(addOrderDto, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(addOrder, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
@@ -1429,17 +1429,17 @@ namespace Cocorico.Client.HttpClient
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrderDto addOrderDto)
+        public System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrder addOrder)
         {
-            return CalculateOrderPriceAsync(addOrderDto, System.Threading.CancellationToken.None);
+            return CalculateOrderPriceAsync(addOrder, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrderDto addOrderDto, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrder addOrder, System.Threading.CancellationToken cancellationToken)
         {
-            if (addOrderDto == null)
-                throw new System.ArgumentNullException("addOrderDto");
+            if (addOrder == null)
+                throw new System.ArgumentNullException("addOrder");
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/CalculateOrderPriceAsync");
@@ -1449,7 +1449,7 @@ namespace Cocorico.Client.HttpClient
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(addOrderDto, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(addOrder, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
@@ -1571,17 +1571,17 @@ namespace Cocorico.Client.HttpClient
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrderDto updateOrderDto)
+        public System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrder updateOrder)
         {
-            return UpdateOrderAsync(updateOrderDto, System.Threading.CancellationToken.None);
+            return UpdateOrderAsync(updateOrder, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrderDto updateOrderDto, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrder updateOrder, System.Threading.CancellationToken cancellationToken)
         {
-            if (updateOrderDto == null)
-                throw new System.ArgumentNullException("updateOrderDto");
+            if (updateOrder == null)
+                throw new System.ArgumentNullException("updateOrder");
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/UpdateOrderAsync");
@@ -1591,7 +1591,7 @@ namespace Cocorico.Client.HttpClient
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(updateOrderDto, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(updateOrder, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");

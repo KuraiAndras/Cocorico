@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Cocorico.Application.Orders.Queries.CanAddOrder;
 using Cocorico.Persistence;
 using Cocorico.Persistence.Entities;
+using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -24,9 +24,7 @@ namespace Cocorico.Application.Sandwiches.Commands.UpdateSandwich
 
         protected override async Task Handle(UpdateSandwichCommand request, CancellationToken cancellationToken)
         {
-            var dateAdded = DateTime.Now;
-
-            var canAddOrder = await Mediator.Send(new CanAddOrderQuery(dateAdded), cancellationToken);
+            var canAddOrder = await Mediator.Send(new CanAddOrder { RequestTime = DateTime.Now }, cancellationToken);
 
             if (!canAddOrder) throw new StoreClosedException();
 

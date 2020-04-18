@@ -1,6 +1,6 @@
-﻿using Cocorico.Shared.Dtos.Orders;
+﻿using Cocorico.Shared.Api.Orders;
 
-namespace Cocorico.Application.Orders.Notifications.OrderAdded
+namespace Cocorico.Application.Orders.Notifications
 {
     public sealed class OrderModifiedEvent : EventDtoBase<WorkerOrderViewDto>
     {

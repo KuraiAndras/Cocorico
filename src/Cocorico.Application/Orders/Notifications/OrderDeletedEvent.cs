@@ -1,4 +1,4 @@
-﻿namespace Cocorico.Application.Orders.Notifications.OrderAdded
+﻿namespace Cocorico.Application.Orders.Notifications
 {
     public sealed class OrderDeletedEvent : EventDtoBase<int>
     {

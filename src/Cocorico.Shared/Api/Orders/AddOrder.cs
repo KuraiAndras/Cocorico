@@ -1,10 +1,11 @@
 ﻿using Cocorico.Shared.Dtos.Ingredients;
 using Cocorico.Shared.Dtos.Sandwiches;
+using MediatR;
 using System.Collections.Generic;
 
-namespace Cocorico.Shared.Dtos.Orders
+namespace Cocorico.Shared.Api.Orders
 {
-    public class AddOrderDto
+    public class AddOrder : IRequest
     {
         public string UserId { get; set; } = string.Empty;
         public IList<SandwichDto> Sandwiches { get; set; } = new List<SandwichDto>();

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence;
+using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +8,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Application.Orders.Queries.CanAddOrder
+namespace Cocorico.Application.Orders
 {
-    public sealed class CanAddOrderRequestHandler : RequestHandlerBase<CanAddOrderQuery, bool>
+    public sealed class CanAddOrderHandler : RequestHandlerBase<CanAddOrder, bool>
     {
-        public CanAddOrderRequestHandler(
+        public CanAddOrderHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context)
@@ -19,7 +20,7 @@ namespace Cocorico.Application.Orders.Queries.CanAddOrder
         {
         }
 
-        public override async Task<bool> Handle(CanAddOrderQuery request, CancellationToken cancellationToken)
+        public override async Task<bool> Handle(CanAddOrder request, CancellationToken cancellationToken)
         {
             var lastOpeningEnd = await Context.Openings
                 .AsNoTracking()
@@ -28,7 +29,7 @@ namespace Cocorico.Application.Orders.Queries.CanAddOrder
 
             if (lastOpeningEnd is null) throw new UnexpectedException("No Opening in Database");
 
-            return request.Dto < lastOpeningEnd.End && request.Dto > lastOpeningEnd.Start;
+            return request.RequestTime < lastOpeningEnd.End && request.RequestTime > lastOpeningEnd.Start;
         }
     }
 }

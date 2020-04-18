@@ -1,5 +1,5 @@
-﻿using Cocorico.Shared.Dtos.Ingredients;
-using Cocorico.Shared.Dtos.Sandwiches;
+﻿using Cocorico.Shared.Api.Ingredients;
+using Cocorico.Shared.Api.Sandwiches;
 using Cocorico.Shared.Entities;
 using System;
 using System.Collections.Generic;

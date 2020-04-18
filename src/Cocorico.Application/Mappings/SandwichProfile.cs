@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence.Entities;
-using Cocorico.Shared.Dtos.Sandwiches;
+using Cocorico.Shared.Api.Sandwiches;
 using System.Linq;
 
 namespace Cocorico.Application.Mappings
@@ -13,7 +13,7 @@ namespace Cocorico.Application.Mappings
                 .ForMember(
                     d => d.Ingredients,
                     o => o.MapFrom(s => s.SandwichIngredients.Select(si => si.Ingredient)));
-            CreateMap<SandwichAddDto, Sandwich>();
+            CreateMap<AddSandwich, Sandwich>();
             CreateMap<SandwichDto, Sandwich>();
         }
     }

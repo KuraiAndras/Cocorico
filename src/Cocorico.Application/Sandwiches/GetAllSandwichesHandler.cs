@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence;
-using Cocorico.Shared.Dtos.Sandwiches;
+using Cocorico.Shared.Api.Sandwiches;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Application.Sandwiches.Queries.GetAllSandwich
+namespace Cocorico.Application.Sandwiches
 {
-    public sealed class GetAllSandwichRequestHandler : RequestHandlerBase<GetAllSandwichQuery, ICollection<SandwichDto>>
+    public sealed class GetAllSandwichesHandler : RequestHandlerBase<GetAllSandwiches, ICollection<SandwichDto>>
     {
-        public GetAllSandwichRequestHandler(
+        public GetAllSandwichesHandler(
             IMediator mediator,
             IMapper mapper,
             CocoricoDbContext context)
@@ -20,15 +19,15 @@ namespace Cocorico.Application.Sandwiches.Queries.GetAllSandwich
         {
         }
 
-        public override async Task<ICollection<SandwichDto>> Handle(GetAllSandwichQuery request, CancellationToken cancellationToken)
+        public override async Task<ICollection<SandwichDto>> Handle(GetAllSandwiches request, CancellationToken cancellationToken)
         {
             var sandwiches = await Context
                 .Sandwiches
                 .Include(s => s.SandwichIngredients)
-                .ThenInclude(il => il.Ingredient)
+                .ThenInclude(si => si.Ingredient)
                 .ToListAsync(cancellationToken);
 
-            return sandwiches.Select(s => Mapper.Map<SandwichDto>(s)).ToList();
+            return Mapper.Map<ICollection<SandwichDto>>(sandwiches);
         }
     }
 }

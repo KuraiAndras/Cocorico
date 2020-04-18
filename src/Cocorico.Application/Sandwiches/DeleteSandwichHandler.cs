@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence;
+using Cocorico.Shared.Api.Sandwiches;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Application.Sandwiches.Commands.DeleteSandwich
+namespace Cocorico.Application.Sandwiches
 {
-    public class DeleteSandwichHandler : HandlerBase<DeleteSandwichCommand>
+    public class DeleteSandwichHandler : HandlerBase<DeleteSandwich>
     {
         public DeleteSandwichHandler(
             IMediator mediator,
@@ -17,9 +18,9 @@ namespace Cocorico.Application.Sandwiches.Commands.DeleteSandwich
         {
         }
 
-        protected override async Task Handle(DeleteSandwichCommand request, CancellationToken cancellationToken)
+        protected override async Task Handle(DeleteSandwich request, CancellationToken cancellationToken)
         {
-            var sandwichToDelete = await Context.Sandwiches.SingleOrDefaultAsync(s => s.Id.Equals(request.Dto), cancellationToken);
+            var sandwichToDelete = await Context.Sandwiches.SingleOrDefaultAsync(s => s.Id.Equals(request.SandwichId), cancellationToken);
 
             Context.Sandwiches.Remove(sandwichToDelete);
 

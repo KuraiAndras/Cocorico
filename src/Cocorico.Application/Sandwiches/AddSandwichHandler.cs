@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence;
 using Cocorico.Persistence.Entities;
+using Cocorico.Shared.Api.Sandwiches;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Application.Sandwiches.Commands.AddSandwich
+namespace Cocorico.Application.Sandwiches
 {
-    public sealed class AddSandwichHandler : HandlerBase<AddSandwichCommand>
+    public sealed class AddSandwichHandler : HandlerBase<AddSandwich>
     {
         public AddSandwichHandler(
             IMediator mediator,
@@ -19,16 +20,16 @@ namespace Cocorico.Application.Sandwiches.Commands.AddSandwich
         {
         }
 
-        protected override async Task Handle(AddSandwichCommand request, CancellationToken cancellationToken)
+        protected override async Task Handle(AddSandwich request, CancellationToken cancellationToken)
         {
-            var sandwich = Mapper.Map<Sandwich>(request.Dto);
+            var sandwich = Mapper.Map<Sandwich>(request);
 
             var ingredients = await Context
                 .Ingredients
                 .ToListAsync(cancellationToken);
 
             sandwich.SandwichIngredients = ingredients
-                .Where(i => request.Dto.Ingredients.Any(iDto => iDto.Id == i.Id))
+                .Where(i => request.Ingredients.Any(iDto => iDto.Id == i.Id))
                 .Select(i => new SandwichIngredient
                 {
                     Ingredient = i,

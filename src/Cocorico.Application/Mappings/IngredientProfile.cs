@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Api.Ingredients;
-using Cocorico.Shared.Dtos.Ingredients;
 
 namespace Cocorico.Application.Mappings
 {

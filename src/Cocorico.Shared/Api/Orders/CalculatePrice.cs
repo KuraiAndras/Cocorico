@@ -1,5 +1,5 @@
-﻿using Cocorico.Shared.Dtos.Ingredients;
-using Cocorico.Shared.Dtos.Sandwiches;
+﻿using Cocorico.Shared.Api.Ingredients;
+using Cocorico.Shared.Api.Sandwiches;
 using MediatR;
 using System.Collections.Generic;
 

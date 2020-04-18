@@ -1,6 +1,6 @@
 ﻿using Cocorico.Shared.Entities;
 
-namespace Cocorico.Shared.Dtos.Ingredients
+namespace Cocorico.Shared.Api.Ingredients
 {
     public class IngredientModificationDto
     {

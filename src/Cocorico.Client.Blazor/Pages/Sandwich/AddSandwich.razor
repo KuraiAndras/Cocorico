@@ -16,7 +16,7 @@
 
         <tr>
             <td>
-                <MatTextField @bind-Value="@ViewModel.NewSandwichDto.Name" Standard="true" Label="Sandwich name" Outlined="true"></MatTextField>
+                <MatTextField @bind-Value="@ViewModel.NewAddSandwichDto.Name" Standard="true" Label="Sandwich name" Outlined="true"></MatTextField>
             </td>
         </tr>
         <tr>
@@ -34,7 +34,7 @@
 
         @foreach (var ingredient in ViewModel.AvailableIngredients)
         {
-            if (ViewModel.NewSandwichDto.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
+            if (ViewModel.NewAddSandwichDto.Ingredients.SingleOrDefault(i => i.Id == ingredient.Id) is null)
             {
                 <tr><td><MatButton Outlined="true" @onclick="@(() => ViewModel.AddIngredient(ingredient))">@ingredient.Name</MatButton></td></tr>
             }
@@ -55,7 +55,7 @@
 
     private async Task AddAsync()
     {
-        ViewModel.NewSandwichDto.Price = resultPrice != null
+        ViewModel.NewAddSandwichDto.Price = resultPrice != null
             ? (int)resultPrice
             : 0;
 

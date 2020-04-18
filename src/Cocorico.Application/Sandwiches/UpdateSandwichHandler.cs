@@ -2,6 +2,7 @@
 using Cocorico.Persistence;
 using Cocorico.Persistence.Entities;
 using Cocorico.Shared.Api.Orders;
+using Cocorico.Shared.Api.Sandwiches;
 using Cocorico.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +11,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cocorico.Application.Sandwiches.Commands.UpdateSandwich
+namespace Cocorico.Application.Sandwiches
 {
-    public sealed class UpdateSandwichHandler : HandlerBase<UpdateSandwichCommand>
+    public sealed class UpdateSandwichHandler : HandlerBase<UpdateSandwich>
     {
         public UpdateSandwichHandler(
             IMediator mediator,
@@ -22,28 +23,28 @@ namespace Cocorico.Application.Sandwiches.Commands.UpdateSandwich
         {
         }
 
-        protected override async Task Handle(UpdateSandwichCommand request, CancellationToken cancellationToken)
+        protected override async Task Handle(UpdateSandwich request, CancellationToken cancellationToken)
         {
             var canAddOrder = await Mediator.Send(new CanAddOrder { RequestTime = DateTime.Now }, cancellationToken);
 
             if (!canAddOrder) throw new StoreClosedException();
 
-            var updatedSandwich = Mapper.Map<Sandwich>(request.Dto);
+            var updatedSandwich = Mapper.Map<Sandwich>(request);
 
             var originalSandwich = await Context.Sandwiches
                 .AsNoTracking()
                 .Include(s => s.SandwichIngredients)
-                .SingleOrDefaultAsync(s => s.Id == request.Dto.Id, cancellationToken);
+                .SingleOrDefaultAsync(s => s.Id == request.Id, cancellationToken);
 
             if (originalSandwich is null) throw new EntityNotFoundException();
 
             updatedSandwich.SandwichIngredients = originalSandwich.SandwichIngredients
-                .Where(si => request.Dto.Ingredients.Any(i => si.SandwichId == i.Id))
+                .Where(si => request.Ingredients.Any(i => si.SandwichId == i.Id))
                 .ToList();
 
             var ingredientsInDb = await Context.Ingredients.ToListAsync(cancellationToken);
 
-            foreach (var ingredientDto in request.Dto.Ingredients
+            foreach (var ingredientDto in request.Ingredients
                 .Where(ingredientDto => updatedSandwich.SandwichIngredients.All(si => si.IngredientId != ingredientDto.Id)))
             {
                 updatedSandwich.SandwichIngredients.Add(new SandwichIngredient

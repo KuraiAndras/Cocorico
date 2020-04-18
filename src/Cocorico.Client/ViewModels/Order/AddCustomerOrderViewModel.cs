@@ -3,7 +3,7 @@ using Cocorico.Client.HttpClient;
 using Cocorico.Client.Services.Basket;
 using Cocorico.Shared.Api.Ingredients;
 using Cocorico.Shared.Api.Orders;
-using Cocorico.Shared.Dtos.Sandwiches;
+using Cocorico.Shared.Api.Sandwiches;
 using Cocorico.Shared.Exceptions;
 using System.Collections.Generic;
 using System.Threading.Tasks;

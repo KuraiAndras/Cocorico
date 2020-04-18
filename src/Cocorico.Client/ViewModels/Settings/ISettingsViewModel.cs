@@ -1,5 +1,5 @@
-﻿using Cocorico.Shared.Api.Openings;
-using Cocorico.Shared.Dtos;
+﻿using Cocorico.Shared.Api;
+using Cocorico.Shared.Api.Openings;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;

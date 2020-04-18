@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Authentication;
+﻿using Cocorico.Shared.Api.Users;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Services.Authentication

@@ -1,7 +1,7 @@
 ﻿using Cocorico.Client.Extensions;
 using Cocorico.Client.HttpClient;
 using Cocorico.Client.Services.Authentication;
-using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Api.Users;
 using Cocorico.Shared.Exceptions;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;

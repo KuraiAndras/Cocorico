@@ -1,6 +1,6 @@
 ﻿using Cocorico.Client.HttpClient;
-using Cocorico.Shared.Dtos.Authentication;
-using Cocorico.Shared.Dtos.User;
+using Cocorico.Shared.Api.Authentication;
+using Cocorico.Shared.Api.Users;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

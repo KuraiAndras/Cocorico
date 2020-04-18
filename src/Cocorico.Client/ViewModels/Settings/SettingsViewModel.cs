@@ -1,7 +1,7 @@
 ﻿using Cocorico.Client.Extensions;
 using Cocorico.Client.HttpClient;
+using Cocorico.Shared.Api;
 using Cocorico.Shared.Api.Openings;
-using Cocorico.Shared.Dtos;
 using Cocorico.Shared.Exceptions;
 using System.Collections.Generic;
 using System.ComponentModel;

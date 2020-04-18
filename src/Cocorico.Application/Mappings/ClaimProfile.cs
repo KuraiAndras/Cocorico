@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Api.Authentication;
 using System.Collections.Generic;
 using System.Security.Claims;
 

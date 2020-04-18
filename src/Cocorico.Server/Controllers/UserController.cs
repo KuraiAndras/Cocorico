@@ -1,6 +1,4 @@
-﻿using Cocorico.Application.Users.Queries.GetUserForAdmin;
-using Cocorico.Shared.Dtos.Authentication;
-using Cocorico.Shared.Dtos.User;
+﻿using Cocorico.Shared.Api.Users;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
 using MediatR;
@@ -24,7 +22,7 @@ namespace Cocorico.Server.Controllers
         [HttpGet(nameof(GetAllForAdminAsync))]
         public async Task<ActionResult<IEnumerable<UserForAdminPage>>> GetAllForAdminAsync()
         {
-            var serviceResult = await _mediator.Send(new GetAllUsersForAdminQuery());
+            var serviceResult = await _mediator.Send(new GetAllUsersForAdmin());
 
             return new ActionResult<IEnumerable<UserForAdminPage>>(serviceResult);
         }
@@ -33,7 +31,7 @@ namespace Cocorico.Server.Controllers
         [HttpGet(nameof(GetUserForAdminPageAsync) + "/{userId}")]
         public async Task<ActionResult<UserForAdminPage>> GetUserForAdminPageAsync([FromRoute] string userId)
         {
-            var serviceResult = await _mediator.Send(new GetUserForAdminQuery(new UserIdDto { UserId = userId }));
+            var serviceResult = await _mediator.Send(new GetUserForAdminQuery { UserId = userId });
 
             return new ActionResult<UserForAdminPage>(serviceResult);
         }

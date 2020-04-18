@@ -1,10 +1,5 @@
-﻿using Cocorico.Application.Users.Commands.AddClaimToUser;
-using Cocorico.Application.Users.Commands.LoginUser;
-using Cocorico.Application.Users.Commands.LogoutUser;
-using Cocorico.Application.Users.Commands.RegisterUser;
-using Cocorico.Application.Users.Commands.RemoveClaimFromUser;
-using Cocorico.Application.Users.Queries.GetClaims;
-using Cocorico.Shared.Dtos.Authentication;
+﻿using Cocorico.Shared.Api.Authentication;
+using Cocorico.Shared.Api.Users;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
 using MediatR;
@@ -26,20 +21,21 @@ namespace Cocorico.Server.Controllers
 
         [AllowAnonymous]
         [HttpPost(nameof(LoginAsync))]
-        public async Task<ActionResult<ClaimsDto>> LoginAsync([FromBody] LoginDetails credentials)
+        public async Task<ActionResult<ClaimsDto>> LoginAsync([FromBody] LoginUser credentials)
         {
-            await _mediator.Send(new LoginUserCommand(credentials));
+            // TODO: Return claims
+            await _mediator.Send(credentials);
 
-            var result = await _mediator.Send(new GetUserClaimsByNameQuery(new UserNameDto { UserName = credentials.Email }));
+            var result = await _mediator.Send(new GetUserClaimsByName { UserName = credentials.Email });
 
             return new ActionResult<ClaimsDto>(result);
         }
 
         [AllowAnonymous]
         [HttpPost(nameof(RegisterAsync))]
-        public async Task<ActionResult> RegisterAsync([FromBody] RegisterDetails model)
+        public async Task<ActionResult> RegisterAsync([FromBody] RegisterUser model)
         {
-            await _mediator.Send(new RegisterUserCommand(model));
+            await _mediator.Send(model);
 
             return new OkResult();
         }
@@ -48,7 +44,7 @@ namespace Cocorico.Server.Controllers
         [HttpPost(nameof(LogoutAsync))]
         public async Task<ActionResult> LogoutAsync()
         {
-            await _mediator.Send(new LogoutCurrentUserCommand());
+            await _mediator.Send(new LogoutCurrentUser());
 
             return new OkResult();
         }
@@ -59,25 +55,25 @@ namespace Cocorico.Server.Controllers
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var claims = await _mediator.Send(new GetUserClaimsQuery(new UserIdDto { UserId = userId }));
+            var claims = await _mediator.Send(new GetUserClaims { UserId = userId });
 
             return new ActionResult<ClaimsDto>(claims);
         }
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpPost(nameof(AddClaimToUserAsync))]
-        public async Task<ActionResult> AddClaimToUserAsync([FromBody] UserClaimRequest userClaimRequest)
+        public async Task<ActionResult> AddClaimToUserAsync([FromBody] AddClaimToUser addClaimToUser)
         {
-            await _mediator.Send(new AddClaimToUserCommand(userClaimRequest));
+            await _mediator.Send(addClaimToUser);
 
             return new OkResult();
         }
 
         [Authorize(Policy = Policies.Administrator)]
         [HttpPost(nameof(RemoveClaimFromUserAsync))]
-        public async Task<ActionResult> RemoveClaimFromUserAsync([FromBody] UserClaimRequest userClaimRequest)
+        public async Task<ActionResult> RemoveClaimFromUserAsync([FromBody] RemoveClaimFromUser userClaimRequest)
         {
-            await _mediator.Send(new RemoveClaimFromUserCommand(userClaimRequest));
+            await _mediator.Send(userClaimRequest);
 
             return new OkResult();
         }

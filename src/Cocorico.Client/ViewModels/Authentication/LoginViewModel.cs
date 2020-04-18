@@ -1,5 +1,5 @@
 ﻿using Cocorico.Client.Services.Authentication;
-using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Api.Users;
 using System;
 using System.Threading.Tasks;
 

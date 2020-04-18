@@ -4,13 +4,13 @@
 // </auto-generated>
 //----------------------
 
+using Cocorico.Shared.Api;
+using Cocorico.Shared.Api.Authentication;
 using Cocorico.Shared.Api.Ingredients;
 using Cocorico.Shared.Api.Openings;
 using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Api.Sandwiches;
-using Cocorico.Shared.Dtos;
-using Cocorico.Shared.Dtos.Authentication;
-using Cocorico.Shared.Dtos.User;
+using Cocorico.Shared.Api.Users;
 using Cocorico.Shared.Helpers;
 using System;
 
@@ -35,11 +35,11 @@ namespace Cocorico.Client.HttpClient
         System.Threading.Tasks.Task<ClaimsDto> LoginAsync(LoginDetails credentials, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterDetails model);
+        System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterUser model);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterDetails model, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterUser model, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> LogoutAsync();
@@ -176,14 +176,14 @@ namespace Cocorico.Client.HttpClient
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterDetails model)
+        public System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterUser model)
         {
             return RegisterAsync(model, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterDetails model, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterUser model, System.Threading.CancellationToken cancellationToken)
         {
             if (model == null)
                 throw new System.ArgumentNullException("model");

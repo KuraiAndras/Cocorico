@@ -1,7 +1,7 @@
 ﻿using Cocorico.Client.Extensions;
 using Cocorico.Client.HttpClient;
-using Cocorico.Shared.Dtos.Ingredients;
-using Cocorico.Shared.Dtos.Sandwiches;
+using Cocorico.Shared.Api.Ingredients;
+using Cocorico.Shared.Api.Sandwiches;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,12 +20,12 @@ namespace Cocorico.Client.ViewModels.Sandwich
             _ingredientClient = ingredientClient;
             _sandwichClient = sandwichClient;
 
-            NewSandwichDto = new SandwichAddDto { Ingredients = new List<IngredientDto>() };
+            NewAddSandwichDto = new AddSandwich { Ingredients = new List<IngredientDto>() };
             AvailableIngredients = new List<IngredientDto>();
             AddedIngredients = new List<IngredientDto>();
         }
 
-        public SandwichAddDto NewSandwichDto { get; }
+        public AddSandwich NewAddSandwichDto { get; }
         public List<IngredientDto> AvailableIngredients { get; }
         public List<IngredientDto> AddedIngredients { get; }
 
@@ -45,23 +45,23 @@ namespace Cocorico.Client.ViewModels.Sandwich
         public void AddIngredient(IngredientDto ingredient)
         {
             AddedIngredients.Add(ingredient);
-            NewSandwichDto.Ingredients = AddedIngredients;
+            NewAddSandwichDto.Ingredients = AddedIngredients;
         }
 
         public void RemoveIngredient(IngredientDto ingredient)
         {
             var ingredientToRemove = AddedIngredients.Single(i => i.Id == ingredient.Id);
             AddedIngredients.Remove(ingredientToRemove);
-            NewSandwichDto.Ingredients = AddedIngredients;
+            NewAddSandwichDto.Ingredients = AddedIngredients;
         }
 
         public async Task<bool> TryAddAsync()
         {
             try
             {
-                NewSandwichDto.Ingredients = AddedIngredients;
+                NewAddSandwichDto.Ingredients = AddedIngredients;
 
-                var result = await _sandwichClient.AddAsync(NewSandwichDto);
+                var result = await _sandwichClient.AddAsync(NewAddSandwichDto);
 
                 return result.IsSuccessfulStatusCode();
             }

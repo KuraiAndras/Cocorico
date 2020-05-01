@@ -1,6 +1,6 @@
 ﻿using Cocorico.Client.Extensions;
 using Cocorico.Client.HttpClient;
-using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Api.Users;
 using Cocorico.Shared.Exceptions;
 using System;
 using System.Threading.Tasks;
@@ -14,17 +14,17 @@ namespace Cocorico.Client.ViewModels.Authentication
         public RegisterViewModel(IAuthenticationClient authenticationClient)
         {
             _authenticationClient = authenticationClient;
-            UserRegisterDetails = new RegisterDetails();
+            UserRegisterUser = new RegisterUser();
         }
 
-        public RegisterDetails UserRegisterDetails { get; }
+        public RegisterUser UserRegisterUser { get; }
         public bool ShowRegisterFailed { get; private set; }
 
         public async Task RegisterUserAsync()
         {
             try
             {
-                var response = await _authenticationClient.RegisterAsync(UserRegisterDetails);
+                var response = await _authenticationClient.RegisterAsync(UserRegisterUser);
 
                 if (!response.IsSuccessfulStatusCode()) throw new RegisterFailedException();
 

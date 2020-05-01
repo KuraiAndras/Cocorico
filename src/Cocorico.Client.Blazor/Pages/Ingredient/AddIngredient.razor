@@ -12,7 +12,7 @@
             <div class="col-md-4 offset-md-4">
 
                 <p>
-                    <MatTextField @bind-Value="@ViewModel.IngredientAddDto.Name" Dense="true" Label="Ingredient name " Outlined="true"></MatTextField>
+                    <MatTextField @bind-Value="@ViewModel.AddIngredient.Name" Dense="true" Label="Ingredient name " Outlined="true"></MatTextField>
                 </p>
                 <p>
                     <MatButton Icon="save" Raised="true" @onclick="@AddIngredientAsync">Create</MatButton>

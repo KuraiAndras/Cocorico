@@ -1,6 +1,6 @@
 ﻿using Cocorico.Client.Extensions;
 using Cocorico.Client.HttpClient;
-using Cocorico.Shared.Dtos.Ingredients;
+using Cocorico.Shared.Api.Ingredients;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

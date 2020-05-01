@@ -1,14 +1,14 @@
 @page "/AddCustomerOrder"
 @using Cocorico.Client.ViewModels.Order
+@using Cocorico.Shared.Api.Ingredients
+@using Cocorico.Shared.Api.Sandwiches
 @using Cocorico.Shared.Helpers
-@using Cocorico.Shared.Dtos.Sandwiches
-@using Cocorico.Shared.Dtos.Ingredients
 @using Cocorico.Shared.Entities
 
 @inject IAddCustomerOrderViewModel ViewModel
 @inject NavigationManager urihelper
 
-@if (ViewModel.AddOrderDto.Sandwiches.Count != 0)
+@if (ViewModel.AddOrder.Sandwiches.Count != 0)
 {
     <table class="table">
         <thead>
@@ -19,17 +19,17 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var sandwich in ViewModel.AddOrderDto.Sandwiches)
+            @foreach (var sandwich in ViewModel.AddOrder.Sandwiches)
             {
                 <tr>
                     <td>@sandwich.Name</td>
                     <td>@sandwich.Price JMF</td>
                     <td><MatButton Icon="edit" Raised="true" @onclick="@(() =>onEdit(sandwich))">Edit</MatButton></td>
-                    <td><MatButton Icon="remove_shopping_cart" Outlined="true" @onclick="@(() => ViewModel.DeleteSandwich(ViewModel.AddOrderDto.Sandwiches.IndexOf(sandwich)))">Delete</MatButton></td>
+                    <td><MatButton Icon="remove_shopping_cart" Outlined="true" @onclick="@(() => ViewModel.DeleteSandwich(ViewModel.AddOrder.Sandwiches.IndexOf(sandwich)))">Delete</MatButton></td>
                 </tr>
             }
             <tr>
-                <td>Sum: @ViewModel.AddOrderDto.Sandwiches.Sum(s => s.Price) JMF</td>
+                <td>Sum: @ViewModel.AddOrder.Sandwiches.Sum(s => s.Price) JMF</td>
                 <td><MatButton Raised="true" @onclick="@ViewModel.AddAsync">Order</MatButton></td>
             </tr>
         </tbody>
@@ -57,7 +57,7 @@
                         <tr><td><MatButton Raised="true" @onclick="@(() =>  Modify(ingredient.Id, Modifier.Remove))">@ingredient.Name</MatButton></td></tr>
                     }
                 }
-                <tr><td><MatButton Raised="true" Icon="save" @onclick="@(() => { ViewModel.AddOrderDto.SandwichModifications.Add(SelectedSandwich, modificationList); ViewModel.AddAsync(); SelectedSandwich = null; })">Save</MatButton></td></tr>
+                <tr><td><MatButton Raised="true" Icon="save" @onclick="@(() => { ViewModel.AddOrder.SandwichModifications.Add(SelectedSandwich, modificationList); ViewModel.AddAsync(); SelectedSandwich = null; })">Save</MatButton></td></tr>
             </tbody>
         </table>
     }

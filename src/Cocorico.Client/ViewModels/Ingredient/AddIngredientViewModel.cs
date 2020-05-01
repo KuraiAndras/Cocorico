@@ -1,6 +1,6 @@
 ﻿using Cocorico.Client.Extensions;
 using Cocorico.Client.HttpClient;
-using Cocorico.Shared.Dtos.Ingredients;
+using Cocorico.Shared.Api.Ingredients;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.ViewModels.Ingredient
@@ -11,11 +11,11 @@ namespace Cocorico.Client.ViewModels.Ingredient
 
         public AddIngredientViewModel(IIngredientClient ingredientClient) => _ingredientClient = ingredientClient;
 
-        public IngredientAddDto IngredientAddDto { get; } = new IngredientAddDto();
+        public AddIngredient AddIngredient { get; } = new AddIngredient();
 
         public async Task<bool> AddAsync()
         {
-            var result = await _ingredientClient.AddAsync(IngredientAddDto);
+            var result = await _ingredientClient.AddAsync(AddIngredient);
 
             var isSuccesful = result.IsSuccessfulStatusCode();
 

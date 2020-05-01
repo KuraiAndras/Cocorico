@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Orders;
+﻿using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Hubs;
 using Microsoft.AspNetCore.SignalR.Client;

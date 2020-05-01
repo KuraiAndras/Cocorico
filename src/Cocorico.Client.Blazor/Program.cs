@@ -1,5 +1,5 @@
 ﻿using Cocorico.Client.Blazor.DependencyInjection;
-using Microsoft.AspNetCore.Blazor.Hosting;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.Blazor
@@ -20,8 +20,7 @@ namespace Cocorico.Client.Blazor
 
                 builder.RootComponents.Add<App>("app");
 
-                builder.Services.AddBlazorClient();
-
+                builder.Services.AddBlazorClient(builder.HostEnvironment.BaseAddress);
                 return builder;
             }
         }

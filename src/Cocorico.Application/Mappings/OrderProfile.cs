@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence.Entities;
-using Cocorico.Shared.Dtos.Orders;
+using Cocorico.Shared.Api.Orders;
 using System.Linq;
 
 namespace Cocorico.Application.Mappings
@@ -20,6 +20,8 @@ namespace Cocorico.Application.Mappings
                 .ForMember(
                     d => d.Sandwiches,
                     o => o.MapFrom(s => s.SandwichOrders.Select(so => so.Sandwich)));
+
+            CreateMap<AddOrder, CalculatePrice>().ReverseMap();
         }
     }
 }

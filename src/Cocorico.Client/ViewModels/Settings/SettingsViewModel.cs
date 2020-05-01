@@ -69,7 +69,7 @@ namespace Cocorico.Client.ViewModels.Settings
             }
         }
 
-        public async Task EditOpeningAsync(OpeningDto opening)
+        public async Task EditOpeningAsync(UpdateOpening opening)
         {
             try
             {

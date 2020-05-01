@@ -82,7 +82,7 @@ namespace Cocorico.Client.ViewModels.Order
             Sandwich.Ingredients = _addedIngredients;
         }
 
-        public async Task EditAsync(SandwichDto sandwich)
+        public async Task EditAsync(UpdateSandwich sandwich)
         {
             try
             {

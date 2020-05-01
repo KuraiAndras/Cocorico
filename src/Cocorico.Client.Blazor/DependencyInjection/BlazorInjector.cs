@@ -1,6 +1,8 @@
-﻿using Cocorico.Client.Blazor.Extensions;
+﻿using AutoMapper;
+using Cocorico.Client.Blazor.Extensions;
 using Cocorico.Shared.Authentication;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Cocorico.Client.Blazor.DependencyInjection
 {
@@ -17,6 +19,8 @@ namespace Cocorico.Client.Blazor.DependencyInjection
             services.AddSignalrClients();
 
             services.AddViewModels();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
         }

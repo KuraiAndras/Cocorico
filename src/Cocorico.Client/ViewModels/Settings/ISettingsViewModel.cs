@@ -15,7 +15,7 @@ namespace Cocorico.Client.ViewModels.Settings
         Task InitializeAsync();
         Task SetNewRangeAsync();
         Task AddOpeningAsync();
-        Task EditOpeningAsync(OpeningDto opening);
+        Task EditOpeningAsync(UpdateOpening opening);
         Task DeleteOpeningAsync(int openingId);
     }
 }

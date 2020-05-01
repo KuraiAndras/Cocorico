@@ -5,7 +5,7 @@ namespace Cocorico.Client.ViewModels.Ingredient
 {
     public interface IEditIngredientViewModel
     {
-        IngredientDto IngredientDto { get; }
+        UpdateIngredient IngredientDto { get; }
 
         Task LoadIngredientAsync(int id);
         Task<bool> EditIngredientAsync();

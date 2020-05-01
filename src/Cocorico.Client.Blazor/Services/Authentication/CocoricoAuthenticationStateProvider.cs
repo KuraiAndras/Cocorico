@@ -18,7 +18,7 @@ namespace Cocorico.Client.Blazor.Services.Authentication
         public CocoricoAuthenticationStateProvider(IAuthenticationClient authenticationClient) =>
             _authenticationClient = authenticationClient;
 
-        public async Task LoginAsync(LoginDetails loginDetails)
+        public async Task LoginAsync(LoginUser loginDetails)
         {
             await _authenticationClient.LoginAsync(loginDetails);
 

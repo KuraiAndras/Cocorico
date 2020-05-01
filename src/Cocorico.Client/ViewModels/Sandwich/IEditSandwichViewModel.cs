@@ -7,7 +7,7 @@ namespace Cocorico.Client.ViewModels.Sandwich
 {
     public interface IEditSandwichViewModel
     {
-        SandwichDto Sandwich { get; }
+        UpdateSandwich Sandwich { get; }
 
         List<IngredientDto> AvailableIngredients { get; }
         void AddIngredient(IngredientDto ingredient);

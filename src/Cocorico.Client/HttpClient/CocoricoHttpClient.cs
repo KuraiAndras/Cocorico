@@ -23,103 +23,103 @@ using System;
 namespace Cocorico.Client.HttpClient
 {
     using System = global::System;
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial interface IAuthenticationClient
     {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ClaimsDto> LoginAsync(LoginDetails credentials);
-
+        System.Threading.Tasks.Task<ClaimsDto> LoginAsync(LoginUser credentials);
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ClaimsDto> LoginAsync(LoginDetails credentials, System.Threading.CancellationToken cancellationToken);
-
+        System.Threading.Tasks.Task<ClaimsDto> LoginAsync(LoginUser credentials, System.Threading.CancellationToken cancellationToken);
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterUser model);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterUser model, System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> LogoutAsync();
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> LogoutAsync(System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ClaimsDto> GetCurrentUserClaimsAsync();
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ClaimsDto> GetCurrentUserClaimsAsync(System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> AddClaimToUserAsync(UserClaimRequest userClaimRequest);
-
+        System.Threading.Tasks.Task<FileResponse> AddClaimToUserAsync(AddClaimToUser addClaimToUser);
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> AddClaimToUserAsync(UserClaimRequest userClaimRequest, System.Threading.CancellationToken cancellationToken);
-
+        System.Threading.Tasks.Task<FileResponse> AddClaimToUserAsync(AddClaimToUser addClaimToUser, System.Threading.CancellationToken cancellationToken);
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> RemoveClaimFromUserAsync(UserClaimRequest userClaimRequest);
-
+        System.Threading.Tasks.Task<FileResponse> RemoveClaimFromUserAsync(RemoveClaimFromUser userClaimRequest);
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> RemoveClaimFromUserAsync(UserClaimRequest userClaimRequest, System.Threading.CancellationToken cancellationToken);
-
+        System.Threading.Tasks.Task<FileResponse> RemoveClaimFromUserAsync(RemoveClaimFromUser userClaimRequest, System.Threading.CancellationToken cancellationToken);
+    
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class AuthenticationClient : IAuthenticationClient
     {
         private string _baseUrl = "http://localhost:51219";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-
+    
         public AuthenticationClient(System.Net.Http.HttpClient httpClient)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClient; 
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
-
+    
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
-
-        public string BaseUrl
+    
+        public string BaseUrl 
         {
             get { return _baseUrl; }
             set { _baseUrl = value; }
         }
-
+    
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
-
+    
         partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<ClaimsDto> LoginAsync(LoginDetails credentials)
+        public System.Threading.Tasks.Task<ClaimsDto> LoginAsync(LoginUser credentials)
         {
             return LoginAsync(credentials, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<ClaimsDto> LoginAsync(LoginDetails credentials, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<ClaimsDto> LoginAsync(LoginUser credentials, System.Threading.CancellationToken cancellationToken)
         {
             if (credentials == null)
                 throw new System.ArgumentNullException("credentials");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/LoginAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -130,12 +130,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -145,11 +145,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<ClaimsDto>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -157,10 +157,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(ClaimsDto);
                     }
                     finally
@@ -174,23 +174,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterUser model)
         {
             return RegisterAsync(model, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterUser model, System.Threading.CancellationToken cancellationToken)
         {
             if (model == null)
                 throw new System.ArgumentNullException("model");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/RegisterAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -201,12 +201,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -216,24 +216,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -247,20 +247,20 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<FileResponse> LogoutAsync()
         {
             return LogoutAsync(System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> LogoutAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/LogoutAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -269,12 +269,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/octet-stream");
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -284,24 +284,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -315,20 +315,20 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<ClaimsDto> GetCurrentUserClaimsAsync()
         {
             return GetCurrentUserClaimsAsync(System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<ClaimsDto> GetCurrentUserClaimsAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/GetCurrentUserClaimsAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -336,12 +336,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -351,11 +351,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<ClaimsDto>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -363,10 +363,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(ClaimsDto);
                     }
                     finally
@@ -380,39 +380,39 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> AddClaimToUserAsync(UserClaimRequest userClaimRequest)
+        public System.Threading.Tasks.Task<FileResponse> AddClaimToUserAsync(AddClaimToUser addClaimToUser)
         {
-            return AddClaimToUserAsync(userClaimRequest, System.Threading.CancellationToken.None);
+            return AddClaimToUserAsync(addClaimToUser, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> AddClaimToUserAsync(UserClaimRequest userClaimRequest, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> AddClaimToUserAsync(AddClaimToUser addClaimToUser, System.Threading.CancellationToken cancellationToken)
         {
-            if (userClaimRequest == null)
-                throw new System.ArgumentNullException("userClaimRequest");
-
+            if (addClaimToUser == null)
+                throw new System.ArgumentNullException("addClaimToUser");
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/AddClaimToUserAsync");
-
+    
             var client_ = _httpClient;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(userClaimRequest, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(addClaimToUser, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -422,24 +422,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -453,23 +453,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> RemoveClaimFromUserAsync(UserClaimRequest userClaimRequest)
+        public System.Threading.Tasks.Task<FileResponse> RemoveClaimFromUserAsync(RemoveClaimFromUser userClaimRequest)
         {
             return RemoveClaimFromUserAsync(userClaimRequest, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> RemoveClaimFromUserAsync(UserClaimRequest userClaimRequest, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> RemoveClaimFromUserAsync(RemoveClaimFromUser userClaimRequest, System.Threading.CancellationToken cancellationToken)
         {
             if (userClaimRequest == null)
                 throw new System.ArgumentNullException("userClaimRequest");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Authentication/RemoveClaimFromUserAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -480,12 +480,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -495,24 +495,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -526,7 +526,7 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -534,21 +534,21 @@ namespace Cocorico.Client.HttpClient
                 this.Object = responseObject;
                 this.Text = responseText;
             }
-
+    
             public T Object { get; }
-
+    
             public string Text { get; }
         }
-
+    
         public bool ReadResponseAsString { get; set; }
-
+        
         protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
         {
             if (response == null || response.Content == null)
             {
                 return new ObjectResponseResult<T>(default(T), string.Empty);
             }
-
+        
             if (ReadResponseAsString)
             {
                 var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -583,7 +583,7 @@ namespace Cocorico.Client.HttpClient
                 }
             }
         }
-
+    
         private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
         {
             if (value is System.Enum)
@@ -594,121 +594,121 @@ namespace Cocorico.Client.HttpClient
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
-
+        
                     return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value != null && value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
-
+        
             return System.Convert.ToString(value, cultureInfo);
         }
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial interface IIngredientClient
     {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IngredientDto>> GetAllAsync();
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IngredientDto>> GetAllAsync(System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> AddAsync(AddIngredient addIngredient);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> AddAsync(AddIngredient addIngredient, System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> UpdateAsync(IngredientDto ingredientDto);
-
+        System.Threading.Tasks.Task<FileResponse> UpdateAsync(UpdateIngredient ingredientDto);
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> UpdateAsync(IngredientDto ingredientDto, System.Threading.CancellationToken cancellationToken);
-
+        System.Threading.Tasks.Task<FileResponse> UpdateAsync(UpdateIngredient ingredientDto, System.Threading.CancellationToken cancellationToken);
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<IngredientDto> GetAsync(int id);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<IngredientDto> GetAsync(int id, System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DeleteAsync(int id);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DeleteAsync(int id, System.Threading.CancellationToken cancellationToken);
-
+    
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class IngredientClient : IIngredientClient
     {
         private string _baseUrl = "http://localhost:51219";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-
+    
         public IngredientClient(System.Net.Http.HttpClient httpClient)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClient; 
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
-
+    
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
-
-        public string BaseUrl
+    
+        public string BaseUrl 
         {
             get { return _baseUrl; }
             set { _baseUrl = value; }
         }
-
+    
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
-
+    
         partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IngredientDto>> GetAllAsync()
         {
             return GetAllAsync(System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IngredientDto>> GetAllAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Ingredient");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -716,12 +716,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -731,11 +731,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<IngredientDto>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -743,10 +743,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(System.Collections.Generic.ICollection<IngredientDto>);
                     }
                     finally
@@ -760,23 +760,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<FileResponse> AddAsync(AddIngredient addIngredient)
         {
             return AddAsync(addIngredient, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> AddAsync(AddIngredient addIngredient, System.Threading.CancellationToken cancellationToken)
         {
             if (addIngredient == null)
                 throw new System.ArgumentNullException("addIngredient");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Ingredient");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -787,12 +787,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -802,24 +802,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -833,23 +833,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> UpdateAsync(IngredientDto ingredientDto)
+        public System.Threading.Tasks.Task<FileResponse> UpdateAsync(UpdateIngredient ingredientDto)
         {
             return UpdateAsync(ingredientDto, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> UpdateAsync(IngredientDto ingredientDto, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> UpdateAsync(UpdateIngredient ingredientDto, System.Threading.CancellationToken cancellationToken)
         {
             if (ingredientDto == null)
                 throw new System.ArgumentNullException("ingredientDto");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Ingredient");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -860,12 +860,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PATCH");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -875,24 +875,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -906,24 +906,24 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<IngredientDto> GetAsync(int id)
         {
             return GetAsync(id, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<IngredientDto> GetAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Ingredient/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
-
+    
             var client_ = _httpClient;
             try
             {
@@ -931,12 +931,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -946,11 +946,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<IngredientDto>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -958,10 +958,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(IngredientDto);
                     }
                     finally
@@ -975,24 +975,24 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<FileResponse> DeleteAsync(int id)
         {
             return DeleteAsync(id, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> DeleteAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Ingredient/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
-
+    
             var client_ = _httpClient;
             try
             {
@@ -1000,12 +1000,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -1015,24 +1015,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -1046,7 +1046,7 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -1054,21 +1054,21 @@ namespace Cocorico.Client.HttpClient
                 this.Object = responseObject;
                 this.Text = responseText;
             }
-
+    
             public T Object { get; }
-
+    
             public string Text { get; }
         }
-
+    
         public bool ReadResponseAsString { get; set; }
-
+        
         protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
         {
             if (response == null || response.Content == null)
             {
                 return new ObjectResponseResult<T>(default(T), string.Empty);
             }
-
+        
             if (ReadResponseAsString)
             {
                 var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -1103,7 +1103,7 @@ namespace Cocorico.Client.HttpClient
                 }
             }
         }
-
+    
         private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
         {
             if (value is System.Enum)
@@ -1114,121 +1114,121 @@ namespace Cocorico.Client.HttpClient
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
-
+        
                     return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value != null && value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
-
+        
             return System.Convert.ToString(value, cultureInfo);
         }
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial interface IOrderClient
     {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId, System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync();
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync(System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrder addOrder);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrder addOrder, System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrder addOrder);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrder addOrder, System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DeleteOrderAsync(int orderId);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DeleteOrderAsync(int orderId, System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrder updateOrder);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrder updateOrder, System.Threading.CancellationToken cancellationToken);
-
+    
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class OrderClient : IOrderClient
     {
         private string _baseUrl = "http://localhost:51219";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-
+    
         public OrderClient(System.Net.Http.HttpClient httpClient)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClient; 
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
-
+    
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
-
-        public string BaseUrl
+    
+        public string BaseUrl 
         {
             get { return _baseUrl; }
             set { _baseUrl = value; }
         }
-
+    
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
-
+    
         partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId)
         {
             return GetAllOrderForCustomerAsync(customerId, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CustomerViewOrderDto>> GetAllOrderForCustomerAsync(string customerId, System.Threading.CancellationToken cancellationToken)
@@ -1236,7 +1236,7 @@ namespace Cocorico.Client.HttpClient
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/customer/{customerId}");
             urlBuilder_.Replace("{customerId}", System.Uri.EscapeDataString(ConvertToString(customerId, System.Globalization.CultureInfo.InvariantCulture)));
-
+    
             var client_ = _httpClient;
             try
             {
@@ -1244,12 +1244,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -1259,11 +1259,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<CustomerViewOrderDto>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -1271,10 +1271,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(System.Collections.Generic.ICollection<CustomerViewOrderDto>);
                     }
                     finally
@@ -1288,20 +1288,20 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync()
         {
             return GetPendingOrdersForWorkerAsync(System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WorkerOrderViewDto>> GetPendingOrdersForWorkerAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/GetPendingOrdersForWorkerAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -1309,12 +1309,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -1324,11 +1324,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<WorkerOrderViewDto>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -1336,10 +1336,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(System.Collections.Generic.ICollection<WorkerOrderViewDto>);
                     }
                     finally
@@ -1353,23 +1353,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrder addOrder)
         {
             return AddOrderAsync(addOrder, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> AddOrderAsync(AddOrder addOrder, System.Threading.CancellationToken cancellationToken)
         {
             if (addOrder == null)
                 throw new System.ArgumentNullException("addOrder");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -1380,12 +1380,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -1395,24 +1395,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -1426,23 +1426,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrder addOrder)
         {
             return CalculateOrderPriceAsync(addOrder, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<int> CalculateOrderPriceAsync(AddOrder addOrder, System.Threading.CancellationToken cancellationToken)
         {
             if (addOrder == null)
                 throw new System.ArgumentNullException("addOrder");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/CalculateOrderPriceAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -1453,12 +1453,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -1468,11 +1468,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<int>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -1480,10 +1480,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(int);
                     }
                     finally
@@ -1497,24 +1497,24 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<FileResponse> DeleteOrderAsync(int orderId)
         {
             return DeleteOrderAsync(orderId, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> DeleteOrderAsync(int orderId, System.Threading.CancellationToken cancellationToken)
         {
             if (orderId == null)
                 throw new System.ArgumentNullException("orderId");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/{orderId}");
             urlBuilder_.Replace("{orderId}", System.Uri.EscapeDataString(ConvertToString(orderId, System.Globalization.CultureInfo.InvariantCulture)));
-
+    
             var client_ = _httpClient;
             try
             {
@@ -1522,12 +1522,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -1537,24 +1537,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -1568,23 +1568,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrder updateOrder)
         {
             return UpdateOrderAsync(updateOrder, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> UpdateOrderAsync(UpdateOrder updateOrder, System.Threading.CancellationToken cancellationToken)
         {
             if (updateOrder == null)
                 throw new System.ArgumentNullException("updateOrder");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Order/UpdateOrderAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -1595,12 +1595,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -1610,24 +1610,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -1641,7 +1641,7 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -1649,21 +1649,21 @@ namespace Cocorico.Client.HttpClient
                 this.Object = responseObject;
                 this.Text = responseText;
             }
-
+    
             public T Object { get; }
-
+    
             public string Text { get; }
         }
-
+    
         public bool ReadResponseAsString { get; set; }
-
+        
         protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
         {
             if (response == null || response.Content == null)
             {
                 return new ObjectResponseResult<T>(default(T), string.Empty);
             }
-
+        
             if (ReadResponseAsString)
             {
                 var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -1698,7 +1698,7 @@ namespace Cocorico.Client.HttpClient
                 }
             }
         }
-
+    
         private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
         {
             if (value is System.Enum)
@@ -1709,121 +1709,121 @@ namespace Cocorico.Client.HttpClient
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
-
+        
                     return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value != null && value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
-
+        
             return System.Convert.ToString(value, cultureInfo);
         }
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial interface ISandwichClient
     {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichDto>> GetAllAsync();
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichDto>> GetAllAsync(System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> UpdateAsync(SandwichDto sandwich);
-
+        System.Threading.Tasks.Task<FileResponse> UpdateAsync(UpdateSandwich sandwich);
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> UpdateAsync(SandwichDto sandwich, System.Threading.CancellationToken cancellationToken);
-
+        System.Threading.Tasks.Task<FileResponse> UpdateAsync(UpdateSandwich sandwich, System.Threading.CancellationToken cancellationToken);
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> AddAsync(AddSandwich addSandwich);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> AddAsync(AddSandwich addSandwich, System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<SandwichDto> GetAsync(int id);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<SandwichDto> GetAsync(int id, System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DeleteAsync(int id);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DeleteAsync(int id, System.Threading.CancellationToken cancellationToken);
-
+    
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class SandwichClient : ISandwichClient
     {
         private string _baseUrl = "http://localhost:51219";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-
+    
         public SandwichClient(System.Net.Http.HttpClient httpClient)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClient; 
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
-
+    
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
-
-        public string BaseUrl
+    
+        public string BaseUrl 
         {
             get { return _baseUrl; }
             set { _baseUrl = value; }
         }
-
+    
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
-
+    
         partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichDto>> GetAllAsync()
         {
             return GetAllAsync(System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SandwichDto>> GetAllAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Sandwich");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -1831,12 +1831,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -1846,11 +1846,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<SandwichDto>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -1858,10 +1858,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(System.Collections.Generic.ICollection<SandwichDto>);
                     }
                     finally
@@ -1875,23 +1875,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> UpdateAsync(SandwichDto sandwich)
+        public System.Threading.Tasks.Task<FileResponse> UpdateAsync(UpdateSandwich sandwich)
         {
             return UpdateAsync(sandwich, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> UpdateAsync(SandwichDto sandwich, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> UpdateAsync(UpdateSandwich sandwich, System.Threading.CancellationToken cancellationToken)
         {
             if (sandwich == null)
                 throw new System.ArgumentNullException("sandwich");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Sandwich");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -1902,12 +1902,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PATCH");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -1917,24 +1917,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -1948,23 +1948,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<FileResponse> AddAsync(AddSandwich addSandwich)
         {
             return AddAsync(addSandwich, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> AddAsync(AddSandwich addSandwich, System.Threading.CancellationToken cancellationToken)
         {
             if (addSandwich == null)
                 throw new System.ArgumentNullException("addSandwich");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Sandwich");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -1975,12 +1975,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -1990,24 +1990,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -2021,24 +2021,24 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<SandwichDto> GetAsync(int id)
         {
             return GetAsync(id, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SandwichDto> GetAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Sandwich/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
-
+    
             var client_ = _httpClient;
             try
             {
@@ -2046,12 +2046,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -2061,11 +2061,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<SandwichDto>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -2073,10 +2073,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(SandwichDto);
                     }
                     finally
@@ -2090,24 +2090,24 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<FileResponse> DeleteAsync(int id)
         {
             return DeleteAsync(id, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> DeleteAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Sandwich/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
-
+    
             var client_ = _httpClient;
             try
             {
@@ -2115,12 +2115,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -2130,24 +2130,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -2161,7 +2161,7 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -2169,21 +2169,21 @@ namespace Cocorico.Client.HttpClient
                 this.Object = responseObject;
                 this.Text = responseText;
             }
-
+    
             public T Object { get; }
-
+    
             public string Text { get; }
         }
-
+    
         public bool ReadResponseAsString { get; set; }
-
+        
         protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
         {
             if (response == null || response.Content == null)
             {
                 return new ObjectResponseResult<T>(default(T), string.Empty);
             }
-
+        
             if (ReadResponseAsString)
             {
                 var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -2218,7 +2218,7 @@ namespace Cocorico.Client.HttpClient
                 }
             }
         }
-
+    
         private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
         {
             if (value is System.Enum)
@@ -2229,135 +2229,135 @@ namespace Cocorico.Client.HttpClient
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
-
+        
                     return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value != null && value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
-
+        
             return System.Convert.ToString(value, cultureInfo);
         }
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial interface ISettingsClient
     {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<MutableRange> CurrentRangeAsync();
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<MutableRange> CurrentRangeAsync(System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> SetCurrentRangeAsync(MutableRange newRange);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> SetCurrentRangeAsync(MutableRange newRange, System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OpeningDto>> GetAllOpeningsAsync();
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OpeningDto>> GetAllOpeningsAsync(System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<bool> IsStoreOpenAsync();
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<bool> IsStoreOpenAsync(System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> AddOpeningAsync(Cocorico.Shared.Api.Openings.AddOpening addOpening);
-
+        System.Threading.Tasks.Task<FileResponse> AddOpeningAsync(AddOpening addOpening);
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> AddOpeningAsync(Cocorico.Shared.Api.Openings.AddOpening addOpening, System.Threading.CancellationToken cancellationToken);
-
+        System.Threading.Tasks.Task<FileResponse> AddOpeningAsync(AddOpening addOpening, System.Threading.CancellationToken cancellationToken);
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> UpdateOpeningAsync(OpeningDto openingDto);
-
+        System.Threading.Tasks.Task<FileResponse> UpdateOpeningAsync(UpdateOpening openingDto);
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> UpdateOpeningAsync(OpeningDto openingDto, System.Threading.CancellationToken cancellationToken);
-
+        System.Threading.Tasks.Task<FileResponse> UpdateOpeningAsync(UpdateOpening openingDto, System.Threading.CancellationToken cancellationToken);
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DeleteOpeningAsync(int openingId);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DeleteOpeningAsync(int openingId, System.Threading.CancellationToken cancellationToken);
-
+    
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class SettingsClient : ISettingsClient
     {
         private string _baseUrl = "http://localhost:51219";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-
+    
         public SettingsClient(System.Net.Http.HttpClient httpClient)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClient; 
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
-
+    
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
-
-        public string BaseUrl
+    
+        public string BaseUrl 
         {
             get { return _baseUrl; }
             set { _baseUrl = value; }
         }
-
+    
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
-
+    
         partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<MutableRange> CurrentRangeAsync()
         {
             return CurrentRangeAsync(System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<MutableRange> CurrentRangeAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Settings/CurrentRangeAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -2365,12 +2365,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -2380,11 +2380,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<MutableRange>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -2392,10 +2392,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(MutableRange);
                     }
                     finally
@@ -2409,23 +2409,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<FileResponse> SetCurrentRangeAsync(MutableRange newRange)
         {
             return SetCurrentRangeAsync(newRange, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> SetCurrentRangeAsync(MutableRange newRange, System.Threading.CancellationToken cancellationToken)
         {
             if (newRange == null)
                 throw new System.ArgumentNullException("newRange");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Settings/SetCurrentRange");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -2436,12 +2436,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -2451,24 +2451,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -2482,20 +2482,20 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OpeningDto>> GetAllOpeningsAsync()
         {
             return GetAllOpeningsAsync(System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OpeningDto>> GetAllOpeningsAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Settings/GetAllOpeningsAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -2503,12 +2503,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -2518,11 +2518,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<OpeningDto>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -2530,10 +2530,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(System.Collections.Generic.ICollection<OpeningDto>);
                     }
                     finally
@@ -2547,20 +2547,20 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<bool> IsStoreOpenAsync()
         {
             return IsStoreOpenAsync(System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<bool> IsStoreOpenAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Settings/IsStoreOpenAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -2568,12 +2568,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -2583,11 +2583,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<bool>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -2595,10 +2595,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(bool);
                     }
                     finally
@@ -2612,23 +2612,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> AddOpeningAsync(Cocorico.Shared.Api.Openings.AddOpening addOpening)
+        public System.Threading.Tasks.Task<FileResponse> AddOpeningAsync(AddOpening addOpening)
         {
             return AddOpeningAsync(addOpening, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> AddOpeningAsync(Cocorico.Shared.Api.Openings.AddOpening addOpening, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> AddOpeningAsync(AddOpening addOpening, System.Threading.CancellationToken cancellationToken)
         {
             if (addOpening == null)
                 throw new System.ArgumentNullException("addOpening");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Settings/AddOpeningAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -2639,12 +2639,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -2654,24 +2654,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -2685,23 +2685,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> UpdateOpeningAsync(OpeningDto openingDto)
+        public System.Threading.Tasks.Task<FileResponse> UpdateOpeningAsync(UpdateOpening openingDto)
         {
             return UpdateOpeningAsync(openingDto, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> UpdateOpeningAsync(OpeningDto openingDto, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<FileResponse> UpdateOpeningAsync(UpdateOpening openingDto, System.Threading.CancellationToken cancellationToken)
         {
             if (openingDto == null)
                 throw new System.ArgumentNullException("openingDto");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Settings/UpdateOpeningAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -2712,12 +2712,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -2727,24 +2727,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -2758,23 +2758,23 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<FileResponse> DeleteOpeningAsync(int openingId)
         {
             return DeleteOpeningAsync(openingId, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> DeleteOpeningAsync(int openingId, System.Threading.CancellationToken cancellationToken)
         {
             if (openingId == null)
                 throw new System.ArgumentNullException("openingId");
-
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Settings/DeleteOpeningAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -2785,12 +2785,12 @@ namespace Cocorico.Client.HttpClient
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -2800,24 +2800,24 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206")
+                        if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_);
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(FileResponse);
                     }
                     finally
@@ -2831,7 +2831,7 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -2839,21 +2839,21 @@ namespace Cocorico.Client.HttpClient
                 this.Object = responseObject;
                 this.Text = responseText;
             }
-
+    
             public T Object { get; }
-
+    
             public string Text { get; }
         }
-
+    
         public bool ReadResponseAsString { get; set; }
-
+        
         protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
         {
             if (response == null || response.Content == null)
             {
                 return new ObjectResponseResult<T>(default(T), string.Empty);
             }
-
+        
             if (ReadResponseAsString)
             {
                 var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -2888,7 +2888,7 @@ namespace Cocorico.Client.HttpClient
                 }
             }
         }
-
+    
         private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
         {
             if (value is System.Enum)
@@ -2899,100 +2899,100 @@ namespace Cocorico.Client.HttpClient
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
-
+        
                     return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value != null && value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
-
+        
             return System.Convert.ToString(value, cultureInfo);
         }
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial interface IUserClient
     {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserForAdminPage>> GetAllForAdminAsync();
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserForAdminPage>> GetAllForAdminAsync(System.Threading.CancellationToken cancellationToken);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UserForAdminPage> GetUserForAdminPageAsync(string userId);
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UserForAdminPage> GetUserForAdminPageAsync(string userId, System.Threading.CancellationToken cancellationToken);
-
+    
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class UserClient : IUserClient
     {
         private string _baseUrl = "http://localhost:51219";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-
+    
         public UserClient(System.Net.Http.HttpClient httpClient)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClient; 
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
-
+    
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
-
-        public string BaseUrl
+    
+        public string BaseUrl 
         {
             get { return _baseUrl; }
             set { _baseUrl = value; }
         }
-
+    
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
-
+    
         partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserForAdminPage>> GetAllForAdminAsync()
         {
             return GetAllForAdminAsync(System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserForAdminPage>> GetAllForAdminAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/User/GetAllForAdminAsync");
-
+    
             var client_ = _httpClient;
             try
             {
@@ -3000,12 +3000,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -3015,11 +3015,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<UserForAdminPage>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -3027,10 +3027,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(System.Collections.Generic.ICollection<UserForAdminPage>);
                     }
                     finally
@@ -3044,13 +3044,13 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<UserForAdminPage> GetUserForAdminPageAsync(string userId)
         {
             return GetUserForAdminPageAsync(userId, System.Threading.CancellationToken.None);
         }
-
+    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<UserForAdminPage> GetUserForAdminPageAsync(string userId, System.Threading.CancellationToken cancellationToken)
@@ -3058,7 +3058,7 @@ namespace Cocorico.Client.HttpClient
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/User/GetUserForAdminPageAsync/{userId}");
             urlBuilder_.Replace("{userId}", System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
-
+    
             var client_ = _httpClient;
             try
             {
@@ -3066,12 +3066,12 @@ namespace Cocorico.Client.HttpClient
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
+    
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
-
+    
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     try
                     {
@@ -3081,11 +3081,11 @@ namespace Cocorico.Client.HttpClient
                             foreach (var item_ in response_.Content.Headers)
                                 headers_[item_.Key] = item_.Value;
                         }
-
+    
                         ProcessResponse(client_, response_);
-
+    
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200")
+                        if (status_ == "200") 
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<UserForAdminPage>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
@@ -3093,10 +3093,10 @@ namespace Cocorico.Client.HttpClient
                         else
                         if (status_ != "200" && status_ != "204")
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
-
+            
                         return default(UserForAdminPage);
                     }
                     finally
@@ -3110,7 +3110,7 @@ namespace Cocorico.Client.HttpClient
             {
             }
         }
-
+    
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -3118,21 +3118,21 @@ namespace Cocorico.Client.HttpClient
                 this.Object = responseObject;
                 this.Text = responseText;
             }
-
+    
             public T Object { get; }
-
+    
             public string Text { get; }
         }
-
+    
         public bool ReadResponseAsString { get; set; }
-
+        
         protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
         {
             if (response == null || response.Content == null)
             {
                 return new ObjectResponseResult<T>(default(T), string.Empty);
             }
-
+        
             if (ReadResponseAsString)
             {
                 var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -3167,7 +3167,7 @@ namespace Cocorico.Client.HttpClient
                 }
             }
         }
-
+    
         private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
         {
             if (value is System.Enum)
@@ -3178,42 +3178,42 @@ namespace Cocorico.Client.HttpClient
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
-
+        
                     return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value != null && value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
-
+        
             return System.Convert.ToString(value, cultureInfo);
         }
     }
 
-
+    
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.4.1.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class FileResponse : System.IDisposable
     {
-        private System.IDisposable _client;
-        private System.IDisposable _response;
+        private System.IDisposable _client; 
+        private System.IDisposable _response; 
 
         public int StatusCode { get; private set; }
 
@@ -3228,14 +3228,14 @@ namespace Cocorico.Client.HttpClient
 
         public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
         {
-            StatusCode = statusCode;
-            Headers = headers;
-            Stream = stream;
-            _client = client;
+            StatusCode = statusCode; 
+            Headers = headers; 
+            Stream = stream; 
+            _client = client; 
             _response = response;
         }
 
-        public void Dispose()
+        public void Dispose() 
         {
             if (Stream != null)
                 Stream.Dispose();
@@ -3255,11 +3255,11 @@ namespace Cocorico.Client.HttpClient
 
         public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
-        public SwaggerException(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException)
+        public SwaggerException(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
             : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + response.Substring(0, response.Length >= 512 ? 512 : response.Length), innerException)
         {
             StatusCode = statusCode;
-            Response = response;
+            Response = response; 
             Headers = headers;
         }
 
@@ -3274,7 +3274,7 @@ namespace Cocorico.Client.HttpClient
     {
         public TResult Result { get; private set; }
 
-        public SwaggerException(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException)
+        public SwaggerException(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException) 
             : base(message, statusCode, response, headers, innerException)
         {
             Result = result;

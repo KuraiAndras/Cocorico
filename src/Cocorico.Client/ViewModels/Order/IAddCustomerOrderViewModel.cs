@@ -12,7 +12,7 @@ namespace Cocorico.Client.ViewModels.Order
         List<IngredientDto> AvailableIngredients { get; }
 
         Task AddAsync();
-        Task EditAsync(SandwichDto sandwich);
+        Task EditAsync(UpdateSandwich sandwich);
         void DeleteSandwich(int id);
         Task LoadIngredientsAsync();
 

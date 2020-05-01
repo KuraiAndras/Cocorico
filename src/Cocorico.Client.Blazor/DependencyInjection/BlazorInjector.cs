@@ -8,7 +8,9 @@ namespace Cocorico.Client.Blazor.DependencyInjection
 {
     public static class BlazorInjector
     {
-        public static IServiceCollection AddBlazorClient(this IServiceCollection services)
+        public static IServiceCollection AddBlazorClient(
+            this IServiceCollection services,
+            string baseAddress)
         {
             services.AddAuthorizationCore(options => options.AddCocoricoPolicies());
 
@@ -21,6 +23,8 @@ namespace Cocorico.Client.Blazor.DependencyInjection
             services.AddViewModels();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddSingleton(new System.Net.Http.HttpClient { BaseAddress = new Uri(baseAddress) });
 
             return services;
         }

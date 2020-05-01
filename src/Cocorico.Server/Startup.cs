@@ -8,12 +8,9 @@ using Hellang.Middleware.ProblemDetails;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
-using System.Net.Mime;
 using System.Reflection;
 
 namespace Cocorico.Server
@@ -49,8 +46,6 @@ namespace Cocorico.Server
 
             services.AddMvc().AddNewtonsoftJson();
 
-            services.AddResponseCompression(opts => opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { MediaTypeNames.Application.Octet, }));
-
             services.AddSwaggerDocument();
             services.AddSignalR()
                 .AddJsonProtocol(options => options.PayloadSerializerOptions.PropertyNamingPolicy = null);
@@ -61,12 +56,10 @@ namespace Cocorico.Server
 #pragma warning disable CA1822 // Mark members as static
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseResponseCompression();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBlazorDebugging();
+                app.UseWebAssemblyDebugging();
 
                 app.UseOpenApi();
                 app.UseSwaggerUi3();
@@ -75,7 +68,7 @@ namespace Cocorico.Server
             app.UseProblemDetails();
 
             app.UseStaticFiles();
-            app.UseClientSideBlazorFiles<Client.Blazor.Program>();
+            app.UseBlazorFrameworkFiles();
 
             app.UseRouting();
 
@@ -86,7 +79,7 @@ namespace Cocorico.Server
             {
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapHub<WorkerViewOrderHub>(HubNames.WorkerViewOrderHubNames.Name);
-                endpoints.MapFallbackToClientSideBlazor<Client.Blazor.Program>("index.html");
+                endpoints.MapFallbackToFile("index.html");
             });
         }
 #pragma warning restore CA1822 // Mark members as static

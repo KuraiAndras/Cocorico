@@ -41,9 +41,9 @@
             @string.Join(", ", sandwich.Ingredients.Select(i => i.Name))
         }
         <tr>
-            @if (@OrderViewModel.AddOrderDto.Sandwiches.Count != 0)
+            @if (@OrderViewModel.AddOrder.Sandwiches.Count != 0)
             {
-                <td>Number of sandwich(es): @OrderViewModel.AddOrderDto.Sandwiches.Count</td>
+                <td>Number of sandwich(es): @OrderViewModel.AddOrder.Sandwiches.Count</td>
                 <td><MatButton Raised="true" Icon="shopping_cart" @onclick="@Redirect">Go to cart</MatButton></td>
             }
             else

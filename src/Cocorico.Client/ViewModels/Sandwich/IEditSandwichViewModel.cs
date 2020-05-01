@@ -1,5 +1,5 @@
-using Cocorico.Shared.Dtos.Ingredients;
-using Cocorico.Shared.Dtos.Sandwiches;
+﻿using Cocorico.Shared.Api.Ingredients;
+using Cocorico.Shared.Api.Sandwiches;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,7 +7,7 @@ namespace Cocorico.Client.ViewModels.Sandwich
 {
     public interface IEditSandwichViewModel
     {
-        SandwichDto Sandwich { get; }
+        UpdateSandwich Sandwich { get; }
 
         List<IngredientDto> AvailableIngredients { get; }
         void AddIngredient(IngredientDto ingredient);

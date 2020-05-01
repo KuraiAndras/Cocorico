@@ -1,6 +1,6 @@
-﻿using Cocorico.Shared.Dtos.Ingredients;
-using Cocorico.Shared.Dtos.Orders;
-using Cocorico.Shared.Dtos.Sandwiches;
+﻿using Cocorico.Shared.Api.Ingredients;
+using Cocorico.Shared.Api.Orders;
+using Cocorico.Shared.Api.Sandwiches;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,11 +8,11 @@ namespace Cocorico.Client.ViewModels.Order
 {
     public interface IAddCustomerOrderViewModel
     {
-        AddOrderDto AddOrderDto { get; }
+        AddOrder AddOrder { get; }
         List<IngredientDto> AvailableIngredients { get; }
 
         Task AddAsync();
-        Task EditAsync(SandwichDto sandwich);
+        Task EditAsync(UpdateSandwich sandwich);
         void DeleteSandwich(int id);
         Task LoadIngredientsAsync();
 

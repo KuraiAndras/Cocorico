@@ -1,4 +1,4 @@
-﻿using Cocorico.Application.Orders.Notifications.OrderAdded;
+﻿using Cocorico.Application.Orders.Notifications;
 using Cocorico.Server.Hubs;
 using Cocorico.Shared.Hubs;
 using MediatR;

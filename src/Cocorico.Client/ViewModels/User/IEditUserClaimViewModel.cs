@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.User;
+﻿using Cocorico.Shared.Api.Users;
 using System.Threading.Tasks;
 
 namespace Cocorico.Client.ViewModels.User

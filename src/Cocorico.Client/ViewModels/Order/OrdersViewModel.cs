@@ -1,7 +1,7 @@
 ﻿using Cocorico.Client.Extensions;
 using Cocorico.Client.HttpClient;
 using Cocorico.Client.SignalrClient.WorkerOrders;
-using Cocorico.Shared.Dtos.Orders;
+using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Entities;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Hubs;
@@ -52,7 +52,7 @@ namespace Cocorico.Client.ViewModels.Order
         {
             try
             {
-                var fileResponse = await _orderClient.UpdateOrderAsync(new UpdateOrderDto
+                var fileResponse = await _orderClient.UpdateOrderAsync(new UpdateOrder
                 {
                     OrderId = orderId,
                     State = newState,

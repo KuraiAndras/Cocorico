@@ -1,7 +1,7 @@
 ﻿using Cocorico.Client.Extensions;
 using Cocorico.Client.HttpClient;
 using Cocorico.Client.Services.Authentication;
-using Cocorico.Shared.Dtos.Authentication;
+using Cocorico.Shared.Api.Users;
 using Cocorico.Shared.Exceptions;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
@@ -18,7 +18,7 @@ namespace Cocorico.Client.Blazor.Services.Authentication
         public CocoricoAuthenticationStateProvider(IAuthenticationClient authenticationClient) =>
             _authenticationClient = authenticationClient;
 
-        public async Task LoginAsync(LoginDetails loginDetails)
+        public async Task LoginAsync(LoginUser loginDetails)
         {
             await _authenticationClient.LoginAsync(loginDetails);
 

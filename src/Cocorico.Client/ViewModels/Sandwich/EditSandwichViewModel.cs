@@ -1,7 +1,8 @@
-﻿using Cocorico.Client.Extensions;
+﻿using AutoMapper;
+using Cocorico.Client.Extensions;
 using Cocorico.Client.HttpClient;
-using Cocorico.Shared.Dtos.Ingredients;
-using Cocorico.Shared.Dtos.Sandwiches;
+using Cocorico.Shared.Api.Ingredients;
+using Cocorico.Shared.Api.Sandwiches;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,22 +13,25 @@ namespace Cocorico.Client.ViewModels.Sandwich
     {
         private readonly ISandwichClient _sandwichClient;
         private readonly IIngredientClient _ingredientClient;
+        private readonly IMapper _mapper;
         private readonly List<IngredientDto> _addedIngredients;
 
         public EditSandwichViewModel(
             ISandwichClient sandwichClient,
-            IIngredientClient ingredientClient)
+            IIngredientClient ingredientClient,
+            IMapper mapper)
         {
             _sandwichClient = sandwichClient;
             _ingredientClient = ingredientClient;
+            _mapper = mapper;
 
             _addedIngredients = new List<IngredientDto>();
 
-            Sandwich = new SandwichDto();
+            Sandwich = new UpdateSandwich();
             AvailableIngredients = new List<IngredientDto>();
         }
 
-        public SandwichDto Sandwich { get; private set; }
+        public UpdateSandwich Sandwich { get; private set; }
         public List<IngredientDto> AvailableIngredients { get; }
 
         public async Task LoadIngredientsAsync(int id)
@@ -35,9 +39,9 @@ namespace Cocorico.Client.ViewModels.Sandwich
             try
             {
                 var sandwichDto = await _sandwichClient.GetAsync(id);
-                Sandwich = sandwichDto;
+                Sandwich = _mapper.Map<UpdateSandwich>(sandwichDto);
                 _addedIngredients.Clear();
-                _addedIngredients.AddRange(sandwichDto.Ingredients);
+                _addedIngredients.AddRange(Sandwich.Ingredients);
 
                 var ingredients = await _ingredientClient.GetAllAsync();
 

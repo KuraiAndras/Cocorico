@@ -1,11 +1,6 @@
-﻿using Cocorico.Application.Orders.Commands.AddOrder;
-using Cocorico.Application.Orders.Commands.DeleteOrder;
-using Cocorico.Application.Orders.Commands.UpdateOrder;
-using Cocorico.Application.Orders.Queries.CalculatePrice;
-using Cocorico.Application.Orders.Queries.GetAllOrderForCustomer;
-using Cocorico.Application.Orders.Queries.GetPendingOrdersForWorker;
+﻿using AutoMapper;
 using Cocorico.Persistence.Entities;
-using Cocorico.Shared.Dtos.Orders;
+using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Exceptions;
 using Cocorico.Shared.Helpers;
 using Cocorico.Shared.Identity;
@@ -26,13 +21,16 @@ namespace Cocorico.Server.Controllers
     {
         private readonly IMediator _mediator;
         private readonly UserManager<CocoricoUser> _userManager;
+        private readonly IMapper _mapper;
 
         public OrderController(
             IMediator mediator,
-            UserManager<CocoricoUser> userManager)
+            UserManager<CocoricoUser> userManager,
+            IMapper mapper)
         {
             _mediator = mediator;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         [Authorize(Policy = Policies.Customer)]
@@ -43,7 +41,7 @@ namespace Cocorico.Server.Controllers
 
             if (!userId.Equals(customerId, StringComparison.InvariantCulture)) throw new InvalidCommandException();
 
-            var serviceResult = await _mediator.Send(new GetAllOrderForCustomerQuery(customerId));
+            var serviceResult = await _mediator.Send(new GetAllOrderForCustomer { CustomerId = customerId });
 
             return new ActionResult<IEnumerable<CustomerViewOrderDto>>(serviceResult);
         }
@@ -52,29 +50,29 @@ namespace Cocorico.Server.Controllers
         [HttpGet(nameof(GetPendingOrdersForWorkerAsync))]
         public async Task<ActionResult<IEnumerable<WorkerOrderViewDto>>> GetPendingOrdersForWorkerAsync()
         {
-            var serviceResult = await _mediator.Send(new GetPendingOrdersForWorkerQuery());
+            var serviceResult = await _mediator.Send(new GetPendingOrdersForWorker());
 
             return new ActionResult<IEnumerable<WorkerOrderViewDto>>(serviceResult);
         }
 
         [Authorize(Policy = Policies.Customer)]
         [HttpPost]
-        public async Task<ActionResult> AddOrderAsync([FromBody] AddOrderDto addOrderDto)
+        public async Task<ActionResult> AddOrderAsync([FromBody] AddOrder addOrder)
         {
             var userId = _userManager.GetUserId(HttpContext.User) ?? throw new InvalidCommandException();
-            addOrderDto.UserId = userId;
-            addOrderDto.CustomerId = userId;
+            addOrder.UserId = userId;
+            addOrder.CustomerId = userId;
 
-            await _mediator.Send(new AddOrderCommand(addOrderDto));
+            await _mediator.Send(addOrder);
 
             return new OkResult();
         }
 
         [Authorize]
         [HttpPost(nameof(CalculateOrderPriceAsync))]
-        public async Task<ActionResult<int>> CalculateOrderPriceAsync([FromBody] AddOrderDto addOrderDto)
+        public async Task<ActionResult<int>> CalculateOrderPriceAsync([FromBody] AddOrder addOrder)
         {
-            var result = await _mediator.Send(new CalculatePriceQuery(addOrderDto));
+            var result = await _mediator.Send(_mapper.Map<CalculatePrice>(addOrder));
 
             return new ActionResult<int>(result);
         }
@@ -83,16 +81,16 @@ namespace Cocorico.Server.Controllers
         [HttpDelete("{orderId:int}")]
         public async Task<ActionResult> DeleteOrderAsync([FromRoute] int orderId)
         {
-            await _mediator.Send(new DeleteOrderCommand(orderId));
+            await _mediator.Send(new DeleteOrder { Id = orderId });
 
             return new OkResult();
         }
 
         [Authorize(Policy = Policies.Worker)]
         [HttpPost(nameof(UpdateOrderAsync))]
-        public async Task<ActionResult> UpdateOrderAsync([FromBody] UpdateOrderDto updateOrderDto)
+        public async Task<ActionResult> UpdateOrderAsync([FromBody] UpdateOrder updateOrder)
         {
-            await _mediator.Send(new UpdateOrderCommand(updateOrderDto));
+            await _mediator.Send(updateOrder);
 
             return new OkResult();
         }

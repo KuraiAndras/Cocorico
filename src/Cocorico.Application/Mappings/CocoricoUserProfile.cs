@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Cocorico.Persistence.Entities;
-using Cocorico.Shared.Dtos.Authentication;
-using Cocorico.Shared.Dtos.User;
+using Cocorico.Shared.Api.Users;
 
 namespace Cocorico.Application.Mappings
 {
@@ -9,7 +8,7 @@ namespace Cocorico.Application.Mappings
     {
         public CocoricoUserProfile()
         {
-            CreateMap<RegisterDetails, CocoricoUser>()
+            CreateMap<RegisterUser, CocoricoUser>()
                 .ForMember(d => d.UserName, o => o.MapFrom(s => s.Name));
             CreateMap<CocoricoUser, UserForAdminPage>();
         }

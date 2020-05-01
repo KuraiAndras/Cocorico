@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Orders;
+﻿using Cocorico.Shared.Api.Orders;
 using Cocorico.Shared.Entities;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using Cocorico.Shared.Dtos.Authentication;
+﻿using Cocorico.Shared.Api.Users;
 using Xunit;
 
 namespace Cocorico.Application.Tests

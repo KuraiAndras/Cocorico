@@ -24,7 +24,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.JSInterop.WebAssembly" Version="3.2.0-rc1.20223.4" />
+    <PackageReference Include="Microsoft.JSInterop.WebAssembly" Version="3.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.6.13" />
     <PackageReference Include="ReflectionAnalyzers" Version="0.1.21-dev">
       <PrivateAssets>all</PrivateAssets>
